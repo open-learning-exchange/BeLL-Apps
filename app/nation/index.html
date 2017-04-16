@@ -51,7 +51,6 @@
 <script src="vendor/jquery.timepicker.js"></script>
 <script src="vendor/jquery-ui-1.10.3.custom.js"></script>
 <script src="vendor/jquery-ui.multidatespicker.js"></script>
-<script src="jquery.popupoverlay.js"></script>
 <script src="vendor/highcharts.js"></script>
 
 
@@ -78,7 +77,7 @@
 <script src="app/models/Publication.js"></script>
 
 <script src="app/models/Resource.js"></script>
-<script src="app/models/Group.js"></script>
+<script src="app/models/Course.js"></script>
 <script src="app/models/Survey.js"></script>
 <script src="app/models/Question.js"></script>
 <script src="app/models/Language.js"></script>
@@ -113,8 +112,6 @@
 <script src="app/views/ConfigurationView.js"></script>
 <script src="app/views/navBarView.js"></script>
 <script src="app/views/MemberLoginForm.js"></script>
-<script src="app/views/CommunitiesTable.js"></script>
-<script src="app/views/CommunityRow.js"></script>
 <script src="app/views/Dashboard.js"></script>
 <script src="app/views/siteFeedback.js"></script>
 <script src="app/views/siteFeedbackPage.js"></script>
@@ -132,9 +129,9 @@
 <script src="app/views/RequestRow.js"></script>
 <script src="app/views/NationReportCommentView.js"></script>
 <script src="app/views/listCommunityView.js"></script>
-<script src="app/views/GroupView.js"></script>
-<script src="app/views/GroupsTable.js"></script>
-<script src="app/views/GroupRow.js"></script>
+<script src="app/views/CourseView.js"></script>
+<script src="app/views/CoursesTable.js"></script>
+<script src="app/views/CourseRow.js"></script>
 <script src="app/views/listSyncDbView.js"></script>
 <script src="app/views/courseSeach.js"></script>
 <script src="app/views/PublicationCoursesTable.js"></script>
@@ -157,7 +154,6 @@
 <script src="app/views/CommunityRequestRow.js"></script>
 <script src="app/views/VipLinksView.js"></script>
 <script src="app/Router.js"></script>
-
 
 <script>
     var limitofRecords = 5;
@@ -278,6 +274,7 @@
     <h4 id="parentDiv">
         <div><span align ="left"><%=languageDict.attributes.Activity_Report%> |  <%= CommunityName %> | <%=languageDict.attributes.last_sync_date%>  <%= lastActivitySyncDate %> </span> </div>
     </h4>
+
     <div id="trend-report-div-total-members" style = "padding:10px 10px 10px 10px; " ></div>
     <div id="trend-report-div-total-member-visits" style = "padding:10px 10px 10px 10px; " ></div>
     <div id="trend-report-div-new-memberships" style = "padding:10px 10px 10px 10px; " ></div>
@@ -401,15 +398,15 @@
 
 </script>
 
-<script type="text/html" id="template-GroupRow">
+<script type="text/html" id="template-CourseRow">
     <td>
         <%= CourseTitle %>
     </td>
 
     <td>
-        <a role='button' class='btn btn-inverse addtoPublication' name='<%=_id %>'>
+        <% if (add) { %><a role='button' class='btn btn-inverse addtoPublication' name='<%=_id %>' onClick = "style.visibility= 'hidden';">
             <%= languageDict.attributes.Add %>
-        </a>
+        </a><% } %>
     </td>
     <td>
 
@@ -572,10 +569,11 @@
 </script>
 <script type ="text/template" id ="template-viplink">
     <input id="copyInput" style="position:absolute;top:-120px;" />
-    <h3><%= languageDict.attributes.viplinks %></h3>
-    <b><%= languageDict.attributes.Name %></b>
-    <input type="text" id="domain-name" name="domain-name-name"  placeholder="Name">
+    <h3><%= languageDict.attributes.viplinks %></h3><br/><br/>
+    <b><%= languageDict.attributes.Name %>&nbsp;&nbsp;</b>
+    <input type="text" id="domain-name" name="domain-name-name"  placeholder="Name">&nbsp;&nbsp;
     <button class="create btn btn-success"><%=languageDict.attributes.Create %></button>
+    <br/><br/>
     <div class  ="parentDiv">
     <table class ="table table-striped">
         <tbody>
@@ -592,7 +590,7 @@
                 <td><a class= "copy" href ="<%= vips[i]['url']+ '/' + vips[i]['_id'] %>"><%= vips[i]['url'] + '/' + vips[i]['_id'] %></a></td>
                 <td><%= vips[i]['visits'] %></td>
                 <td><%= vips[i]['lastVisit'] %></td>
-                <td><button class ="copy btn btn-success"><%=languageDict.attributes.Copy%></button><button data-id="<%= vips[i]['_id'] %>" class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
+                <td><button class ="copy btn btn-success"><%=languageDict.attributes.Copy%></button>&nbsp;&nbsp;&nbsp;<button data-id="<%= vips[i]['_id'] %>" class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
             </tr>
         </tbody>
             <% } %>
@@ -828,9 +826,9 @@
             <div>
                 <div class="dashboard-buttons"><a href="#configuration"><button style="width: auto" class="btn-on-dashboard btn btn-primary" id="configbutton"><%= languageDict.attributes.Configurations %></button></a></div>
                 <div class="dashboard-buttons"><a href="#request"><button style="width: auto" class="btn-on-dashboard btn btn-primary"><%= languageDict.attributes.Requests %></button></a></div>
+                <div class ="dashboard-buttons"><a href ="#viplink"><button style="width:auto" class="btn-on-dashboard btn btn-primary"> <%= languageDict.attributes.viplinks %></button></a></div>
                 <div class="dashboard-buttons"><a><button style="width: auto" class="btn-on-dashboard btn btn-primary" onclick="showDatabases()"><%= languageDict.attributes.Databases %></button></a></div>
                 <div class="dashboard-buttons"><a href="../MyApp/index.html#updatewelcomevideo"><button style="width: auto" class="btn-on-dashboard btn btn-primary"><%= languageDict.attributes.Welcome_Video %></button></a></div>
-                <div class ="dashboard-buttons"><a href ="#viplink"><button style="width:auto" class="btn-on-dashboard btn btn-primary"> <%= languageDict.attributes.viplinks %></button></a></div>
             </div>
         </div>
         <!--	<table class="page-bottom-navtable">

@@ -12,7 +12,6 @@ var numberOfNotificattions = "."
 url = "unknown";
 var lastpage = false
 var mailView;
-
 var nation_version;
 var new_publications_count;
 var new_surveys_count;
@@ -67,7 +66,6 @@ function getAllPendingRequests() {
 
 function applyStylingSheet() {
     var languageDictValue=loadLanguageDocs();
-
     var directionOfLang = languageDictValue.get('directionOfLang');
 
     if (directionOfLang.toLowerCase() === "right") {
@@ -75,11 +73,10 @@ function applyStylingSheet() {
         $('link[rel=stylesheet][href~="app/Home.css"]').attr('disabled', 'false');
         $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').removeAttr('disabled');
 
-    } else if (directionOfLang.toLowerCase() === "left"){
+    } else if (directionOfLang.toLowerCase() === "left") {
         $('link[rel=stylesheet][href~="app/Home.css"]').removeAttr('disabled');
         $('link[rel=stylesheet][href~="app/Home-Urdu.css"]').attr('disabled', 'false');
-    }
-    else{
+    } else {
         alert(languageDictValue.attributes.error_direction);
     }
 }
@@ -237,18 +234,18 @@ function applyCorrectStylingSheet(directionOfLang){
     }
 }
 
-function getCountOfLearners(courseId, requiredLearnersIds){
+function getCountOfLearners(courseId, requiredLearnersIds) {
     if(courseId=='_design/bell') {
         return 0;
     }
     var learners=[], learnersIds=[], stepsStatuses=[], countOfLearners=0;
-    var group = new App.Models.Group({
+    var course = new App.Models.Course({
         _id: courseId
     })
     var MemberCourseProgress = new App.Collections.membercourseprogresses();
-    group.fetch({
+    course.fetch({
         async:false,
-        success: function (groupDoc) {
+        success: function (courseDoc) {
             learners=[], stepsStatuses=[];
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
@@ -258,66 +255,51 @@ function getCountOfLearners(courseId, requiredLearnersIds){
             })
             var roles = loggedIn.get("roles");
             //Check whether the logged in person is leader for the course he wants to know the count of Learners
-            if ((groupDoc.get('courseLeader') != undefined && (groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (((roles.indexOf('Manager')>-1 || roles.indexOf('SuperManager')>-1) && groupDoc.get('courseLeader').length == 0)))) {
-                for (var j = 0; j < groupDoc.get('members').length; j++) {
-                    if (groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) < 0 || (groupDoc.get('members').indexOf(groupDoc.get('members')[j]) > -1 && groupDoc.get('courseLeader').indexOf(groupDoc.get('members')[j]) > -1)) {
+            if ((courseDoc.get('courseLeader') != undefined && (courseDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1) || (((roles.indexOf('Manager')>-1 || roles.indexOf('SuperManager')>-1) && courseDoc.get('courseLeader').length == 0)))) {
+                for (var j = 0; j < courseDoc.get('members').length; j++) {
+                    if (courseDoc.get('courseLeader').indexOf(courseDoc.get('members')[j]) < 0 || (courseDoc.get('members').indexOf(courseDoc.get('members')[j]) > -1 && courseDoc.get('courseLeader').indexOf(courseDoc.get('members')[j]) > -1)) {
                        if( learners.indexOf(learners[j]) == -1){
-                           learners.push(groupDoc.get('members')[j]);
+                           learners.push(courseDoc.get('members')[j]);
                        }
 
                     }
 
                 }
-                if(groupDoc.get('courseLeader') != undefined && groupDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1 && groupDoc.get('members').indexOf($.cookie('Member._id')) > -1){
+                if(courseDoc.get('courseLeader') != undefined && courseDoc.get('courseLeader').indexOf($.cookie('Member._id')) > -1 && courseDoc.get('members').indexOf($.cookie('Member._id')) > -1){
                     if( learners.indexOf($.cookie('Member._id'))== -1){
                         learners.push($.cookie('Member._id'));
                     }
                 }
                 for (var k = 0; k < learners.length; k++) {
                     var addToCount = false;
-                    MemberCourseProgress.courseId = groupDoc.get('_id');
+                    MemberCourseProgress.courseId = courseDoc.get('_id');
                     MemberCourseProgress.memberId = learners[k];
                     MemberCourseProgress.fetch({
                         async: false,
                         success: function (progressDoc) {
-                            stepsStatuses=progressDoc.models[0].get('stepsStatus');
-                            if(progressDoc.models[0].get('stepsIds').length>0){
-                                for(var m=0;m<stepsStatuses.length;m++) {
-                                    if(stepsStatuses[m].length==2) {
-                                        var paperQuizStatus=stepsStatuses[m];
-                                        if(paperQuizStatus.indexOf('2')>-1) {
-                                           // addToCount = true;
+                          //  console.log(progressDoc.models.length);
+                            if (progressDoc.models.length > 0) {
+                                stepsStatuses = progressDoc.models[0].get('stepsStatus');
+                                stepsAttempt = progressDoc.models[0].get('pqAttempts');
+                                if (progressDoc.models[0].get('stepsIds').length > 0) {
+                                    for (var m = 0; m < stepsStatuses.length; m++) {
+                                        if ((stepsStatuses[m] instanceof Array) && (stepsStatuses[m][stepsAttempt[m]] != 'undefined') && (stepsStatuses[m][stepsAttempt[m]] == null)) {
+                                            // addToCount = true;
                                             countOfLearners++;
-                                            if(learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
-                                                learnersIds.push(learners[k]);
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        if(stepsStatuses[m]=='2'){
-                                           // addToCount = true;
-                                            countOfLearners++;
-                                            if(learnersIds.indexOf(learners[k]) == -1) {
+                                            if (learnersIds.indexOf(learners[k]) == -1) { //to avoid duplication, if learner id exists already then don't add it again
                                                 learnersIds.push(learners[k]);
                                             }
                                         }
                                     }
                                 }
-                                //if(addToCount) {
-                                //    countOfLearners++;
-                                //    learnersIds.push(learners[k]);
-                               // }
                             }
                         },
-                        async:false
                     });
                 }
-            }
-            else {
+            } else {
                 return 0;
             }
-        },
-        async:false
+        }
     });
     if(requiredLearnersIds) {
         return learnersIds;
@@ -330,16 +312,16 @@ function getCountOfAllLearnersOrIds(courseId, requiredLearnersIds){
         return 0;
     }
     var learnersIds=[], countOfLearners=0;
-    var group = new App.Models.Group({
+    var course = new App.Models.Course({
         _id: courseId
     })
     var MemberCourseProgress = new App.Collections.membercourseprogresses();
-    group.fetch({
+    course.fetch({
         async:false,
-        success: function (groupDoc) {
-            if (groupDoc.get('courseLeader') != undefined && groupDoc.get('members') != undefined) {
-                for (var j = 0; j < groupDoc.get('members').length; j++) {
-                    learnersIds.push(groupDoc.get('members')[j]);
+        success: function (courseDoc) {
+            if (courseDoc.get('courseLeader') != undefined && courseDoc.get('members') != undefined) {
+                for (var j = 0; j < courseDoc.get('members').length; j++) {
+                    learnersIds.push(courseDoc.get('members')[j]);
                     countOfLearners++;
                 }
             }
@@ -362,7 +344,6 @@ function sortByProperty(property) {
         } else if (a[property] > b[property]) {
             sortStatus = 1;
         }
-
         return sortStatus;
     };
 }
@@ -380,38 +361,15 @@ function getName(select){
     var courseId = arr[1];
     var memberId = arr [0];
    window.location.href = '#creditsDetails/' + courseId + '/' + memberId;
-    /*var group = new App.Models.Group({
-        _id: courseId
-    });
-    group.fetch({
-        success: function (groupDoc) {
-            learnerIds = groupDoc.get('members');
-        },
-        async:false
-    });
-
-    var member = new App.Models.Member({
-        _id: memberId
-    });
-
-    member.fetch({
-        async: false,
-    });
-
-    var name = member.get('firstName')+ " " +member.get('lastName');
-    $("#creditsTable h3").html("Credits Details | " + group.get('CourseTitle') + "|" + name)
-      //  $('#creditsTable').append('<h3>' + ' Credits Details | '+ ' | '+select+ '</h3>');*/
 }
 function selectAllMembers (){
-    if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All)
-    {
+    if($("#selectAllMembersOnMembers").text()==App.languageDict.attributes.Select_All) {
 
         $("input[name='courseMember']").each( function () {
             $(this).prop('checked', true);
         })
         $("#selectAllMembersOnMembers").text(App.languageDict.attributes.Unselect_All)
-    }
-    else{
+    } else {
         $("input[name='courseMember']").each( function () {
             $(this).prop('checked', false);
         })
@@ -427,7 +385,7 @@ function removeMemberFromCourse(memberId){
     var values=memberId.split(',');
     memberId=values[0];
     var courseId=values[1];
-    var courseModel = new App.Models.Group({
+    var courseModel = new App.Models.Course({
         _id: courseId
     })
     courseModel.fetch({
@@ -446,19 +404,15 @@ function removeMemberFromCourse(memberId){
             memberToBeRemoved.fetch({
                 async: false
             })
-            if(courseModel.get('courseLeader').indexOf(memberId)>-1) //Check if the member which is being deleted is a leader
-            {
+            if(courseModel.get('courseLeader').indexOf(memberId)>-1) { //Check if the member which is being deleted is a leader
                 if(roles.indexOf('Manager')>-1) {
                     //Resignation
                     var members=result.get('members');
                     members.splice(members.indexOf(memberId),1)
-
                     result.set('members',members);
                     var courseLeaders=result.get('courseLeader');
                     courseLeaders.splice(courseLeaders.indexOf(memberId),1)
-
                     result.set('courseLeader',courseLeaders)
-
                     result.save();
                     var memberProgress = new App.Collections.memberprogressallcourses()
                     memberProgress.memberId = memberId
@@ -486,54 +440,19 @@ function removeMemberFromCourse(memberId){
                     mail.set("sentDate", currentdate)
                     mail.save();
                     alert(App.languageDict.attributes.Resigned_Success_Msg + ' ' + courseModel.get('name') + ' . ')
-                    var groupMembers = new App.Views.GroupMembers();
-                    groupMembers.courseId = courseId;
-                    groupMembers.render();
+                    var courseMembers = new App.Views.CourseMembers();
+                    courseMembers.courseId = courseId;
+                    courseMembers.render();
 
-                }
-                else {
-                    if(memberToBeRemoved.get('_id')==$.cookie('Member._id'))
-                    {
+                } else {
+                    if(memberToBeRemoved.get('_id')==$.cookie('Member._id')) {
                         alert(App.languageDict.get('leader_must_resign'));
-                    }
-                    else{
+                    } else {
                         alert(App.languageDict.get('manager_removes_leader'));
                     }
 
                 }
-              /*  else{
-
-                    //Leader is removing himself from course.. Now notify all of the manager(s) of that community
-                    var allManagers = new App.Collections.Members();
-                    allManagers.fetch({
-                        async: false
-                    })
-                        for(var i=0;i<allManagers.length;i++)
-                        {
-                            if(allManagers.models[i].get('roles').indexOf('Manager')>-1){
-                                var mail = new App.Models.Mail();
-                                var currentdate = new Date();
-                                var id = allManagers.models[i].get('_id');
-                                var subject = App.languageDict.attributes.Course_Resignation+' | ' + courseModel.get('name') + ''
-                                var mailBody = App.languageDict.attributes.Hi+',<br>'+App.languageDict.attributes.Member+ ' ' + memberToBeRemoved.get('login') + ' '+ App.languageDict.attributes.Has_Resign_From+ ' ' + courseModel.get('name') + '';
-
-                                mail.set("senderId", $.cookie('Member._id'))
-                                mail.set("receiverId", id)
-                                mail.set("subject", subject)
-                                mail.set("body", mailBody)
-                                mail.set("status", "0")
-                                mail.set("type", "mail")
-                                mail.set("sentDate", currentdate)
-                                mail.save();
-                                alert(App.languageDict.attributes.Resigned_Success_Msg +' ' + courseModel.get('name') + ' . ')
-                            }
-                        }
-                    alert(courseId);
-                   window.location.reload();
-
-                }*/
-            }
-            else{
+            } else {
                 var members=result.get('members');
                 members.splice(members.indexOf(memberId),1)
 
@@ -545,14 +464,34 @@ function removeMemberFromCourse(memberId){
                 memberProgress.fetch({
                     async: false
                 })
+                var membercourseprogress = new App.Collections.membercourseprogresses()
+                membercourseprogress.memberId = memberId
+                membercourseprogress.courseId = courseId
+                membercourseprogress.fetch({
+                    async: false
+                })
+                memberCourseStepRecord = membercourseprogress.first();
+                var steps = memberCourseStepRecord.attributes.stepsIds;
+                for (var i = 0; i < steps.length; i++) {
+                    var courseAnswer = new App.Collections.CourseAnswer()
+                    courseAnswer.MemberID = memberId
+                    courseAnswer.StepID = steps[i]
+                    courseAnswer.fetch({
+                        async: false
+                    })
+                    var answerLength = courseAnswer.models.length-1;
+                    for (var j = answerLength; j >= 0; j--) {
+                        courseAnswer.models[j].destroy();
+                    }  
+                }
                 memberProgress.each(function (m) {
                     if (m.get("courseId") == courseId) {
                         m.destroy()
                     }
                 })
-                var groupMembers = new App.Views.GroupMembers();
-                groupMembers.courseId = courseId;
-                groupMembers.render();
+                var courseMembers = new App.Views.CourseMembers();
+                courseMembers.courseId = courseId;
+                courseMembers.render();
                 alert(App.languageDict.attributes.Removed_Member);
             }
         }
@@ -583,10 +522,8 @@ function changeMemberLanguage(option)
     members.fetch({
         success: function () {
             if (members.length > 0) {
-                for(var i = 0; i < members.length; i++)
-                {
-                    if(members.models[i].get("community") == jsonConfig.code)
-                    {
+                for(var i = 0; i < members.length; i++) {
+                    if(members.models[i].get("community") == jsonConfig.code) {
                         member = members.models[i];
                         member.set("bellLanguage",option.value);
                         member.once('sync', function() {})
@@ -640,7 +577,6 @@ function submitSurvey(surveyId) {
             requiredQuestionsCount++;
         }
     }
-    console.log(questionsColl);
     var surveyTable = $("#survey-questions-table >tbody");
     surveyTable.find('>tr').each(function (i) {
         var tds = $(this).find('td'),
@@ -968,7 +904,7 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
     }
     else
     {
-        var gmodel = new App.Models.Group({
+        var gmodel = new App.Models.Course({
             _id: courseId
         })
         gmodel.fetch({
@@ -1002,28 +938,9 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
                         csteps.fetch({
                             success: function() {
                                 csteps.each(function(m) {
-                                    var sresults = [];
-                                    var sstatus = [];
-                                    var sattempts = [];
-                                    if(m.get("outComes").length == 2) {
-                                        var arr = [];
-                                        var arr1 = [];
-                                        var pqarr = [];
-                                        pqarr.push(0)
-                                        pqarr.push(0)
-                                        arr.push("0")
-                                        arr.push("0")
-                                        arr1.push("")
-                                        arr1.push("")
-                                        sresults = arr1;
-                                        sstatus = arr;
-                                        sattempts = pqarr;
-                                    } else {
-                                        sresults = "";
-                                        sstatus= '0';
-                                        sattempts = 0
-                                    }
-
+                                    var sresults = "";
+                                    var sstatus= '0';
+                                    var sattempts = 0
                                     stepsids.push(m.get("_id"))
                                     stepsres.push(sresults)
                                     stepsstatus.push(sstatus)
@@ -1286,7 +1203,7 @@ function showComposePopup() {
     $('.mailbody button').eq(1).html(App.languageDict.attributes.Send);
 
 }
-
+//For old courseAnswer File Attachment
 function HandleBrowseClick(stepId) {
     $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
     var fileinput = document.forms["fileAttachment" + stepId]["_attachments"]
@@ -1298,7 +1215,7 @@ function FieSelected(stepId) {
     var stepTitle = document.getElementById("stepTitle" + stepId).value;
     var stepNo = document.getElementById("stepNo" + stepId).value;
     var assignmentpaper = new App.Models.AssignmentPaper();
-    var courseModel = new App.Models.Group()
+    var courseModel = new App.Models.Course()
     courseModel.set('_id', courseId)
     courseModel.fetch({
         async: false
@@ -1313,16 +1230,19 @@ function FieSelected(stepId) {
             imgVal = img[i].value;
         }
     }
+    console.log(imgVal);
     //var extension = img.val().split('.')
     var extension = imgVal.split('.')
     if (extension){
-        var memberAssignmentPaper = new App.Collections.AssignmentPapers()
+        var memberAssignmentPaper = new App.Collections.AssignmentPapers() //uploaeded session
         memberAssignmentPaper.senderId=$.cookie('Member._id')
         memberAssignmentPaper.stepId=stepId
         memberAssignmentPaper.changeUrl = true;
+        console.log(memberAssignmentPaper);
         memberAssignmentPaper.fetch({
             async: false,
             success: function (json) {
+                console.log(json);
                 if(json.models.length > 0) {
                     var existingModels = json.models;
                     for(var i = 0 ; i < existingModels.length ; i++) {
@@ -1363,6 +1283,7 @@ function FieSelected(stepId) {
     assignmentpaper.set("courseId", courseId);
     assignmentpaper.set("stepId", stepId);
     assignmentpaper.set("stepNo", stepNo);
+    console.log(assignmentpaper);
     assignmentpaper.save(null, {
         success: function() {
             //assignmentpaper.unset('_attachments')
@@ -1396,12 +1317,116 @@ function FieSelected(stepId) {
 
                 })
                 alert(App.languageDict.attributes.Assignment_Submitted)
-                location.reload();
+                //location.reload();
             }, assignmentpaper)
 
         }
     })
 }
+
+//For new Course Answer File Attachment
+
+function HandleBrowseClick1(questionId) {
+    $.cookie("sectionNo", $.url().attr('fragment').split('/')[2] + '/' + $("#accordion").accordion("option", "active"));
+    var fileinput = document.forms["questionForm"]["_attachments"]
+    fileinput.click();
+}
+
+function FileSelected(questionId) {
+    //var questionId=new App.Models.Question()
+    var stepId=document.getElementById("stepId" + questionId).value;
+     console.log(stepId)
+   // var stepTitle = document.getElementById("stepTitle" + questionId).value;
+    //var stepNo = document.getElementById("stepNo" + questionId).value;
+    var assignmentpaper = new App.Models.AssignmentPaper();
+   // var courseModel = new App.Models.Course()
+    //courseModel.set('_id', courseId)
+   // courseModel.fetch({
+    //    async: false
+   // })
+   // if (!courseModel.get("courseLeader")) {
+       // return
+   // }
+    var img = $('input[type="file"]');
+    var imgVal;
+    for(var i = 0 ; i < img.length ; i++) {
+        if(img[i].value != '') {
+            imgVal = img[i].value;
+        }
+    }
+    var extension = imgVal.split('.')
+    if (extension){
+        var memberAssignmentPaper  = new App.Collections.AssignmentPapers() //uploaeded session
+        memberAssignmentPaper .senderId=$.cookie('Member._id')
+        memberAssignmentPaper .questionId=questionId
+        memberAssignmentPaper .changeUrl = true;
+        memberAssignmentPaper .fetch({
+            async: false,
+            success: function (json) {
+                console.log(json);
+                if(json.models.length > 0) {
+                    var existingModels = json.models;
+                    for(var i = 0 ; i < existingModels.length ; i++) {
+                        var doc = {
+                            _id: existingModels[i].attributes._id,
+                            _rev: existingModels[i].attributes._rev
+                        };
+                        $.couch.db("assignmentpaper").removeDoc(doc, {
+                            success: function (data) {
+                                console.log(data);
+                            },
+                            error: function (status) {
+                                console.log(status);
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+    }
+if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(extension.length - 1)] != 'pdf' && extension[(extension.length - 1)] != 'mp4' && extension[(extension.length - 1)] != 'ppt' && extension[(extension.length - 1)] != 'docx' && extension[(extension.length - 1)] != 'pptx' && extension[(extension.length - 1)] != 'jpg' && extension[(extension.length - 1)] != 'jpeg' && extension[(extension.length - 1)] != 'png') {
+        alert(App.languageDict.attributes.Invalid_Attachment);
+        return;
+    }
+    var currentdate = new Date();
+    var mail = new App.Models.Mail();
+    mail.set("senderId", $.cookie('Member._id'));
+    //mail.set("receiverId", courseModel.get("courseLeader"));
+    //mail.set("subject", "Assignment | " + courseModel.get("name"));
+    //mail.set("body", "Assignment submited for <b>" + stepTitle + '</b>.');
+    mail.set("status", "0");
+    mail.set("type", "mail");
+    mail.set("sentDate", currentdate);
+    mail.save()
+    assignmentpaper.set("sentDate", currentdate);
+    assignmentpaper.set("senderId", $.cookie('Member._id'));
+    assignmentpaper.set("stepId", stepId);
+    assignmentpaper.set("questionId", questionId);
+    //assignmentpaper.set("stepNo", stepNo);
+    console.log(assignmentpaper);
+    assignmentpaper.save(null, {
+        success: function(data) {
+            var attachmentId = data.attributes.id;
+            $("#attachmentId").val(attachmentId);
+            //assignmentpaper.unset('_attachments')
+            if (imgVal) {
+                assignmentpaper.saveAttachment("form#questionForm", "form#questionForm #_attachments", "form#questionForm .rev")
+            } else {
+                ////no attachment
+                alert(App.languageDict.attributes.No_Attachment)
+            }
+            // After Upload Paper refresh page
+            assignmentpaper.on('savedAttachment', function() {
+                //Attatchment successfully saved
+                alert(App.languageDict.attributes.Assignment_Submitted)
+                //location.reload();
+            }, assignmentpaper)
+
+        }
+    })
+}
+
 function filterInt(value) {
     if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
         return Number(value);
@@ -1859,12 +1884,12 @@ function CourseSearch() {
     //alert("COURSE SEARCH");
     skip = 0;
     searchText = $("#searchText").val();
-    App.Router.GroupSearch();
+    App.Router.CourseSearch();
 
 }
 
 function ListAllCourses() {
-    App.Router.Groups()
+    App.Router.Courses()
 }
 
 function AddColletcion() {

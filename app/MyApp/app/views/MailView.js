@@ -164,7 +164,7 @@ $(function() {
                     return
                 }
 
-                var gmodel = new App.Models.Group({
+                var gmodel = new App.Models.Course({
                     _id: e.currentTarget.value
                 })
                 gmodel.fetch({
@@ -193,7 +193,6 @@ $(function() {
                     if (memberlist.indexOf($.cookie('Member._id')) == -1) {
                         memberlist.push($.cookie('Member._id'))
                         gmodel.set("members", memberlist)
-
                         gmodel.save({}, {
                             success: function() {
                                 var memprogress = new App.Models.membercourseprogress()
@@ -210,7 +209,9 @@ $(function() {
                                             var sresults = [];
                                             var sstatus = [];
                                             var sattempts = [];
-                                            if(m.get("outComes").length == 2) {
+                                             if((typeof m.get("coursestructure") === "undefined" || m.get("coursestructure") != "true") 
+                                            && (m.get("outComes") !== undefined && m.get("outComes").length == 2))  {
+                                           // if(m.get("outComes").length == 2) {
                                                 var arr = [];
                                                 var arr1 = [];
                                                 var pqarr = [];
@@ -243,12 +244,11 @@ $(function() {
                                         memprogress.save({
                                             success: function() {}
                                         })
-
-                                    }
-                                })
-                                alert(App.languageDict.attributes.Course_Added_Dashboard)
-                                Backbone.history.navigate('dashboard', {
+                                    alert(App.languageDict.attributes.Course_Added_Dashboard)
+                                    Backbone.history.navigate('dashboard', {
                                     trigger: true
+                                })
+                                    }
                                 })
                             }
                         })
@@ -512,7 +512,7 @@ $(function() {
         },
         admissionRequestAccepted: function(courseId) {
             var memebersEnrolled = [];
-            var course = new App.Models.Group();
+            var course = new App.Models.Course();
             course.id = courseId
             course.fetch({
                 async: false
@@ -520,7 +520,6 @@ $(function() {
 
             memebersEnrolled = course.attributes.members
             var isAlreadyEnrolled = false;
-            console.log(memebersEnrolled)
             var receiverId = mailView.inViewModel.get('senderId');
             var member = new App.Models.Member()
             member.id = receiverId
@@ -531,9 +530,8 @@ $(function() {
            // mailView.vars.lastName = member.get('lastName')
            var firstName = member.get('firstName')
            var lastName = member.get('lastName')
-            for (var i=0; i<memebersEnrolled.length;i++){
-                // alert(memebersEnrolled[i])
-                if (receiverId == memebersEnrolled[i]){
+            for (var i=0; i<memebersEnrolled.length;i++) {
+                if (receiverId == memebersEnrolled[i]) {
                     console.log("reciever id"+receiverId)
                     isAlreadyEnrolled = true;
                 }
@@ -544,14 +542,11 @@ $(function() {
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = firstName + ' ' +'is already enrolled in '+' ' + course.attributes.CourseTitle;
 
-            }
-            else {
-
+            } else {
                 var memId = mailView.inViewModel.get('senderId')
                 course.get('members').push(memId)
                 course.save(null, {
                     success: function (model, idRev) {
-
                         var memprogress = new App.Models.membercourseprogress()
                         var csteps = new App.Collections.coursesteps();
                         var stepsids = new Array()
@@ -562,30 +557,10 @@ $(function() {
                         csteps.fetch({
                             success: function () {
                                 csteps.each(function (m) {
-
-                                  //Issue#400
-                                    var sresults = [];
-                                    var sstatus = [];
-                                    var sattempts = [];
-                                    if(m.get("outComes").length == 2) {
-                                        var arr = [];
-                                        var arr1 = [];
-                                        var pqarr = [];
-                                        pqarr.push(0)
-                                        pqarr.push(0)
-                                        arr.push("0")
-                                        arr.push("0")
-                                        arr1.push("")
-                                        arr1.push("")
-                                        sresults = arr1;
-                                        sstatus = arr;
-                                        sattempts = pqarr;
-                                    } else {
-                                        sresults = "";
-                                        sstatus= '0';
-                                        sattempts = 0;
-                                    }
-
+                                    //Issue#400
+                                    var sresults = "";
+                                    var sstatus = 0;
+                                    var sattempts = 0;
                                     stepsids.push(m.get("_id"))
                                     stepsres.push(sresults)
                                     stepsstatus.push(sstatus)
@@ -609,15 +584,9 @@ $(function() {
                     }
                 })
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-                //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-             //   accepted_email_text
-              //  body = 'Admission request received from user "a" has been Accepted<br>'
-               body = App.languageDict.get('accepted_email_text')+' '+firstName+' '+lastName+'<br>'
-              //  body = 'Admission request received from user '+firstName+' '+lastName+ ' '+ 'has been Accepted<br>'
-               body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>" + App.languageDict.get('request_Accepted_already') + "</div>"
-
+                body = App.languageDict.get('accepted_email_text')+' '+firstName+' '+lastName+'<br>'
+                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>" + App.languageDict.get('request_Accepted_already') + "</div>"
                 mailView.inViewModel.save()
-
                 var currentdate = new Date();
                 var mail = new App.Models.Mail();
                 mail.set("senderId", $.cookie('Member._id'));
@@ -628,15 +597,13 @@ $(function() {
                 mail.set("type", "mail");
                 mail.set("sentDate", currentdate);
                 mail.save()
-////////
             }
-                ////////
             mailView.updateMailBody(body)
         },
         admissoinRequestRejected: function(courseId) {
             var courseTitle;
             var memebersEnrolled = [];
-            var course = new App.Models.Group();
+            var course = new App.Models.Course();
             course.id = courseId
             course.fetch({
                 success: function () {
@@ -649,52 +616,37 @@ $(function() {
             courseTitle = course.attributes.CourseTitle;
             memebersEnrolled = course.attributes.members
             var isAlreadyEnrolled = false;
-            console.log(memebersEnrolled)
             var receiverId = mailView.inViewModel.get('senderId');
-            for (var i=0; i<memebersEnrolled.length;i++){
-                // alert(memebersEnrolled[i])
-                if (receiverId == memebersEnrolled[i]){
-                    console.log("reciever id"+receiverId)
+            for (var i = 0 ; i<memebersEnrolled.length ; i++) {
+                if (receiverId == memebersEnrolled[i]) {
                     isAlreadyEnrolled = true;
                 }
             }
             console.log("flag:" + isAlreadyEnrolled)
-            console.log(courseTitle)
             if (isAlreadyEnrolled){
                 alert("Member is already enrolled in this course");
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
                 body = $.cookie('Member.login') + ' ' +'is already enrolled in '+' ' + course.attributes.CourseTitle;
                 ///////
-
-            }
-            else{
-
-                /////////////////////////////////////////
-               /* alert("Member is already enrolled in this course");
+            } else {
                 var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-                body = $.cookie('Member.login') + ' ' +'is already enrolled in'+' ' + course.attributes.CourseTitle*/
-                ////////////////////////////////////////
-                  var body = mailView.inViewModel.get('body').replace(/<(?:.|\n)*?>/gm, '')
-                 //body = body.replace('Accept', '').replace('Reject', '').replace('&nbsp;&nbsp;', '')
-                 body = 'Admission request received from user "a" has been Rejected<br>'
-                 body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
-                 // alert(courseTitle)
-                 var currentdate = new Date();
-                 var mail = new App.Models.Mail();
-                 mail.set("senderId", $.cookie('Member._id'));
-                 mail.set("receiverId", mailView.inViewModel.get('senderId'));
-                 // mail.set("subject", " | " + courseId.get('CourseTitle'));
-                 alert(App.languageDict.attributes.Adm_req_rejected);
-                 mail.set("subject", App.languageDict.attributes.Adm_req_rejected+ " | " + course.attributes.CourseTitle)
-                 //  mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + courseId.get('name') + "\" ");
-                 mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + course.attributes.CourseTitle + "\" ");
-                 mail.set("status", "0");
-                 mail.set("type", "mail");
-                 mail.set("sentDate", currentdate);
-                 mail.save()
+                body = 'Admission request received from user "a" has been Rejected<br>'
+                body = body + "<div style='margin-left: 3%;margin-top: 174px;font-size: 11px;color: rgb(204,204,204);'>"+App.languageDict.attributes.request_Rejected_already+"</div>"
+                var currentdate = new Date();
+                var mail = new App.Models.Mail();
+                mail.set("senderId", $.cookie('Member._id'));
+                mail.set("receiverId", mailView.inViewModel.get('senderId'));
+                alert(App.languageDict.attributes.Adm_req_rejected);
+                mail.set("subject", App.languageDict.attributes.Adm_req_rejected+ " | " + course.attributes.CourseTitle)
+                mail.set("body", App.languageDict.attributes.adm_req_For_rejected+" \"" + course.attributes.CourseTitle + "\" ");
+                mail.set("status", "0");
+                mail.set("type", "mail");
+                mail.set("sentDate", currentdate);
+                mail.save()
             }
             mailView.updateMailBody(body)
         },
+
         meetupRequestAccepted: function(meetupId) {
             var UMeetup = new App.Collections.UserMeetups()
             UMeetup.memberId = $.cookie('Member._id')

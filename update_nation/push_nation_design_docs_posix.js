@@ -75,15 +75,68 @@ function installDesignDocs() {
 } else {
         updateNationCouchVersion();
         fs.readdir('../init_docs/languages', function doneReadDir(err, files) {
+            langDoc = [];
             files.forEach(function (element) {
-                var langDocPath = '../init_docs/languages/' + element;
-                console.log("Updating " + element);
-                updateLanguagesDocs(langDocPath);
+                var langList = ['Arabic.txt', 'English.txt', 'Nepali.txt', 'Spanish.txt', 'Urdu (Pakistan).txt'];
+                if (langList.indexOf(element) > -1) {
+                    var langDocPath = '../init_docs/languages/' + element;
+                    console.log("Updating " + element);
+                    //updateLanguagesDocs(langDocPath);
+                    fs.readFile(langDocPath, 'utf8', function (err, data) {
+                        if (err) throw err;
+                        langDoc.push(JSON.parse(data));
+                    });
+                    
+                }
             });
+            updateLangDoc(langDoc);
         });
     }
 }
 
+function updateLangDoc(objs) {
+    var languagesDb = nano.db.use('languages');
+    if (languagesDb == undefined) {
+        console.log("Something is wrong with LanguagedDB object...");
+    }
+    else {
+        languagesDb.list(function (err, body) {
+            if (!err) {
+                if (body.rows.length == 0) {
+                    //Insert docs
+                    console.log('There is no document in database.. Going to insert more');
+                    languagesDb.bulk({ "docs": objs }, function (err, res) {
+                        if (err) {
+                            return console.log(err);
+                        } else {
+                            console.log("Inserted document ");
+                        }
+                    })
+
+                } else {
+                    var docKeys = []
+                    body.rows.forEach(function (doc) {
+                        if (doc.id !== '_design/bell')
+                            docKeys.push({ "_id": doc.id, "_rev": doc.value.rev, "_deleted":true});
+                    })
+                    languagesDb.bulk({ "docs": docKeys }, function (err, res) {
+                        if (err) {
+                            return console.log(err);
+                        } else {
+                            languagesDb.bulk({ "docs": objs }, function (err, res) {
+                                if (err) {
+                                    return console.log(err);
+                                } else {
+                                    console.log("Inserted document ");
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+        })
+    }
+}
 function updateLanguagesDocs(pathOfFile) {
     var languagesDb = nano.db.use('languages');
     if(languagesDb==undefined)
@@ -110,7 +163,7 @@ function updateLanguagesDocs(pathOfFile) {
                                 languagesDb.insert(obj, function (err, body) {
                                     if (err) throw err;
                                     else {
-
+console.log("Inserted document ");
                                     }
                                 });
 

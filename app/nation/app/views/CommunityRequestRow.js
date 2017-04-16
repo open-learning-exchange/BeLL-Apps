@@ -5,47 +5,59 @@ $(function() {
         tagName: "tr",
 
         events: {
-            "click .destroy": function(e) {
-                var centralNationUrl = App.Router.getCentralNationUrl();
+            "click .destroy": function (e) {
+                var name = this.options.name;
+                var navigate_link = "";
+                if (name == "CommunityRequest") {
+                    var centralNationUrl = App.Router.getCentralNationUrl();
+                    navigate_link = "listCommnitiesRequest";
+                }else{
+                    navigate_link = "listCommunity";
+                }
+
                 var loginOfMem = $.cookie('Member.login');
                 var lang = App.Router.getLanguage(loginOfMem);
                 var languageDictValue=App.Router.loadLanguageDocs(lang);
                 if (confirm(languageDictValue.attributes.Confirm_Community)) {
                     e.preventDefault()
-                    var docID = [];
-                    docID.push(this.model.id);
-                    this.model.set('registrationRequest', 'rejected');
-                    this.model.save(null, {
-                        success: function () {
-                            $.ajax({
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json; charset=utf-8'
-                                },
-                                type: 'POST',
-                                url: '/_replicate',
-                                dataType: 'json',
-                                data: JSON.stringify({
-                                    "source": "community",
-                                    "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                                    'doc_ids': docID
-                                }),
-                                async: false,
-                                success: function (response) {
-                                    console.log('Successfully replicated request status to central db')
-                                },
-                                error: function(status) {
-                                    console.log("Error for remote replication");
-                                }
-                            });
-                        },
-                        async: false
-                    });
+                    if (name != "VipLink") {
+                        var docID = [];
+                        docID.push(this.model.id);
+                        this.model.set('registrationRequest', 'rejected');
+                        this.model.save(null, {
+                            success: function () {
+                                $.ajax({
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json; charset=utf-8'
+                                    },
+                                    type: 'POST',
+                                    url: '/_replicate',
+                                    dataType: 'json',
+                                    data: JSON.stringify({
+                                        "source": "community",
+                                        "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                        'doc_ids': docID
+                                    }),
+                                    async: false,
+                                    success: function (response) {
+                                        console.log('Successfully replicated request status to central db')
+                                    },
+                                    error: function (status) {
+                                        console.log("Error for remote replication");
+                                    }
+                                });
+                            },
+                            async: false
+                        });
+                    } else {
+                        this.model.destroy()
+                    }
                     this.remove()
                 } else {
                     e.preventDefault()
                     App.startActivityIndicator();
-                    Backbone.history.navigate('listCommnitiesRequest', {
+                    Backbone.history.navigate(navigate_link, {
                         trigger: true
                     });
                     App.stopActivityIndicator();
@@ -59,14 +71,15 @@ $(function() {
             }
         },
 
-        //template : $("#template-GroupRow").html(),
+        //template : $("#template-CourseRow").html(),
 
         initialize: function() {
 
         },
-
+            
         render: function() {
             var that = this;
+            var name = this.options.name;
             var nationUrl = $.url().data.attr.authority;
             var community;
             if(this.model.attributes != undefined) {
@@ -85,7 +98,7 @@ $(function() {
             } else {
                 communityName = community.name;
             }
-            if(community.registrationRequest=="pending" && community.hasOwnProperty('code') && community.hasOwnProperty('name')){
+            if (name == "CommunityRequest" && community.registrationRequest == "pending" && community.hasOwnProperty('code') && community.hasOwnProperty('name')) {
                 var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>0</td><td>0</td>" +
                     "<td><a role='button' class='btn btn-info' href='#communityDetails/" +
                     community._id + "/pending'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("View_Details") + "</a>&nbsp&nbsp&nbsp<label>" + App.languageDictValue.get("request_pending") + "</label></td><br>";
@@ -145,14 +158,25 @@ $(function() {
                             console.log("resource views: " + resourceViews);
                         }
                     }
-                    if(community.registrationRequest == "accepted"){
+                    if (name == "CommunityRequest" && community.registrationRequest == "accepted") {
                         var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
                             "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "/" + that.options.startDate + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-info' href='#communityDetails/" + community._id + "/registered'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("View_Details") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
                         that.$el.append(row);
                     }
-                    if(community.registrationRequest=="pending" && !community.hasOwnProperty('code') && !community.hasOwnProperty('name')) {
+                    if (name == "CommunityRequest" && community.registrationRequest == "pending" && !community.hasOwnProperty('code') && !community.hasOwnProperty('name')) {
                         var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
                             "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a><label>" + App.languageDictValue.get("old_communities") + "</label></td><br>";
+                        that.$el.append(row);
+                    }
+                    if (name == "VipLink") {
+                        var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
+                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "/" + that.options.startDate + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a><label>" + App.languageDictValue.get("old_communities") + "</label></td><br>";
+                        if ($.cookie('Member.login')) {
+                            row = row +
+                                "<a role='button' class='btn btn-info' href='#addCommunity/" + community._id + "'> <i class='icon-pencil icon-white'></i>" + App.languageDictValue.get("EditLabel") + "</a>&nbsp&nbsp&nbsp" +
+                                "<a role='button' class='btn btn-danger destroy' href='#addCommunity/" +
+                                community._id + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a>";
+                        }
                         that.$el.append(row);
                     }
                 },
@@ -175,12 +199,10 @@ $(function() {
         },
         changeDateFormat: function(date) {
             var datePart = date.match(/\d+/g),
-                year = datePart[0],
-                month = datePart[1],
-                day = datePart[2];
+            year = datePart[0],
+            month = datePart[1],
+            day = datePart[2];
             return year + '/' + month + '/' + day;
         }
-
     })
-
 })

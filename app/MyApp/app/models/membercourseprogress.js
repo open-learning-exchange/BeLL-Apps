@@ -16,16 +16,13 @@ $(function() {
         defaults: {
             kind: "course-member-result"
         },
-
         schema: {
             courseId: 'Text',
             memberId: 'Text',
-            stepsIds: 'null', //list of stepsIDs from document in groups database having provided courseId
+            stepsIds: 'null', //list of stepsIDs from document in courses database having provided courseId
             stepsStatus: 'null', //On each index it contains the status(pass/fail/pending) of member in corresponding step from stepsIds array
             stepsResult: 'null', //On each index it contains the marks obtained by member in corresponding step from stepsIds array
             pqAttempts: 'null' //On each index it contains the no. of attempts
         }
-
     })
-
 })

@@ -16,6 +16,7 @@ $(function() {
                 }
             },
             "click #open": function(event) {
+                console.log(this.model.get("views"));
                 if (this.model.get("views") == undefined) {
                     this.model.set('views', 1)
                     this.model.save()
@@ -76,7 +77,6 @@ $(function() {
             var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
             App.languageDict = languageDictValue;
-            //vars.avgRating = Math.round(parseFloat(vars.averageRating))
             var vars = this.model.toJSON()
             vars.languageDict=App.languageDict;
             if (vars.views == undefined) {

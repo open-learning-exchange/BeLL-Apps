@@ -22,9 +22,9 @@
             render: function () {
                 this.$el.html('<tr><th>'+App.languageDict.attributes.IssueNumber+'</th><th>'+App.languageDict.get("action")+'</th></tr>');
                 var that=this;
-            var nationName = App.configuration.get('nationName'),
+                var nationName = App.configuration.get('nationName'),
                 nationPassword = App.password;
-            var nationUrl = App.configuration.get('nationUrl'),
+                var nationUrl = App.configuration.get('nationUrl'),
                 currentBellName = App.configuration.get('name');
                 var DbUrl = 'http://' + nationName + ':' + nationPassword + '@' + nationUrl +
                             '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&descending=true&key=["'+currentBellName+'",'+false+']'; //#113 reverse pubs order
@@ -71,16 +71,12 @@
                                                     isAlreadySynced = true;
                                                     var temp = { "pubDistId":nationPublicationDistributionDocId, "pubDoc":publicationFromNation, "isAlreadySynced":isAlreadySynced, "IssueNo":publicationFromNation.IssueNo };
                                                     syncedPublication.push(temp);
-                                                   // that.add(nationPublicationDistributionDocId, publicationFromNation, isAlreadySynced);
                                                 } else { // its an already synced publication. display it without the new/unsynced mark
                                                     var temp = { "pubDistId":nationPublicationDistributionDocId, "pubDoc":publicationFromNation, "isAlreadySynced":isAlreadySynced, "IssueNo":publicationFromNation.IssueNo };
                                                     newPublication.push(temp);
-                                                   // that.add(nationPublicationDistributionDocId, publicationFromNation, isAlreadySynced);
                                                 }
                                             });
                                             //
-
-
                                             newPublication.sort(that.sortByProperty('IssueNo'));
                                             syncedPublication.sort(that.sortByPropertyInDecreasingOrder('IssueNo'));
                                             //
@@ -132,7 +128,6 @@
                     } else if (a[property] > b[property]) {
                         sortStatus = -1;
                     }
-
                     return sortStatus;
                 };
             },
@@ -144,7 +139,7 @@
                 var publicationToSync = this.collectionInfo[pubId];
                 $.couch.allDbs({
                     success: function(data) {
-                        if(data.indexOf('tempresources') != -1 ){
+                        if(data.indexOf('tempresources') != -1 ) {
                             $.couch.db("tempresources").drop({
                                 success: function(data) {
                                     that.syncCourses(pubDistributionID, publicationToSync);
@@ -153,26 +148,26 @@
                                     console.log(status);
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             that.syncCourses(pubDistributionID, publicationToSync);
                         }
                     },
                     async: false
                 });
-                //this.syncCourses(pubDistributionID, publicationToSync);
             },
+
             syncCourses:function(pubDistributionID, publicationToSync){
-            var resourcesIdes = publicationToSync.resources,
+                var resourcesIdes = publicationToSync.resources,
                 courses = publicationToSync.courses,
                 IssueNo = publicationToSync.IssueNo;
-            var nationUrl = App.configuration.get('nationUrl'),
+                var nationUrl = App.configuration.get('nationUrl'),
                 nationName = App.configuration.get('nationName');
                 // courses contains courseID and stepIDs(which contains stepID and resouceIDs(which contains ids of resources in the step))
-            var cumulativeCourseIDs = [],
+                var cumulativeCourseIDs = [],
                 cumulativeCourseStepIDs = [],
                 cumulativeResourceIDs = [];
-                for (var indexOfCourse in courses){
+                cumulativeQuestionIDs = [];
+                for (var indexOfCourse in courses) {
                     var courseInfo = courses[indexOfCourse];
                     cumulativeCourseIDs.push(courseInfo['courseID']);
                     var courseSteps = courseInfo['stepIDs'];
@@ -182,6 +177,10 @@
                         var resourceIDs = courseStepInfo['resourceIDs'];
                         for (var indexOfResourceID in resourceIDs) {
                             cumulativeResourceIDs.push(resourceIDs[indexOfResourceID]);
+                        }
+                        var questionIDs = courseStepInfo['questionIDs'];
+                        for (var indexOfQuestionID in questionIDs) {
+                            cumulativeQuestionIDs.push(questionIDs[indexOfQuestionID]);
                         }
                     }
                 }
@@ -286,8 +285,8 @@
                                     url: '/_replicate',
                                     dataType: 'json',
                                     data: JSON.stringify({
-                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/groups',
-                                        "target": 'groups',
+                                        "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/courses',
+                                        "target": 'courses',
                                         'doc_ids': cumulativeCourseIDs
                                     }),
                                     success: function (response) {
@@ -307,6 +306,20 @@
                                                 'doc_ids': cumulativeCourseStepIDs
                                             }),
                                             success: function (response) {
+                                                $.ajax({
+                                                        headers: {
+                                                            'Accept': 'application/json',
+                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                        },
+                                                        type: 'POST',
+                                                        url: '/_replicate',
+                                                        dataType: 'json',
+                                                        data: JSON.stringify({
+                                                            "source": 'http://'+ nationName +':'+App.password+'@'+ nationUrl + '/coursequestion',
+                                                            "target": 'coursequestion',
+                                                            'doc_ids': cumulativeQuestionIDs
+                                                        }),
+                                                success: function (response) {
                                                 var nationUrl = 'http://' + App.configuration.get('nationName') + ':' + App.password + '@' + App.configuration.get('nationUrl') +
                                                     '/publications/' + publicationToSync._id;
 
@@ -473,7 +486,11 @@
                                                             }
                                                         });
                                                         //End of my code.
-
+                                                    },
+                                                    error: function(jqXHR, status, errorThrown){
+                                                        console.log(status);
+                                                    }
+                                                });
                                                     },
                                                     error: function(jqXHR, status, errorThrown){
                                                         console.log(status);
@@ -518,18 +535,18 @@
                 if (courseInPubIdes != ''){
                     courseInPubIdes = courseInPubIdes.substring(0, courseInPubIdes.length - 1);
                 }
-                var groupColl = new App.Collections.Groups();
-                groupColl.keys = encodeURI(courseInPubIdes)
-                groupColl.fetch({
+                var courseColl = new App.Collections.Courses();
+                courseColl.keys = encodeURI(courseInPubIdes)
+                courseColl.fetch({
                     async: false
                 });
-               for(var i=0;i<groupColl.length;i++) {
-                   var courseModel = groupColl.models[i];
+               for(var i = 0 ; i<courseColl.length ; i++) {
+                   var courseModel = courseColl.models[i];
                    courseModel.set('courseLeader',[]);
                    courseModel.set('members',[]);
                    courseData.push(courseModel);
                }
-                $.couch.db("groups").bulkSave({"docs": courseData}, {
+                $.couch.db("courses").bulkSave({"docs": courseData}, {
                     success: function(data) {
                         console.log(data);
                     },

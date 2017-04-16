@@ -23,21 +23,23 @@ $(function() {
             'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
             'assign-to-level': 'AssignResourcetoLevel',
-            'courses': 'Groups',
-            'course/manage/:groupId': 'ManageCourse',
+            'courses': 'Courses',
+            'course/manage/:courseId': 'ManageCourse',
             'course/details/:courseId/:courseName': 'courseDetails',
             'usercourse/details/:courseId/:courseName': 'UserCourseDetails',
-            'course/report/:groupId/:groupName': 'CourseReport',
-            'course/assignments/week-of/:groupId/:weekOf': 'GroupWeekOfAssignments',
-            'course/assignments/:groupId': 'GroupAssignments',
-            'course/add': 'GroupForm',
+            'course/report/:courseId/:courseName': 'CourseReport',
+            'course/assignments/week-of/:courseId/:weekOf': 'CourseWeekOfAssignments',
+            'course/assignments/:courseId': 'CourseAssignments',
+            'course/add': 'CourseForm',
             'CourseInfo/:courseId': 'CourseInfo',
             'course/resign/:courseId': 'ResignCourse',
-            'course/members/:courseId': 'GroupMembers',
-            'level/add/:groupId/:levelId/:totalLevels': 'AddLevel',
+            'course/members/:courseId': 'CourseMembers',
+            'course/answerreview/:memberid/:stepid/:attempts': 'answerReview',
+            'level/add/:courseId/:levelId/:totalLevels': 'AddLevel',
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
-            'create-quiz/:lid/:rid/:title': 'CreateQuiz',
+            'create-test/:lid/:rid/:title': 'CreateTest',
+            'view-test/:stepid/:rid': 'ViewTest',
             'collection': 'Collection',
             'listCollection/:collectionId': 'ListCollection',
             'listCollection/:collectionId/:collectionName': 'ListCollection',
@@ -89,7 +91,7 @@ $(function() {
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
             'configurationsForm': 'configurationsForm',
-            'checksum': 'checkSum',
+            'checksum(/:nation/:url)': 'checkSum',
             'listLearnersCredits/:cid': 'showLearnersListForCredits'
         },
         addOrUpdateWelcomeVideoDoc: function() {
@@ -345,21 +347,20 @@ $(function() {
             App.languageDict = languageDictValue;
             //Check if the user who has logged in is a Leader or a Learner in any course.
             var stepsStatuses=[];
-            var groups = new App.Collections.Groups()
+            var courses = new App.Collections.Courses()
             var MemberCourseProgress = new App.Collections.membercourseprogresses();
-            var creditsView = new App.Views.BadgesMainPage(
-            );
-                var learnerCourses=[];
-                App.$el.children('.body').html('<div id="creditsMainTable"></div>');
-                $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            var creditsView = new App.Views.BadgesMainPage();
+            var learnerCourses=[];
+            App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+            $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
             creditsView.addHeading();
-            groups.fetch({
-                success: function (groupDocs) {
-                    if(groupDocs.length>0){
+            courses.fetch({
+                success: function (courseDocs) {
+                    if(courseDocs.length>0){
                         var isLearner=false;
                         var isCreditable=true;
-                        for(var i=0;i<groupDocs.length;i++) {
-                            var doc=groupDocs.models[i];
+                        for(var i=0;i<courseDocs.length;i++) {
+                            var doc=courseDocs.models[i];
                             if(doc.get('members')!=undefined && doc.get('courseLeader')!=undefined && doc.get('members').indexOf($.cookie('Member._id'))>-1 && doc.get('courseLeader').indexOf($.cookie('Member._id'))==-1){
                                 isLearner=true;
                                 //---------------------------------------
@@ -392,18 +393,15 @@ $(function() {
                                     },
                                     async:false
                                 });
-                                //--------------------------------------
-                              //  creditsView.courseId=doc.get('_id');
-                               // creditsView.render();
                             }
 
                         }
                         if(isLearner) {
-                $('#creditsMainTable').append(creditsView.el);
-            }
-            else{
+                            $('#creditsMainTable').append(creditsView.el);
+                        }
+                        else{
                             alert('You are not enrolled as Learner in any course.');
-                            }
+                        }
                     }
                 },
                 async:false
@@ -416,21 +414,21 @@ $(function() {
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);
-            var creditsView = new App.Views.CreditsLeaderView(
-            );
+            var creditsView = new App.Views.CreditsLeaderView();
             App.$el.children('.body').html('<div id="creditsMainTable"></div>');
             $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
             creditsView.addHeading();
             var count=0;
-            var groups = new App.Collections.Groups();
-            groups.fetch({
+            var courses = new App.Collections.Courses();
+            courses.fetch({
                 async:false,
-                success: function (groupDocs) {
-                    if(groupDocs.length>0){
-                        for(var i=0;i<groupDocs.length;i++) {
-                            if(groupDocs.models[i].get('_id') != '_design/bell') {
-                                var doc = groupDocs.models[i];
+                success: function (courseDocs) {
+                    if(courseDocs.length>0){
+                        for(var i=0;i<courseDocs.length;i++) {
+                            if(courseDocs.models[i].get('_id') != '_design/bell') {
+                                var doc = courseDocs.models[i];
                                 var learnerIds = getCountOfLearners(doc.get('_id'), true);
+                                console.log(learnerIds);
                                 if(learnerIds.length>0){
                                     creditsView.courseId=doc.get('_id');
                                     creditsView.learnerIds = learnerIds;
@@ -511,7 +509,7 @@ $(function() {
             App.$el.children('.body').html('<div id="badgesTable"></div>');
             $('#badgesTable').append('<h3>' + name + '\'s Badges' + '</h3>');
             $('#badgesTable').append(badgesTableView.el);
-            $('#badges-details').append('<tr><td>' + 'Total'  + '</td><td></td><td></td><td>' +marks + "/" +totalMarks+ '</td><td>' + marks +"%"   + '</td></tr>');
+            $('#badges-details').append('<tr><td>' + languageDictValue.get('Total')  + '</td><td></td><td></td><td>' + marks + "/" + totalMarks + '</td><td>' + marks + "%" + '</td><td></td></tr>');
             $('#badgesTable').append(' <hr   style= "border-width: 5px;">' );
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
@@ -549,9 +547,7 @@ $(function() {
                 creditsTableView.memberId=memberId;
                 creditsTableView.render();
                 App.$el.children('.body').html('<div id="creditsTable"></div>');
-                //$('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ ' | '+member.get('firstName')+' '+member.get('lastName')+ '</h3>');
                 var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
-                //
                 var name, id;
                 learnerCollection.each(
                     function(member) {
@@ -579,21 +575,19 @@ $(function() {
 
 
                 App.$el.children('.body').html('<div id="creditsTable"></div>');
-                var group = new App.Models.Group({
+                var course = new App.Models.Course({
                     _id: courseId
                 });
-                group.fetch({
+                course.fetch({
                     async:false
                 });
-                $('#creditsTable').append('<h3>' + ' Credits Details | '+ group.get('CourseTitle')+ '</h3>');
-
+                $('#creditsTable').append('<h3>' + ' Credits Details | '+ course.get('CourseTitle')+ '</h3>');
                 $('#creditsTable').append(select);
-
                 $('#creditsTable').append(creditsTableView.el);
-                $('#creditsTable').append('<input class="btn btn-success" style="display: flex;margin:0 auto ;font-size: 15px" type="button" value="Submit Credits" id="submitCredits" onclick="App.Router.submitCredits(\'' + courseId + '\',\'' + memberId + '\'  )"/>')
             }
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
+
         submitCredits: function(courseId , memberId) {
             var isValid = [];
             var readOnly = [];
@@ -616,96 +610,95 @@ $(function() {
                 alert('Learner has not submitted any paper');
             }
             else if (isValid.length > 0 && isValid.indexOf(false)== -1 ) {
-            $("input[name='paperCredits']").each(function () {
-                if ($(this).val().trim() != '' ) {
-                    var idstep = $(this).attr('id');
-                    var arr = idstep.split("/");
-                   // alert("step id and percentage" + idstep)
-                    var stepId =arr[0];
-                    var percentage = parseInt(arr[1]);
-                   // alert("stepId " + stepId);
-                   // alert("passing percentage " + percentage);
-                    console.log("stepId : " + stepId)
-                    var paperMarks = $(this).val().trim();
-                    console.log("paperMarks : " + paperMarks)
-                  //  alert("paper marks : " + paperMarks )
-                    var memberProgress = new App.Collections.membercourseprogresses()
-                    memberProgress.memberId = memberId
-                    memberProgress.courseId = courseId
-                    memberProgress.fetch({
-                        async: false,
-                        success: function () {
-                            memberProgress = memberProgress.first();
-                            var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
-                            var marks = memberProgress.attributes.stepsResult[memberStepIndex];
-                            var intMarks = [];
-                            if($.isArray(marks)){
-                                for (var i=0; i < marks.length ; i++){
-                                    intMarks.push(parseInt(marks[i]));
-                                }
-                            }
-                            else{
-                                    intMarks.push(parseInt(marks));
-                            }
-                           console.log("intMarks : " + intMarks)
-                            if (intMarks.length > 1) {
-                               if(memberProgress.attributes.stepsResult[memberStepIndex][0] != paperMarks) {
-                                   memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
-                                   if( paperMarks >= percentage  ) {
-                                       if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
-                                           if (memberProgress.attributes.pqAttempts != undefined) {
-                                               memberProgress.attributes.pqAttempts[memberStepIndex][0]++;
-                                           }
-                                       }
-                                       memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
-                                   }
-                                   else{
-                                       if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
-                                           memberProgress.attributes.stepsStatus[memberStepIndex][0] = '0';
-                                           if(memberProgress.attributes.pqAttempts != undefined){
-                                               memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
-                                           }
-                                       }
-                                   }
-                               }
-
-                            }
-                            else {
-                                if(memberProgress.attributes.stepsResult[memberStepIndex] != paperMarks) {
-                                    memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
-                                    if (paperMarks >= percentage) {
-                                        if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
-                                            if (memberProgress.attributes.pqAttempts != undefined) {
-                                                memberProgress.attributes.pqAttempts[memberStepIndex]++;
-                                            }
-                                        }
-                                        memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
-                                    }
-                                    else {
-                                        if (memberProgress.attributes.stepsStatus[memberStepIndex] == "2") {
-                                            memberProgress.attributes.stepsStatus[memberStepIndex] = '0';
-                                            if (memberProgress.attributes.pqAttempts != undefined) {
-                                                memberProgress.attributes.pqAttempts[memberStepIndex]++;
-                                            }
-                                        }
+                $("input[name='paperCredits']").each(function () {
+                    if ($(this).val().trim() != '' ) {
+                        var idstep = $(this).attr('id');
+                        var arr = idstep.split("/");
+                       // alert("step id and percentage" + idstep)
+                        var stepId =arr[0];
+                        var percentage = parseInt(arr[1]);
+                       // alert("stepId " + stepId);
+                       // alert("passing percentage " + percentage);
+                        console.log("stepId : " + stepId)
+                        var paperMarks = $(this).val().trim();
+                        console.log("paperMarks : " + paperMarks)
+                      //  alert("paper marks : " + paperMarks )
+                        var memberProgress = new App.Collections.membercourseprogresses()
+                        memberProgress.memberId = memberId
+                        memberProgress.courseId = courseId
+                        memberProgress.fetch({
+                            async: false,
+                            success: function () {
+                                memberProgress = memberProgress.first();
+                                var memberStepIndex = memberProgress.get('stepsIds').indexOf(stepId);
+                                var marks = memberProgress.attributes.stepsResult[memberStepIndex];
+                                var intMarks = [];
+                                if($.isArray(marks)){
+                                    for (var i=0; i < marks.length ; i++){
+                                        intMarks.push(parseInt(marks[i]));
                                     }
                                 }
+                                else{
+                                        intMarks.push(parseInt(marks));
+                                }
+                               console.log("intMarks : " + intMarks)
+                                if (intMarks.length > 1) {
+                                   if(memberProgress.attributes.stepsResult[memberStepIndex][0] != paperMarks) {
+                                       memberProgress.attributes.stepsResult[memberStepIndex][0] = paperMarks;
+                                       if( paperMarks >= percentage  ) {
+                                           if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
+                                               if (memberProgress.attributes.pqAttempts != undefined) {
+                                                   memberProgress.attributes.pqAttempts[memberStepIndex][0]++;
+                                               }
+                                           }
+                                           memberProgress.attributes.stepsStatus[memberStepIndex][0] = '1';
+                                       }
+                                       else{
+                                           if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
+                                               memberProgress.attributes.stepsStatus[memberStepIndex][0] = '0';
+                                               if(memberProgress.attributes.pqAttempts != undefined){
+                                                   memberProgress.attributes.pqAttempts[memberStepIndex][0]++ ;
+                                               }
+                                           }
+                                       }
+                                   }
+                                }
+                                else {
+                                    if(memberProgress.attributes.stepsResult[memberStepIndex] != paperMarks) {
+                                        memberProgress.attributes.stepsResult[memberStepIndex] = paperMarks;
+                                        if (paperMarks >= percentage) {
+                                            if(memberProgress.attributes.stepsStatus[memberStepIndex][0] == "2") {
+                                                if (memberProgress.attributes.pqAttempts != undefined) {
+                                                    memberProgress.attributes.pqAttempts[memberStepIndex]++;
+                                                }
+                                            }
+                                            memberProgress.attributes.stepsStatus[memberStepIndex] = '1';
+                                        }
+                                        else {
+                                            if (memberProgress.attributes.stepsStatus[memberStepIndex] == "2") {
+                                                memberProgress.attributes.stepsStatus[memberStepIndex] = '0';
+                                                if (memberProgress.attributes.pqAttempts != undefined) {
+                                                    memberProgress.attributes.pqAttempts[memberStepIndex]++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                memberProgress.save(null, {
+                                    async: false,
+                                    success: function (response) {
+                                    },
+                                    async: false,
+                                });
                             }
-                            memberProgress.save(null, {
-                                async: false,
-                                success: function (response) {
-                                },
-                                async: false,
-                            });
-                        }
 
-                    })
+                        })
 
-                }
+                    }
 
-            });
+                });
                 alert('Paper credits have been submitted');
-        } else {
+            } else {
                 alert('Please enter marks against each paper');
                return false;
             }
@@ -730,10 +723,10 @@ $(function() {
         },
 
         showLearnersListForCredits: function (courseId) {
-            var group = new App.Models.Group({
+            var course = new App.Models.Course({
                 _id: courseId
             });
-            group.fetch({
+            course.fetch({
                 async: false,
             });
             var learnerIds = getCountOfLearners(courseId, true);
@@ -755,7 +748,7 @@ $(function() {
             courseLearnersTable.Id = courseId;
             courseLearnersTable.render();
             App.$el.children('.body').html('<div id="courseLearnersTable"></div>');
-            $('#courseLearnersTable').append('<h3>' + group.get('CourseTitle') + '</h3>');
+            $('#courseLearnersTable').append('<h3>' + course.get('CourseTitle') + '</h3>');
             $('#courseLearnersTable').append(courseLearnersTable.el);
         },
 
@@ -768,15 +761,15 @@ $(function() {
             App.$el.children('.body').html('<div  id="underConstruction" style="margin:0 auto"><h4>'+languageDictValue.attributes.Functionality_Under_Construction+'</h4></div>')
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
-        startUpStuff: function() {
 
+        startUpStuff: function() {
             if (App.idss.length == 0) {}
             $('div.takeQuizDiv').hide()
             $('#externalDiv').hide()
             $('#invitationdiv').hide()
             $('#debug').hide()
-
         },
+
         renderNav: function() {
             if ($.cookie('Member._id')) {
                 var na = new App.Views.navBarView({
@@ -793,6 +786,7 @@ $(function() {
             }
 
         },
+
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
                 if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add' && $.url().attr('fragment') != 'admin/add') {
@@ -813,12 +807,11 @@ $(function() {
                     this.expireSession();
                     Backbone.history.stop();
                     App.start();
-
                 }
             }
         },
-        expireSession: function() {
 
+        expireSession: function() {
             $.removeCookie('Member.login', {
                 path: "/apps/_design/bell"
             })
@@ -832,13 +825,9 @@ $(function() {
                 path: "/apps/_design/bell"
             });
             $.removeCookie('forcedUpdateProfile');
-            //$.removeCookie('languageFromCookie');
-            // $.removeCookie('isChange');
-
         },
 
         Configure: function() {
-
             var conModel = new App.Models.Configuration();
             var conForm = new App.Views.Configurations({
                 model: conModel
@@ -849,8 +838,8 @@ $(function() {
             {
                 $('.bbf-form').find('ul').find('li').eq(i).hide();
             }
-
         },
+
         MemberLogin: function() {
             // Prevent this Route from completing if Member is logged in.
             if ($.cookie('Member._id')) {
@@ -880,32 +869,19 @@ $(function() {
                 $('.field-login').find('label').addClass('labelsOnLogin');
                 $('.field-password').find('label').addClass('labelsOnLogin');
             }
-            /* Code to be removed...
-             if($.cookie('languageFromCookie')==null)
-             {
-             languageDictValue=loadLanguageDocs();
-             }
-             else
-             {
-             languageDictValue=getSpecificLanguage($.cookie('languageFromCookie'));
-             }
-
-             var directionOfLang = languageDictValue.get('directionOfLang');*/
             App.surveyAlert = 1;
             applyCorrectStylingSheet(direction);
         },
-        MemberLogout: function() {
 
+        MemberLogout: function() {
             App.ShelfItems = null
             this.expireSession();
-
             Backbone.history.navigate('login', {
                 trigger: true
             });
-
         },
-        getRoles: function() {
 
+        getRoles: function() {
             var loggedIn = new App.Models.Member({
                 "_id": $.cookie('Member._id')
             })
@@ -913,9 +889,9 @@ $(function() {
                 async: false
             })
             var roles = loggedIn.get("roles")
-
             return roles
         },
+
         getAllResourceIdsFromNation: function(callback) {
             var configuration = App.configuration
             var nationName = configuration.get("nationName")
@@ -926,7 +902,6 @@ $(function() {
                 url: nationConfigURL,
                 type: 'GET',
                 dataType: "jsonp",
-
                 success: function (resourcesFromNation) {
                     for(var i = 0; i < resourcesFromNation.total_rows; i++)
                     {
@@ -941,10 +916,9 @@ $(function() {
                     console.log(status);
                     callback(resourceIds);
                 }
-
-
             });
         },
+
         getNationVersion: function (dashboard) {
             var that = this;
             var configuration = App.configuration
@@ -955,8 +929,6 @@ $(function() {
             pass = App.password
             nUrl = configuration.get('nationUrl')
             currentBellName = configuration.get('name')
-            //  var htmlreferance = this.$el
-
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
             var nationConfig;
             var newPublicationsCount = 0;
@@ -966,12 +938,10 @@ $(function() {
                 url: nationConfigURL,
                 type: 'GET',
                 dataType: "jsonp",
-
                 success: function (json) {
                     if (json.rows[0]) {
                         nationConfig = json.rows[0].doc;
                         nation_version = nationConfig.version;
-
                         //********************************************************************************************************************************
                         $.ajax({
                             url: DbUrl,
@@ -986,7 +956,6 @@ $(function() {
                                     tempKeys.push(row.doc.publicationId);
                                 });
                                 // fetch all publications from local/community server to see how many of the publications from nation are new ones
-                                //  var newPublicationsCount = 0;
                                 var publicationCollection = new App.Collections.Publication();
                                 var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
                                 publicationCollection.setUrl(tempUrl);
@@ -1139,7 +1108,6 @@ $(function() {
                                                                 } else {
                                                                     dashboard.updateVariables(nation_version, new_publications_count, 0);
                                                                 }
-                                                                //alert(currentBellName);
                                                                 $("#newPublication").click(function () {
                                                                     document.location.href = "#publications/for-" + currentBellName;
                                                                 });
@@ -1166,11 +1134,9 @@ $(function() {
                                                     if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
                                                         new_publications_count = newPublicationsCount;
                                                         dashboard.updateVariables(nation_version, new_publications_count, 0);
-                                                        //alert(currentBellName);
                                                         $("#newPublication").click(function () {
                                                             document.location.href = "#publications/for-" + currentBellName;
                                                         });
-                                                        //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
                                                         $('#newPublication').show();
                                                     }
                                                     else {
@@ -1184,23 +1150,16 @@ $(function() {
                                                 console.log(status);
                                             }
                                         });
-                                        ////////////////////////////////////////////////////
-                                    }
+                                     }
                                 });
-
                             },
                             error: function (jqXHR, status, errorThrown) {
                                 $('#onlineButton').css({"background-color": "#ff0000"});
                                 $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
-                                console.log(jqXHR);
-                                console.log(status);
-                                console.log(errorThrown);
                             }
                         });
-
                     }
                 }
-
             });
         },
         isNationLive: function (callback) {
@@ -1210,21 +1169,18 @@ $(function() {
                 type: 'GET',
                 dataType: "jsonp",
                 timeout: 4000,
-
                 success: function (json) {
                     nationVisible = true;
                     callback(true);
-
                 },
-
                 error: function (jqXHR, status, errorThrown) {
                     nationVisible = false;
                     callback(false);
                 },
                 timeout: 4000
-
             });
         },
+
         Dashboard: function() {
             if(App.configuration.get('type')=='nation'){
                 getAllPendingRequests();
@@ -1284,7 +1240,6 @@ $(function() {
                         $('#first' + i).removeClass('stu-nav-title-'+classToAppend[j]);
                         $('#first' + i).removeClass('stu-nav-title');
                         $('#first' + i).addClass('stu-nav-option-empty');
-                        // $('#last').css('background-color','red');
                         $('#last' + i).addClass('stu-nav-title-'+classToAppend[j]);
                         $('#last' + i).addClass('stu-nav-title');
                         $('#last' + i).removeClass('stu-nav-option-empty');
@@ -1305,7 +1260,6 @@ $(function() {
                         var htmlToAppend='<a id="linkOnSecond" href="#courses/barchart"></a>';
                         $('#first' + i).append(htmlToAppend);
                         $('#linkOnSecond').html(wordsOfLibraryTable[1]);
-
                     }
                     else{
                         $('#first'+i).removeClass('stu-nav-option-empty');
@@ -1317,21 +1271,18 @@ $(function() {
                         $('#last'+i).addClass('stu-nav-option-empty');
                         j++;
                     }
-
-
                 }
             }
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
-            
-           
             applyCorrectStylingSheet(directionOfLang);
         },
-        MemberForm: function(memberId) {
 
+        MemberForm: function(memberId) {
             this.modelForm('Member', 'Member', memberId, 'login')
         },
+
         AdminForm: function(){
             var languageDictValue;
             var  clanguage;
@@ -1356,7 +1307,7 @@ $(function() {
             App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
             $('#AddCourseMainDiv').append('<h3>'+App.languageDict.get('Become_an_administrator')+'</h3>')
             $('#AddCourseMainDiv').append(modelForm.el)
-            // Bind form events for when Group is ready
+            // Bind form events for when Course is ready
             model.once('Model:ready', function() {
                 modelForm.render();
                 $('.form .field-firstName input').attr('maxlength', '25');
@@ -1399,7 +1350,6 @@ $(function() {
                 text:languageDictValue.attributes.Month
             }));
             $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(1).find('option').eq(12).css('display','none')
-
             $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).append($('<option>', {
                 class:"placeHolderForSelect",
                 selected: 'true',
@@ -1429,14 +1379,11 @@ $(function() {
             }
             $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(0).html(App.languageDict.get('Male'))
             $('.bbf-form .field-Gender .bbf-editor select').find('option').eq(1).html(App.languageDict.get('Female'))
-
             for(var i=0;i<12;i++)
             {
                 $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).html(lookup(App.languageDict, "Months." + $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).text().toString() ));
-
             }
             if (directionOfLang.toLowerCase() === "right") {
-
                 $('#_attachments').css('margin-right','170px');
             }
             else {
@@ -1444,9 +1391,7 @@ $(function() {
             }
         },
 
-        modelForm: function(className, label, modelId, reroute) { // 'Group', 'Course', groupId, 'courses'
-            //cv Set up
-            // applyStylingSheet();
+        modelForm: function(className, label, modelId, reroute) { // 'Course', 'Course', courseId, 'courses'
             var url_page = $.url().data.attr.fragment;
             var url_split = url_page.split('/');
             var languageDictValue;
@@ -1488,7 +1433,6 @@ $(function() {
                 nameOfLabel=label;
                 App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
                 $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
-
             }
             else if (modelId) {
                 model.id = modelId
@@ -1505,9 +1449,9 @@ $(function() {
                 $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel)+'</h3>')
             }
             $('#AddCourseMainDiv').append(modelForm.el)
-            // Bind form events for when Group is ready
+            // Bind form events for when Course is ready
             model.once('Model:ready', function() {
-                // when the users submits the form, the group will be processed
+                // when the users submits the form, the course will be processed
                 modelForm.on(className + 'Form:done', function() {
                     Backbone.history.navigate(reroute, {
                         trigger: true
@@ -1516,7 +1460,6 @@ $(function() {
                 // Set up the form
                 modelForm.render();
                 $('.bbf-form .field-courseLeader .bbf-editor select').attr('multiple','multiple');
-
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
                 });
@@ -1527,51 +1470,37 @@ $(function() {
                 $('.form .field-endDate input').datepicker({
                     todayHighlight: true
                 });
-
                 $('.form .field-startTime input').timepicker({
                     'minTime': '8:00am',
                     'maxTime': '12:30am'
                 });
-
                 $('.form .field-endTime input').timepicker({
                     'minTime': '8:00am',
                     'maxTime': '12:30am'
-
                 });
-
                 $('.form .field-frequency input').click(function() {
                     if (this.value == 'Weekly') {
                         $('.form .field-Day').show()
                     } else {
                         $('.form .field-Day').hide()
                     }
-
                 });
-
-
-
-
             })
             // Set up the model for the form
             if (modelId) {
-
                 model.once('sync', function() {
                     model.trigger('Model:ready')
                 })
                 model.fetch({
                     async: false
                 })
-
             } else {
                 model.trigger('Model:ready')
             }
-
             //Setting up the default error Message
             Backbone.Form.validators.errMessages.required=languageDictValue.attributes.Required_Text;
-
             if(!modelId){
                 //Setting up the default selected customized text
-
                 $('.bbf-form .field-Gender .bbf-editor select').append($('<option>', {
                     class:"placeHolderForSelect",
                     selected: 'true',
@@ -1604,7 +1533,6 @@ $(function() {
                     text:languageDictValue.attributes.Month
                 }));
                 $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(1).find('option').eq(12).css('display','none')
-
                 $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).append($('<option>', {
                     class:"placeHolderForSelect",
                     selected: 'true',
@@ -1612,14 +1540,8 @@ $(function() {
                     value:"",
                     text:languageDictValue.attributes.Year_format
                 }));
-                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).find('option').eq(101).css('display','none')
-
-                /* Code to unset the default text on sany dropdown...
-                 $(".bbf-form .field-Gender .bbf-editor select").prop("selectedIndex", -1);
-                 $(".bbf-form .field-levels .bbf-editor select").prop("selectedIndex", -1);
-                 $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").prop("selectedIndex", -1); */
+                $(".bbf-form .field-BirthDate .bbf-editor .bbf-date select").eq(2).find('option').eq(101).css('display','none')   
             }
-
             //Modifying the labels as per MUI
             $('.bbf-form .field-firstName label').html(languageDictValue.attributes.First_Name);
             $('.bbf-form .field-lastName label').html(languageDictValue.attributes.Last_Name);
@@ -1665,31 +1587,25 @@ $(function() {
             for(var i=0;i<12;i++)
             {
                 $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).html(lookup(App.languageDict, "Months." + $('.field-BirthDate .bbf-editor .bbf-month').find('option').eq(i).text().toString() ));
-
             }
             var gradeLevelArray=App.languageDict.get('GradeLevelList');
             for(var i=0;i<gradeLevelArray.length;i++)
             {
                 $('.form .field-gradeLevel select').find('option').eq(i).html(gradeLevelArray[i]);
-
             }
             var subjectLevelArray=App.languageDict.get('SubjectLevelList');
             for(var i=0;i<subjectLevelArray.length;i++)
             {
                 $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
-
             }
-
             if (directionOfLang.toLowerCase() === "right") {
-
                 $('#_attachments').css('margin-right','170px');
             }
             else {
                 $('#_attachments').css('margin-left','170px');
             }
-
-
         },
+
         Resources: function() {
             var jsonConfig = App.configuration.toJSON();
             if(jsonConfig.type == "nation" && $.url().attr('fragment') == "resources/community") {
@@ -1754,10 +1670,8 @@ $(function() {
                                 }
                             }
                         }
-
                         resourcesTableView.collections = App.collectionslist
                         resourcesTableView.render();
-
                         $('#parentLibrary').append(resourcesTableView.el);
                         if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
                         {
@@ -1770,13 +1684,13 @@ $(function() {
                 App.stopActivityIndicator()
             }
         },
+
         pendingResources: function() {
             var jsonConfig = App.configuration.toJSON();
             var roles = this.getRoles();
             if(jsonConfig.type == "nation" && (roles.indexOf("Manager") >= 0)) {
                 App.startActivityIndicator()
                 var resourcesTableView
-
                 var resources = new App.Collections.Resources({
                     skip: 0
                 });
@@ -1818,8 +1732,8 @@ $(function() {
                 })
             }
         },
-        ResourceForm: function(resourceId) {
 
+        ResourceForm: function(resourceId) {
             var context = this
             var resource = (resourceId) ? new App.Models.Resource({
                 _id: resourceId
@@ -1831,32 +1745,26 @@ $(function() {
                 model: resource
             })
             App.$el.children('.body').html(resourceFormView.el)
-
             if (resource.id) {
                 App.listenToOnce(resource, 'sync', function() {
                     resourceFormView.render();
-
-
                 })
                 resource.fetch({
                     async: false
                 })
             } else {
                 resourceFormView.render()
-
                 $("input[name='addedBy']").val($.cookie("Member.login"));
             }
             $("input[name='addedBy']").attr("disabled", true);
             $("select[class='bbf-date']").attr("disabled", true);
             $("select[class='bbf-month']").attr("disabled", true);
             $("select[class='bbf-year']").attr("disabled", true);
-
             $('.form .field-subject select').attr("multiple", true);
             var subjectArray=App.languageDict.get('SubjectList');
             for(var i=0;i<subjectArray.length;i++)
             {
                 $('.form .field-subject select').find('option').eq(i).html(subjectArray[i]);
-
             }
             $('.form .field-subject select').multiselect().multiselectfilter();
             $('.form .field-subject select').multiselect({
@@ -1871,9 +1779,7 @@ $(function() {
             for(var i=0;i<levelArray.length;i++)
             {
                 $('.form .field-Level select').find('option').eq(i).html(levelArray[i]);
-
             }
-
             $('.form .field-Level select').multiselect().multiselectfilter();
             $('.form .field-Level select').multiselect({
                 checkAllText: App.languageDict.attributes.checkAll,
@@ -1886,7 +1792,6 @@ $(function() {
                 $('.form .field-Level select').multiselect('uncheckAll');
                 $('.form .field-subject select').multiselect('uncheckAll')
             }
-
             $('.form .field-Tag select').attr("multiple", true);
             $('.form .field-Tag select').click(function() {
                 context.AddNewSelect(this.value)
@@ -1895,7 +1800,6 @@ $(function() {
                 context.EditTag(this.value)
             });
             var identifier = '.form .field-Tag select'
-
             this.RenderTagSelect(identifier)
             $('.form .field-Tag select').multiselect().multiselectfilter();
             $('.form .field-Tag select').multiselect({
@@ -1907,8 +1811,6 @@ $(function() {
             $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
             $('.form .field-Tag select').multiselect("uncheckAll");
 
-
-
             if (resource.id) {
                 $('.form .field-subject select').multiselect("refresh");
                 if (resource.get('Tag')) {
@@ -1917,7 +1819,6 @@ $(function() {
                         $('.form .field-Tag select option[value="' + resource.get('Tag')[counter] + '"]').attr('selected', 'selected')
                     }
                     $('.form .field-Tag select').multiselect("refresh");
-                    //$('.form .field-Tag select option[value="Add New"]:selected').removeAttr("selected")
                 }
                 if (resource.get('subject') == null) {
                     $(".form .field-subject select").find('option').removeAttr("selected");
@@ -1927,21 +1828,15 @@ $(function() {
                 }
                 if (resource.get('Level') == null) {
                     $(".form .field-Level select").find('option').removeAttr("selected")
-
                 }
-
             }
-
-
             this.updateLabelsOfAddResourceForm(resourceId);
             if (App.languageDict.get('directionOfLang').toLowerCase()==="right"){
-
                 this.updateAllignmentOfAddResourceForm();
             }
-
         },
-        updateAllignmentOfAddResourceForm: function(){
 
+        updateAllignmentOfAddResourceForm: function(){
             $('#resourceform').find('table').find('tbody').find('tr').find('td').find('h2').css('float','right');
             $('.field-title').find('label').css('float','right');
             $('.field-author').find('label').css('float','right');
@@ -1961,10 +1856,9 @@ $(function() {
             $('.field-addedBy').find('label').css('float','right');
             $('#uploadLabel').css('float','right');
             $('#add_newCoellection').addClass('add_Collection_Non_Eng')
-
         },
-        updateLabelsOfAddResourceForm : function(resourceId){
 
+        updateLabelsOfAddResourceForm : function(resourceId){
             $('.field-title').find('label').html(App.languageDict.attributes.Title);
             $('.field-author').find('label').html(App.languageDict.attributes.author);
             $('.field-Publisher').find('label').html(App.languageDict.attributes.publisher_attribution);
@@ -1973,26 +1867,18 @@ $(function() {
             $('.field-linkToLicense').find('label').html(App.languageDict.attributes.link_to_license);
             $('.field-subject').find('label').html(App.languageDict.attributes.subject);
             $('.field-subject').find('.bbf-editor').find('select').multiselect({
-
                 header: App.languageDict.attributes.Select_An_option,
                 noneSelectedText: App.languageDict.attributes.Select_An_option
-
             });
-
             $('.field-Level').find('label').html(App.languageDict.attributes.level);
             $('.field-Level').find('.bbf-editor').find('select').multiselect({
-
                 header: App.languageDict.attributes.Select_An_option,
                 noneSelectedText: App.languageDict.attributes.Select_An_option
-
             });
-
             $('.field-Tag').find('label').html(App.languageDict.attributes.Collection);
             $('.field-Tag').find('.bbf-editor').find('select').multiselect({
-
                 header: App.languageDict.attributes.Select_An_option,
                 noneSelectedText: App.languageDict.attributes.Select_An_option
-
             });
             $('.field-Medium').find('label').html(App.languageDict.attributes.media);
             $('.field-openWith').find('label').html(App.languageDict.attributes.Open);
@@ -2005,47 +1891,33 @@ $(function() {
             for(var i=0;i<mediaArray.length;i++)
             {
                 $('.field-Medium').find('.bbf-editor').find('select').find('option').eq(i).html(mediaArray[i]);
-
             }
             var openWithArray=App.languageDict.get('openWithList');
             for(var i=0;i<openWithArray.length;i++)
             {
-
                 $('.field-openWith').find('.bbf-editor').find('select').find('option').eq(i).html(openWithArray[i]);
-
             }
             var resourceForArray=App.languageDict.get('resourceForList');
             for(var i=0;i<resourceForArray.length;i++)
             {
-
                 $('.field-resourceFor').find('.bbf-editor').find('select').find('option').eq(i).html(resourceForArray[i]);
-
             }
             var resourceTypeArray=App.languageDict.get('resourceTypeList');
             for(var i=0;i<resourceTypeArray.length;i++)
             {
-
                 $('.field-resourceType').find('.bbf-editor').find('select').find('option').eq(i).html(resourceTypeArray[i]);
-
             }
             $('#fileAttachment').find('label').html(App.languageDict.attributes.Upload+' '+App.languageDict.attributes.Resources);
-
-
-
         },
 
         bellResourceSearch: function() {
-
             popAll()
             var search = new App.Views.Search()
             search.addResource = false
             search.render();
-            // $('.body').removeClass('addResource');
             App.$el.children('.body').html(search.el);
-
             $("#multiselect-collections-search").multiselect().multiselectfilter();
             $('#multiselect-collections-search').multiselect({
-
                 header: App.languageDict.attributes.Select_An_option,
                 noneSelectedText: App.languageDict.attributes.Select_An_option,
                 checkAllText: App.languageDict.attributes.checkAll,
@@ -2055,7 +1927,6 @@ $(function() {
             $('#multiselect-collections-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
             $("#multiselect-levels-search").multiselect().multiselectfilter();
             $('#multiselect-levels-search').multiselect({
-
                 header: App.languageDict.attributes.Select_An_option,
                 noneSelectedText: App.languageDict.attributes.Select_An_option,
                 checkAllText: App.languageDict.attributes.checkAll,
@@ -2063,7 +1934,6 @@ $(function() {
                 selectedText: '# '+App.languageDict.attributes.Selected
             });
             $('#multiselect-levels-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
-
             $("#multiselect-medium-search").multiselect({
                 multiple: false,
                 header: App.languageDict.attributes.Select_An_option,
@@ -2080,12 +1950,9 @@ $(function() {
             $(".search-bottom-nav").hide()
             $(".search-result-header").hide()
             $("#selectAllButton").hide()
-
             showSubjectCheckBoxes()
-
             $("#multiselect-subject-search").multiselect().multiselectfilter();
             $('#multiselect-subject-search').multiselect({
-
                 header: App.languageDict.attributes.Select_An_option,
                 noneSelectedText: App.languageDict.attributes.Select_An_option,
                 checkAllText: App.languageDict.attributes.checkAll,
@@ -2094,18 +1961,15 @@ $(function() {
             });
             $('#multiselect-subject-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
             $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
-
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#SubjectCheckboxes').find('label').text(App.languageDict.attributes.subject).css("font-weight","Bold");;
             }
-
-
         },
-        SearchBell: function(levelId, rid, resourceIds) {
 
+        SearchBell: function(levelId, rid, resourceIds) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": levelId
             })
@@ -2114,28 +1978,19 @@ $(function() {
                     if (typeof levelId === 'undefined') {
                         document.location.href = '#courses'
                     }
-
                     if (typeof rid === 'undefined') {
                         document.location.href = '#courses'
                     }
-
                     grpId = levelId
                     levelrevId = rid
-
                     ratingFilter.length = 0
-
                     rtitle.length = 0
                     rids.length = 0
-
                     var search = new App.Views.Search()
                     search.resourceids = levelInfo.get("resourceId")
                     search.addResource = true
                     search.render()
                     App.$el.children('.body').html(search.el)
-
-                    // alert($("#multiselect-subject-search"))
-
-
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
                     $("#multiselect-collections-search").multiselect({
                         checkAllText: App.languageDict.attributes.checkAll,
@@ -2145,7 +2000,6 @@ $(function() {
                     });
                     $("#multiselect-collections-search").multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
                     $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
-
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
                     $("#multiselect-levels-search").multiselect({
                         checkAllText: App.languageDict.attributes.checkAll,
@@ -2154,31 +2008,23 @@ $(function() {
                         noneSelectedText: App.languageDict.attributes.Select_An_option
                     });
                     $("#multiselect-levels-search").multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
-
                     $("#multiselect-medium-search").multiselect({
                         multiple: false,
                         header: App.languageDict.attributes.Select_An_option,
                         noneSelectedText: App.languageDict.attributes.Select_An_option,
                         selectedList: 1
                     });
-
-
-
                     $("#search-language").multiselect({
                         multiple: false,
                         header: App.languageDict.attributes.Select_An_option,
                         noneSelectedText: App.languageDict.attributes.Select_An_option,
                         selectedList: 1
                     });
-
-
-
                     $("#srch").hide()
                     $(".search-bottom-nav").hide()
                     $(".search-result-header").hide()
                     $("#selectAllButton").hide()
                     showSubjectCheckBoxes()
-
                     $("#multiselect-subject-search").multiselect().multiselectfilter();
                     $("#multiselect-subject-search").multiselect({
                         checkAllText: App.languageDict.attributes.checkAll,
@@ -2187,17 +2033,14 @@ $(function() {
                         noneSelectedText: App.languageDict.attributes.Select_An_option
                     });
                     $("#multiselect-subject-search").multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
-
                 }
             })
         },
-        AssignResourcetoLevel: function() {
 
+        AssignResourcetoLevel: function() {
             if (typeof grpId === 'undefined') {
                 document.location.href = '#courses'
             }
-            //var rids = new Array()
-            //var rtitle = new Array()
             var cstep = new App.Models.CourseStep({
                 "_id": grpId
             })
@@ -2206,7 +2049,6 @@ $(function() {
             })
             var oldIds = cstep.get("resourceId")
             var oldTitles = cstep.get("resourceTitles")
-
             $("input[name='result']").each(function() {
                 if ($(this).is(":checked")) {
                     var rId = $(this).val();
@@ -2216,31 +2058,24 @@ $(function() {
                     }
                 }
             });
-
             cstep.set("resourceId", oldIds.concat(rids))
             cstep.set("resourceTitles", oldTitles.concat(rtitle))
             cstep.save(null, {
                 success: function(responseModel, responseRev) {
-
                     cstep.set("_rev", responseRev.rev)
                     alert(App.languageDict.attributes.Resource_Updated)
                     Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
                         trigger: true
                     })
-
                 }
             })
-
-
         },
         SearchPresources: function(publicationId) {
-
             var publications = new App.Models.Publication({
                 "_id": publicationId
             })
             publications.fetch({
                 success: function() {
-
                     var search = new App.Views.Search()
                     grpId = publicationId
                     search.addResource = true
@@ -2249,7 +2084,6 @@ $(function() {
                     search.render();
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
                     $('#multiselect-collections-search').multiselect({
-
                         header: App.languageDict.attributes.Select_An_option,
                         noneSelectedText: App.languageDict.attributes.Select_An_option,
                         checkAllText: App.languageDict.attributes.checkAll,
@@ -2259,7 +2093,6 @@ $(function() {
                     $('#multiselect-collections-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
                     $("#multiselect-levels-search").multiselect().multiselectfilter();
                     $('#multiselect-levels-search').multiselect({
-
                         header: App.languageDict.attributes.Select_An_option,
                         noneSelectedText: App.languageDict.attributes.Select_An_option,
                         checkAllText: App.languageDict.attributes.checkAll,
@@ -2267,7 +2100,6 @@ $(function() {
                         selectedText: '# '+App.languageDict.attributes.Selected
                     });
                     $('#multiselect-levels-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
-
                     $("#multiselect-medium-search").multiselect({
                         multiple: false,
                         header: App.languageDict.attributes.Select_An_option,
@@ -2280,16 +2112,13 @@ $(function() {
                         noneSelectedText: App.languageDict.attributes.Select_An_option,
                         selectedList: 1
                     });
-
                     $("#srch").hide()
                     $(".search-bottom-nav").hide()
                     $(".search-result-header").hide()
                     $("#selectAllButton").hide()
                     showSubjectCheckBoxes()
-
                     $("#multiselect-subject-search").multiselect().multiselectfilter();
                     $('#multiselect-subject-search').multiselect({
-
                         header: App.languageDict.attributes.Select_An_option,
                         noneSelectedText: App.languageDict.attributes.Select_An_option,
                         checkAllText: App.languageDict.attributes.checkAll,
@@ -2298,27 +2127,26 @@ $(function() {
                     });
                     $('#multiselect-subject-search').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
                     $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
-
                 },
                 async: false
             })
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
-        Groups: function() {
 
+        Courses: function() {
             App.startActivityIndicator()
-            groups = new App.Collections.Groups()
-            groups.fetch({
+            courses = new App.Collections.Courses()
+            courses.fetch({
                 success: function() {
                     var languageDictValue;
                     var clanguage = getLanguage($.cookie('Member._id'));
                     languageDictValue = getSpecificLanguage(clanguage);
                     App.languageDict = languageDictValue;
                     var directionOfLang = App.languageDict.get('directionOfLang');
-                    groupsTable = new App.Views.GroupsTable({
-                        collection: groups
+                    coursesTable = new App.Views.CoursesTable({
+                        collection: courses
                     })
-                    groupsTable.render();
+                    coursesTable.render();
                     var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
                     var lib_page = $.url().data.attr.fragment;
                     if(lib_page=="courses"){
@@ -2333,57 +2161,82 @@ $(function() {
                     button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
                     $('#parentLibrary').append( button);
-
-
                     $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
-                    $('#parentLibrary').append(groupsTable.el);
-                    groupsTable.changeDirection();
+                    $('#parentLibrary').append(coursesTable.el);
+                    coursesTable.changeDirection();
                     if(directionOfLang.toLowerCase()==="right")
                     {
-
                         $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
                         $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
                         $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                         $('#searchText').css('margin-left','1%');
-
                         $('#headingOfCourses').css('margin-right','2%');
-
                     }
                     else
                     {
                         $('#searchSpan').css('float','right');
                         $('#requestCourseButton').css('margin-left','10px');
-
                         $("#addCourseButton").addClass('addMarginsOnCourse');
                         $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                     }
-
                 }
             });
-
             App.stopActivityIndicator()
         },
-        CreateQuiz: function(lid, rid, title) {
+
+        CreateTest: function(lid, rid, title) {
+            $("#dialog").show()
+            var that = this;
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
             })
             levelInfo.fetch({
                 success: function() {
-                    var quiz = new App.Views.QuizView()
-                    quiz.levelId = lid
-                    quiz.revId = levelInfo.get('_rev')
-                    quiz.ltitle = title
-                    if (levelInfo.get("questions")) {
-                        App.$el.children('.body').html('<h3>'+App.languageDict.attributes.Edit_Quiz+' |' + title + '</h3>')
-                        quiz.quizQuestions = levelInfo.get("questions")
-                        quiz.questionOptions = levelInfo.get("qoptions")
-                        quiz.answers = levelInfo.get("answers")
-
+                    $("#dialog").show();
+                    var test = new App.Views.TestView()
+                    test.levelId = lid
+                    test.revId = levelInfo.get('_rev')
+                    test.ltitle = title
+                    var coursestepModel = new App.Models.CourseStep({
+                     _id: lid
+                    })
+                    coursestepModel.fetch({
+                        async: false
+                    });
+                    var coursestepQuestions = coursestepModel.get('questionslist');
+                    if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) 
+                    { 
+                        var coursestepQuestionsIdes = ''
+                        _.each(coursestepQuestions, function(item) {
+                            coursestepQuestionsIdes += '"' + item + '",'
+                        })
+                        if (coursestepQuestionsIdes != ''){
+                            coursestepQuestionsIdes = coursestepQuestionsIdes.substring(0, coursestepQuestionsIdes.length - 1);
+                        }
+                        var questionsColl = new App.Collections.CourseStepQuestions();
+                        questionsColl.keys = encodeURI(coursestepQuestionsIdes)
+                        questionsColl.fetch({
+                            async: false
+                        });
+                        var sortedModels = that.sortQuestions(coursestepQuestions, questionsColl.models);
+                        questionsColl.models = sortedModels;
+                        var CourseStepQuestionsTable = new App.Views.CourseStepQuestionTable({
+                            collection: questionsColl
+                        })
+                        CourseStepQuestionsTable.Id = lid;
+                        CourseStepQuestionsTable.questionArray = coursestepQuestions;
+                        CourseStepQuestionsTable.courseStepModel = levelInfo;
+                        CourseStepQuestionsTable.render()
                     }
-                    App.$el.children('.body').html(quiz.el)
-                    quiz.render();
-                    $('#quizQuestion').attr('placeholder',App.languageDict.attributes.Enter_Question);
-
+                    $("input[name='questionRow']").hide();
+                    App.$el.children('.body').html(test.el)
+                    test.render();
+                    if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) {
+                        $('#parentDiv').append(CourseStepQuestionsTable.el);
+                    }
+                    $("#Rearrange").remove();
+                    $("#moveup").hide();
+                    $("#movedown").hide();
                     for(var row=0;row<3 ;row++) {
                         for(var col=0;col<3;col++) {
                             for(var index=0;index<2;index++) {
@@ -2392,21 +2245,34 @@ $(function() {
                         }
                     }
                     if (levelInfo.get("questions")) {
-                        quiz.displayQuestionsInView()
+                        test.displayQuestionsInView()
                     }
                 }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
         },
-        CourseInfo: function(courseId) {
 
-            var courseModel = new App.Models.Group()
+        sortQuestions: function(idsArrayForSortingOrder, modelsToSort) {
+            var sortedModels = [];
+            for(var i = 0 ; i < idsArrayForSortingOrder.length ; i++) {
+                var modelId = idsArrayForSortingOrder[i];
+                for(var j = 0 ; j < modelsToSort.length ; j++) {
+                    var model = modelsToSort[j];
+                    if(model.attributes._id == modelId) {
+                        sortedModels.push(model);
+                    }
+                }
+            }
+            return sortedModels;
+        },
+
+        CourseInfo: function(courseId) {
+            var courseModel = new App.Models.Course()
             courseModel.set('_id', courseId)
             courseModel.fetch({
                 async: false
             })
-
             var courseLeader = courseModel.get('courseLeader');
             var memberModelArr = [];
             for(var i = 0; i < courseLeader.length; i++) {
@@ -2417,8 +2283,6 @@ $(function() {
                 });
                 memberModelArr.push(memberModel);
             }
-
-
             var viewCourseInfo = new App.Views.CourseInfoView({
                 model: courseModel
             })
@@ -2428,12 +2292,11 @@ $(function() {
             App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a>&nbsp;&nbsp;</div>')
             App.$el.children('.body').append(viewCourseInfo.el);
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-
         },
-        CourseReport: function(cId, cname) {
 
+        CourseReport: function(cId, cname) {
             var roles = this.getRoles()
-            var course = new App.Models.Group();
+            var course = new App.Models.Course();
             course.id = cId
             course.fetch({
                 async: false
@@ -2443,7 +2306,8 @@ $(function() {
             if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
             }
-            App.$el.children('.body').append("<div id='graph'></div>")
+            $('.courseSearchResults_Bottom').append('<p id="graph2title"style="text-align:center">'+App.languageDict.attributes.Individual_Member_Course_Progress+'</p>')
+            App.$el.children('.body').append('<div id="detailView"><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
             var allResults = new App.Collections.StepResultsbyCourse()
             if (course.get('courseLeader').indexOf($.cookie('Member._id')) == -1  &&  roles.indexOf("Manager") == -1) {
                 allResults.memberId = $.cookie('Member._id')
@@ -2453,30 +2317,29 @@ $(function() {
                 async: false
             })
             var vi = new App.Views.CoursesStudentsProgress({
-                collection: allResults
+                collection: allResults,
+                model:course,
+                attributes:{
+                    memberroles:roles
+                }
             })
             vi.render()
             $('.body').append(vi.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
-
-
         },
 
-        ManageCourse: function(groupId) {
-
+        ManageCourse: function(courseId) {
             var that = this
             levels = new App.Collections.CourseLevels()
-            levels.groupId = groupId
-
-            var className = "Group"
+            levels.courseId = courseId
+            var className = "Course"
             var model = new App.Models[className]()
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-
             model.once('Model:ready', function() {
-                // when the users submits the form, the group will be processed
+                // when the users submits the form, the course will be processed
                 modelForm.on(className + 'Form:done', function() {
                     Backbone.history.navigate(reroute, {
                         trigger: true
@@ -2491,12 +2354,6 @@ $(function() {
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
-                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').attr('multiple','multiple');
-
-                //console.log(groupModel.get("courseLeader"));
-                //alert(groupModel.get("courseLeader"));
-                //$('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(groupModel.get("courseLeader"));
-
                 $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
                 $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
@@ -2524,71 +2381,90 @@ $(function() {
                 for(var i=0;i<gradeLevelArray.length;i++)
                 {
                     $('.form .field-gradeLevel select').find('option').eq(i).html(gradeLevelArray[i]);
-
                 }
                 var subjectLevelArray=App.languageDict.get('SubjectLevelList');
                 for(var i=0;i<subjectLevelArray.length;i++)
                 {
                     $('.form .field-subjectLevel select').find('option').eq(i).html(subjectLevelArray[i]);
-
                 }
-
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
                 });
                 $('.form .field-endDate input').datepicker({
                     todayHighlight: true
                 });
-
                 $('.form .field-startTime input').timepicker({
                     'minTime': '8:00am',
                     'maxTime': '12:30am'
-
                 });
-
                 $('.form .field-endTime input').timepicker({
                     'minTime': '8:00am',
                     'maxTime': '12:30am'
-
                 });
-
                 levels.fetch({
                     success: function() {
                         levels.sort()
                         lTable = new App.Views.LevelsTable({
                             collection: levels
                         })
-                        lTable.groupId = groupId
+                        lTable.courseId = courseId
                         lTable.render()
                         $('#AddCourseMainDiv').append("</BR><h3>"+App.languageDict.attributes.Course_Steps+"</h3>")
                         $('#AddCourseMainDiv').append(lTable.el)
-
                         $("#moveup").hide()
                         $("#movedown").hide()
                         $("input[type='radio']").hide();
+
+                        // Step Form
+                        totalLevels = levels.models.length;
+                        
+                        
+                        
+                        var Cstep = new App.Models.CourseStep()
+                        Cstep.set({
+                            courseId: courseId
+                        })
+                        Cstep.set("totalMarks", 0);
+                        var lForm = new App.Views.LevelForm({
+                            model: Cstep
+                        })
+                        $('#AddCourseMainDiv').append('<div class="courseSearchResults_Bottom"></div>');
+                        $('.courseSearchResults_Bottom').append('<h3 id="feedbackResoDiv">' + App.languageDict.attributes.New_Step + '</h3>');
+                        lForm.edit = false
+                        lForm.previousStep = 0
+                        lForm.render()
+                        $('.courseSearchResults_Bottom').append(lForm.el)
+                        lForm.sliders();
+                        $("input[name='step']").attr("disabled", true);
+                        $("input[name='passingPercentage']").attr("readonly",true);
+ +                      $("input[name='passingPercentage']").val(10)
+                        if (totalLevels != -1) {
+                            var tl = parseInt(totalLevels) + 1
+                            $("input[name='step']").val(tl)
+                        }
+                        Backbone.Form.validators.errMessages.required = App.languageDict.attributes.Required_Text;
+                        $('.bbf-form .field-title label').html(App.languageDict.attributes.Title);
+                        $('.bbf-form .field-stepMethod label').html(App.languageDict.attributes.Step_Method);
+                        $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
+                        $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
+                        $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
+                        $('.bbf-form .field-passingPercentage label').html(App.languageDict.attributes.Passing_Percentage);
                     }
                 })
-
                 var Roles = that.getRoles()
                 if (Roles.indexOf('Manager') == -1)
                     $('.form .field-courseLeader select').attr("disabled", "true")
-
                 $('.form .field-frequency input').click(function() {
                     if (this.value == 'Weekly') {
                         $('.form .field-Day').show()
                     } else {
                         $('.form .field-Day').hide()
                     }
-
                 });
-
-
             })
-
-
             // Set up the model for the form
-            if (groupId) {
-                model.id = groupId
+            if (courseId) {
+                model.id = courseId
                 model.once('sync', function() {
                     model.trigger('Model:ready')
                 })
@@ -2596,21 +2472,52 @@ $(function() {
             } else {
                 model.trigger('Model:ready')
             }
-
         },
-        courseDetails: function(courseId, courseName) {
+        answerReview: function(memberid, stepid, attempts){
+            var attemptsNo =parseInt(attempts);
+            var languageDictValue;
+            var lang = getLanguage($.cookie('Member._id'));
+            languageDictValue = getSpecificLanguage(lang);
+            App.languageDict = languageDictValue;
+            var courseSteps = new App.Models.CourseStep()
+                courseSteps.id = stepid;
+                courseSteps.fetch({
+                    async: false
+                }) 
+            var ppercentage = courseSteps.get("passingPercentage")
+            var coursesid = courseSteps.get("courseId")
+                var courseAnswer = new App.Collections.CourseAnswer()
+                    courseAnswer.StepID = stepid
+                    courseAnswer.MemberID = memberid
+                    courseAnswer.pqattempts = attemptsNo
+                    courseAnswer.fetch({
+                        async: false
+                    })
+                console.log(courseAnswer)
+                var answerview = new App.Views.AnswerReview({
+                  collection: courseAnswer,
+                  attributes: {
+                            courseid: coursesid,
+                            membersid: memberid,
+                            pp: ppercentage,
+                            StepID:stepid
+                }})
+                App.$el.children('.body').html(answerview.el);
+                answerview.render();
+                var directionOfLang = App.languageDict.get('directionOfLang');
+                applyCorrectStylingSheet(directionOfLang)
+        },
 
-            var courseModel = new App.Models.Group({
+        courseDetails: function(courseId, courseName) {
+            var courseModel = new App.Models.Course({
                 _id: courseId
             })
             courseModel.fetch({
                 async: false
             })
-
             var courseLeader = courseModel.get('courseLeader')
             var courseName = courseModel.get('name')
             var courseMembers = courseModel.get('members')
-
             var button = '<br><a href="#courses"><button class="btn btn-success">'+App.languageDict.attributes.Back_To_Course+'</button></a>'
             if (courseMembers && courseMembers.indexOf($.cookie('Member._id')) == -1) {
                 button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("' + courseLeader + '","' + encodeURI(courseName) + '","' + courseId + '")>'+App.languageDict.attributes.Admission+'</button><br/><br/>'
@@ -2620,7 +2527,6 @@ $(function() {
             App.$el.children('.body').html('<div class="courseEditStep"></div>')
             $('.courseEditStep').append('<div id="courseName-heading"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
             $('.courseEditStep').append(button)
-
             var memberModelArr = [];
             for(var i = 0; i < courseLeader.length; i++)
             {
@@ -2631,94 +2537,82 @@ $(function() {
                 });
                 memberModelArr.push(memberModel);
             }
-
             var ccSteps = new App.Collections.coursesteps()
             ccSteps.courseId = courseId
             ccSteps.fetch({
                 async: false
             })
-
-            var GroupDetailsView = new App.Views.GroupView({
+            var CourseDetailsView = new App.Views.CourseView({
                 model: courseModel
             })
-            GroupDetailsView.courseLeader = memberModelArr
-            GroupDetailsView.render()
-
-
+            CourseDetailsView.courseLeader = memberModelArr
+            CourseDetailsView.render()
             var courseStepsView = new App.Views.CourseStepsView({
                 collection: ccSteps
             })
             courseStepsView.render()
-
-            $('.courseEditStep').append(GroupDetailsView.el)
+            $('.courseEditStep').append(CourseDetailsView.el)
             $('.courseEditStep').append('<div id="courseSteps-heading"><h5>'+App.languageDict.attributes.Course_Steps+'</h5></div>')
             $('.courseEditStep').append(courseStepsView.el)
-
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
-
         },
+
         UserCourseDetails: function(courseId, name) {
+            var memberId = $.cookie('Member._id')
             var ccSteps = new App.Collections.coursesteps()
             ccSteps.courseId = courseId
-
             ccSteps.fetch({
                 success: function() {
                     App.$el.children('.body').html('&nbsp<div class="courseEditStep"></div>');
-                    $('.courseEditStep').append('<p class="Course-heading">'+App.languageDict.attributes.Course+'<b>|</b>' +
-                        name + '    ' + '<a id="userCourseHeading" href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button>' +
-                        '</a>' + '<a id="showBCourseMembers"  href="#course/members/'
-                        + courseId + '"  class="btn btn-info">'+
-                        App.languageDict.attributes.Course_Members+'</a> </p>')
+                    $('.courseEditStep').append('<p class="Course-heading">'+App.languageDict.attributes.Course+'<b>|</b>' + name + '    ' + '<a id="userCourseHeading" href="#CourseInfo/' + courseId + '"><button class="btn fui-eye"></button></a>' + '<a id="showBCourseMembers"  href="#course/members/'+ courseId + '"  class="btn btn-info">'+App.languageDict.attributes.Course_Members+'</a></p>')
                     var levelsTable = new App.Views.CourseLevelsTable({
-                        collection: ccSteps
+                        collection: ccSteps,
+                        attributes:{
+                            membersid: memberId
+                        }
                     })
                     levelsTable.courseId = courseId
                     levelsTable.render()
                     $('.courseEditStep').append(levelsTable.el)
-
                 }
             });
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-
         },
-        GroupMembers: function(cId) {
-            var groupMembers = new App.Views.GroupMembers()
-            groupMembers.courseId = cId;
+
+        CourseMembers: function(cId) {
+            var courseMembers = new App.Views.CourseMembers()
+            courseMembers.courseId = cId;
             App.$el.children('.body').empty();
             App.$el.children('.body').append('<div class="courseEditStep"></div>');
-            groupMembers.render();
-            $('.courseEditStep').append(groupMembers.el);
+            courseMembers.render();
+            $('.courseEditStep').append(courseMembers.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
             if(directionOfLang.toLowerCase()==="right") {
                 $('.courseEditStep').find('h3').css('margin-right','5%');
-            }
-            else
-            {
+            } else {
                 $('.courseEditStep').find('h3').css('margin-left','5%');
             }
             applyCorrectStylingSheet(directionOfLang)
-
-
         },
-        GroupForm: function(groupId) {
-            this.modelForm('Group', 'Course', groupId, 'courses');
 
+        CourseForm: function(courseId) {
+            this.modelForm('Course', 'Course', courseId, 'courses');
+        },
 
+        CourseAssign: function(courseId) {
+            var assignResourcesToCourseTable = new App.Views.AssignResourcesToCourseTable()
+            assignResourcesToCourseTable.courseId = courseId
+            assignResourcesToCourseTable.render()
+            App.$el.children('.body').html(assignResourcesToCourseTable.el)
         },
-        GroupAssign: function(groupId) {
-            var assignResourcesToGroupTable = new App.Views.AssignResourcesToGroupTable()
-            assignResourcesToGroupTable.groupId = groupId
-            assignResourcesToGroupTable.render()
-            App.$el.children('.body').html(assignResourcesToGroupTable.el)
-        },
+
         ResignCourse: function(courseId) {
-
             var memberId = $.cookie('Member._id')
-            var courseModel = new App.Models.Group()
+            var courseModel = new App.Models.Course()
             courseModel.set('_id', courseId)
             courseModel.fetch({
                 async: false
@@ -2737,9 +2631,7 @@ $(function() {
                     courseLeader: courseLeaders
                 })
             }
-
             courseModel.save();
-
             var memberProgress = new App.Collections.memberprogressallcourses()
             memberProgress.memberId = memberId
             memberProgress.fetch({
@@ -2750,13 +2642,11 @@ $(function() {
                     m.destroy()
                 }
             })
-
             var mail = new App.Models.Mail();
             var currentdate = new Date();
             var id = courseModel.get('courseLeader')
             var subject = App.languageDict.attributes.Course_Resignation+' | ' + courseModel.get('name') + ''
             var mailBody = App.languageDict.attributes.Hi+',<br>'+App.languageDict.attributes.Member+ ' ' + $.cookie('Member.login') + ' '+ App.languageDict.attributes.Has_Resign_From+ ' ' + courseModel.get('name') + '';
-
             mail.set("senderId", $.cookie('Member._id'))
             mail.set("receiverId", id)
             mail.set("subject", subject)
@@ -2766,69 +2656,71 @@ $(function() {
             mail.set("sentDate", currentdate)
             mail.save();
             alert(App.languageDict.attributes.Resigned_Success_Msg +' ' + courseModel.get('name') + ' . ')
-
             Backbone.history.navigate('dashboard', {
                 trigger: true
             })
-
         },
 
-        GroupWeekOfAssignments: function(groupId, weekOf) {
-
+        CourseWeekOfAssignments: function(courseId, weekOf) {
             // Figure out our week range
-            if (!weekOf) {
-                // Last Sunday
+            if (!weekOf) {// Last Sunday
                 weekOf = moment().subtract('days', (moment().format('d'))).format("YYYY-MM-DD")
             }
             var startDate = weekOf
             var endDate = moment(weekOf).add('days', 7).format('YYYY-MM-DD')
-
-            var table = new App.Views.AssignWeekOfResourcesToGroupTable()
+            var table = new App.Views.AssignWeekOfResourcesToCourseTable()
             // Bind this view to the App's body
             App.$el.children('.body').html(table.el)
             // Set variables on this View
-            table.group = new App.Models.Group()
-            table.group.id = groupId
+            table.course = new App.Models.Course()
+            table.course.id = courseId
             table.resources = new App.Collections.Resources()
-            table.assignments = new App.Collections.GroupAssignmentsByDate()
-            table.assignments.groupId = groupId,
+            table.assignments = new App.Collections.CourseAssignmentsByDate()
+            table.assignments.courseId = courseId,
                 table.assignments.startDate = startDate
             table.assignments.endDate = endDate
             table.weekOf = weekOf
-
             // Fetch the collections and model, render when ready
             table.resources.on('sync', function() {
                 table.assignments.fetch()
             })
             table.assignments.on('sync', function() {
-                table.group.fetch()
+                table.course.fetch()
             })
-            table.group.on('sync', function() {
+            table.course.on('sync', function() {
                 table.render()
             })
             table.resources.fetch()
         },
-        AddLevel: function(groupId, levelId, totalLevels) {
+
+        AddLevel: function(courseId, levelId, totalLevels) {
             var lang = getLanguage($.cookie('Member._id'));
             var languageDictValue = getSpecificLanguage(lang);
             App.languageDict=languageDictValue;
             var Cstep = new App.Models.CourseStep()
             Cstep.set({
-                courseId: groupId
+                courseId: courseId
+            })
+            Cstep.set("totalMarks",0);
+            var coursedetail = new App.Models.Course({
+                _id: courseId
+            })
+            coursedetail.fetch({
+                async: false
             })
             var lForm = new App.Views.LevelForm({
                 model: Cstep
             })
-
             App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
             if (levelId == "nolevel") {
-
                 $('.courseSearchResults_Bottom').append('<h3 id="feedbackResoDiv">'+App.languageDict.attributes.New_Step+'</h3>');
                 lForm.edit = false
                 lForm.previousStep = 0
                 lForm.render()
                 $('.courseSearchResults_Bottom').append(lForm.el)
+                lForm.sliders()
                 $("input[name='step']").attr("disabled", true);
+                $("input[name='passingPercentage']").attr("readonly",true);
             } else {
                 Cstep.set({
                     "_id": levelId
@@ -2836,15 +2728,15 @@ $(function() {
                 Cstep.once('sync', function() {
                     $('.courseSearchResults_Bottom').append('<h3>'+App.languageDict.attributes.Edit_Step+'</h3>')
                     lForm.edit = true
-                    lForm.ques = Cstep.get("questions")
-                    lForm.ans = Cstep.get("answers")
-                    lForm.opt = Cstep.get("qoptions")
+                    lForm.ques1 = Cstep.get("questionslist")
                     lForm.res = Cstep.get("resourceId")
                     lForm.rest = Cstep.get("resourceTitles")
                     lForm.previousStep = Cstep.get("step")
                     lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
+                    lForm.sliders()
                     $("input[name='step']").attr("disabled", true);
+                    $("input[name='passingPercentage']").attr("readonly",true);
                 })
                 Cstep.fetch({async:false});
             }
@@ -2858,21 +2750,14 @@ $(function() {
             $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
             $('.bbf-form .field-stepGoals label').html(App.languageDict.attributes.Step_Goals);
             $('.bbf-form .field-step label').html(App.languageDict.attributes.Step);
-            // $('.bbf-form .field-allowedErrors label').html(App.languageDict.attributes.Allowed_Errors);
-            $('.bbf-form .field-outComes').find('label').html(App.languageDict.attributes.Outcomes);
-            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(0).find('label').html(App.languageDict.attributes.Paper);
-            $('.bbf-form .field-outComes .bbf-editor').find('li').eq(1).find('label').html(App.languageDict.attributes.Quiz);
             $('.bbf-form .field-passingPercentage label').html(App.languageDict.attributes.Passing_Percentage);
-
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
-
-            //  $('#bbf-form input[name=step]').attr("disabled",true);
         },
+
         ViewLevel: function(lid, rid) {
             var levelInfo = new App.Models.CourseStep({
                 "_id": lid
-                //  "_rev": rid
             });
             var that = this
             levelInfo.fetch({
@@ -2890,17 +2775,41 @@ $(function() {
                     $('.courseEditStep').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
-                    if (levelInfo.get("questions") == null) {
-                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Quiz+'</a>&nbsp;&nbsp;')
-                        //Backbone.history.navigate('create-quiz/'+levelInfo.get("_id")+'/'+levelInfo.get("_rev")+'/'+levelInfo.get("title"), {trigger: true})
+                    if (levelInfo.get("questionslist") == null) {
+                        $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                     } else {
-                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Quiz+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-quiz/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Quiz+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>')
+                        $('.courseEditStep').append('<a class="btn btn-primary" style="margin-left: 1100px" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a>&nbsp;&nbsp;')
                     }
+                    $('.body').append('<div id="viewTest"></div>');
+
                 }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
         },
+
+        ViewTest: function(stepId,revId) {
+            var step = new App.Models.CourseStep({
+                _id: stepId
+            })
+            step.fetch({
+                async: false
+            })
+            var JSONsteps = null;
+            JSONsteps = step.toJSON()
+            var temp = new App.Views.ViewTest({
+                questionlist: JSONsteps.questionslist,
+                stepId: JSONsteps._id,
+                attributes: {
+                    revisionid: revId
+                }
+            })
+            temp.render()
+            $('div#viewTest').html('')
+            $('div#viewTest').html(temp.el)
+        },
+
         saveDescprition: function(lid) {
             var level = new App.Models.CourseStep({
                 "_id": lid
@@ -2917,8 +2826,8 @@ $(function() {
                 }
             })
         },
-        GroupSearch: function() {
 
+        CourseSearch: function() {
             var cSearch
             cSearch = new App.Views.CourseSearch();
             var languageDictValue;
@@ -2941,24 +2850,17 @@ $(function() {
             button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
             button += '</p>'
             $('#parentLibrary').append( button);
-
-
             $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
             App.$el.children('.body').append(cSearch.el);
             cSearch.changeDirection();
-            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
-            {
-
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right") {
                 $("#requestCourseButton").addClass('addMarginsOnRequestCourse');
                 $("#addCourseButton").addClass('addMarginsOnCourseUrdu');
                 $('#searchText').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#searchText').css('margin-right','1%');
                 $('#headingOfCourses').css('margin-right','2%');
                 $('#searchSpan').find('span').css("margin-right","10px");
-
-            }
-            else
-            {
+            } else {
                 $('#searchSpan').css('float','right');
                 $('#requestCourseButton').css('margin-left','10px');
                 $("#addCourseButton").addClass('addMarginsOnCourse');
@@ -2966,8 +2868,8 @@ $(function() {
                 $('#listAllCoursesBtn').css("margin-left","10px");
                 $('#searchSpan').find('span').css("margin-left","10px");
             }
-
         },
+
         ListMeetups: function() {
             var languageDictValue, lang;
             lang = getLanguage($.cookie('Member._id'));
@@ -2975,15 +2877,13 @@ $(function() {
             App.languageDict = languageDictValue;
             var parentDiv='<div id="parentLibrary" style="visibility;hidden"></div>';
             var lib_page = $.url().data.attr.fragment;
-            if(lib_page=="meetups"){
+            if(lib_page=="meetups") {
                 $('.body').empty();
                 $('#parentLibrary').css('visibility', 'visible');
             }
             App.$el.children('.body').append(parentDiv);
             $('#parentLibrary').append(parentDiv);
             $('#parentLibrary').html('<h3 id="meetUpHeading">'+App.languageDict.attributes.Meetups+'<a id="linkOfMeetUpHeading" class="btn btn-success" href="#meetup/add">'+App.languageDict.attributes.Add+' '+App.languageDict.attributes.Meetups+'</a></h3>');
-
-
             var meetUps = new App.Collections.Meetups()
             meetUps.fetch({
                 async: false
@@ -2991,27 +2891,23 @@ $(function() {
             var meetUpView = new App.Views.MeetUpTable({
                 collection: meetUps
             })
-
             meetUpView.render()
             $('#parentLibrary').append(meetUpView.el);
             meetUpView.changeDirection();
-            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
-            {
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right") {
                 this.changeAllignmentOfListMeetup();
-            }
-            else
-            {
-
+            } else {
                 $('#linkOfMeetUpHeading').css('margin-left','20px');
             }
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
+
         changeAllignmentOfListMeetup:function(){
             $('#meetUpHeading').css('margin-right','2%');
             $('#meetUpHeading').addClass('addResource');
             $('#linkOfMeetUpHeading').addClass('addMarginsOnResource');
-
         },
+
         Meetup_Detail: function(meetupId, title) {
             var meetupModel = new App.Models.MeetUp({
                 _id: meetupId
@@ -3025,9 +2921,8 @@ $(function() {
             meetup_details.render()
             App.$el.children('.body').html(meetup_details.el);
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-
-
         },
+
         usermeetupDetails: function(meetupId, title) {
             var meetupModel = new App.Models.MeetUp({
                 _id: meetupId
@@ -3042,6 +2937,7 @@ $(function() {
             App.$el.children('.body').html(meetupView.el);
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
+
         Meetup: function(meetUpId) {
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'));
@@ -3050,7 +2946,6 @@ $(function() {
             var className = "MeetUp"
             var model = new App.Models[className]()
             if (meetUpId) {
-
                 model.id = meetUpId
                 model.fetch({
                     async: false
@@ -3059,11 +2954,8 @@ $(function() {
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-
             modelForm.render()
-
             App.$el.children('.body').html(modelForm.el)
-
             $('.form .field-startTime input').timepicker({
                 'minTime': '8:00am',
                 'maxTime': '12:30am'
@@ -3078,14 +2970,12 @@ $(function() {
             $('.form .field-endDate input').datepicker({
                 todayHighlight: true
             });
-
             $('.form .field-reoccuring input').click(function() {
                 if (this.value == 'Weekly') {
                     $('.form .field-Day').show()
                 } else {
                     $('.form .field-Day').hide()
                 }
-
             });
             $('#MeetUpformButton').html(languageDictValue.attributes.Save);
             $('.form .field-title label').html(languageDictValue.attributes.Title);
@@ -3112,28 +3002,22 @@ $(function() {
             for(var i=0;i<gradeLevelArray.length;i++)
             {
                 $('.form .field-category select').find('option').eq(i).html(gradeLevelArray[i]);
-
             }
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
-            if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
+            if(languageDictValue.get('directionOfLang').toLowerCase()==="right") {
                 $('#meetUpForm').addClass('courseSearchResults_Bottom');
                 $('.form .bbf-field').css('float','none');
-                // $('.form .bbf-field').css('background-color','red');
                 $('.form .field-endDate').css('margin-right','259px');
                 $('.form .field-endDate').css('margin-left','0px');
                 $('.form .field-recurring').css('float','right');
                 $('.form .field-endTime').css('margin-right','259px');
                 $('.form .field-endTime').css('margin-left','0px');
-
-            }
-            else
-            {
+            } else {
                 $('#meetUpForm').removeClass('courseSearchResults_Bottom');
                 $('.form .bbf-field').css('float','left');
             }
-
-
         },
+
         deleteMeetUp: function(meetupId) {
             var languageDictValue;
             var clanguage = getLanguage($.cookie('Member._id'));
@@ -3159,11 +3043,11 @@ $(function() {
                 Backbone.history.navigate('meetups', {
                     trigger: true
                 })
-            }
-            else{
+            } else {
                 Backbone.history.navigate('meetups');
             }
         },
+
         Members: function() {
             var membersView = new App.Views.MembersView()
             membersView.render();
@@ -3186,16 +3070,12 @@ $(function() {
                 	}
 	            });
         	}
-            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
-            {
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right") {
                 $('#membersSearchHeading').css('float','left');
                 $("#AddNewMember").addClass('addMarginsOnCourseUrdu');
                 $('#searchText').attr('placeholder',App.languageDict.attributes.Last_Name);
                 $('#searchButtonOnMembers').css('margin-right','10px');
-
-            }
-            else
-            {
+            } else {
                 $('#membersSearchHeading').css('float','right');
                 $('#searchText').css('margin-right','15px');
                 $('#searchText').css('height','28px');
@@ -3204,8 +3084,8 @@ $(function() {
                 $('#searchButtonOnMembers').css('margin-top','-10px');
             }
         },
-        Reports: function() {
 
+        Reports: function() {
             App.startActivityIndicator()
             var languageDictValue;
             var clanguage = getLanguage($.cookie('Member._id'));
@@ -3225,20 +3105,12 @@ $(function() {
             resourcesTableView.render()
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
-                //<a style="margin-left:20px" class="btn btn-success" href="#reports/sync">Syn With Nation</a> removed append
                 App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
                     '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
                     '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
-
             } else {
                 App.$el.children('.body').append('<p id="sHonRep" style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a></p>')
             }
-
-            /*  var temp = $.url().attr("host").split(".")
-             temp = temp[0].substring(3)
-             if (temp.length == 0) {
-             temp = "Community"
-             }*/
             var temp;
             var config = new App.Collections.Configurations()
             config.fetch({
@@ -3267,8 +3139,8 @@ $(function() {
                 $('#sHonRep').addClass('addMarginsOnResource');
             }
             App.stopActivityIndicator()
-
         },
+
         turnDateToYYYYMMDDFormat: function(date) {
             // GET YYYY, MM AND DD FROM THE DATE OBJECT
             var yyyy = date.getFullYear().toString();
@@ -3281,8 +3153,8 @@ $(function() {
             var dateString = yyyy + '/' + (mmChars.length === 2 ? mm : "0" + mmChars[0]) + '/' + (ddChars.length === 2 ? dd : "0" + ddChars[0]);
             return dateString;
         },
-        aggregateDataForTrendReport: function(CommunityName, logData) {
 
+        aggregateDataForTrendReport: function(CommunityName, logData) {
             var languageDictValue;
             var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
@@ -3290,13 +3162,6 @@ $(function() {
             // now we will assign values from first of the activitylog records, returned for the period from startDate to
             // endDate, to local variables  so that we can keep aggregating values from all the just fetched activitylog
             // records into these variables and then just display them in the output
-            //  var superMgrIndex =  member.get('roles').indexOf('SuperManager');
-            //*********************************************************************
-            /*var roles =this.getRoles();
-             var SuperMgrIndex = roles.indexOf("SuperManager");
-
-             if( -1){*/
-            //*********************************************************************
             if (logData.length < 1) {
                 var staticData = {
                     "Visits": {
@@ -3343,13 +3208,10 @@ $(function() {
             if (logReport.resourcesIds) {
                 report_resRated = logReport.resourcesIds;
             }
-            //********************************************************************************************
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
-            //********************************************************************************************
+            //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
             if (logReport.resources_names) {
                 report_resNames = logReport.resources_names
             }
-//********************************************************************************************
             if (logReport.resources_opened) {
                 report_resOpened = logReport.resources_opened
             }
@@ -3359,7 +3221,6 @@ $(function() {
             if (logReport.female_visits) {
                 report_female_visits = logReport.female_visits
             }
-
             if (logReport.male_new_signups) {
                 report_male_new_signups = logReport.male_new_signups
             }
@@ -3390,24 +3251,20 @@ $(function() {
             if (logReport.female_deleted_count) {
                 report_female_deleted = logReport.female_deleted_count
             }
-
             for (var index = 0; index < logData.length; index++) {
-                //            logData.each(function (logDoc,index){
                 if (index > 0) {
                     var logDoc = logData[index];
                     // add visits to prev total
                     report_male_visits += logDoc.male_visits;
                     report_female_visits += logDoc.female_visits;
-
                     // add new member signups count to prev total
                     report_male_new_signups += (logDoc.male_new_signups ? logDoc.male_new_signups : 0);
                     report_female_new_signups += (logDoc.female_new_signups ? logDoc.female_new_signups : 0);
                     report_female_deleted += (logDoc.female_deleted_count ? logDoc.female_deleted_count : 0);
                     report_male_deleted += (logDoc.male_deleted_count ? logDoc.male_deleted_count : 0);
                     var resourcesIds = logDoc.resourcesIds;
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
+                    //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                     var resourcesNames = logDoc.resources_names;
-//******************************************************************************************
                     var resourcesOpened = logDoc.resources_opened;
                     for (var i = 0; i < resourcesIds.length; i++) {
                         var resId = resourcesIds[i]
@@ -3431,17 +3288,12 @@ $(function() {
                             var resourceIndex = report_resOpened.indexOf(resId)
                             if (resourceIndex == -1) {
                                 report_resOpened.push(resId)
-                                //*******************************************************************************************
-//Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
-                                //*******************************************************************************************
+                                //Fill in blank resource title name(s) in trend activity report Facts & Figures : Issue #84
                                 if (resourcesNames!= undefined && resourcesNames != null){
                                     if(resourcesNames.length > 0) {
-                                        // alert(resourcesNames[i])
                                         report_resNames.push(resourcesNames[i])
                                     }
                                 }
-
-//*******************************************************************************************
                                 report_male_opened.push(logDoc.male_opened[i])
                                 report_female_opened.push(logDoc.female_opened[i])
                             } else {
@@ -3450,18 +3302,15 @@ $(function() {
                             }
                         }
                     }
-
                 }
             }
             var femaleOpenedCount = 0;
             for (var i = 0; i < report_female_opened.length; i++) {
                 femaleOpenedCount += report_female_opened[i];
-
             }
             var maleOpenedCount = 0;
             for (var i = 0; i < report_male_opened.length; i++) {
                 maleOpenedCount += report_male_opened[i];
-
             }
             // find most frequently opened resources
             var times_opened_cumulative = [],
@@ -3507,17 +3356,12 @@ $(function() {
                         sumOfRatingsForThisResource = report_male_rating[indexFound] + report_female_rating[indexFound];
                         var testValueHighestFrequencyRating= Math.round((sumOfRatingsForThisResource / timesRatedTotalForThisResource) * 100) / 100;
                         var ratingMaxFreq;
-                        if(isNaN(testValueHighestFrequencyRating))
-                        {
-
+                        if(isNaN(testValueHighestFrequencyRating)) {
                             ratingMaxFreq=0;
-                        }
-                        else{
-
+                        } else {
                             ratingMaxFreq=testValueHighestFrequencyRating;
                         }
                         most_freq_res_entry["avgRatingCumulative"] = ratingMaxFreq;
-
                         most_freq_res_entry["avgRatingByMales"] = report_male_rating[indexFound];
                         most_freq_res_entry["avgRatingByFemales"] = report_female_rating[indexFound];
                         most_freq_res_entry["timesRatedByMales"] = report_male_timesRated[indexFound];
@@ -3527,7 +3371,6 @@ $(function() {
                     Most_Freq_Opened.push(most_freq_res_entry);
                 }
             }
-
             // find highest rated resources
             var resources_rated_cumulative = [],
                 Highest_Rated_Resources = [],
@@ -3562,13 +3405,9 @@ $(function() {
                     // create highest rated resource entry and push it into Highest_Rated_Resources array
                     var testValueHighestRating=Math.round(resources_rated_cumulative[indicesHighestRated[i]] * 100) / 100;
                     var ratingHighest;
-                    if(isNaN(testValueHighestRating))
-                    {
-
+                    if(isNaN(testValueHighestRating)) {
                         ratingHighest=0;
-                    }
-                    else{
-
+                    } else {
                         ratingHighest=testValueHighestRating;
                     }
                     entry_rated_highest = {
@@ -3604,15 +3443,12 @@ $(function() {
 
                     var testValueLowestRating=Math.round(resources_rated_cumulative[indicesLowestRated[i]] * 100) / 100;
                     var ratingLowest;
-                    if(isNaN(testValueLowestRating))
-                    {
+                    if(isNaN(testValueLowestRating)){
                         ratingLowest=0;
-                    }
-                    else{
+                    } else {
                         ratingLowest=testValueLowestRating;
                     }
                     var name = res.get('title')
-
                     entry_rated_lowest = {
                         "resourceName": name,
                         "avgRatingCumulative": ratingLowest,
@@ -3691,6 +3527,7 @@ $(function() {
                 }
             })
         },
+
         getRegisteredMembersCountFromMembersDB: function(callback) {
             var maleMembers = 0,
                 femaleMembers = 0;
@@ -3746,7 +3583,6 @@ $(function() {
                 }
             })
         },
-        ///////////////////////////////////////////
 
         trendReport: function() {
             var languageDictValue;
@@ -3779,12 +3615,9 @@ $(function() {
                 value: languageDictValue.attributes.Generate_Report
             });
             $('#trend-report-form').append(button);
-
             if (directionOfLang.toLowerCase() === "right") {
-
                 $('#trend-report-form').addClass('courseSearchResults_Bottom');
-            }
-            else{
+            }else {
                 $('#trend-report-form').removeClass('courseSearchResults_Bottom');
             }
             button.click(function() {
@@ -3792,7 +3625,6 @@ $(function() {
                 if (dateChosen) {
                     // compute the month start date corresponding to the date chosen by user as the ending date for trend report
                     var endDateForTrendReport = $('#dateSelect').datepicker("getDate"); // selected date turned into javascript 'Date' format
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////
                     var lastMonthStartDate = new Date(endDateForTrendReport.getFullYear(), endDateForTrendReport.getMonth(), 1);
                     var secondLastMonthEndDate = new Date(lastMonthStartDate.getFullYear(), lastMonthStartDate.getMonth(), (lastMonthStartDate.getDate() - 1));
                     var secondLastMonthStartDate = new Date(secondLastMonthEndDate.getFullYear(), secondLastMonthEndDate.getMonth(), 1);
@@ -3816,24 +3648,18 @@ $(function() {
                     var eleventhLastMonthStartDate = new Date(eleventhLastMonthEndDate.getFullYear(), eleventhLastMonthEndDate.getMonth(), 1);
                     var twelfthLastMonthEndDate = new Date(eleventhLastMonthStartDate.getFullYear(), eleventhLastMonthStartDate.getMonth(), (eleventhLastMonthStartDate.getDate() - 1));
                     var twelfthLastMonthStartDate = new Date(twelfthLastMonthEndDate.getFullYear(), twelfthLastMonthEndDate.getMonth(), 1);
-
                     var startDate = context.changeDateFormat(context.turnDateToYYYYMMDDFormat(twelfthLastMonthStartDate));
                     var endDate = context.changeDateFormat(context.turnDateToYYYYMMDDFormat(endDateForTrendReport));
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
                     var activityDataColl = new App.Collections.ActivityLog();
                     var urlTemp = App.Server + '/activitylog/_design/bell/_view/getDocByCommunityCode?include_docs=true&startkey=["' + App.configuration.get('code') + '","' + startDate + '"]&endkey=["' +
                         App.configuration.get('code') + '","' + endDate + '"]';
-
                     activityDataColl.setUrl(urlTemp);
                     activityDataColl.fetch({ // logData.logDate is not assigned any value so the view called will be one that uses start and
                         // end keys rather than logdate to fetch activitylog docs from the db
                         async: false
                     });
                     activityDataColl.toJSON();
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
                     // iterate over activitylog models inside the activityDataColl collection and assign each to the month range in which they lie
-                    //  ********************************************************************************************************
                     var endingMonthActivityData = [],
                         secondLastMonthActivityData = [],
                         thirdLastMonthActivityData = [],
@@ -3848,11 +3674,9 @@ $(function() {
                         twelfthLastMonthActivityData = [];
                     //  ********************************************************************************************************
                     for (var i in activityDataColl.models) {
-
                         var modelKey = context.turnDateFromMMDDYYYYToYYYYMMDDFormat(activityDataColl.models[i].get('logDate'));
                         var min = context.turnDateToYYYYMMDDFormat(lastMonthStartDate);
                         var max = context.turnDateToYYYYMMDDFormat(endDateForTrendReport);
-
                         if ((modelKey >= context.turnDateToYYYYMMDDFormat(lastMonthStartDate)) &&
                             (modelKey <= context.turnDateToYYYYMMDDFormat(endDateForTrendReport))) {
                             endingMonthActivityData.push(JSON.parse(JSON.stringify(activityDataColl.models[i])));
@@ -3906,10 +3730,7 @@ $(function() {
                     var twelfthLastMonthDataset = context.aggregateDataForTrendReport('communityX', twelfthLastMonthActivityData);
 
                     var aggregateDataset = context.aggregateDataForTrendReport('communityX', JSON.parse(JSON.stringify(activityDataColl.models)));
-                    //  ********************************************************************************************************
-                    // var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                     var monthNames = [lookup(languageDictValue, "Months." + "January"), lookup(languageDictValue, "Months." + "February"), lookup(languageDictValue, "Months." + "March"), lookup(languageDictValue, "Months." + "April"), lookup(languageDictValue, "Months." + "May"), lookup(languageDictValue, "Months." + "June"), lookup(languageDictValue, "Months." + "July"), lookup(languageDictValue, "Months." + "August"), lookup(languageDictValue, "Months." + "September"), lookup(languageDictValue, "Months." + "October"), lookup(languageDictValue, "Months." + "November"),lookup(languageDictValue, "Months." + "December")];
-                    //   ********************************************************************************************************
                     // show registered members at end of each month falling in duration of this report
                     var totalRegisteredMembers = {
                         male: 0,
@@ -3919,7 +3740,6 @@ $(function() {
                         totalRegisteredMembers['male'] = param1;
                         totalRegisteredMembers['female'] = param2;
                     });
-                    //  ********************************************************************************************************
                     var totalRegisteredMembersFromMembersDb = {
                         male: 0,
                         female: 0
@@ -3928,8 +3748,6 @@ $(function() {
                         totalRegisteredMembersFromMembersDb['male'] = param1;
                         totalRegisteredMembersFromMembersDb['female'] = param2;
                     });
-                    //  ********************************************************************************************************
-                    ///////////////////////////////////////////////Total Visits/////////////////////////////////////////////
                     var totalMemberVisits = {
                         male: 0,
                         female: 0
@@ -3938,8 +3756,6 @@ $(function() {
                         totalMemberVisits['male'] = param1;
                         totalMemberVisits['female'] = param2;
                     });
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    //  ********************************************************************************************************
                     var registeredMembersTillNow = {
                         male: totalRegisteredMembers['male'],
                         female: totalRegisteredMembers['female'],
@@ -4000,7 +3816,6 @@ $(function() {
                         female: registeredMembersTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.New_Signups['female'],
                         total: 0
                     };
-                    //  ********************************************************************************************************
                     registeredMembersTillNow['total'] = registeredMembersTillNow['male'] + registeredMembersTillNow['female'];
                     registeredMembersTillSecondLastMonthEnd['total'] = registeredMembersTillSecondLastMonthEnd['male'] + registeredMembersTillSecondLastMonthEnd['female'];
                     registeredMembersTillThirdLastMonthEnd['total'] = registeredMembersTillThirdLastMonthEnd['male'] + registeredMembersTillThirdLastMonthEnd['female'];
@@ -4013,9 +3828,6 @@ $(function() {
                     registeredMembersTillTenthLastMonthEnd['total'] = registeredMembersTillTenthLastMonthEnd['male'] + registeredMembersTillTenthLastMonthEnd['female'];
                     registeredMembersTillEleventhLastMonthEnd['total'] = registeredMembersTillEleventhLastMonthEnd['male'] + registeredMembersTillEleventhLastMonthEnd['female'];
                     registeredMembersTillTwelfthLastMonthEnd['total'] = registeredMembersTillTwelfthLastMonthEnd['male'] + registeredMembersTillTwelfthLastMonthEnd['female'];
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    //  ********************************************************************************************************
-                    ///////////////////////////////////////////Total Members//////////////////////////////////////////////////
                     var registeredMembersFromMembersDbTillNow = {
                         male: totalRegisteredMembersFromMembersDb['male'],
                         female: totalRegisteredMembersFromMembersDb['female'],
@@ -4076,7 +3888,6 @@ $(function() {
                         female: registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'] - (eleventhLastMonthDataset.New_Signups['female'] - eleventhLastMonthDataset.Deleted['female']),
                         total: 0
                     };
-                    //  ********************************************************************************************************
                     registeredMembersFromMembersDbTillNow['total'] = registeredMembersFromMembersDbTillNow['male'] + registeredMembersFromMembersDbTillNow['female'];
                     registeredMembersFromMembersDbTillSecondLastMonthEnd['total'] = registeredMembersFromMembersDbTillSecondLastMonthEnd['male'] + registeredMembersFromMembersDbTillSecondLastMonthEnd['female'];
                     registeredMembersFromMembersDbTillThirdLastMonthEnd['total'] = registeredMembersFromMembersDbTillThirdLastMonthEnd['male'] + registeredMembersFromMembersDbTillThirdLastMonthEnd['female'];
@@ -4089,9 +3900,6 @@ $(function() {
                     registeredMembersFromMembersDbTillTenthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTenthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTenthLastMonthEnd['female'];
                     registeredMembersFromMembersDbTillEleventhLastMonthEnd['total'] = registeredMembersFromMembersDbTillEleventhLastMonthEnd['male'] + registeredMembersFromMembersDbTillEleventhLastMonthEnd['female'];
                     registeredMembersFromMembersDbTillTwelfthLastMonthEnd['total'] = registeredMembersFromMembersDbTillTwelfthLastMonthEnd['male'] + registeredMembersFromMembersDbTillTwelfthLastMonthEnd['female'];
-                    //  ********************************************************************************************************
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ///////////////////////////////////////////Total Member Visits/////////////////////////////////////////
                     var membersVisitsTillNow = {
                         male: totalMemberVisits['male'],
                         female: totalMemberVisits['female'],
@@ -4152,7 +3960,6 @@ $(function() {
                         female: membersVisitsTillEleventhLastMonthEnd['female'] - eleventhLastMonthDataset.Visits['female'],
                         total: 0
                     };
-                    //  ********************************************************************************************************
                     membersVisitsTillNow['total'] = membersVisitsTillNow['male'] + membersVisitsTillNow['female'];
                     membersVisitsTillSecondLastMonthEnd['total'] = membersVisitsTillSecondLastMonthEnd['male'] + membersVisitsTillSecondLastMonthEnd['female'];
                     membersVisitsTillThirdLastMonthEnd['total'] = membersVisitsTillThirdLastMonthEnd['male'] + membersVisitsTillThirdLastMonthEnd['female'];
@@ -4165,25 +3972,13 @@ $(function() {
                     membersVisitsTillTenthLastMonthEnd['total'] = membersVisitsTillTenthLastMonthEnd['male'] + membersVisitsTillTenthLastMonthEnd['female'];
                     membersVisitsTillEleventhLastMonthEnd['total'] = membersVisitsTillEleventhLastMonthEnd['male'] + membersVisitsTillEleventhLastMonthEnd['female'];
                     membersVisitsTillTwelfthLastMonthEnd['total'] = membersVisitsTillTwelfthLastMonthEnd['male'] + membersVisitsTillTwelfthLastMonthEnd['female'];
-                    //////////////////////////////////////////////////////////////////////////////////////////////
-                    // ********************************************************************************************************
                     // TrendActivityReport View from TrendActivityReport.js
-                    //  ********************************************************************************************************
                     var trendActivityReportView = new App.Views.TrendActivityReport();
                     trendActivityReportView.data = aggregateDataset;
                     trendActivityReportView.startDate = activityDataColl.startkey;
                     trendActivityReportView.endDate = activityDataColl.endkey;
-                    //                trendActivityReportView.CommunityName = CommunityName;
                     trendActivityReportView.render();
                     App.$el.children('.body').html(trendActivityReportView.el);
-                    //  ********************************************************************************************************
-                    //$( '<div id="trend-report-div-new-memberships"></div>' ).appendTo( App.$el.children('.body') );
-                    //  ********************************************************************************************************
-                    //Trend Report Graphs Started
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
-                    //Total Members
-                    //  ********************************************************************************************************
                     $('#trend-report-div-total-members').highcharts({
                         chart: {
                             type: 'column',
@@ -4283,10 +4078,7 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
                     //Total Member Visits
-                    //  ********************************************************************************************************
                     $('#trend-report-div-total-member-visits').highcharts({
                         chart: {
                             type: 'column',
@@ -4388,10 +4180,7 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
                     //Active Members This Month
-                    //  ********************************************************************************************************
                     $('#trend-report-div-new-memberships').highcharts({
                         chart: {
                             type: 'column',
@@ -4491,10 +4280,7 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
-                    //  ********************************************************************************************************
                     //Total Member Visits This Month
-                    //  ********************************************************************************************************
                     $('#trend-report-div-visits').highcharts({
                         chart: {
                             type: 'column',
@@ -4595,11 +4381,7 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ******************************************************************************************************
-                    // /////////////////////////////////////////////New Members This Month?////////////////////////////////////
-                    //  ********************************************************************************************************
                     //   Total Resource Views This Month
-                    //  ********************************************************************************************************
                     $('#trend-report-div-total-resource-views-this-month').highcharts({
                         chart: {
                             type: 'column',
@@ -4700,9 +4482,6 @@ $(function() {
                             color: '#ff9900'
                         }]
                     });
-                    //  ********************************************************************************************************
-
-
                 } else {
                     alert(App.languageDict.attributes.Select_Date);
                 }
@@ -4713,8 +4492,8 @@ $(function() {
         isWithinRange: function(value, rangeMin, rangeMax) {
 
         },
-        ReportForm: function(reportId) {
 
+        ReportForm: function(reportId) {
             var languageDictValue;
             var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
@@ -4733,16 +4512,8 @@ $(function() {
             })
             reportFormView.render();
             App.$el.children('.body').html(reportFormView.el);
-
-
             if (report.id) {
-                // App.listenToOnce(report, 'sync', function() {
-                //    reportFormView.render()
-                // })
-
                 report.fetch()
-            } else {
-                // reportFormView.render()
             }
             reportFormView.render();
             $('.fields .bbf-form .field-title label').html(languageDictValue.attributes.Title);
@@ -4752,36 +4523,30 @@ $(function() {
             for(var i=0;i<12;i++)
             {
                 $('.fields .bbf-form .bbf-month option').eq(i).html(lookup(App.languageDict, "Months." + $('.fields .bbf-form .bbf-month option').eq(i).text().toString() ));
-
             }
-
             if (directionOfLang.toLowerCase() === "right") {
 
                 $('.bbf-form').addClass('courseSearchResults_Bottom');
                 $('#cont div').eq(0).css('width','100%');
                 $('table').css('width','100%');
                 $('.fields ul').addClass('courseSearchResults_Bottom')
-            }
-            else
-            {
+            } else {
                 $('.bbf-form').removeClass('courseSearchResults_Bottom');
                 $('.fields ul').removeClass('courseSearchResults_Bottom')
             }
-
         },
 
         routeStartupTasks: function() {
             $('#invitationdiv').hide()
             $('#debug').hide()
-
         },
+
         Resource_Detail: function(rsrcid, sid, revid) {
             var resource = new App.Models.Resource({
                 _id: rsrcid
             })
             resource.fetch({
                 success: function() {
-
                     var Tags = resource.toJSON().Tag
                     var key = JSON.stringify(Tags);
                     var setTags = Array()
@@ -4799,9 +4564,6 @@ $(function() {
 
                             setTags.push(a.value)
                         })
-
-
-
                     }
                     resource.set({
                         'Tag': setTags
@@ -4814,12 +4576,10 @@ $(function() {
                     App.$el.children('.body').html(resourceDetail.el)
                 }
             });
-
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-
         },
-        RenderTagSelect: function(iden) {
 
+        RenderTagSelect: function(iden) {
             var collections = new App.Collections.listRCollection()
             collections.major = true
             collections.fetch({
@@ -4828,7 +4588,6 @@ $(function() {
             collections.each(function(a) {
                 $(iden).append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
             })
-
             var subcollections = new App.Collections.listRCollection()
             subcollections.major = false
             subcollections.fetch({
@@ -4845,6 +4604,7 @@ $(function() {
                 }
             })
         },
+
         ResourceFeedback: function(resourceId) {
             var resource = new App.Models.Resource()
             resource.id = resourceId
@@ -4864,23 +4624,19 @@ $(function() {
                     $('#feedbackResourceDiv').append(feedbackTable.el)
                 })
                 resourceFeedback.fetch();
-
-
             })
             resource.fetch();
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
-            if(directionOfLang.toLowerCase()==="right")
-            {
+            if(directionOfLang.toLowerCase()==="right") {
                 $('.btable td').css('text-align','right');
                 $('.btable th').css('text-align','right');
-
-            }
-            else {
+            } else {
                 $('.btable td').css('text-align','left');
                 $('.btable th').css('text-align','left');
             }
         },
+
         FeedbackForm: function(resourceId, title) {
             var feedbackModel = new App.Models.Feedback({
                 resourceId: resourceId,
@@ -4903,8 +4659,6 @@ $(function() {
             feedbackForm.rtitle = resInfo.get('title')
             var user_rating
             feedbackForm.render()
-
-
             App.$el.children('.body').html('<div id="feedbackResoDiv"></div>');
             $('#feedbackResoDiv').append('<h4 style="color:gray">'+App.languageDict.attributes.Add_Feedback_For+' '+'<span style="color:black;"> ' + resInfo.get('title') + '</span></h4>')
             $('#feedbackResoDiv').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>'+App.languageDict.attributes.Rating+'</p>')
@@ -4913,12 +4667,12 @@ $(function() {
             $("#star > img").click(function() {
                 feedbackForm.setUserRating($(this).attr("alt"))
             });
-
             $('#feedbackResoDiv').append(feedbackForm.el);
             $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.Comment);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
         },
+
         email: function() {
             App.$el.children('.body').html('&nbsp')
             var config = new App.Collections.Configurations()
@@ -4946,25 +4700,21 @@ $(function() {
             mailview.fetchRecords();
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             $('#searchOnMail').find('input').eq(0).attr("placeholder",App.languageDict.get('searchMessages'))
-            if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
-            {
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
                 $('#mailHeading').css({"color":"black","font-size":"25px","margin-right": "10%"})
                 $('#searchOnMail').css("float","left");
                 $('#errorMessage').css({"direction":"rtl"});
                 $('#errorMessage').find('p').css({"color":"red","margin-right":"10%"});
-            }
-            else {
+            } else {
                 $('#mailHeading').css({"color":"black","font-size":"25px"});
                 $('#searchOnMail').css("float","right");
                 $('#errorMessage').find('p').css({"color":"red","margin-left":"10%"});
             }
-
         },
+
         CoursesBarChart: function() {
-            App.$el.children('.body').html('&nbsp')
-            // App.$el.children('.body').append('<div id="veticallable"><b>S<br/>T<br/>E<br/>P<br/>S<br/></b></div>')
-            App.$el.children('.body').append('<div id="graph"></div>')
-            // App.$el.children('.body').append('<div id="horizontallabel"><b>COURSES</b></div>')
+            App.$el.children('.body').html('&nbsp') 
+            App.$el.children('.body').append('<div id="detailView"><p id="graphtitle" style="text-align:center">'+App.languageDict.attributes.All_Courses_Progress+'</p><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
             var coursesResults = new App.Collections.memberprogressallcourses()
             coursesResults.memberId = $.cookie('Member._id')
             coursesResults.fetch({
@@ -4975,9 +4725,10 @@ $(function() {
             })
             chart.render();
             App.$el.children('.body').append(chart.el);
-            App.$el.children('.body').append('<div id="infoAboutGraph"><b>*Horizontal Axis : Courses<br>*Vertical Axis : Steps</b></div>')
+            App.$el.children('.body').append('<div id="infoGraph"></div>')
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
+
         AddToShelf: function(rId, title) {
             var memberShelfResource = new App.Collections.shelfResource()
             memberShelfResource.resourceId = rId
@@ -4999,7 +4750,7 @@ $(function() {
                 alert(App.languageDict.attributes.Duplicate_In_Shelf)
             }
         },
-        //Issue#61: Update buttons Add Feedback form when rating a resource
+
         AddToShelfAndSaveFeedback: function(rId, title) {
             var shelfResource = new App.Collections.shelfResource()
             shelfResource.resourceId = rId
@@ -5020,11 +4771,8 @@ $(function() {
             } else {
                 alert(App.languageDict.attributes.FeedbackSaved_Not_Resource)
             }
-            /*Backbone.history.navigate('resources', {
-             trigger: true
-             });*/
-            //window.history.go(0);
         },
+
         CalendarFunction: function() {
             var languageDictValue;
             var lang = getLanguage($.cookie('Member._id'));
@@ -5033,14 +4781,12 @@ $(function() {
             App.$el.children('.body').html("<div id='addEvent' class='btn btn-primary' onclick =\"document.location.href='#addEvent'\">"+App.languageDict.attributes.Add_Event+"</div>")
             App.$el.children('.body').append("<br/><br/><div id='calendar'></div>")
             $(document).ready(function() {
-
                 var temp2 = []
                 var allEvents = new App.Collections.Calendars()
                 allEvents.fetch({
                     async: false
                 })
                 allEvents.each(function(evnt) {
-
                     if (evnt.get('startDate') && evnt.get('endDate')) {
                         var sdate = evnt.get('startDate').split('/')
                         var edate = evnt.get('endDate').split('/')
@@ -5048,9 +4794,7 @@ $(function() {
                         var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
                         var stime = convertTo24Hour(evnt.get("startTime"))
                         var etime = convertTo24Hour(evnt.get("endTime"))
-
                         for (var i = 0; i < sdates.length; i++) {
-
                             var temp = new Object()
                             temp.title = evnt.get('title')
                             temp.start = new Date(sdates[i].setHours(stime))
@@ -5061,47 +4805,35 @@ $(function() {
                         }
                     }
                 });
-
-                var membercourses = new App.Collections.MemberGroups()
+                var membercourses = new App.Collections.MemberCourses()
                 membercourses.fetch({
                     async: false
                 })
-
                 membercourses.each(function(model) {
-
                     var daysindex
                     if (model.get("frequency") == "Daily") {
                         daysindex = new Array(0, 1, 2, 3, 4, 5, 6)
                     } else {
-
                         daysindex = new Array()
                         var week = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-
                         var sweek = model.get("Day")
-
                         if (sweek instanceof Array) {} else {
                             var temp = sweek
                             sweek = new Array()
                             sweek[0] = temp
                         }
-
                         var i = 0
                         while (i < sweek.length) {
                             daysindex.push(week.indexOf(sweek[i]))
                             i++
                         }
                     }
-
                     if (model.get("startDate")) {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
-
-
                         var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
-
                         var stime = convertTo24Hour(model.get("startTime"))
                         var etime = convertTo24Hour(model.get("endTime"))
-
                         for (var i = 0; i < sdates.length; i++) {
                             var temp = new Object()
                             temp.title = '\nCourse: \n' + model.get('name')
@@ -5111,15 +4843,12 @@ $(function() {
                             temp2.push(temp)
                         }
                     }
-
                 });
-
                 var memMeetup = new App.Collections.UserMeetups()
                 memMeetup.memberId = $.cookie('Member._id')
                 memMeetup.fetch({
                     async: false
                 })
-
                 memMeetup.each(function(meetup) {
                     model = new App.Models.MeetUp({
                         _id: meetup.get('meetupId')
@@ -5127,40 +4856,30 @@ $(function() {
                     model.fetch({
                         async: false
                     })
-
-
                     var daysindex
                     if (model.get("reoccuring") == "Daily") {
                         daysindex = new Array(0, 1, 2, 3, 4, 5, 6)
                     } else {
-
                         daysindex = new Array()
                         var week = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-
                         var sweek = model.get("Day")
-
                         if (sweek instanceof Array) {} else {
                             var temp = sweek
                             sweek = new Array()
                             sweek[0] = temp
                         }
-
                         var i = 0
                         while (i < sweek.length) {
                             daysindex.push(week.indexOf(sweek[i]))
                             i++
                         }
                     }
-
                     if (model.get("startDate")) {
                         var sdate = model.get("startDate").split('/')
                         var edate = model.get("endDate").split('/')
-
                         var sdates = getScheduleDatesForCourse(new Date(sdate[2], --sdate[0], sdate[1]), new Date(edate[2], --edate[0], edate[1]), daysindex)
-
                         var stime = convertTo24Hour(model.get("startTime"))
                         var etime = convertTo24Hour(model.get("endTime"))
-
                         for (var i = 0; i < sdates.length; i++) {
                             var temp = new Object()
                             temp.title = '\nMeetup: \n' + model.get('title')
@@ -5170,12 +4889,7 @@ $(function() {
                             temp2.push(temp)
                         }
                     }
-
-
                 })
-
-                //alert(temp2.length)
-
                 var calendar = $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -5191,15 +4905,10 @@ $(function() {
                     },
                     events: temp2
                 });
-
-
-
             });
-
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-
-
         },
+
         addEvent: function() {
             var model = new App.Models.Calendar()
             var modelForm = new App.Views.CalendarForm({
@@ -5218,7 +4927,6 @@ $(function() {
             $('.bbf-form .field-endDate label').html(App.languageDict.get("End_date"));
             $('.bbf-form .field-startTime label').html(App.languageDict.get("Start_Time"));
             $('.bbf-form .field-endTime label').html(App.languageDict.get("End_Time"));
-
             $('.bbf-form .field-startTime input').timepicker({
                 'minTime': '8:00am',
                 'maxTime': '12:30am'
@@ -5239,6 +4947,7 @@ $(function() {
             }
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
+
         calendaar: function(eventId) {
             App.$el.children('.body').html('&nbsp')
             var cmodel = new App.Models.Calendar({
@@ -5265,6 +4974,7 @@ $(function() {
                 $('#eventDetail-table').removeClass('addResource');
             }
         },
+
         EditEvent: function(eventId) {
             var cmodel = new App.Models.Calendar({
                 _id: eventId
@@ -5328,7 +5038,6 @@ $(function() {
                     });
                     $("input[name='AddedBy']").attr("disabled", true);
                     var directionOfLang = App.languageDict.get('directionOfLang');
-
                     if (directionOfLang.toLowerCase() === "right") {
                         $('#invitationdiv').css('direction','ltr');
                         $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
@@ -5339,11 +5048,11 @@ $(function() {
                         $('.field-AddedBy').find('label').html(App.languageDict.attributes.added_by);
                         $('#formButton').html(App.languageDict.attributes.Save);
                         $('#cancelButton').html(App.languageDict.attributes.Cancel);
-
                     }
                 }
             }
         },
+
         AddNewSelect: function(value) {
             if (value == 'Add New') {
                 var collections = new App.Collections.listRCollection()
@@ -5372,14 +5081,11 @@ $(function() {
                 collections.each(function(a) {
                     $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
                 })
-
             } else {
                 document.getElementById('cont').style.opacity = 1
                 document.getElementById('nav').style.opacity = 1
                 $('#invitationdiv').hide()
-
             }
-
             if (App.languageDict.get('directionOfLang').toLowerCase() === "right") {
                 $('#invitationdiv').css('direction','ltr');
                 $('.field-CollectionName').find('label').html(App.languageDict.attributes.Collection_Name);
@@ -5390,23 +5096,20 @@ $(function() {
                 $('.field-AddedBy').find('label').html(App.languageDict.attributes.added_by);
                 $('#formButton').html(App.languageDict.attributes.Save);
                 $('#cancelButton').html(App.languageDict.attributes.Cancel);
-
             }
 
         },
+
         Collection: function() {
             App.startActivityIndicator()
-
             var temp = $.url().data.attr.host.split(".") // get name of community
             temp = temp[0].substring(3)
             if (temp == "")
                 temp = 'local'
-
             var roles = this.getRoles()
             var collections = new App.Collections.listRCollection()
             collections.major = true
             collections.fetch({
-
                 success: function() {
                     var collectionTableView = new App.Views.CollectionTable({
                         collection: collections
@@ -5424,19 +5127,15 @@ $(function() {
                     if(jsonConfig.type == "nation") {
                         if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
                             App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
-                        }
-                        else {
+                        } else {
                             App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
                         }
-                    }
-                    else {
+                    } else {
                         App.$el.children('.body').append('<p id="secLabelOnCollections" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+App.languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;color:#0088CC;text-decoration: underline;">'+App.languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
                     }
-
                     if (roles.indexOf("Manager") != -1)
                         $('#secLabelOnCollections').append('<button id="AddCollectionOnCollections"  class="btn btn-success"  onclick="AddColletcion()">'+App.languageDict.attributes.Add_Collection+'</button>')
                     App.$el.children('.body').append(collectionTableView.el);
-
                 },
                 async: false
             })
@@ -5463,30 +5162,22 @@ $(function() {
                         $('#' + a.get('NesttedUnder') + '').parent().after('<tr><td>&nbsp&nbsp&nbsp&nbsp<a href="#listCollection/' + a.get('_id') + '/' + a.get('CollectionName') + '">' + a.get('CollectionName') + '</a></td><td></td></tr>')
 
                     }
-
                 });
             }
-
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
             if(App.languageDict.get('directionOfLang').toLowerCase()==="right")
             {
                 $('.table td').css('text-align','right');
                 $('.table th').css('text-align','right');
-
             }
             else {
                 $('.table td').css('text-align','left');
                 $('.table th').css('text-align','left');
             }
-
             App.stopActivityIndicator();
-
-
-
         },
+
         mergecollection: function(collectionIdes, collectionText) {
-
-
             for (var i = 0; i < collectionIdes.length; i++) {
                 var collModel = new App.Models.CollectionList({
                     _id: collectionIdes[i]
@@ -5497,12 +5188,10 @@ $(function() {
                     }
                 })
             }
-
             var resColl = new App.Collections.Resources()
             resColl.collectionName = JSON.stringify(collectionIdes)
             resColl.fetch({
                 success: function(res) {
-
                     var collectionModel = new App.Models.CollectionList()
                     collectionModel.set('CollectionName', collectionText)
                     collectionModel.set('Description', "")
@@ -5513,9 +5202,7 @@ $(function() {
                     collectionModel.set('show', true)
                     collectionModel.save(null, {
                         success: function(responceCollec, revInfo) {
-
                             var newCollId = revInfo.id
-
                             res.each(function(model) {
                                 resourceTags = model.get('Tag')
                                 if (Array.isArray(resourceTags)) {
@@ -5528,24 +5215,16 @@ $(function() {
                                     model.set('Tag', resourceTags)
                                     model.save()
                                 }
-
                             })
                             alert(App.languageDict.attributes.Collections_Merge_Success)
                             document.getElementById('cont').style.opacity = 1
                             document.getElementById('nav').style.opacity = 1
                             $('#invitationdiv').hide()
                             location.reload()
-
                         }
                     })
-
-
-
-
                 }
             })
-
-
         },
 
         viewAllFeedback: function() {
@@ -5561,6 +5240,7 @@ $(function() {
                 }
             })
         },
+
         ListCollection: function(collectionId, collectionName) {
             App.startActivityIndicator()
             var that = this
@@ -5575,7 +5255,6 @@ $(function() {
             collectionlist.fetch({
                 async: false
             })
-
             var collId = Array()
             collId.push(collectionId)
             collId = JSON.stringify(collId);
@@ -5597,10 +5276,6 @@ $(function() {
                     App.$el.children('.body').empty();
                     App.$el.children('.body').html('<div id="parentLibrary"></div>');
                     App.$el.children('#parentLibrary').empty();
-
-                    //  App.$el.children('.body').html('<p style="margin-top:20px"><a class="btn btn-success" href="#resource/add">Add New Resource</a><a style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>Request Resource</a><span style="float:right"></span></p>')
-
-                    // App.$el.children('.body').append('<p style="font-size:30px;color:#808080;"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">Resources</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">Collections</a> </p>')
                     var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
                     btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
@@ -5791,12 +5466,12 @@ $(function() {
         saveResources: function(URL) {
             var Resources = new PouchDB('resources');
             var Saving
-            var Groups = new App.Collections.MemberGroups()
-            Groups.memberId = $.cookie('Member._id')
-            Groups.once('sync', function() {
-                _.each(Groups.models, function(group) {
+            var Courses = new App.Collections.MemberCourses()
+            Courses.memberId = $.cookie('Member._id')
+            Courses.once('sync', function() {
+                _.each(Courses.models, function(course) {
                     levels = new App.Collections.CourseLevels()
-                    levels.groupId = group.id
+                    levels.courseId = course.id
                     levels.fetch({
                         async: false
                     })
@@ -5810,12 +5485,10 @@ $(function() {
                                 success: function(resp) {
                                     var resModel = resp.toJSON()
                                     Resources.get(resModel._id, function(err, resdoc) {
-
                                         if (!err) {
                                             if (!resModel.sum || !resModel.timesRated) {
                                                 resource.set('sum', 0)
                                                 resource.set('timesRated', 0)
-
                                             } else {
                                                 resource.set('sum', parseInt(resModel.sum) + parseInt(resdoc.sum))
                                                 resource.set('timesRated', parseInt(resModel.timesRated) + parseInt(resdoc.timesRated))
@@ -5840,14 +5513,13 @@ $(function() {
                                     })
                                 }
                             })
-
                         })
-
                     })
                 })
             })
-            Groups.fetch()
+            Courses.fetch()
         },
+
         saveFrequency: function(URL) {
             if ($.cookie('Member._id')) {
                 var ResourceFrequencyDB = new PouchDB('resourcefrequency');
@@ -5857,28 +5529,24 @@ $(function() {
                     success: function(doc, rev) {
                         var myjson = resourcefreq.first().toJSON()
                         ResourceFrequencyDB.put(myjson, myjson._id, myjson._rev, function(error, info) {
-
                             if (error) {
                                 console.log("ResourceFrequencyDB replication error :" + error)
                             } else {
                                 console.log("Successfully replicated ResourceFrequencyDB :" + info)
                             }
                         })
-
                     }
                 })
-
                 ResourceFrequencyDB.replicate.to(URL + '/resourcefrequency', function(error, response) {
                     if (error) {
                         console.log("ResourceFrequencyDB replication error :" + error)
                     } else {
                         console.log("Successfully replicated ResourceFrequencyDB :" + response)
                     }
-
                 });
             }
-
         },
+
         LogQuery: function() {
             var type = "community";
             var configurations = Backbone.Collection.extend({
@@ -6043,8 +5711,8 @@ $(function() {
             App.once('compile:done', function() {
                 alert(App.languageDict.attributes.Manifest_Error)
             })
-
         },
+
         CompileManifest: function() {
             App.startActivityIndicator()
             // The resources we'll need to inject into the manifest file
@@ -6063,11 +5731,10 @@ $(function() {
                 async: false
             })
             var login = loggedIn.get("login")
-
             logMember.login = login
             var Meetups = new App.Collections.Meetups()
-            var Groups = new App.Collections.MemberGroups()
-            Groups.memberId = $.cookie('Member._id')
+            var Courses = new App.Collections.MemberCourses()
+            Courses.memberId = $.cookie('Member._id')
             var Reports = new App.Collections.Reports()
             var memId = $.cookie('Member._id')
             var memName = $.cookie('Member.login')
@@ -6084,12 +5751,10 @@ $(function() {
             // The string to find in the default manifest file that we'll replace with Resources
             var find = '{replace me}'
             var replace = '# Compiled at ' + new Date().getTime() + '\n'
-
             // Compile the new manifest file and save it to devices/all
             resources.on('sync', function() {
                 App.trigger('compile:resourceListReady')
             })
-
             App.once('compile:resourceListReady', function() {
                 apps.once('sync', function() {
                     _.each(apps.models, function(app) {
@@ -6100,7 +5765,6 @@ $(function() {
                     App.trigger('compile:configurations')
                 })
                 apps.fetch()
-
             })
             App.once('compile:configurations', function() {
                 config.once('sync', function() {
@@ -6113,16 +5777,13 @@ $(function() {
             })
             App.once('compile:languages', function() {
                 lang.once('sync', function() {
-
                     _.each(lang.models, function(langs) {
                         replace += encodeURI('/languages/_all_docs?include_docs=true') + '\n'
                     })
 
                     App.trigger('compile:members')
                 })
-
                 lang.fetch()
-
             })
             App.once('compile:members', function() {
 
@@ -6131,11 +5792,9 @@ $(function() {
                     _.each(members.models, function(mem) {
                         replace += encodeURI('/members/' + mem.id) + '\n'
                     })
-
                     App.trigger('compile:shelfResource')
                 })
                 members.fetch()
-
             })
             App.once('compile:shelfResource', function() {
                 shelfitems.once('sync', function() {
@@ -6155,11 +5814,8 @@ $(function() {
                                 }
                             }
                         })
-
                     })
-
                     App.trigger('compile:collectionList')
-
                 })
                 shelfitems.fetch()
             })
@@ -6170,44 +5826,39 @@ $(function() {
                     App.trigger('compile:Meetups')
                 })
                 collectionlist.fetch()
-
-
             })
             App.once('compile:Meetups', function() {
                 Meetups.once('sync', function() {
-
                     replace += encodeURI('/meetups/_all_docs?include_docs=true') + '\n'
                     replace += encodeURI('/usermeetups/_design/bell/_view/getUsermeetups?key="' + memId + '"&include_docs=true') + '\n'
                     replace += encodeURI('/members/_design/bell/_view/MembersByLogin?include_docs=true&key="' + memName + '"') + '\n'
                     _.each(Meetups.models, function(meetup) {
                         replace += encodeURI('/meetups/' + meetup.id) + '\n'
-
                     })
-                    App.trigger('compile:Groups')
+                    App.trigger('compile:Courses')
                 })
                 Meetups.fetch()
             })
+            App.once('compile:Courses', function() {
 
-            App.once('compile:Groups', function() {
+                Courses.once('sync', function() {
 
-                Groups.once('sync', function() {
+                    replace += encodeURI('/courses/_all_docs?include_docs=true') + '\n'
+                    replace += encodeURI('/courses/_design/bell/_view/GetCourses?key="' + memId + '"&include_docs=true') + '\n'
 
-                    replace += encodeURI('/groups/_all_docs?include_docs=true') + '\n'
-                    replace += encodeURI('/groups/_design/bell/_view/GetCourses?key="' + memId + '"&include_docs=true') + '\n'
-
-                    _.each(Groups.models, function(group) {
-                        replace += encodeURI('/groups/' + group.id) + '\n'
-                        replace += encodeURI('/coursestep/_design/bell/_view/StepsData?key="' + group.id + '"&include_docs=true') + '\n'
-                        MemberCourseProgress.courseId = group.id
+                    _.each(Courses.models, function(course) {
+                        replace += encodeURI('/courses/' + course.id) + '\n'
+                        replace += encodeURI('/coursestep/_design/bell/_view/StepsData?key="' + course.id + '"&include_docs=true') + '\n'
+                        MemberCourseProgress.courseId = course.id
                         MemberCourseProgress.memberId = memId
                         MemberCourseProgress.fetch({
                             success: function() {
                                 //don't encode this url because it contain's '[' & ']' which spoil the key
-                                replace += ('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + memId + '","' + group.id + '"]&include_docs=true') + '\n'
+                                replace += ('/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + memId + '","' + course.id + '"]&include_docs=true') + '\n'
                             }
                         })
                         levels = new App.Collections.CourseLevels()
-                        levels.groupId = group.id
+                        levels.courseId = course.id
                         levels.fetch({
                             async: false
                         })
@@ -6229,15 +5880,13 @@ $(function() {
                                 })
 
                             }, this)
-
                         }, this)
                     })
                     App.trigger('compile:CommunityReport')
                 })
-                Groups.fetch()
+                Courses.fetch()
             })
             App.once('compile:CommunityReport', function() {
-
                 Reports.once('sync', function() {
                     replace += encodeURI('/communityreports/_design/bell/_view/allCommunityReports?include_docs=true') + '\n'
                     _.each(Reports.models, function(report) {
@@ -6247,9 +5896,7 @@ $(function() {
                 })
                 Reports.fetch()
             })
-
             App.once('compile:appsListReady', function() {
-
                 $.get(defaultManifestURL, function(defaultManifest) {
                     var transformedManifest = defaultManifest.replace(find, replace)
                     $.getJSON(deviceURL, function(deviceDoc) {
@@ -6265,7 +5912,6 @@ $(function() {
                     })
                 })
             })
-
             // Save the update.html file to devices/all
             App.once('compile:done', function() {
                 $.get(defaultUpdateURL, function(defaultUpdateHTML) {
@@ -6284,11 +5930,11 @@ $(function() {
                     })
                 })
             })
-
             // Start the process
             resources.fetch()
             App.stopActivityIndicator()
         },
+
         UpdateManifest: function() {
             // The URL of the device where we'll store transformed files
             var deviceURL = '/devices/_design/all'
@@ -6938,9 +6584,14 @@ $(function() {
                 count++
             })
         },
-        checkSum: function() {
-            nationName = App.configuration.get('nationName');
-            nationURL = App.configuration.get('nationUrl');
+        checkSum: function (nationNm, nationUri) {
+            if (nationNm.length > 0 && nationUri.length > 0) {
+                nationName = nationNm;
+                nationURL = nationUri;
+            } else {
+                nationName = App.configuration.get('nationName');
+                nationURL = App.configuration.get('nationUrl');
+            }
             remoteDesign = [];
             localDesign = [];
             $('.body').html('');
@@ -7008,9 +6659,6 @@ $(function() {
                 }
             })
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-       }
+        }
     }))
-    
-    
-
 })

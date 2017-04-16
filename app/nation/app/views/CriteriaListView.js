@@ -110,7 +110,7 @@ $(function() {
             } else {
                 App.startActivityIndicator();
                 var selectedAgeGroups = [];
-                for(var i = 0 ; i < selectedAgeGroupValues.length ; i++) {
+                for (var i = 0; i < selectedAgeGroupValues.length ; i++) {
                     selectedAgeGroups.push(selectedAgeGroupValues[i].split('-'));
                 }
                 var dbUrl = '/members/_design/bell/_view/MemberByGender?include_docs=true';
@@ -158,8 +158,8 @@ $(function() {
                 });
                 if(model.login != 'admin' && this.selectedBellCodes.indexOf(model.community) > -1 && isAValidRole) {
                     var age = this.getAge(model.BirthDate);
-                    for(var j = 0 ; j < ageGroups.length ; j++) {
-                        if(age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
+                    for (var j = 0; j < ageGroups.length ; j++) {
+                        if (age >= ageGroups[j][0] && age <= ageGroups[j][1]) {
                             listOfMembersForSurvey.push(model);
                         }
                     }
@@ -281,7 +281,5 @@ $(function() {
                 this.$el.find("#returnBack").css({"margin-right":"10px", "margin-left":""});
             }
         }
-
     })
-
 })

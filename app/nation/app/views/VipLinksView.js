@@ -12,7 +12,7 @@ $(function() {
                 document.execCommand('copy');
                 $('#copyInput').blur();
                 $('#copyInput').val('');
-                alert(App.languageDictValue.attributes.Link_Coppied);
+                alert(App.languageDictValue.attributes.Link_Copied);
             },
             "click button.destroy": function(e) {
                 var a = $(e.target).attr('data-id')

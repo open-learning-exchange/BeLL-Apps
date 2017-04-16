@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.filter.css"/>
     <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.css"/>
 
+    <link rel="stylesheet" href="vendor/jqPlot/jquery.jqplot.css"/>
+
     <!--
       DEPENDENCIES
     -->
@@ -64,22 +66,25 @@
     <script src="vendor/jQuery-multiselect/jquery.multiselect.filter.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.js"></script>
     <script src="vendor/pouchdb-2.1.0.js"></script>
-    <script type="text/javascript" src="js/ui.multiselect.js"></script>
     <script src="vendor/jqBarGraph.js"></script>
     <script src="vendor/highcharts.js"></script>
     <script src="vendor/md5.min.js"></script>
     <script src="vendor/pbkdf2/sha1.js"></script>
     <script src="vendor/pbkdf2/pbkdf2.js"></script>
     <script src="vendor/pbkdf2/derive_key.js"></script>
-    
-<!--     <script src="vendor/CryptoJS/components/core-min.js"></script>
-    <script src="vendor/CryptoJS/rollups/sha1.js"></script> -->
+    <script src="vendor/flot/jquery.flot.js"></script>
+    <script src="vendor/flot/jquery.flot.categories.js"></script>
+    <script src="vendor/flot/jquery.flot.pie.js"></script>
+    <script src="vendor/jqPlot/jquery.jqplot.js"></script>
+    <script src="vendor/jqPlot/jqplot.pieRenderer.js"></script>
+    <script src="vendor/jqPlot/jqplot.donutRenderer.js"></script>
+    <script src="vendor/jqPlot/jqplot.highlighter.js"></script>
+    <script src="vendor/jqPlot/jqplot.enhancedLegendRenderer.js"></script>
+    <script src="vendor/jqPlot/jquery.flot.axislabels.js"></script>
     <script type="text/javascript" src="vendor/jshash-2.2/md5-min.js"></script>
 
 
-    <!--<script type="text/javascript" src="vendor/html5lightbox/jquery.js"></script>-->
 
-    <!--<script src="vendor/html5lightbox/html5lightbox.js"></script> -->
     <!-- html-templates -->
     <link rel="text" href="app/templates/templates.txt"/>
 
@@ -92,7 +97,7 @@
     <!-- app-models -->
 
     <script src="app/models/Resource.js"></script>
-    <script src="app/models/Group.js"></script>
+    <script src="app/models/Course.js"></script>
     <script src="app/models/Assignment.js"></script>
     <script src="app/models/Feedback.js"></script>
     <script src="app/models/Calendar.js"></script>
@@ -127,13 +132,15 @@
     <script src='app/models/Survey.js'></script>
     <script src='app/models/Question.js'></script>
     <script src='app/models/AdminMember.js'></script>
+    <script src='app/models/CourseQuestion.js'></script>
+    <script src='app/models/CourseAnswer.js'></script>
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script>
-    <script src="app/collections/Groups.js"></script>
+    <script src="app/collections/Courses.js"></script>
     <script src="app/collections/coursesteps.js"></script>
-    <script src="app/collections/MemberGroups.js"></script>
-    <script src="app/collections/GroupAssignments.js"></script>
+    <script src="app/collections/MemberCourses.js"></script>
+    <script src="app/collections/CourseAssignments.js"></script>
     <script src="app/collections/NewsResources.js"></script>
     <script src="app/collections/Members.js"></script>
     <script src="app/collections/SearchResource.js"></script>
@@ -151,7 +158,7 @@
     <script src="app/collections/Configurations.js"></script>
     <script src="app/collections/Resources.js"></script>
     <script src="app/collections/Apps.js"></script>
-    <script src="app/collections/GroupAssignmentsByDate.js"></script>
+    <script src="app/collections/CourseAssignmentsByDate.js"></script>
     <script src="app/collections/AssignmentsByDate.js"></script>
     <script src="app/collections/ResourceFeedback.js"></script>
     <script src="app/collections/CourseLevels.js"></script>
@@ -175,6 +182,8 @@
     <script src='app/collections/SurveyQuestions.js'></script>
     <script src='app/collections/SurveyAnswers.js'></script>
     <script src='app/collections/AdminMembers.js'></script>
+    <script src='app/collections/CourseStepQuestions.js'></script>
+    <script src='app/collections/CourseAnswer.js'></script>
 
     <!-- app-Views -->
     <script src="app/views/ConfigurationView.js"></script>
@@ -184,8 +193,8 @@
     <script src="app/views/MemberForm.js"></script>
     <script src="app/views/siteFeedback.js"></script>
     <script src='app/views/Dashboard.js'></script>
-    <script src="app/views/GroupSpan.js"></script>
-    <script src='app/views/GroupsSpans.js'></script>
+    <script src="app/views/CourseSpan.js"></script>
+    <script src='app/views/CourseSpans.js'></script>
     <script src="app/views/ShelfSpan.js"></script>
     <script src='app/views/ShelfSpans.js'></script>
     <script src="app/views/MeetupSpan.js"></script>
@@ -207,24 +216,24 @@
     <script src='app/views/FeedbackTable.js'></script>
     <script src='app/views/FeedbackRow.js'></script>
     <script src='app/views/FeedbackForm.js'></script>
+    <script src='app/views/CourseStepQuestionTable.js'></script>
+    <script src='app/views/CourseStepQuestionRow.js'></script>
 
 
-    <script src='app/views/GroupsTable.js'></script>
-    <script src='app/views/GroupRow.js'></script>
-    <script src='app/views/GroupForm.js'></script>
-    <script src='app/views/GroupView.js'></script>
+    <script src='app/views/CoursesTable.js'></script>
+    <script src='app/views/CourseRow.js'></script>
+    <script src='app/views/CourseForm.js'></script>
+    <script src='app/views/CourseView.js'></script>
     <script src='app/views/CourseStepsView.js'></script>
     <script src='app/views/BecomeMemberForm.js'></script>
     <script src='app/views/CoursesStudentsProgress.js'></script>
     <script src='app/views/CourseInfoView.js'></script>
-    <script src='app/views/GroupMembers.js'></script>
+    <script src='app/views/CourseMembers.js'></script>
     <script src="app/views/InvitationForm.js"></script>
     <script src="app/views/CourseSearch.js"></script>
 
-    <script src="app/views/QuizView.js"></script>
-    <script src="app/views/takeQuizView.js"></script>
-    <script src="app/views/offlinetakeQuizView.js"></script>
-
+    <script src="app/views/TestView.js"></script>
+    <script src="app/views/takeTestView.js"></script>
     <script src='app/views/LevelForm.js'></script>
     <script src='app/views/LevelDetail.js'></script>
     <script src='app/views/LevelsTable.js'></script>
@@ -288,8 +297,10 @@
     <script src="app/views/CreditsLeaderView.js"></script>
     <script src="app/views/CreditsTable.js"></script>
     <script src="app/views/CreditsRow.js"></script>
-    <script src="app/views/CourseCreditsMainPage.js"></script>
     <script src="app/views/CourseLearnersList.js"></script>
+    <script src="app/views/ViewTest.js"></script>
+
+    <script src="app/views/AnswerReview.js"></script>
     <!-- javaScript -->
 
     <script src='indexFile.js'></script>
@@ -757,7 +768,7 @@
         </div>
     </script>
 
-    <script type="text/html" id="template-GroupSpan">
+    <script type="text/html" id="template-CourseSpan">
         <div class="displayCourse" style='background-color:<%= backgroundColor %>;'>
             <a href='#usercourse/details/<%= _id %>/<%= name %>' style=' color:<%= foregroundColor %>; '>
                 <span><%= name %><%=yes%></span>
@@ -1006,29 +1017,22 @@
             <%= stepNo %>
         </td>
         <td>
-            <%= stepType %>
-        </td>
-        <td>
-            <%if(stepType == 'Quiz' && status == "1"  ){%>
-                submitted
-            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
-                Quiz is not submitted
+            <%if(status == "1"  ){%>
+                <%=App.languageDict.attributes.Submitted%>
             <%}else{%>
-                <%if(attachmentName!=null && attchmentURL != null){%>
-                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-                <%}else{%>
-                    Paper is not uploaded
-                <%}%>
+                <%=App.languageDict.attributes.Un_Submitted%>
             <%}%>
         </td>
         <td>
             <input type="hidden" name="percentage"  id="<%=percentage%>">
             <%= credits %>/100
-
         </td>
-
         <td>
             <%= credits %>%
+        </td>
+        <td>
+            <a id="" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'> <%=App.languageDict.attributes.View_Test%>
+            </a>
         </td>
 
     </script>
@@ -1036,46 +1040,42 @@
         <td>
             <%= stepNo %>
         </td>
-        <td>
-            <%= stepType %>
-        </td>
-        <td>
-            <%if(stepType == 'Quiz' && status == "1"  ){%>
-                submitted
-            <%}else if(stepType == 'Quiz' && status == "0"  ){%>
-                Quiz is not submitted
+        <td> 
+            <%if(attempts == 0 || credits[attempts] == ""  ){%>
+                <%=App.languageDict.attributes.Test_Not_Submitted_Yet%>
             <%}else{%>
-                <%if(attachmentName!=null && attchmentURL != null){%>
-                    <a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"> DownloadPaper  </button></a>
-                <%}else{%>
-                    Paper is not uploaded
-                <%}%>
+                <%=App.languageDict.attributes.Test_Submitted%>
             <%}%>
         </td>
         <td>
-            <input type="hidden" name="percentage"  id="<%=percentage%>">
-                <%if(stepType== 'Quiz' ){%>
-                    <%= credits %>/100
-                <%}%>
-                <%if(stepType== 'Paper'){%>
-                    <%if(status == "0" && attempts == 0){%>
-                        <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>" readonly>/100
-                    <%}else if(status == "2" && attempts >= 1){%>
-                        <input type="text" style="border-color: #ff0000" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
-                    <%}else{%>
-                        <input type="text" placeholder="Enter paper marks" name="paperCredits"  id="<%=id%>/<%=percentage%>" value="<%= credits %>">/100
-                    <%}%>
-                <%}%>
+            
+        </td>
+         <%if( lastAttemptPercentage == undefined ){%>
+         <td>
+           0%
+        </td>
+        <%} else {%>
+        <td>
+            <%= lastAttemptPercentage %>%
+        </td>
+         <%}%>
+        <td>
+        <%if(attempts == 0 ){%>
+            <%=App.languageDict.attributes.Please_Take_Test_For_Review%>
+        <%}else if(status[attempts] === null || status[attempts] === undefined){%>
+            <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'><%=App.languageDict.attributes.Answer_Review%>
+            </a>
+        <%}else{%>
+            <%=App.languageDict.attributes.Your_Answer_Has_Been_Reviewed%>
+        <%}%>
+               
         </td>
         <td>
-            <%= credits %>%
         </td>
-       <!-- <td>
-            <%= status %>
-        </td> -->
+       
     </script>
 
-    <script type="text/html" id="template-GroupRow">
+    <script type="text/html" id="template-CourseRow">
         <td>
             <%= CourseTitle %>
         </td>
@@ -1083,7 +1083,7 @@
         <td>
             <% if(showOpenButton) { %>
             <a role='button' class='btn btn-open' href='#usercourse/details/<%= _id %>/<%= CourseTitle %>'>
-                Open
+                <%=App.languageDict.attributes.Open%>
             </a>
             <% } %>
         </td>
@@ -1104,8 +1104,8 @@
         </td>
 
         <td>
-            <a role='button' class='btn btn-credit' href='<%= link %>'>
-                Credits
+            <a role='button' class='btn btn-credit' id= "credit_view"href='<%= link %>'>
+                <%=App.languageDict.attributes.Credits%>
             </a>
         </td>
 
@@ -1137,7 +1137,7 @@
             <%}%>
         </td>
         <% if(courseId!=null){%>
-        <td><input type="checkbox" name="addCourse" value='<%= _id %>'>Add </td>
+        <td><input type="checkbox" name="addCourse" value='<%= _id %>'><%=App.languageDict.attributes.Add%> </td>
         <%}%>
     </script>
 
@@ -1329,46 +1329,14 @@
         </table>
     </script>
     <script type="text/html" id="template-courseLevelsTable">
-
-        <h3 class="bigheader"><div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp&nbsp <%=title%></b>
-
-            <% if(status.length > 1) { %>
-                <% if(marks[0] == ""){
-                        marks[0] = 0;
-                    }
-                %>
-                <% if(marks[1] == ""){
-                        marks[1] = 0;
-                    }
-                %>
-                <% if (status[0] == 0 && status[1] == 0) {%>
-                    <span  style="float:right;">&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>% </span>
-                <% } else if (status[0] == 0 && status[1] == 1) {%>
-                    <span  style="float:right;" >&nbsp;<%=marks[1]%>%</span>
-                <% } else if (status[0] == 1 && status[1] == 0) {%>
-                    <span  style="float:right;" >&nbsp;<%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
-                <% } else if (status[0] == 1 && status[1] == 1) {%>
-                    <span  style="float:right;" >&nbsp; <%=marks[0]%>% &nbsp; <%=marks[1]%>%</span>
-                <% } else if (status[0] > 1 && status[1] == 0) {%>
-                    <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>% </span>
-                <% } else if(status[0] > 1 && status[1] == 1 ) { %>
-                    <span  style="float:right;" class="fui-check">&nbsp;<%=marks[1]%>%</span>
-                <% } %>
-
-            <% } else  { %>
-
-                <% if(status > 1 ) { %>
-                    <span  style="float:right;" class="fui-check">&nbsp;</span>
-                <% } else { %>
-                    <% if(marks == ""){
-                            marks = 0;
-                        }
-                    %>
-                    <span  style="float:right;" >&nbsp;<%=marks%>%</span>
-                <% } %>
-
+        <h3 class="bigheader">
+        <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
+            <% if(lastAttemptsMarks == undefined){%>
+            <span  style="float:right;" >[<%=lastAttemptStatus%>] 0%</span>
+            <% } else { %>
+             <span  style="float:right;" ><%= languageDict.attributes.Attempt%>:<%=lastAttempt%>
+            [<%=lastAttemptStatus%>] <%=lastAttemptsMarks%>%</span>
             <% } %>
-
         </div>
         </h3>
 
@@ -1406,71 +1374,284 @@
                     </td>
                 </tr>
 
-
-
                 <%for (var i=0; i<resourceId.length; i++){%>
-
                 <tr class="level-section-data">
                     <td>
                         <b><%=i+1%></b>
                     </td>
                     <td>
-                        <%= resourceTitles[i] %> &nbsp&nbsp
+                        <%= resourceTitles[i] %> &nbsp;&nbsp;
                     </td>
                     <td>
                         <a style="padding-right:33px;padding-left:33px;color:white;" class='btn btn-primary btn-resource-open' rid=<%= resourceId[i] %> id="resourseOpened" href='/apps/_design/bell/bell-resource-router/index.html#open/<%= resourceId[i] %>/<%= resourceTitles[i] %>' target="_blank"><%=languageDict.attributes.Open%></a>
                     </td>
                 </tr>
                 <%}%>
-                <%for (var i=0; i<outComes.length; i++){%>
+                <%if (questionslist!=null && questionslist.length > 0){%>
                 <tr class="level-section-title">
                     <td colspan="2" style="width: 60%">
-                        <%=outComes[i]%></br>
+                        <%=languageDict.attributes.Test%></br>
                     </td>
-                    <td style="width: 40%">
-                        <table style="height: 100%; width: 100%;">
-                            <tr>
-                                <td style="width: 20%">
-                                    <%if (questions!=null && questions.length > 0){%>
-                                        <%if (outComes[i]== 'Quiz'){%>
-                                            <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takequiz" >Take <%=outComes[i]%></button>
-                                        <%}%>
-                                    <%}else{%>
-                                    <!--   <button style="font-size: 15px;margin-right: 40px;width: 103px" class='btn btn-primary'>Take <%=outComes[i]%></button>-->
-                                    <%}%>
-                                </td>
-                                <%if (outComes[i]== 'Paper'){%>
-                                <td>
-                                    <form method="post" id="fileAttachment<%=_id%>" style="margin: 0 0 0 0">
-                                        <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FieSelected('<%=_id%>')" />
-                                        <input class="rev" type="hidden" name="_rev">
-
-                                        <input type="hidden" value=<%=courseId%> id="courseId<%=_id%>">
-                                        <input type="hidden" value=<%=title%> id="stepTitle<%=_id%>">
-                                        <input type="hidden" value=<%=step%> id="stepNo<%=_id%>" >
-                                        <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=outComes[i]%>" id="fakeBrowse" onclick="HandleBrowseClick('<%=_id%>')"  />
-
-                                    </form>
-                                </td>
-                                <%}%>
-                            </tr>
-                        </table>
-
+                    <td style="width: 20%">
+                        <button style="font-size: 15px; margin-right: 40px;width: 103px" value = <%=_id%> class='btn btn-primary' id="takeCourseTest" >Take Test</button>
                     </td>
-                </tr>
-
-                <tr class="level-section-data">
-                    <td colspan="2">
-
-                        <%=languageDict.attributes.Passing_Percentage%>:<b><%=passingPercentage%><br></b>
-                    </td>
-
                 </tr>
                 <%}%>
             </table>
+            <div class="takeTestDiv"></div>
         </div>
-
     </script>
+
+    <script type="text/template" id="template-newcourseanswerform">
+        <div class="answersection">
+        <p><%= languageDict.attributes.require_answer %></p>
+        <div class="Progress"></div>
+    <% if (Type == "Single Textbox") { %>
+         <div class="singlelineAnswer">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="singleLineAnswer">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+     <% } else if (Type == "Comment/Essay Box") { %>
+            <div class="commentEssay">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="commentEssay">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <% } else if (Type == "Attachment") { %>
+            <div class="attachment">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                <tr>
+                     <td>
+                    <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FileSelected('<%=_id%>')" />
+                     <input class="rev" type="hidden" name="_rev">
+                     <input type="hidden" name="_attachment" id="attachmentId" value="">
+                     <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
+                     <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
+                     <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
+                    </td>
+               </tr>
+                </table>
+            </div>
+            <% } else if (Type == "Multiple Choice") { %>
+            <div class="multiplechoice">
+                <table>
+                    <tr>
+                        <td>
+                            <textarea><%=Statement%></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                       <td>
+                       <% for (var i = 0; i < Options.length; i++) { %>
+                            <% if(CorrectAnswer.length > 1) { %>
+                            <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } else { %>
+                                 <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } %>
+                       <% }; %> 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+           <% } else { %>
+            <h4><%= languageDict.attributes.No_Option_Selected %></h4>
+            <% } %>
+
+        </div>    
+    </script>
+    <script type="text/template" id="template-viewTest">
+        <div class="question_view">
+        <p><%= languageDict.attributes.Question%></p>
+        <div class="Progress"></div>
+        <% if (Type == "Single Textbox") { %>
+             <div class="singlelineAnswer">
+                    <table>
+                        <tr>
+                            <td><%=Statement%></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="singleLineAnswer" readonly="">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        <% } else if (Type == "Comment/Essay Box") { %>
+            <div class="commentEssay">
+                <table>
+                    <tr>
+                        <td><%=Statement%></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="commentEssay" readonly="">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        <% } else if (Type == "Attachment") { %>
+            <div class="attachment">
+                <table>
+                    <tr>
+                        <td><%=Statement%></td>
+                    </tr>
+                <tr>
+                     <td>
+                    <input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" onChange="FileSelected('<%=_id%>')" />
+                     <input class="rev" type="hidden" name="_rev">
+                     <input type="hidden" name="_attachment" id="attachmentId" value="">
+                     <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
+                     <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
+                     <input class='btn btn-primary'  style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse"  />
+                    </td>
+               </tr>
+                </table>
+            </div>
+        <% } else if (Type == "Multiple Choice") { %>
+            <div class="multiplechoice">
+                <table>
+                    <tr>
+                        <td><%=Statement%><td>
+                    </tr>
+                    <tr>
+                       <td>
+                       <% for (var i = 0; i < Options.length; i++) { %>
+                            <% if(CorrectAnswer.length > 1) { %>
+                            <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } else { %>
+                                 <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                            <% } %>
+                       <% }; %>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        <% } else { %>
+            <h4><%= languageDict.attributes.No_Option_Selected %></h4>
+        <% } %>
+        </div>
+    </script>
+
+    <script type="text/template" id="template-courseAnswerReview">
+        <div class="multipleAnswerReview">
+            <% if(!learner) { %>
+                <h3 ><%=App.languageDict.attributes.Answer_Review_Section %></h3>
+            <% } %>
+            <table class="table table-striped">
+                <%for (var i=0; i < questionlists.length; i++) { %>
+                    <%if(questionlists[i].Type == "Attachment"){ %>
+                        <tr>
+                            <td colspan="2"><b><%=App.languageDict.attributes.Attachment_Marks_Review %></b></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Question %></td>
+                            <td><%=questionlists[i].Statement%></td>
+                        </tr>
+                        <tr>
+                            <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
+                            <td></td>
+                        </tr>
+                        <% if(!learner) { %>
+                            <tr>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=questionlists[i].Marks%></td>
+                            </tr>
+                            <tr>
+                                <td><%=App.languageDict.attributes.ObtainMarks %></td>
+                                <td>
+                                    <input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
+                                    <div class="slider-range-min"></div>
+                                </td>
+                            </tr>
+                        <% } %>                                    
+                    <% } else if(questionlists[i].Type == "Multiple Choice") { %>
+                        <tr>
+                            <td colspan="2"><b><%=App.languageDict.attributes.Multiple_Choice_Marks_Review %></b></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Question %></td>
+                            <td><%=questionlists[i].Statement%></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Given_Answer %></td>
+                            <td><%=answerlist[i].Answer%></td>
+                        </tr>
+                        <% if(!learner) { %>
+                            <tr>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=questionlists[i].Marks%></td>
+                            </tr>
+                            <tr>
+                                <td><%=App.languageDict.attributes.ObtainMarks %></td>
+                                <td>
+                                    <input type="hidden" class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="<%=answerlist[i].AttemptMarks %>">
+                                    <%=answerlist[i].AttemptMarks%>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="2"><b><%=App.languageDict.attributes.Single_Essay_Marks_Review %></b></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Question %></td>
+                            <td><%=questionlists[i].Statement%></td>
+                        </tr>
+                        <tr>
+                            <td><%=App.languageDict.attributes.Given_Answer %></td>
+                            <td><%=answerlist[i].Answer%></td>
+                        </tr>
+                        <% if(!learner) { %>
+                            <tr>
+                                <td><%=App.languageDict.attributes.TotalMarks %></td>
+                                <td><%=questionlists[i].Marks%></td>
+                            </tr>
+                            <tr>
+                                <td><%=App.languageDict.attributes.ObtainMarks %></td>
+                                <td>>
+                                    <input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
+                                    <div class="slider-range-min"></div>
+                                </td>
+                            </tr>
+                         <% } %>
+                    <% } %>
+                <% } %> 
+                <% if(!learner) { %>
+                    <tr>
+                        <td>
+                            <button class="btn btn-primary" id="updateAnswer"><%=App.languageDict.attributes.Update%></button>
+                        </td>
+                        <td></td>
+                    </tr>
+                <% } %> 
+            </table>
+        </div>
+    </script>
+
     <script type="text/template" id="template-mail">
         <div id="mailActions" >
             <b id="mailHeading"><%= languageDict.attributes.Inbox %>
@@ -1537,7 +1718,7 @@
         <div id="search">
             <div class="row">
                 <div class="col-lg-5">
-                    <div class="form-group search-Box">
+                    <div class="form-course search-Box">
                         <label style='font-size:16px'><b><%= languageDict.attributes.Title %></b></label><br><input class="form-control" type="text" placeholder="" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
                     </div>
 
@@ -1688,41 +1869,135 @@
         <div id="quiz-body" class="courseEditStep">
             <br/>
             <%= languageDict.attributes.Courses %> | <%= courseTitle %>
-            <h4 id="new-quiz"><%= languageDict.attributes.New_Quiz %></h4>
+            <h4 id="new-quiz"><%= languageDict.attributes.New_Test %></h4>
+            <button class="back_button btn btn-primary"><%= languageDict.attributes.Back_To_Step %></button>
             <table class='table' id="listofquestions">
             </table>
-            <button class="btn btn-success" id="save-quiz" ><%= languageDict.attributes.Save_Quiz %></button>
-            <button class="btn btn-danger" id="cancel-quiz" ><%= languageDict.attributes.Cancel %></button>
-            <div id='question-div'>
-                <div id="question-area">
-                    <div id="question-no"><%= languageDict.attributes.Question %> : </div>
-                    <div id="question-box"><textarea rows="3"  spellcheck="true" style="width:100%;height:100%" id="quizQuestion" ></textarea><br/></div>
-                </div>
-                <div id="option-area">
-                    <br/>
-                    &nbsp;&nbsp;<%= languageDict.attributes.Response_Options %><br/>
-                    &nbsp;&nbsp;<%= languageDict.attributes.Identify_Correct %>
-                    <div id="options-table">
-                        <table style="border-spacing: 36px 0px;border-collapse:separate;">
-                            <tr><td><input type="radio" name="options" value="option1" id="Radio-margin" />&nbsp;<input type="text" id="option1"  /></td>
-                                <td><input type="radio" name="options" value="option2" id="Radio-margin"/>&nbsp;<input type="text" id="option2"  /></td></tr>
-                            <tr><td><input type="radio" name="options" value="option3" id="Radio-margin" />&nbsp;<input type="text" id="option3"  /></td>
-                                <td><input type="radio" name="options" value="option4" id="Radio-margin"/>&nbsp;<input type="text" id="option4"  /></td></tr>
-                            <tr><td><input type="radio" name="options" value="option5" id="Radio-margin" />&nbsp;<input type="text" id="option5"  /></td></tr></table>
+            <div id="parentDiv"></div>
+           <!--  <button class="btn btn-success" id="save-quiz" ><%= languageDict.attributes.Save_Test %></button>
+            <button class="btn btn-danger" id="cancel-quiz" ><%= languageDict.attributes.Cancel %></button> -->
+            <hr style="height:1px;border:none;color:#cccccc;background-color:#cccccc;" />             
+            <div id="dialog"> 
+             <span class="subtitle">Select a Question</span> <br /> 
+                <select id="add_new_question" class="surTextArea"> 
+                    <option value="0" selected="true" disabled="disabled">Please select a question</option>      
+                    <option value="1" id="multiple1">Multiple Choice</option> 
+                    <option value="6" id="single1">Single Textbox</option>
+                    <option value="8" id="comment1">Comment/Essay Box</option>
+                    <option value="10" id="Attachment1">Attachment</option>
+                 </select>
+
+                 <div id="1" class="quizclass" style="width:70%;"> 
+                 <div class="question_class">
+                 <span class="subtitle2">Question Text:</span> <br /> 
+                    <textarea cols="250" rows="3" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                    <div class="question_class">
+                            <span class="subtitle2">Answer Choices (each choice on a separate line):</span> <br /> 
+                        <div>
+                            <input type="checkbox" class="answer_choice" name="check"
+                             style="margin-left: 15px; margin-top: 15px;"/>
+                             <input type="textbox"  placeholder="Option" class="input_field" name="mytext[]" style="width: 30% margin-left: 126px; margin-top: 15px;"/><br/>
+                         </div>
+                        <div>   
+                             <input type="checkbox" class="answer_choice" name="check" style="margin-left: 280px; margin-top: -44px;"/>
+                             <input type="textbox" placeholder="Option" class="input_field" name="mytext[]" value= "" style="width: 30% margin-left: 280px; margin-top: -44px;" /><br/>
+                        </div>
+                        <div class="input_fields_wrap">  
+                        </div><button class="add_field  btn btn-primary">Add Fields</button><br />
+                        <span class="subtitle2">Marks:</span> <br /> 
+                     <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"  min="0" required=""> <br />
                     </div>
-                </div>
-                <br/>
-                <button class="btn btn-primary" id="save-new-question" ><%= languageDict.attributes.Add_Question %></button>
-                <button class="btn btn-danger" id="cancel-new-question" ><%= languageDict.attributes.Cancel %></button>
+                 </div>
+                 <div align="center"> <br /> 
+                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
+                 <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+                 <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+                 </div> 
+                 </div>
 
-                <button class="btn btn-primary" id="save-edit-question" ><%= languageDict.attributes.Save %></button>
-                <button class="btn btn-danger" id="cancel-edit-question" ><%= languageDict.attributes.Cancel %></button>
+                 <div id="6" class="quizclass" style="width:70%;">
+                 <div class="question_class">
+                    <span class="subtitle2">Question Text:</span> <br /> 
+                    <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br />
+                               <span class="subtitle2">Marks:</span> <br /> 
+                        <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
+                     </div>
+                    <div align="center"> <br /> 
+                        <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
+                        <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+                        <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+                    </div>
+                 </div>
+                 <div id="8" class="quizclass" style="width:70%;">
+                 <div class="question_class"">
+                  <span class="subtitle2">Question Text:</span> <br />
+                     <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                                <span class="subtitle2">Marks:</span> <br /> 
+               <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
+                     </div>
+                <div align="center"> <br />
+                 <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary"> 
+                 <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+                 <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+                 </div>
+                  </div>
 
+                 <div id="10" class="quizclass" style="width:70%;">
+                 <div class="question_class">
+                  <span class="subtitle2">Question Text:</span> <br /> 
+                    <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
+                <div class="question_class">
+                <span class="subtitle2">Marks:</span> <br /> 
+                     <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
+                </div> 
+                <div align="center"> <br /> 
+
+                <input type="submit" value="Save Question" class="default_btn saveQuestionButton savecourseQuestion btn btn-primary">
+                <input type="submit" value="Edit Question" class="default_btn edit_course_quiz btn btn-primary">
+                <input type="submit" value="Cancel" class="default_btn cancel_course_quiz btn btn-danger"> 
+                 </div>
+                 </div>
             </div>
-
-
         </div>
     </script>
+
+     <script type="text/html" id="template-CourseStepQuestionRow">
+        <td><%= Statement %>
+             <% if ( Type == "Multiple Choice") {  %>
+                  <table>
+            <tbody>
+            <% for (var i=0; i < Options.length; i++){ %>
+            <tr>
+                <td align="center"><input type="hidden" name="' + <%= Statement %><%= Options[0] %> + '"></td>
+                <td> <ul><li><%= Options[i] %></li></ul></td>
+            </tr>
+            <% }%>
+            </tbody>
+        </table>
+       
+        <%} %>
+        </td>
+        <td><%= Marks%></td>
+      <td>
+        <% if ( Type == "Single Textbox") { %>
+           Single Textbox
+        <%}else if ( Type == "Attachment") { %>
+        Attachment
+        <%} else if ( Type == "Comment/Essay Box") { %>
+            Comment/Essay Box
+        <%} else if ( Type == "Multiple Choice") {  %>
+            Multiple Choice
+        <%} %></td>
+    <td>
+        <a class='resFeedBack btn btn-success edit_coursestep_question'>
+            <i class='icon-eye-open icon-white'></i> <%= languageDict.attributes.EditLabel %>
+        </a>
+        <a class='btn btn-danger destroy'>
+            <i class='icon-remove icon-white'></i> <%= languageDict.attributes.Remove %>
+        </a>
+    </td>
+</script>
+
     <script type="text/html" id="template-CollectionRow">
         <td id=<%=_id%> >
             <a class="MajorCategory" href="#listCollection/<%=_id%>/<%=CollectionName%>"><%=CollectionName%></a>

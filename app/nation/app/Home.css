@@ -230,7 +230,7 @@ h1,h2,h3,h4,h5,h6{
     width: 100%;
 }
 
-.btn.btn-hg, .input-group-hg .btn
+.btn.btn-hg, .input-course-hg .btn
 {
     line-height:13px;
     color: white;
@@ -274,10 +274,21 @@ h1,h2,h3,h4,h5,h6{
     padding-left: 183px;
     padding-top: 31px;
 }
+#loginLang{
+    display: inline-flex;
+    float:right;
+    margin-top:10px;
+}
 #nav{
     display: flex;
     text-align: center;
 }
+.date-picker {
+    width: 300px;
+    float: right;
+    margin-bottom: 6px;
+}
+
 #nav li{
     display: inline-block;
     text-align:center;
@@ -785,11 +796,11 @@ textarea[name="comment"]
 }
 .btn.btn-primary1:hover,
 .btn.btn-primary1:focus,
-.btn-group:focus .btn.btn-primary1.dropdown-toggle {
+.btn-course:focus .btn.btn-primary1.dropdown-toggle {
     background-color: #cc0000;
 }
 .btn.btn-primary1:active,
-.btn-group.open .btn.btn-primary1.dropdown-toggle,
+.btn-course.open .btn.btn-primary1.dropdown-toggle,
 .btn.btn-primary1.active {
     background-color: #16a085;
 }
@@ -803,7 +814,7 @@ body{
     overflow:auto;
     width:100%;
 }
-.btn.btn-hg, .input-group-hg .btn
+.btn.btn-hg, .input-course-hg .btn
 {
     line-height:13px;
     color: white;

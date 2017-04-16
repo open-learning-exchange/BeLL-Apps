@@ -1,23 +1,13 @@
 $(function() {
-
     App.Views.ActivityReport = Backbone.View.extend({
         vars: {},
-        events: {
-            /* Sync moved to nation
-             "click #syncReport" : function(e){
-             App.Router.syncLogActivitiy()
-             }*/
-        },
+        events: {},
         template: $('#template-ActivityReport').html(),
-        initialize: function() {
-
-        },
+        initialize: function() {},
         render: function() {
             var context = this;
-
-
             $.ajax({
-                url: '/members/_design/bell/_view/MaleCount?group=false',
+                url: '/members/_design/bell/_view/MaleCount?course=false',
                 type: 'GET',
                 dataType: "json",
                 success: function(json) {
@@ -28,7 +18,7 @@ $(function() {
                         context.vars.MaleMembers = 0;
                     }
                     $.ajax({
-                        url: '/members/_design/bell/_view/FemaleCount?group=false',
+                        url: '/members/_design/bell/_view/FemaleCount?course=false',
                         type: 'GET',
                         dataType: "json",
                         success: function(json) {
@@ -41,16 +31,10 @@ $(function() {
                             context.vars.endDate = context.endDate
                             context.vars.CommunityName = context.CommunityName
                             context.$el.html(_.template(context.template, context.vars));
-
                         }
                     })
-
-
                 }
             })
-
-
         }
     })
-
 })

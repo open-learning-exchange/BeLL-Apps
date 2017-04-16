@@ -9,13 +9,13 @@ $(function() {
 
         events: {
             "click #Rearrange": function(e) {
-                if ($("input[type='radio']").is(":visible")) {
+                if ($("input[type = 'radio']").is(":visible")) {
                     $("#Rearrange").text(App.languageDict.attributes.Rearrange);
                     for (var i = 0; i < this.changedSteps.length; i++) {
                         this.collection.models[this.changedSteps[i]].save()
                     }
                     this.changedSteps.remove
-                    $("input[type='radio']").hide()
+                    $("input[type = 'radio']").hide()
                     $("#moveup").hide()
                     $("#movedown").hide()
                 } else {
@@ -25,6 +25,7 @@ $(function() {
                     $("#movedown").show()
                 }
             },
+
             "click #moveup": function(e) {
                 var radio;
                 var i = 0;
@@ -54,11 +55,11 @@ $(function() {
                 var prev = radio.previousSibling;
                 var par = radio.parentNode;
                 if (prev) {
-
                     par.removeChild(radio);
                     par.insertBefore(radio, prev);
                 }
             },
+
             "click #movedown": function(e) {
                 var radio;
                 var i = 0;
@@ -96,14 +97,15 @@ $(function() {
                 }
             }
         },
-        changeColumnHtml: function(stepNo, title, td, check) {
 
+        changeColumnHtml: function(stepNo, title, td, check) {
             if (check) {
-                $(td).html('<input type="radio" name="stepRow" checked="checked" />&nbsp;&nbsp;'+App.languageDict.attributes.Step+' ' + stepNo + ' : ' + title)
+                $(td).html('<input type = "radio" name = "stepRow" checked = "checked" />&nbsp;&nbsp;'+App.languageDict.attributes.Step+' ' + stepNo + ' : ' + title)
             } else {
-                $(td).html('<input type="radio" name="stepRow" />&nbsp;&nbsp;'+App.languageDict.attributes.Step+' ' + stepNo + ' : ' + title)
+                $(td).html('<input type = "radio" name = "stepRow" />&nbsp;&nbsp;'+App.languageDict.attributes.Step+' ' + stepNo + ' : ' + title)
             }
         },
+
         addOne: function(model) {
             var that = this
             var lrow = new App.Views.LevelRow({
@@ -122,17 +124,18 @@ $(function() {
                     $('#movedown').hide()
                     $('#Rearrange').hide()
                 }
-                $("#addstep").attr("onClick", "document.location.href=\'#level/add/" + that.groupId + "/nolevel/" + that.collection.models.length + "\' ");
                 location.reload()
             })
             lrow.render()
             this.$el.append(lrow.el)
         },
+
         updateModel: function(model) {
             model.save({
                 success: function() {}
             })
         },
+
         addAll: function() {
             // @todo this does not work as expected, either of the lines
             // _.each(this.collection.models, this.addOne())
@@ -142,15 +145,12 @@ $(function() {
             this.changedSteps = new Array()
         },
         render: function() {
-            this.$el.append('<br/><button class="btn btn-success" id="addstep"  onclick = "document.location.href=\'#level/add/' + this.groupId + '/nolevel/' + this.collection.models.length + '\' ">'+App.languageDict.attributes.Add_Step+'</button>')
             if (this.collection.models.length > 0) {
-                this.$el.append('&nbsp;&nbsp;&nbsp;<button class="btn btn-success" id="Rearrange" >'+App.languageDict.attributes.Rearrange+'</button><br/><br/>')
+                this.$el.append('&nbsp;&nbsp;&nbsp;<button class = "btn btn-success" id="Rearrange" >'+App.languageDict.attributes.Rearrange+'</button><br/><br/>')
             }
-            this.$el.append('<button class="btn btn-success" id="moveup" >'+App.languageDict.attributes.Up+'</button>&nbsp;&nbsp;&nbsp;')
-            this.$el.append('<button class="btn btn-success" id="movedown" >'+App.languageDict.attributes.Down+'</button>')
+            this.$el.append('<button class = "btn btn-success" id = "moveup" >'+App.languageDict.attributes.Up+'</button>&nbsp;&nbsp;&nbsp;')
+            this.$el.append('<button class = "btn btn-success" id = "movedown" >'+App.languageDict.attributes.Down+'</button>')
             this.addAll()
         }
-
     })
-
 })

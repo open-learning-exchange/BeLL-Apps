@@ -88,6 +88,13 @@ ddoc.views = {
             return sum(values);
         }
 
+    },
+    date_now: {
+        map: function () {
+            var now = new Date().toLocaleDateString();
+            var output = JSON.parse(JSON.stringify(now));
+            emit(output, output);
+        }
     }
 }
 

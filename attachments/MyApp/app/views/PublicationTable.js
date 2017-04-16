@@ -67,7 +67,7 @@ $(function() {
 			})
 		},
 		syncCourses: function(nationUrl, nationName, coursesIdes, IssueNo) {
-			console.log('http://' + nationName + ':' + App.password + '@' + nationUrl + ':5984/groups')
+			console.log('http://' + nationName + ':' + App.password + '@' + nationUrl + ':5984/courses')
 			$.ajax({
 				headers: {
 					'Accept': 'application/json',
@@ -77,8 +77,8 @@ $(function() {
 				url: '/_replicate',
 				dataType: 'json',
 				data: JSON.stringify({
-					"source": 'http://' + nationName + ':' + App.password + '@' + nationUrl + ':5984/groups',
-					"target": 'groups',
+					"source": 'http://' + nationName + ':' + App.password + '@' + nationUrl + ':5984/courses',
+					"target": 'courses',
 					'doc_ids': coursesIdes
 				}),
 				success: function(response) {
