@@ -1,6 +1,9 @@
 .DS_Store
 .idea
+.python-version
 
+*.pyc
+*.log
 
 app/MyApp/index2.html
 app/MyApp/app/collections.js

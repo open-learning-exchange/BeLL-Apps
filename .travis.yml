@@ -62,6 +62,14 @@ before_install:
   - |-
     sed -i 's#"visits": 0#"visits":0,"bellLanguage":"English","BirthDate":"2010-10-15T04:00:00.000Z","community":"NATION"#' install_linux
 
+  - cd app
+  - python minify_html.py
+  - mv MyApp/index.html MyApp/index1.html
+  - mv MyApp/index2.html MyApp/index.html
+  - mv nation/index.html nation/index1.html
+  - mv nation/index2.html nation/index.html
+  - cd ..
+
   - while ! curl -X GET http://127.0.0.1:5981/_all_dbs ; do sleep 1; done
   - node install_linux http://127.0.0.1:5981
   - curl -X PUT 'http://127.0.0.1:5981/_config/log/file' -d '"/usr/local/var/log/couchdb/couch.log"'
@@ -76,5 +84,5 @@ script:
   - curl -X GET http://127.0.0.1:5981/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 40 ]; then exit 1; fi
   - node -v
-  - (cd tests && codeceptjs run --steps --verbose)
+  - (cd tests && codeceptjs run --steps)
   - python -m unittest discover tests
