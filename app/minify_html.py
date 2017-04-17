@@ -51,6 +51,31 @@ def concatenate_files(input_files=[], output_file=None):
     with open(output_file,'w') as ff:
         ff.write(';\n'.join(res))
 
+def rewrite_index(input_file,output_file,target):
+    lines = [l for l in open(input_file).readlines() if l]
+
+    new_lines = []
+    data = []
+    rewrite = True
+    for line in lines:
+        remove = False
+        if target in line and "script src" in line:
+            results = handle_line(line)
+            if results:
+                if results.get('dest') == target:
+                    remove = True
+                    if rewrite:
+                        new_lines.append('    <script src="{}"></script>'.format(target))
+                        rewrite = False
+        if not remove:
+            new_lines.append(line)
+
+    open(output_file,'w').write(''.join(new_lines))
+
+def copy_file(src,dst):
+    with open(src,'r') as isrc:
+        with open(dst,'w') as idst:
+            idst.write(isrc.read())
 
 def main():
 
@@ -67,6 +92,19 @@ def main():
             if r['dest'] == target:
                 files.append(r['source'])
         concatenate_files(input_files=files, output_file=target)
+
+    # ugly....
+    rewrite_index('index.html',   'index-1.html', targets[0])
+    rewrite_index('index-1.html', 'index-2.html', targets[1])
+    rewrite_index('index-2.html', 'index-3.html', targets[2])
+    rewrite_index('index-3.html', 'index-4.html', targets[3])
+    copy_file('index-4.html', 'index2.html')
+
+    os.remove('index-1.html')
+    os.remove('index-2.html')
+    os.remove('index-3.html')
+    os.remove('index-4.html')
+
 
 if __name__ == '__main__':
 
