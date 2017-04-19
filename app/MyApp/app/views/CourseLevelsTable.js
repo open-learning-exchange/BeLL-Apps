@@ -98,6 +98,7 @@ $(function () {
             while (index < sstatus.length && ssids[index] != this.vars._id) {
                 index++
             }
+            this.vars.questionlist = model.attributes.questionslist;
             this.vars.lastAttemptStatus = App.languageDict.attributes.UnAttempted;
             if (index == sstatus.length) {
                 this.vars.status = App.languageDict.attributes.Error
