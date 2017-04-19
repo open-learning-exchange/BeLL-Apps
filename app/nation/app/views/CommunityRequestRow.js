@@ -171,12 +171,14 @@ $(function() {
                     }
                     if (name == "VipLink") {
                         if (!$.cookie('Member.login')) {
-                               var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "/" + that.options.startDate + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<label>" + App.languageDictValue.get("old_communities") + "</label></td><br>";
+                            row = row + "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" + "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "/" + that.options.startDate + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp</td><br>";
                         }
                         else{
-                           var row = "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
-                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a><label>" + App.languageDictValue.get("old_communities") + "</label></td><br>";
+                            row = row + "<td>" + communityName + "</td><td>" + community.lastAppUpdateDate + "</td><td>" + community.version + "</td><td>" + community.lastPublicationsSyncDate + "</td><td>" + community.lastActivitiesSyncDate + "</td><td>" + memberVisits + "</td><td>" + resourceViews + "</td>" +
+                            "<td><a  class='btn btn-success' id='submit' href='#communityreport/" + communitySyncdate + "/" + communityName + "/" + communityCode + "'>" + App.languageDictValue.get("Generate_Report") + "</a>&nbsp&nbsp&nbsp<a role='button' class='btn btn-danger destroy' href='#addCommunity/" + community._id + "'> <i class='icon-remove icon-white'></i>" + App.languageDictValue.get("DeleteLabel") + "</a></td>";
+                        }
+                        if (community.register == "" || community.register == "undefined"){
+                            row = row + "<td><label>" + App.languageDictValue.get("old_communities") + "</label></td>";
                         }
                         that.$el.append(row);
                     }
