@@ -1331,12 +1331,15 @@
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
-            <% if(lastAttemptsMarks == undefined){%>
-            <span  style="float:right;" >[<%=lastAttemptStatus%>] 0%</span>
-            <% } else { %>
-             <span  style="float:right;" ><%= languageDict.attributes.Attempt%>:<%=lastAttempt%>
-            [<%=lastAttemptStatus%>] <%=lastAttemptsMarks%>%</span>
-            <% } %>
+            <% if(questionlist == null){%>
+            <%} else {%>
+                <% if(lastAttemptsMarks == undefined){%>
+                <span  style="float:right;" >[<%=lastAttemptStatus%>] 0%</span>
+                <% } else { %>
+                 <span  style="float:right;" ><%= languageDict.attributes.Attempt%>:<%=lastAttempt%>
+                [<%=lastAttemptStatus%>] <%=lastAttemptsMarks%>%</span>
+                <% } %>
+            <%}%>
         </div>
         </h3>
 
