@@ -1571,12 +1571,12 @@
                             <td><%=App.languageDict.attributes.Question %></td>
                             <td><%=questionlists[i].Statement%></td>
                         </tr>
-                        <tr>
                         <%if(attachmentName != null && attachmentName!= "" && attachmentName!= undefined ){%>
-                            <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
+                        <tr>
+			    <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
                             <td></td>
-                        <%}%>
                         </tr>
+                        <%}%>
                         <% if(!learner) { %>
                             <tr>
                                 <td><%=App.languageDict.attributes.TotalMarks %></td>
