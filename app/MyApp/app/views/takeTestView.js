@@ -7,7 +7,7 @@ $(function() {
         Score: 0,
         Correctanswers: {},
         res: [],
-        Givenanswers: new Array(),
+        Givenanswers: [],
         AttemptMarks: [],
         index: -1,
         TotalCount: 0,
@@ -36,13 +36,13 @@ $(function() {
 
         nextquestion: function (e) {
             if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
-                this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
+                this.Givenanswers[$("input[name='singleLine']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
                 this.renderQuestion();
             } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
-                this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
+                this.Givenanswers[$("input[name='commentLineEssay']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
                 this.renderQuestion();
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
-                this.Givenanswers.push(decodeURI($("input[type='hidden'][name='_attachment']").val()));
+                this.Givenanswers[$("input[name='attachment']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val()));
                 this.renderQuestion();
             } else if ($("input:checkbox[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
@@ -52,7 +52,7 @@ $(function() {
                         res.push(decodeURI($(this).val()));
                     }
                 });
-                that.Givenanswers.push(res);
+                that.Givenanswers[$("input[name='multiplechoice']").val()] = res;
                 that.renderQuestion()
             }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
@@ -60,7 +60,7 @@ $(function() {
                 if($("input:radio[name='multiplechoice[]']:checked").length > 0){
                     res.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
                 }
-                that.Givenanswers.push(res);
+                that.Givenanswers[$("input[name='multiplechoice']").val()] = res;
                 that.renderQuestion()
             } else {
                 alert(App.languageDict.attributes.No_Option_Selected)
@@ -70,16 +70,17 @@ $(function() {
         answersave: function(attempt) {
             for (var i =0; i < this.TotalCount; i++) {
                 var result = null;
-                var answer = this.Givenanswers[i];
-                if (typeof answer ==  'string'){
-                    answer = [this.Givenanswers[i]];
-                }
                 var questions = this.Questionlist[i];
                 var coursequestion = new App.Models.CourseQuestion()
                 coursequestion.id = this.Questionlist[i]
                 coursequestion.fetch({
                     async:false
                 })
+                var question =this.Questionlist[i]
+                if (coursequestion.id == Object.keys(this.Givenanswers)[i] ) {
+                    var answer = this.Givenanswers[coursequestion.id]
+                }
+
                 if (coursequestion.attributes.Type == "Multiple Choice" ) {
                     result = 0;
                     var correctAnswer = coursequestion.get("CorrectAnswer");
@@ -124,7 +125,6 @@ $(function() {
             })
             var totalMarks = coursestep.get("totalMarks");
             this.totalObtainMarks = (Math.round((this.totalMarks / totalMarks) * 100))
-            console.log(memberProgressRecord)
             if(this.preview == this.TotalCount) {
                 if(this.pp <= this.totalObtainMarks){
                     this.sstatus = "1"
@@ -161,7 +161,6 @@ $(function() {
             this.pp = parseInt(this.options.passP)
             this.myModel = this.options.resultModel
             this.stepindex = this.options.stepIndex
-            this.Givenanswers = []  
         },
 
         renderQuestion: function() {
