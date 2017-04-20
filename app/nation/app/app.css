@@ -322,8 +322,8 @@ border-bottom:1px solid black;
     width: 50%;
     z-index: 2;
     margin-left:10%;
-    overflow: scroll;
-    height: 50%;
+    overflow: auto;
+    height: auto;
 }
 #courseform .bbf-field.field-levels{
     margin-left: 236px;

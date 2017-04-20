@@ -2425,6 +2425,7 @@ $(function() {
                             courseId: courseId
                         })
                         Cstep.set("totalMarks", 0);
+                        Cstep.set("stepType", "Objective");
                         var lForm = new App.Views.LevelForm({
                             model: Cstep
                         })
@@ -2437,7 +2438,7 @@ $(function() {
                         lForm.sliders();
                         $("input[name='step']").attr("disabled", true);
                         $("input[name='passingPercentage']").attr("readonly",true);
- +                      $("input[name='passingPercentage']").val(10)
+                        $("input[name='passingPercentage']").val(10)
                         if (totalLevels != -1) {
                             var tl = parseInt(totalLevels) + 1
                             $("input[name='step']").val(tl)
@@ -2493,7 +2494,6 @@ $(function() {
                     courseAnswer.fetch({
                         async: false
                     })
-                console.log(courseAnswer)
                 var answerview = new App.Views.AnswerReview({
                   collection: courseAnswer,
                   attributes: {

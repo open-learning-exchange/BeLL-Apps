@@ -25,17 +25,38 @@ $(function() {
                 CourseStepQuestionObject.set({
                     'questionslist': CourseStepQuestions
                 })
+                var that =  this
                 CourseStepQuestionObject.save(null, {
                    success: function() {
-
                         questionModel.destroy();
+                        var stepQuestion =  new App.Collections.CourseStepQuestions();
+                        stepQuestion.stepId = that.Id
+                        stepQuestion.fetch({
+                            async: false
+                        });
+                        var courseStep = new App.Models.CourseStep({
+                            _id: that.Id
+                        })
+                        courseStep.fetch({
+                            async: false
+                        })
+                        for (var i = 0; i < stepQuestion.length; i++) {
+                            if(stepQuestion.models[i].attributes.Type != "Multiple Choice"){
+                                break;
+                            } else {
+                                if (i == stepQuestion.length-1) {
+                                    courseStep.set("stepType", "Objective");
+                                    courseStep.save();
+                                }
+                            }
+                        }
                    }
                 });
             },
             "click .edit_coursestep_question": function(event) {
-               var courseQuizEdit = new App.Views.TestView();
-               courseQuizEdit.questionModel = this.model;
-               courseQuizEdit.coursesavefunction(this.Id, true, this.model);
+                var courseQuizEdit = new App.Views.TestView();
+                courseQuizEdit.questionModel = this.model;
+                courseQuizEdit.coursesavefunction(this.Id, true, this.model);
             }
 
         },

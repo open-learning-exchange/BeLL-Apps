@@ -4,10 +4,13 @@ $(function() {
 
         model: App.Models.CourseQuestion,
         url: function() {
-            if (this.keys != 'undefined')
+            if (this.stepId != "" && this.stepId != undefined) {
+                return App.Server + '/coursequestion/_design/bell/_view/questionsByCourseStepId/?key="' +this.stepId + '"&include_docs=true'
+            } else if (this.keys != 'undefined') {
                 return App.Server + '/coursequestion/_all_docs?include_docs=true&keys=[' + this.keys + ']'
-            else
+            } else {
                 return App.Server + '/coursequestion/_all_docs?include_docs=true'
+            }
         },
         
         parse: function(response) {
