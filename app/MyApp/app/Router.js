@@ -39,6 +39,7 @@ $(function() {
             'level/view/:levelId/:rid': 'ViewLevel',
             'savedesc/:lid': 'saveDescprition',
             'create-test/:lid/:rid/:title': 'CreateTest',
+            'view-test/:stepid/:rid': 'ViewTest',
             'collection': 'Collection',
             'listCollection/:collectionId': 'ListCollection',
             'listCollection/:collectionId/:collectionName': 'ListCollection',
@@ -90,7 +91,7 @@ $(function() {
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
             'configurationsForm': 'configurationsForm',
-            'checksum': 'checkSum',
+            'checksum(/:nation/:url)': 'checkSum',
             'listLearnersCredits/:cid': 'showLearnersListForCredits'
         },
         addOrUpdateWelcomeVideoDoc: function() {
@@ -2416,24 +2417,28 @@ $(function() {
 
                         // Step Form
                         totalLevels = levels.models.length;
-                        var lForm = new App.Views.LevelForm({
-                            model: Cstep
-                        })
-                        $('#AddCourseMainDiv').append('<div class="courseSearchResults_Bottom"></div>');
+                        
+                        
+                        
                         var Cstep = new App.Models.CourseStep()
                         Cstep.set({
                             courseId: courseId
                         })
                         Cstep.set("totalMarks", 0);
+                        Cstep.set("stepType", "Objective");
                         var lForm = new App.Views.LevelForm({
                             model: Cstep
                         })
+                        $('#AddCourseMainDiv').append('<div class="courseSearchResults_Bottom"></div>');
                         $('.courseSearchResults_Bottom').append('<h3 id="feedbackResoDiv">' + App.languageDict.attributes.New_Step + '</h3>');
                         lForm.edit = false
                         lForm.previousStep = 0
                         lForm.render()
                         $('.courseSearchResults_Bottom').append(lForm.el)
+                        lForm.sliders();
                         $("input[name='step']").attr("disabled", true);
+                        $("input[name='passingPercentage']").attr("readonly",true);
+                        $("input[name='passingPercentage']").val(10)
                         if (totalLevels != -1) {
                             var tl = parseInt(totalLevels) + 1
                             $("input[name='step']").val(tl)
@@ -2489,7 +2494,6 @@ $(function() {
                     courseAnswer.fetch({
                         async: false
                     })
-                console.log(courseAnswer)
                 var answerview = new App.Views.AnswerReview({
                   collection: courseAnswer,
                   attributes: {
@@ -2714,7 +2718,9 @@ $(function() {
                 lForm.previousStep = 0
                 lForm.render()
                 $('.courseSearchResults_Bottom').append(lForm.el)
+                lForm.sliders()
                 $("input[name='step']").attr("disabled", true);
+                $("input[name='passingPercentage']").attr("readonly",true);
             } else {
                 Cstep.set({
                     "_id": levelId
@@ -2728,7 +2734,9 @@ $(function() {
                     lForm.previousStep = Cstep.get("step")
                     lForm.render();
                     $('.courseSearchResults_Bottom').append(lForm.el)
+                    lForm.sliders()
                     $("input[name='step']").attr("disabled", true);
+                    $("input[name='passingPercentage']").attr("readonly",true);
                 })
                 Cstep.fetch({async:false});
             }
@@ -2770,12 +2778,36 @@ $(function() {
                     if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                     } else {
-                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>')
+                        $('.courseEditStep').append('<a class="btn btn-primary" style="margin-left: 1100px" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a>&nbsp;&nbsp;')
                     }
+                    $('.body').append('<div id="viewTest"></div>');
+
                 }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
+        },
+
+        ViewTest: function(stepId,revId) {
+            var step = new App.Models.CourseStep({
+                _id: stepId
+            })
+            step.fetch({
+                async: false
+            })
+            var JSONsteps = null;
+            JSONsteps = step.toJSON()
+            var temp = new App.Views.ViewTest({
+                questionlist: JSONsteps.questionslist,
+                stepId: JSONsteps._id,
+                attributes: {
+                    revisionid: revId
+                }
+            })
+            temp.render()
+            $('div#viewTest').html('')
+            $('div#viewTest').html(temp.el)
         },
 
         saveDescprition: function(lid) {
@@ -6552,9 +6584,14 @@ $(function() {
                 count++
             })
         },
-        checkSum: function() {
-            nationName = App.configuration.get('nationName');
-            nationURL = App.configuration.get('nationUrl');
+        checkSum: function (nationNm, nationUri) {
+            if (nationNm.length > 0 && nationUri.length > 0) {
+                nationName = nationNm;
+                nationURL = nationUri;
+            } else {
+                nationName = App.configuration.get('nationName');
+                nationURL = App.configuration.get('nationUrl');
+            }
             remoteDesign = [];
             localDesign = [];
             $('.body').html('');

@@ -1203,6 +1203,7 @@ select {
 select[multiple],
 select[size] {
   height: auto;
+  overflow: auto;
 }
 
 select:focus,

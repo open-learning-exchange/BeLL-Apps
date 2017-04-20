@@ -10,6 +10,18 @@ $(function() {
             }
         },
 
+        sliders : function() {
+             $( "#slider-range-min" ).slider({
+                 range: "min",
+                 value: 37,
+                 min: 1,
+                 max: 100,
+                 slide: function( event, ui ) {
+                    $('input:[name="passingPercentage"]' ).val( ui.value );
+                }
+            });
+        },
+
         render: function() {
             // members is required for the form's members field
             var levelForm = this
@@ -25,7 +37,7 @@ $(function() {
             this.form.fields['totalMarks'].$el.hide()
             this.form.fields['stepMethod'].$el.hide()
             this.form.fields['stepGoals'].$el.hide()
-
+            this.form.fields['passingPercentage'].$el.append('<div id = "slider-range-min"></div>')
 
             // give the form a submit button
             var button = '';
@@ -73,9 +85,9 @@ $(function() {
                                     m.save()
                                 }
                             })
+                            location.reload()
                         }
                     })
-                    location.reload()
                 } else {
                     var allcrs = new App.Collections.StepResultsbyCourse()
                     allcrs.courseId = that.model.get("courseId")
@@ -154,12 +166,6 @@ $(function() {
                             that.model.set("title", $.trim(that.model.get("title")));
                             that.model.set("description", $.trim(that.model.get("description")));
                             that.model.save()
-                            if(!that.edit)
-                                location.reload()
-                            else
-                                Backbone.history.navigate('level/view/' + that.model.get("id") + '/' + that.model.get("rev"), {
-                                    trigger: true
-                                })
                         }
                         else
                             alert(App.languageDict.attributes.DuplicateSteps)

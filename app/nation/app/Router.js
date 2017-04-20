@@ -1144,10 +1144,14 @@ $(function() {
                     } else {
                         setDt = new Date();
                     }
-                    firstDt = result.rows[0].key.split('/');
-                    firstYear = firstDt[0];
-                    firstMonth = parseInt(firstDt[1]);
-                    firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+                    if(result.length > 0) {
+                        firstDt = result.rows[0].key.split('/');
+                        firstYear = firstDt[0];
+                        firstMonth = parseInt(firstDt[1]);
+                        firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+                    } else {
+                        firstDt = new Date();
+                    }
                     today = new Date();
                     $('input.date-picker').datepicker({
                         minDate: firstDt,
@@ -3453,11 +3457,7 @@ $(function() {
             App.$el.children('.body').html('<div id="parentDiv"></div>');
             $('#parentDiv').append(seachForm.el);
             $('#SeachCourseText').attr('placeholder',App.languageDictValue.attributes.KeyWord_s);
-            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
-            {
-                $('.form h6').css({"float":"left"});
-                $('.form h6 input').css({"margin-left":"20px","margin-right":"0px"});
-            }
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'))
         },
         Dashboard: function() {
             var con = this.getConfigurations()
@@ -3782,10 +3782,14 @@ $(function() {
                         } else {
                             setDt = new Date();
                         }
-                        firstDt = result.rows[0].key.split('/');
-                        firstYear = firstDt[0];
-                        firstMonth = parseInt(firstDt[1]);
-                        firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+                        if (result.length > 0) {
+                            firstDt = result.rows[0].key.split('/');
+                            firstYear = firstDt[0];
+                            firstMonth = parseInt(firstDt[1]);
+                            firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+                        } else {
+                            firstDt = new Date();
+                        }
                         today = new Date();
                         var listCommunity;
                         if (secretId && firstDt) {
@@ -3914,49 +3918,51 @@ $(function() {
                 success: function(result) {
 		    urlFrag = $.url().data.attr.fragment.split('/');
 		    if(urlFrag[1]) {
-		    	selDate = urlFrag[1].split('-');
+		        selDate = urlFrag[1].split('-');
 			setDt = new Date(selDate[0], selDate[1]-1, 01, 00, 00, 00);
 		    } else {
-		    	setDt = new Date();
+		        setDt = new Date();
 		    }
-                    firstDt = result.rows[0].key.split('/');
-                    firstYear = firstDt[0];
-                    firstMonth = parseInt(firstDt[1]);
-		    firstDt = new Date(firstYear, firstMonth-1, 01, 00, 00, 00);
-		    today = new Date();
-                    var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
-		    if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
-                    listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.date-picker{width:300px;float:right;}</style>';
-		    }
-                    listCommunity += "<div id='list-of-Communities'></div>"
-
+                    if(result.length > 0) {
+                        firstDt = result.rows[0].key.split('/');
+                        firstYear = firstDt[0];
+                        firstMonth = parseInt(firstDt[1]);
+                        firstDt = new Date(firstYear, firstMonth - 1, 01, 00, 00, 00);
+	            } else {
+                        firstDt = new Date();
+	            }
+	            today = new Date();
+	            var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
+	            if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
+	                listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.date-picker{width:300px;float:right;}</style>';
+	            }
+	            listCommunity += "<div id='list-of-Communities'></div>"
                     App.$el.children('.body').html('<div id="communityDiv"></div>');
-                    $('#communityDiv').append(listCommunity);
+	            $('#communityDiv').append(listCommunity);
                     
-		    if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
-		    $('input.date-picker').datepicker({
-                        minDate: firstDt, 
-                        maxDate: today,
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'MM yy',
-			onClose: function(dateText, inst) {
-                           var month = $(".ui-datepicker-month :selected").val();
-                           var year = $(".ui-datepicker-year :selected").val();
-			   var newDt = new Date(year, month, 1);
-			   $('input.date-picker').datepicker('setDate', newDt);
-			   month = parseInt(newDt.getMonth());
-                           Backbone.history.navigate('listCommunity/'+newDt.getFullYear()+'-'+(month+1), {
-                              trigger: true
-                           });
-                        }
-                    });
-		    $('input.date-picker').datepicker('setDate', setDt);
-		    }
+	            if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
+	                $('input.date-picker').datepicker({
+                            minDate: firstDt,
+                            maxDate: today,
+                            changeMonth: true,
+		            changeYear: true,
+		            dateFormat: 'MM yy',
+		            onClose: function(dateText, inst) {
+                                var month = $(".ui-datepicker-month :selected").val();
+                                var year = $(".ui-datepicker-year :selected").val();
+                                var newDt = new Date(year, month, 1);
+                                $('input.date-picker').datepicker('setDate', newDt);
+                                    month = parseInt(newDt.getMonth());
+                                    Backbone.history.navigate('listCommunity/'+newDt.getFullYear()+'-'+(month+1), {
+                                    trigger: true
+                                });
+                            }
+                        });
+                        $('input.date-picker').datepicker('setDate', setDt);
+                    }
                     $('#list-of-Communities', App.$el).append(CommunityTable.el);
                     App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
                     App.stopActivityIndicator()
-
                 }
             });
         },

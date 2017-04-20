@@ -10,12 +10,13 @@ module.exports = function () {
     // Define custom steps here, use 'this' to access default methods of I.
     // It is recommended to place a general 'login' fSunction here.
 
-    login: function (email, password) {
+    login: function (login, password) {
 
       if (loginCount < 1) {
         this.amOnPage('/');
-        this.fillField('Login', 'admin');
-        this.fillField('Password', 'password');
+        this.fillField('Login', login);
+        this.fillField('Password', password);
+
         this.click('Sign In');
         this.saveCookies();
         this.waitForText('Set Configurations', 10);

@@ -21,6 +21,25 @@ $(function() {
             vars.languageDict=App.languageDictValue;
             if (vars._id == '_design/bell')
                 return
+            vars.add = true
+            var publication = new App.Models.Publication({
+                _id: this.publicationId
+            })
+            publication.fetch({
+                async: false,
+                success: function(response){
+                    courses = response.get('courses')
+                    if (courses == undefined){
+                        courses = []
+                    }
+                    for (var j in courses){
+                        if (courses[j]['courseID'] === vars._id){
+                            vars.add = false
+                            break;
+                        }
+                    }
+                }
+            })
             this.$el.append(_.template(this.template, vars))
         },
         addtoPublication: function(e) {
@@ -33,12 +52,6 @@ $(function() {
                     courses = response.get('courses');
                     if (courses == undefined) {
                         courses = []
-                    }
-                    for (var j in courses) {
-                        if (courses[j]['courseID'] === courseId) { // if courseId matches with id of an already added course's id, return
-                            alert(App.languageDictValue.attributes.Duplicate_Course_In_Pub);
-                            return;
-                        }
                     }
                     // add the courseId, the course-step-Ids, and the resourceIds of resources referenced in those course-steps
                     // courseId: we already have. so fetch course-tep-Ids now
@@ -53,8 +66,12 @@ $(function() {
                                 var courseStepSingle = {
                                     'stepID': courseStep.get('_id')
                                 };
-                                courseStepSingle['questionIDs'] = ((courseStep.get('questionslist').length > 0) ? courseStep.get('questionslist') : []); // courseSteps[i].questionIDs refers to an array of questionIDs
-                                courseStepSingle['resourceIDs'] = ((courseStep.get('resourceId').length > 0) ? courseStep.get('resourceId') : []); // courseSteps[i].resourceId refers to an array of resourceIds
+                                if (courseStep.get('questionslist') && (courseStep.get('questionslist').length > 0))
+                                    courseStepSingle['questionIDs'] = courseStep.get('questionslist');
+                                else courseStepSingle['questionIDs'] = [];
+                                if (courseStep.get('resourceId') && (courseStep.get('resourceId').length > 0))
+                                    courseStepSingle['resourceIDs'] = courseStep.get('resourceId');
+                                else courseStepSingle['resourceId'] = [];
                                 fullCourseRef['stepIDs'].push(courseStepSingle);
                             });
                             courses.push(fullCourseRef);

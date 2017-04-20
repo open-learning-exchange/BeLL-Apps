@@ -8,6 +8,13 @@ language: python
 python:
   - "3.5"
 
+env:
+  - TRAVIS_NODE_VERSION="7.9.0"
+cache:
+   directories:
+     - $(npm root -g)
+     - node_modules
+
 notifications:
   webhooks:
     urls:
@@ -30,10 +37,10 @@ addons:
     #travis encrypt SAUCE_ACCESS_KEY=...
 
 install:
-  - npm install -g codeceptjs
-  - npm install -g webdriverio
-  - npm install -g cookie
-
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+  - travis_retry npm install -g codeceptjs
+  - travis_retry npm install -g webdriverio
+  - travis_retry npm install -g cookie
   - pip install -I selenium==3.0.2
   - pip install sauceclient
   - pip install pycouchdb
@@ -52,6 +59,17 @@ before_install:
   - sed -i 's/nationbell/NATION/' init_docs/ConfigurationsDoc-Nation.txt
   - sed -i 's#Male#Female#' install_linux
   - sed -i 's#somalia#nation#' install_linux
+  - |-
+    sed -i 's#"visits": 0#"visits":0,"bellLanguage":"English","BirthDate":"2010-10-15T04:00:00.000Z","community":"NATION"#' install_linux
+
+  - cd app
+  - python minify_html.py
+  - mv MyApp/index.html MyApp/index1.html
+  - mv MyApp/index2.html MyApp/index.html
+  - mv nation/index.html nation/index1.html
+  - mv nation/index2.html nation/index.html
+  - cd ..
+
   - while ! curl -X GET http://127.0.0.1:5981/_all_dbs ; do sleep 1; done
   - node install_linux http://127.0.0.1:5981
   - curl -X PUT 'http://127.0.0.1:5981/_config/log/file' -d '"/usr/local/var/log/couchdb/couch.log"'
@@ -65,5 +83,6 @@ script:
   - docker ps -a | grep bell
   - curl -X GET http://127.0.0.1:5981/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 40 ]; then exit 1; fi
-  - codeceptjs run tests --steps --verbose
+  - node -v
+  - (cd tests && codeceptjs run --steps)
   - python -m unittest discover tests
