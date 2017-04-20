@@ -102,19 +102,21 @@ $(function() {
                     }
                     this.preview++;
                 }
-                var saveanswer = new App.Models.CourseAnswer()
-                saveanswer.set('Answer',answer);
-                saveanswer.set('pqattempts',attempt);
-                saveanswer.set('AttemptMarks',result);
-                saveanswer.set('QuestionID',questions);
-                var memberId = $.cookie('Member._id')
-                saveanswer.set('MemberID',memberId);
-                saveanswer.set('StepID',this.stepId);
-                saveanswer.save(null, {
-                    error: function() {
-                        console.log("Not Saved")
-                    }
-                });
+                if(answer != ""){
+                    var saveanswer = new App.Models.CourseAnswer()
+                    saveanswer.set('Answer',answer);
+                    saveanswer.set('pqattempts',attempt);
+                    saveanswer.set('AttemptMarks',result);
+                    saveanswer.set('QuestionID',questions);
+                    var memberId = $.cookie('Member._id')
+                    saveanswer.set('MemberID',memberId);
+                    saveanswer.set('StepID',this.stepId);
+                    saveanswer.save(null, {
+                        error: function() {
+                            console.log("Not Saved")
+                        }
+                    });
+                }
             }
             var coursestep = new App.Models.CourseStep({
               _id: this.stepId
