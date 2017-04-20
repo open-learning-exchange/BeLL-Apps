@@ -25,7 +25,7 @@ $(function () {
                 saveReviewAnswer.fetch({
                     async: false
                 })
-                saveReviewAnswer.set('Obtain Marks', parseInt(inp))
+                saveReviewAnswer.set('ObtainMarks', parseInt(inp))
                 saveReviewAnswer.save(null, {
                     error: function() {
                         console.log("Not Saved");
