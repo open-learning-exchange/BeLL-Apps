@@ -1331,8 +1331,7 @@
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
-            <% if(questionlist == null){%>
-            <%} else {%>
+            <% if(questionlist != null){%>
                 <% if(lastAttemptsMarks == undefined){%>
                 <span  style="float:right;" >[<%=lastAttemptStatus%>] 0%</span>
                 <% } else { %>
