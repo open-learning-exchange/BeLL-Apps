@@ -99,7 +99,6 @@ $(function () {
                 index++
             }
             this.vars.questionlist = model.attributes.questionslist;
-            console.log(this.vars.questionslist,this.questionslist != [])
             this.vars.lastAttemptStatus = App.languageDict.attributes.UnAttempted;
             if (index == sstatus.length) {
                 this.vars.status = App.languageDict.attributes.Error
