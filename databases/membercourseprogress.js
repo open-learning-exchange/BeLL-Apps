@@ -13,6 +13,13 @@ ddoc.views = {
       }
     }
   },
+    GetCourseResult: {
+    map: function(doc) {
+      if (doc.courseId) {
+        emit(doc.courseId, true)
+      }
+    }
+  },
   GetMemberAllCourseResult: {
     map: function(doc) {
       if (doc.memberId) {

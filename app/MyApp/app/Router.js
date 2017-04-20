@@ -28,6 +28,8 @@ $(function() {
             'course/details/:courseId/:courseName': 'courseDetails',
             'usercourse/details/:courseId/:courseName': 'UserCourseDetails',
             'course/report/:courseId/:courseName': 'CourseReport',
+            'CourseStatistics/:courseId': 'CourseStatistics',
+            'CourseStepStatistics/:StepId': 'CourseStepStatistics',
             'course/assignments/week-of/:courseId/:weekOf': 'CourseWeekOfAssignments',
             'course/assignments/:courseId': 'CourseAssignments',
             'course/add': 'CourseForm',
@@ -2294,6 +2296,46 @@ $(function() {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
 
+        CourseStatistics: function (cId){
+            var course = new App.Models.Course();
+            course.id = cId
+            course.fetch({
+                async: false
+            })
+            var coursestatisticview = new App.Views.CoursesStatistics({
+                  model:course,
+                  attributes:{
+                    courseid:  cId
+                  }
+                 });
+            coursestatisticview.render()
+            App.$el.children('.body').html('<div id="couarsestat"></div>');
+            $('#couarsestat').append('<div><h2>'+App.languageDict.attributes.Course_Progress_Statistics+'</h2></div>')
+            $('#couarsestat').append(coursestatisticview.el);
+             var directionOfLang = App.languageDict.get('directionOfLang');
+             applyCorrectStylingSheet(directionOfLang)
+        },
+
+        CourseStepStatistics: function (sId){
+            var step = new App.Models.CourseStep();
+            step.id = sId
+            step.fetch({
+                async: false
+            })
+            var courseStepstatisticview = new App.Views.CourseStepStatistics({
+                  model:step,
+                  attributes:{
+                    stepid: sId
+                  }
+                 });
+            courseStepstatisticview.render()
+            App.$el.children('.body').html('<div id="couarsestepstat"></div>');
+            $('#couarsestepstat').append('<div><h2>'+App.languageDict.attributes.Course_Step_Progress_Statistics+'</h2></div>')
+            $('#couarsestepstat').append(courseStepstatisticview.el);
+             var directionOfLang = App.languageDict.get('directionOfLang');
+             applyCorrectStylingSheet(directionOfLang)
+        },
+
         CourseReport: function(cId, cname) {
             var roles = this.getRoles()
             var course = new App.Models.Course();
@@ -2305,6 +2347,7 @@ $(function() {
             $('.courseSearchResults_Bottom').append("<h2> " + cname + "</h2>")
             if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
+                $('.courseSearchResults_Bottom').append('<a id="CourseStatistics" class="btn btn-inverse"  href=\'#CourseStatistics/' + cId + '\'">'+App.languageDict.attributes.Course_Progress_Statistics+'</a>')
             }
             $('.courseSearchResults_Bottom').append('<p id="graph2title"style="text-align:center">'+App.languageDict.attributes.Individual_Member_Course_Progress+'</p>')
             App.$el.children('.body').append('<div id="detailView"><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')

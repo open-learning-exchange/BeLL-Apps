@@ -34,6 +34,13 @@ ddoc.views = {
             }
         }
     },
+    AnswerByStepIdQuestionId: {
+        map: function(doc) {
+            if (this.StepID != "" && this.QuestionID != "") {
+                emit([doc.StepID,doc.QuestionID], doc);
+            }
+        }
+    },
 
 }
 
