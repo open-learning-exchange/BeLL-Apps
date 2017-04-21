@@ -71,6 +71,7 @@ $(function () {
             vars.progress=App.languageDict.attributes.Progress;
             vars.deleteLabel=App.languageDict.attributes.DeleteLabel;
             vars.showOpenButton = true;
+            vars.showCreditButton = true;
             if(this.courseId==null) {
                 vars.courseId=this.courseId
                 if(vars._id=='_design/bell')
@@ -97,11 +98,12 @@ $(function () {
                 if (this.roles.indexOf("Manager") != -1) {
                     vars.isAdmin = 1;
                     vars.link = "#creditsDetails/" + vars._id;
-                    if(vars.members.indexOf($.cookie('Member._id')) < 0) {
-                        vars.showOpenButton = false;
-                    }
                 } else {
                     vars.isAdmin = 0;
+                    vars.showCreditButton =false;
+                }
+                if(vars.members.indexOf($.cookie('Member._id')) < 0) {
+                    vars.showOpenButton = false;
                 }
                 this.$el.append(_.template(this.template, vars))
             } else {

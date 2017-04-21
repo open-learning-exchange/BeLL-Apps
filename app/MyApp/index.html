@@ -1104,9 +1104,11 @@
         </td>
 
         <td>
+            <% if(showCreditButton) { %>
             <a role='button' class='btn btn-credit' id= "credit_view"href='<%= link %>'>
                 <%=App.languageDict.attributes.Credits%>
             </a>
+            <%}%>
         </td>
 
         <td>
