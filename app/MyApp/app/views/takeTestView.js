@@ -102,7 +102,7 @@ $(function() {
                     }
                     this.preview++;
                 }
-                if(answer != ""){
+                if(answer != "" && answer != []){
                     var saveanswer = new App.Models.CourseAnswer()
                     saveanswer.set('Answer',answer);
                     saveanswer.set('pqattempts',attempt);
