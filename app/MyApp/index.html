@@ -1406,12 +1406,12 @@
         <div class="answersection">
         <p><%= languageDict.attributes.require_answer %></p>
         <div class="Progress"></div>
+        <input type="hidden" name="question_id" value=<%=_id%>>
     <% if (Type == "Single Textbox") { %>
          <div class="singlelineAnswer">
                 <table>
                     <tr>
                         <td>
-                            <input type="hidden" name="singleLine" value=<%=_id%>>
                             <textarea><%=Statement%></textarea> 
                         </td>
                     </tr>
@@ -1427,7 +1427,6 @@
                 <table>
                     <tr>
                         <td>
-                            <input type="hidden" name="commentLineEssay" value=<%=_id%>>
                             <textarea><%=Statement%></textarea> 
                         </td>
                     </tr>
@@ -1443,7 +1442,6 @@
                 <table>
                     <tr>
                         <td>
-                            <input type="hidden" name="attachment" value=<%=_id%>>
                             <textarea><%=Statement%></textarea> 
                         </td>
                     </tr>
@@ -1464,7 +1462,6 @@
                 <table>
                     <tr>
                         <td>
-                            <input type="hidden" name="multiplechoice" value=<%=_id%> >
                             <textarea><%=Statement%></textarea> 
                         </td>
                     </tr>

@@ -36,13 +36,13 @@ $(function() {
 
         nextquestion: function (e) {
             if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
-                this.Givenanswers[$("input[name='singleLine']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
+                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
                 this.renderQuestion();
             } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
-                this.Givenanswers[$("input[name='commentLineEssay']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
                 this.renderQuestion();
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
-                this.Givenanswers[$("input[name='attachment']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val()));
+                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val()));
                 this.renderQuestion();
             } else if ($("input:checkbox[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
@@ -52,7 +52,7 @@ $(function() {
                         res.push(decodeURI($(this).val()));
                     }
                 });
-                that.Givenanswers[$("input[name='multiplechoice']").val()] = res;
+                that.Givenanswers[$("input[name='question_id']").val()] = res;
                 that.renderQuestion()
             }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
@@ -60,7 +60,7 @@ $(function() {
                 if($("input:radio[name='multiplechoice[]']:checked").length > 0){
                     res.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
                 }
-                that.Givenanswers[$("input[name='multiplechoice']").val()] = res;
+                that.Givenanswers[$("input[name='question_id']").val()] = res;
                 that.renderQuestion()
             } else {
                 alert(App.languageDict.attributes.No_Option_Selected)
@@ -76,11 +76,15 @@ $(function() {
                 coursequestion.fetch({
                     async:false
                 })
-                var question =this.Questionlist[i]
-                if (coursequestion.id == Object.keys(this.Givenanswers)[i] ) {
+                console.log(this.Givenanswers[coursequestion.id])
+                if(this.Givenanswers[coursequestion.id] != undefined){
                     var answer = this.Givenanswers[coursequestion.id]
+                } else {
+                    var answer = "";
                 }
-
+                if (typeof answer ==  'string'){      
+                    answer = [answer];      
+                }
                 if (coursequestion.attributes.Type == "Multiple Choice" ) {
                     result = 0;
                     var correctAnswer = coursequestion.get("CorrectAnswer");
@@ -161,6 +165,7 @@ $(function() {
             this.pp = parseInt(this.options.passP)
             this.myModel = this.options.resultModel
             this.stepindex = this.options.stepIndex
+            this.Givenanswers = []
         },
 
         renderQuestion: function() {
