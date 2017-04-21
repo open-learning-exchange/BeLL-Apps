@@ -2561,7 +2561,7 @@ $(function() {
             var courseLeader = courseModel.get('courseLeader')
             var courseName = courseModel.get('name')
             var courseMembers = courseModel.get('members')
-            var button = '<br><a href="#courses"><button class="btn btn-success">'+App.languageDict.attributes.Back_To_Course+'</button></a>'
+            var button = '<br><a href="#courses"><button class="btn btn-success">'+App.languageDict.attributes.Back_To_Course+'</button></a>' + '<a id="showBCourseMembers"  href="#course/members/'+ courseId + '"  class="btn btn-info">'+App.languageDict.attributes.Course_Members+'</a>'
             if (courseMembers && courseMembers.indexOf($.cookie('Member._id')) == -1) {
                 button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("' + courseLeader + '","' + encodeURI(courseName) + '","' + courseId + '")>'+App.languageDict.attributes.Admission+'</button><br/><br/>'
             } else {
