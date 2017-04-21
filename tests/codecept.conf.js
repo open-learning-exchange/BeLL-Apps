@@ -29,7 +29,11 @@ if (process.env.SAUCE_USERNAME) {
     "include": {
       "I": "./steps_file.js",
       "survey_po": "./pages/survey_po.js",
-      "survey_dialog": "./pages/survey_dialog.js"
+      "survey_dialog": "./pages/survey_dialog.js",
+      "feedback_po": "./pages/feedback_po.js",
+      "meetup_po": "./pages/meetup_po.js",
+      "publication_po": "./pages/publication_po.js",
+      "resource_po": "./pages/resource_po.js"
     },
     "mocha": {},
     "name": "tests"
@@ -51,9 +55,13 @@ if (process.env.SAUCE_USERNAME) {
       }
     },
     "include": {
-      "I": "./steps_file.js",
-      "survey_po": "./pages/survey_po.js",
-      "survey_dialog": "./pages/survey_dialog.js"
+        "I": "./steps_file.js",
+        "feedback_po": "./pages/feedback_po.js",
+        "meetup_po": "./pages/meetup_po.js",
+        "publication_po": "./pages/publication_po.js",
+        "resource_po": "./pages/resource_po.js",
+        "survey_po": "./pages/survey_po.js",
+        "survey_dialog": "./pages/survey_dialog.js"
     },
     "mocha": {},
     "name": "tests"
