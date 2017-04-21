@@ -7,7 +7,10 @@ $(function() {
         events: {
             "click #formButton": "setForm",
             //"click #AddToShelf": "setForm",
-            "submit form": "setFormFromEnterKey"
+            "submit form": "setFormFromEnterKey",
+            "click #exitForm": function(e) {
+                $("#externalDiv").hide();
+            }
         },
 
         render: function() {
@@ -22,10 +25,12 @@ $(function() {
             this.form.fields['memberId'].$el.hide();
             this.form.fields['resourceId'].$el.hide();
             this.form.fields['communityCode'].$el.hide();
-            var $button = $('<a class="btn btn-success" style="margin-left:10px" id="formButton">'+App.languageDict.attributes.Save+'</a>');
+            var $button = $('<a class="btn btn-success" style="margin-left:25px" id="formButton">'+App.languageDict.attributes.Save+'</a>');
             $btnAddToShelf = $('<button class="btn btn-success" id="AddToShelf" style="margin-left:10px">'+App.languageDict.attributes.save_and_add_feedback+'</button>');
+            var $exit = $('<a class="btn btn-danger" style="margin-left:625px" id="exitForm">'+App.languageDict.attributes.Exit+'</a>');
             this.$el.append($button);
             this.$el.append($btnAddToShelf);
+            this.$el.append($exit);
             //Issue#61: Update buttons Add Feedback form when rating a resource
             $btnAddToShelf.click(function() {
                 that.setForm();
