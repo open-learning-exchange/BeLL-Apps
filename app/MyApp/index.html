@@ -1089,6 +1089,15 @@
         </td>
 
         <td>
+            <% if(admission_button) { %>
+                <a role='button' id="admissionButton" class='btn btn-danger' onClick="sendAdminRequest('<%= courseLeader %>','<%= CourseTitle %>','<%=_id%>')">
+                <%=App.languageDict.attributes.Admission%></a>
+            <% } else {%>
+                <a href="#course/resign/<%=_id%>"><button id="resignCourse" class="btn resignBtn btn-danger" value="0"><%=App.languageDict.attributes.Resign%></button></a>
+            <% } %>
+        </td>
+
+        <td>
             <%if(isAdmin==1||isLeader==1){%>
             <a id="manageCourseButton"  role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'>
                 <i class="icon-wrench icon-white"></i> <%=manage%>
