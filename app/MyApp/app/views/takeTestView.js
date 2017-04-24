@@ -27,6 +27,8 @@ $(function() {
                 $('div.takeTestDiv').html('')
             },
             "click #finishPressed": function(e) {
+                this.index++
+                this.TotalCount = this.index+1
                 this.nextquestion();
             },
             "click #nextPressed": function(e) {
@@ -68,7 +70,7 @@ $(function() {
         },
 
         answersave: function(attempt) {
-            for (var i =0; i < this.TotalCount; i++) {
+            for (var i =0; i < this.TotalCount-1; i++) {
                 var result = null;
                 var answer = this.Givenanswers[i];
                 if (typeof answer ==  'string'){
@@ -181,10 +183,9 @@ $(function() {
                 this.vars.singleLineQuestionTitle = singleline
                 this.$el.append(this.template(this.vars));
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div></</div>')
-                if((this.index + 1) == this.TotalCount){
-                    this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>');
-                } else {
+                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div></</div>&nbsp')
+                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>&nbsp');
+                if((this.index + 1) != this.TotalCount){
                     this.$el.find('.quizActions').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>');
                 }
             } else {
