@@ -310,6 +310,7 @@
   "Step_Method":"चरण विधि",
   "Step_Goals":"Step Goals",
   "Allowed_Errors":"Allowed Errors",
+  "Errors":"Errors",
   "Outcomes":"परिणाम",
   "Passing_Percentage":"उतीर्ण प्रतिशत",
   "Paper":"कागज",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"Successfully updated to latest version.",
   "TryLater_Error":"Error. Try again later.",
   "MemberDb_Replicated":"Members database replicated.",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Member Course Progress Replicated.",
   "FeedbackDb_Replicated_Success":"Successfully replicated application feedback database.",
   "ActivityReports_Replicated_Success":"Successfully replicated log activity reports.",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"Survey Saved!",
   "Send_Survey":"Send Survey",
   "Add_new_Question":"Add a New Question",
+  "Question_Number":"Question Number",
   "Select_a_Question":"Select a question",
   "Question_types":[
     "Multiple Choice (Single Answer)",

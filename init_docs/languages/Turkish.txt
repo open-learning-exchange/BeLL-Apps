@@ -310,6 +310,7 @@
   "Step_Method":"Adım Metodu",
   "Step_Goals":"Adım Hedefleri",
   "Allowed_Errors":"İzin Verilen Hatalar",
+  "Errors":"Errors",
   "Outcomes":"Sonuçlar",
   "Passing_Percentage":"Geçmek İçin Gerekli Yüzde",
   "Paper":"Kağıt",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"Son sürüm güncellemesi başarıyla yapıldı.",
   "TryLater_Error":"Error. Try again later.",
   "MemberDb_Replicated":"Üye veritabanı kopyalanarak çoğaltıldı.",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Member Course Progress Replicated.",
   "FeedbackDb_Replicated_Success":"Başvuru geribildirim veritabanı başarıyla çoğaltıldı.",
   "ActivityReports_Replicated_Success":"Successfully replicated log activity reports.",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"Anket kaydedildi!",
   "Send_Survey":"Anketi Gönder",
   "Add_new_Question":"Add a New Question",
+  "Question_Number":"Question Number",
   "Select_a_Question":"Bir soru seçin",
   "Question_types":[
     "Çoktan Seçmeli (tek doğru cevaplı)",

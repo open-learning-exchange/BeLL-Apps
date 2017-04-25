@@ -310,6 +310,7 @@
   "Step_Method":"Langkah Metode",
   "Step_Goals":"Tujuan-tujuan Langkah",
   "Allowed_Errors":"Kesalahan yang diperbolehkan",
+  "Errors":"Errors",
   "Outcomes":"Keluaran",
   "Passing_Percentage":"Persentase Lolos",
   "Paper":"Kertas",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"Berhasil diperbarui ke versi terbaru.",
   "TryLater_Error":"Kesalahan. Coba lagi nanti.",
   "MemberDb_Replicated":"Basis data anggota telah direplikasi.",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Kemajuan anggota kursus direplikasi.",
   "FeedbackDb_Replicated_Success":"Berhasil mereplikasi basis data aplikasi umpan balik.",
   "ActivityReports_Replicated_Success":"Berhasil mereplikasi riwayat laporan aktivitas.",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"Survei disimpan!",
   "Send_Survey":"Kirim Survei",
   "Add_new_Question":"Menambahkan Pertanyaan Baru",
+  "Question_Number":"Question Number",
   "Select_a_Question":"Pilih pertanyaan",
   "Question_types":[
     "Pilihan Ganda (Jawaban Tunggal)",

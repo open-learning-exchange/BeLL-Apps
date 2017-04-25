@@ -310,6 +310,7 @@
   "Step_Method":"步骤方法",
   "Step_Goals":"步骤目标",
   "Allowed_Errors":"允许错误",
+  "Errors":"Errors",
   "Outcomes":"成果",
   "Passing_Percentage":"通过率",
   "Paper":"论文",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"已成功升级到最新版本",
   "TryLater_Error":"Error. Try again later.",
   "MemberDb_Replicated":"已复制学员数据库。",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Member Course Progress Replicated.",
   "FeedbackDb_Replicated_Success":"已成功复制应用程序反馈的数据库",
   "ActivityReports_Replicated_Success":"Successfully replicated log activity reports.",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"问卷已储存",
   "Send_Survey":"发送问卷",
   "Add_new_Question":"Add a New Question",
+  "Question_Number":"Question Number",
   "Select_a_Question":"选择一个问题",
   "Question_types":[
     "选择题(单一答案)",

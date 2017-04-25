@@ -310,6 +310,7 @@
   "Step_Method":"crwdns15727:0crwdne15727:0",
   "Step_Goals":"crwdns15728:0crwdne15728:0",
   "Allowed_Errors":"crwdns15729:0crwdne15729:0",
+  "Errors":"crwdns16314:0crwdne16314:0",
   "Outcomes":"crwdns15730:0crwdne15730:0",
   "Passing_Percentage":"crwdns15731:0crwdne15731:0",
   "Paper":"crwdns15732:0crwdne15732:0",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"crwdns15901:0crwdne15901:0",
   "TryLater_Error":"crwdns15902:0crwdne15902:0",
   "MemberDb_Replicated":"crwdns15903:0crwdne15903:0",
+  "Course_Step_Progress_Statistics":"crwdns16315:0crwdne16315:0",
   "Member_Course_Progress_Replicated":"crwdns16266:0crwdne16266:0",
   "FeedbackDb_Replicated_Success":"crwdns15904:0crwdne15904:0",
   "ActivityReports_Replicated_Success":"crwdns15905:0crwdne15905:0",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"crwdns16102:0crwdne16102:0",
   "Send_Survey":"crwdns16103:0crwdne16103:0",
   "Add_new_Question":"crwdns16104:0crwdne16104:0",
+  "Question_Number":"crwdns16316:0crwdne16316:0",
   "Select_a_Question":"crwdns16105:0crwdne16105:0",
   "Question_types":[
     "crwdns16106:0crwdne16106:0",

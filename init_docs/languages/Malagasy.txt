@@ -310,6 +310,7 @@
   "Step_Method":"Dingana amin' ny fomba fiasa",
   "Step_Goals":"Dingana ahatongavana amin' ireo tanjona",
   "Allowed_Errors":"Fahadisoana azo ekena",
+  "Errors":"Errors",
   "Outcomes":"Vokatra",
   "Passing_Percentage":"Mandalo tahan'isa",
   "Paper":"Taratasy",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"Nahomby ilay fampidirana andininy vaovao.",
   "TryLater_Error":"Fahadisoana. Miezaka avy eo.",
   "MemberDb_Replicated":"Mpikambana ao amin'ny base de donnes voaverina.",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Naverimberina tsara ao amin' ny fandaharam-Pianarana Fivoarana.",
   "FeedbackDb_Replicated_Success":"Fanamarihana base de donnees voaverina soamantsara.",
   "ActivityReports_Replicated_Success":"Nahavita ny maka tahaka n'tatitra.",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"Fanadihadiana voatahiry!",
   "Send_Survey":"Mandefa fanadihadiana",
   "Add_new_Question":"Hanampy fanontaniana vaovao",
+  "Question_Number":"Question Number",
   "Select_a_Question":"Misafidiana fanontaniana iray",
   "Question_types":[
     "Safidy maro (Valiny iray)",

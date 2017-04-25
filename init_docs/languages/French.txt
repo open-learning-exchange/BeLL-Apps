@@ -310,6 +310,7 @@
   "Step_Method":"Méthode par étapes",
   "Step_Goals":"Objectifs de l’étape",
   "Allowed_Errors":"Erreurs autorisées",
+  "Errors":"Errors",
   "Outcomes":"Résultats",
   "Passing_Percentage":"Pourcentage de décès",
   "Paper":"Papier",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"Mise à jour à la dernière version réussie.",
   "TryLater_Error":"Erreur. Réessayer plus tard.",
   "MemberDb_Replicated":"Bade de données des membres répliquée.",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Progrès du Membre du Cours Répliqué.",
   "FeedbackDb_Replicated_Success":"Base de données de commentaire sur les demandes bien répliqué.",
   "ActivityReports_Replicated_Success":"Réplique des journaux de rapport d'activité réussie.",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"Sondage Sauvegardé!",
   "Send_Survey":"Envoyer Sondage",
   "Add_new_Question":"Ajouter une nouvelle question",
+  "Question_Number":"Question Number",
   "Select_a_Question":"Sélectionnez une question",
   "Question_types":[
     "Choix multiple (réponse unique)",

@@ -310,6 +310,7 @@
   "Step_Method":"طريقة المرحلة ",
   "Step_Goals":"أهداف المرحلة",
   "Allowed_Errors":"الأخطاء المسموح بها",
+  "Errors":"Errors",
   "Outcomes":"النتائج",
   "Passing_Percentage":"نسبة النجاح",
   "Paper":"ورقة",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"تم تحديث الإصدار الأخير بنجاح.",
   "TryLater_Error":"خطأ. الرجاء المحاولة لاحقاً",
   "MemberDb_Replicated":"تم نسخ قاعدة بيانات الأعضاء.",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Member Course Progress Replicated.",
   "FeedbackDb_Replicated_Success":"تم نسخ تطبيق قاعدة البيانات الملاحظات بنجاح.",
   "ActivityReports_Replicated_Success":"تم نسخ تقرير سجل النشاطات بنجاح",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"تم حفظ الاستبيان",
   "Send_Survey":"إرسال الاستبيان",
   "Add_new_Question":"إضافة سؤال جديد",
+  "Question_Number":"Question Number",
   "Select_a_Question":"إختر سؤال",
   "Question_types":[
     "خيارات متعددة (إجابة واحدة)",

@@ -310,6 +310,7 @@
   "Step_Method":"Metodo a fasi",
   "Step_Goals":"Obiettivi della fase",
   "Allowed_Errors":"Errori consentiti",
+  "Errors":"Errors",
   "Outcomes":"Risultati",
   "Passing_Percentage":"Percentuale di promozioni",
   "Paper":"Prova scritta",
@@ -488,6 +489,7 @@
   "Updated_NewVersion_Success":"Aggiornato correttamente alla versione più recente.",
   "TryLater_Error":"Error. Try again later.",
   "MemberDb_Replicated":"Database degli iscritti replicato.",
+  "Course_Step_Progress_Statistics":"Course Step Progress Statistics",
   "Member_Course_Progress_Replicated":"Member Course Progress Replicated.",
   "FeedbackDb_Replicated_Success":"Il database del feedback dell'applicazione è stato replicato correttamente.",
   "ActivityReports_Replicated_Success":"Successfully replicated log activity reports.",
@@ -697,6 +699,7 @@
   "survey_Saved_Successfully":"Survey Saved!",
   "Send_Survey":"Send Survey",
   "Add_new_Question":"Add a New Question",
+  "Question_Number":"Question Number",
   "Select_a_Question":"Select a question",
   "Question_types":[
     "Multiple Choice (Single Answer)",
