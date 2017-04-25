@@ -1465,7 +1465,7 @@
                     </td>
                 </tr>
                 <%}%>
-                <%if (questionslist!=null && questionslist.length > 0){%>
+                <%if (questionslist != null && questionslist.length > 0){%>
                 <tr class="level-section-title">
                     <td colspan="2" style="width: 60%">
                         <%=languageDict.attributes.Test%></br>
@@ -1495,7 +1495,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="singleLineAnswer">
+                            <input type="text" value="<%=answer[0]%>" name="singleLineAnswer">
                         </td>
                     </tr>
                 </table>
@@ -1510,7 +1510,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="commentEssay">
+                            <input type="text" value="<%=answer[0]%>" name="commentEssay">
                         </td>
                     </tr>
                 </table>
@@ -1531,6 +1531,9 @@
                      <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
                      <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
                      <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
+                     <% if (answer[0] != null && answer[0] != "") { %>
+                        <a id="downloadAttac" class="btn btn-primary" href="/assignmentpaper/<%=answer[0]%>/<%=attachmentName%>"  target="_blank" ><%=App.languageDict.attributes.Download %></a>
+                     <% } %>
                     </td>
                </tr>
                 </table>
@@ -1547,11 +1550,19 @@
                        <td>
                        <% for (var i = 0; i < Options.length; i++) { %>
                             <% if(CorrectAnswer.length > 1) { %>
-                            <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                                <% if(answer.indexOf(Options[i] ) > -1) { %>
+                                    <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>" checked="checked">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                                <% } else { %>
+                                    <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>" >&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                                <% } %>
                             <% } else { %>
-                                 <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                                <% if(answer.indexOf(Options[i]) > -1 ) { %>
+                                    <input type="radio" name="multiplechoice[]" checked="checked" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                                 <% } else { %>
+                                    <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
+                                <%  } %>
                             <% } %>
-                       <% }; %> 
+                       <% } %>
                         </td>
                     </tr>
                 </table>

@@ -166,6 +166,17 @@ $(function() {
             this.myModel = this.options.resultModel
             this.stepindex = this.options.stepIndex
             this.Givenanswers = []
+            var pqattempt = this.myModel.get('pqAttempts')
+            var courseAnswer = new App.Collections.CourseAnswer()
+            courseAnswer.StepID = this.stepId
+            courseAnswer.MemberID = $.cookie('Member._id')
+            courseAnswer.pqattempts = pqattempt[this.stepindex]
+            courseAnswer.fetch({
+                async: false
+            })
+            for (var i = 0; i < courseAnswer.length; i++) {
+                this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
+            }
         },
 
         renderQuestion: function() {
@@ -180,6 +191,31 @@ $(function() {
                     async: false
                 });
                 this.vars = coursedetail.toJSON();
+                this.vars.answer = this.Givenanswers[this.Questionlist[this.index]]
+                if (this.vars.answer == undefined){
+                    this.vars.answer = []
+                }
+                if(coursedetail.attributes.Type == "Attachment"){
+                    var attachmentName = null;
+                    //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button
+                    var memberAssignmentPaper = new App.Models.AssignmentPaper({
+                        _id: this.Givenanswers[this.Questionlist[this.index]]
+                    })
+                    memberAssignmentPaper.fetch({
+                        async: false,
+                        success: function (json) {
+                            var existingModels = json;
+                            if (typeof existingModels.get('_attachments') !== 'undefined') {
+                                attachmentName = _.keys(existingModels.get('_attachments'))
+                            }
+                        }
+                    });
+                    if (attachmentName != null) {
+                        this.vars.attachmentName = attachmentName;
+                    } else {
+                        this.vars.attachmentName = null;
+                    }
+                }
                 this.vars.languageDict=App.languageDict;
                 var singleline = coursedetail.get("Statement")
                 this.vars.singleLineQuestionTitle = singleline
