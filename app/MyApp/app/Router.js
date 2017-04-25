@@ -456,15 +456,15 @@ $(function() {
             });
             var resLength = [];
             var stepLength = [];
+            var attempt;
+            console.log(courseProgress.models[0].get('stepsResult').length )
+            var totatObtinedMarks = 0
+            var totoalPercentage = 0
             for (var i =0; i< courseProgress.models[0].get('stepsResult').length ; i++){
                 stepLength = courseProgress.models[0].get('stepsResult')[i];
+                totatObtinedMarks= totatObtinedMarks + parseInt( stepLength[stepLength.length-1])
+                attempt = courseProgress.models[0].get('pqAttempts');
                 if($.isArray(stepLength)){
-                    if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))) {
-                        resLength.push(0);
-                    }
-                    else {
-                        resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))
-                    }
                     if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][1]))) {
                         resLength.push(0);
                     }
@@ -481,14 +481,8 @@ $(function() {
                     }
                 }
             }
-            var marks = 0; var totalMarks = 100*resLength.length ;
-            for (var i =0; i< resLength.length ; i++){
-                if(resLength[i] != NaN) {
-                    marks = marks+resLength[i]
-                }
-
-            }
-
+            var marks = 0; var totalMarks = 100*resLength.length;
+            totoalPercentage= (totatObtinedMarks/totalMarks)*100
             var courseSteps = new App.Collections.coursesteps()
             courseSteps.courseId=courseId;
             courseSteps.fetch({
@@ -511,7 +505,7 @@ $(function() {
             App.$el.children('.body').html('<div id="badgesTable"></div>');
             $('#badgesTable').append('<h3>' + name + '\'s Badges' + '</h3>');
             $('#badgesTable').append(badgesTableView.el);
-            $('#badges-details').append('<tr><td>' + languageDictValue.get('Total')  + '</td><td></td><td></td><td>' + marks + "/" + totalMarks + '</td><td>' + marks + "%" + '</td><td></td></tr>');
+            $('#badges-details').append('<tr><td>' + languageDictValue.get('Total')  + '</td><td></td><td>' + totatObtinedMarks + "/" + totalMarks + '</td><td>' + totoalPercentage + "%" + '</td><td></td></tr>');
             $('#badgesTable').append(' <hr   style= "border-width: 5px;">' );
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },

@@ -34,14 +34,15 @@ $(function () {
                 var model = that.collection.models[i];
                 indexOfCurrentStep =courseProgress.models[0].get('stepsIds').indexOf(model.get('_id'));
                 attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep];
-                status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep][attempts[indexOfCurrentStep]];
-                credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][attempts[indexOfCurrentStep]];
-                that.addOne(model, credits, status, attempts);    
+                console.log(attempts)
+                status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep];
+                credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
+                that.addOne(model, credits, status, attempts,indexOfCurrentStep);
             }
         },
 
         render: function () {
-            this.$el.html('<tr><th>' + App.languageDict.get('StepNO') + '</th><th>' + App.languageDict.get('Submit') + '</th><th>' + App.languageDict.get('Grade') + '</th><th>' + App.languageDict.get('Percentage') + '</th><th>' + App.languageDict.get('Review') + '</th></tr>');
+            this.$el.html('<tr><th>' + App.languageDict.get('StepNO') + '</th><th>' + App.languageDict.get('Submit') + '</th><th>' + App.languageDict.get('Grade') + '</th><th>' + App.languageDict.get('Percentage') + '</th><th>' + App.languageDict.get('Total_Attempt') + '</th><th>' + App.languageDict.get('Review') + '</th></tr>');
             this.addAll();
         }
     })

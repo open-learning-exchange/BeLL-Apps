@@ -1021,7 +1021,7 @@
             <%= stepNo %>
         </td>
         <td>
-            <%if(status == "1"  ){%>
+            <%if(status[attempts] == "1"  ){%>
                 <%=App.languageDict.attributes.Submitted%>
             <%}else{%>
                 <%=App.languageDict.attributes.Un_Submitted%>
@@ -1029,10 +1029,13 @@
         </td>
         <td>
             <input type="hidden" name="percentage"  id="<%=percentage%>">
-            <%= credits %>/100
+            <%= credits[attempts] %>/100
         </td>
         <td>
-            <%= credits %>%
+            <%= credits[attempts] %>%
+        </td>
+        <td>
+            <%= attempts%>
         </td>
         <td>
             <a id="" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'> <%=App.languageDict.attributes.View_Test%>
