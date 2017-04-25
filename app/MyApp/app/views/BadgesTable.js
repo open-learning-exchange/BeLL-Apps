@@ -34,9 +34,9 @@ $(function () {
                 var model = that.collection.models[i];
                 indexOfCurrentStep =courseProgress.models[0].get('stepsIds').indexOf(model.get('_id'));
                 attempts = courseProgress.models[0].get('pqAttempts')[indexOfCurrentStep];
-                status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep][attempts[indexOfCurrentStep]];
-                credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep][attempts[indexOfCurrentStep]];
-                that.addOne(model, credits, status, attempts);    
+                status = courseProgress.models[0].get('stepsStatus')[indexOfCurrentStep];
+                credits = courseProgress.models[0].get('stepsResult')[indexOfCurrentStep];
+                that.addOne(model, credits, status, attempts,indexOfCurrentStep);
             }
         },
 

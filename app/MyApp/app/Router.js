@@ -454,15 +454,10 @@ $(function() {
             });
             var resLength = [];
             var stepLength = [];
+            console.log(courseProgress.models[0].get('stepsResult').length )
             for (var i =0; i< courseProgress.models[0].get('stepsResult').length ; i++){
                 stepLength = courseProgress.models[0].get('stepsResult')[i];
                 if($.isArray(stepLength)){
-                    if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))) {
-                        resLength.push(0);
-                    }
-                    else {
-                        resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))
-                    }
                     if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][1]))) {
                         resLength.push(0);
                     }
@@ -479,14 +474,13 @@ $(function() {
                     }
                 }
             }
-            var marks = 0; var totalMarks = 100*resLength.length ;
+            var marks = 0; var totalMarks = 100*resLength.length;
+            console.log(totalMarks)
             for (var i =0; i< resLength.length ; i++){
                 if(resLength[i] != NaN) {
                     marks = marks+resLength[i]
                 }
-
             }
-
             var courseSteps = new App.Collections.coursesteps()
             courseSteps.courseId=courseId;
             courseSteps.fetch({

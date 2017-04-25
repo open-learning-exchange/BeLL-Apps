@@ -1017,10 +1017,13 @@
             <%= stepNo %>
         </td>
         <td>
-            <%if(status == "1"  ){%>
-                <%=App.languageDict.attributes.Submitted%>
-            <%}else{%>
-                <%=App.languageDict.attributes.Un_Submitted%>
+            <%for (var i=1; i<status.length; i++) {%>
+                <%if(status[i] == "1"  ){%>
+                    <%status=[]%>
+                    <%=App.languageDict.attributes.Submitted%>
+                <%}else{%>
+                    <%=App.languageDict.attributes.Un_Submitted%>
+                <%}%>
             <%}%>
         </td>
         <td>
