@@ -1348,10 +1348,9 @@ $(function() {
             that.$el.html(_.template(this.template, this.vars));
             this.checkAvailableUpdates(member.get('roles'), this, nation_version);
             $('#newPublication').html(App.languageDict.attributes.Publications + '(' + new_publications_count + ')');
-            $('#updateButton').html(App.languageDict.attributes.Update_Available + '(' + nation_version + ')');
+            $('#updateButton').html(App.languageDict.attributes.Update_Available + '(' + nation_version + ')')
             $('#newSurvey').html(App.languageDict.attributes.Surveys + '(' + new_surveys_count + ')');
             return new_publications_count;
-
         },
 
         lookup: function(obj, key) {
@@ -1384,26 +1383,28 @@ $(function() {
             var configuration = App.configuration
             var nationName = configuration.get("nationName")
             var nationURL = configuration.get("nationUrl")
+            var getComStatus = configuration.get("registrationRequest")
             var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true'
-
             nName = App.configuration.get('nationName')
             pass = App.password
             nUrl = App.configuration.get('nationUrl')
             currentBellName = App.configuration.get('name')
             var DbUrl = 'http://' + nName + ':' + pass + '@' + nUrl + '/publicationdistribution/_design/bell/_view/getPublications?include_docs=true&key=["' + currentBellName + '",' + false + ']'
-            if (typeof nation_version === 'undefined') {
-                /////No version found in nation
-            } else if (nation_version == configuration.get('version')) {
-                ///No updatea availabe
-            } else {
-                if (dashboard.versionCompare(nation_version, configuration.get('version')) < 0) {
-                    console.log("Nation has lower application version than that of your community application")
-                } else if (dashboard.versionCompare(nation_version, configuration.get('version')) > 0) {
-                    dashboard.vars.nation_version = nation_version;
-                    $('#updateButton').show();
-                    $('#viewReleaseNotes').show();
+            if(getComStatus ==  'accepted'){
+                if (typeof nation_version === 'undefined') {
+                    /////No version found in nation
+                } else if (nation_version == configuration.get('version')) {
+                    ///No updatea availabe
                 } else {
-                    console.log("Nation is uptodate")
+                    if (dashboard.versionCompare(nation_version, configuration.get('version')) < 0) {
+                        console.log("Nation has lower application version than that of your community application")
+                    } else if (dashboard.versionCompare(nation_version, configuration.get('version')) > 0) {
+                        dashboard.vars.nation_version = nation_version;
+                        $('#updateButton').show();
+                        $('#viewReleaseNotes').show();
+                    } else {
+                        console.log("Nation is uptodate")
+                    }
                 }
             }
         },

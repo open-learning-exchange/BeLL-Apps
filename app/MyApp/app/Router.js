@@ -301,7 +301,7 @@ $(function() {
                 dataType: 'jsonp',
                 async: false,
                 success: function (json) {
-                	$('#syncStatus').closest('div').show();
+                    $('#syncStatus').closest('div').show();
                 },
                 error: function (status) {
                 	$('#syncStatus').closest('div').hide();
@@ -1052,8 +1052,17 @@ $(function() {
                                             dataType: 'jsonp',
                                             async: false,
                                             success: function (json) {
-                                                $('#onlineButton').css({"background-color": "#35ac19"});
-                                                $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
+                                                var getComStats = App.configuration.get('registrationRequest')
+                                                if (getComStats == 'accepted'){
+                                                    $('#onlineButton').css({"background-color": "#35ac19"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
+                                                } else if (getComStats == 'rejected') {
+                                                    $('#onlineButton').css({"background-color": "#ff0000"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                                } else {
+                                                    $('#onlineButton').css({"background-color": "#FFA500"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                                }
                                                 var SurveyDocsFromNation = [];
                                                 _.each(json.rows, function (row) {
                                                     if (row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
