@@ -304,12 +304,10 @@ $(function() {
                     var nationup = getRequestDocFromLocalDB();
                     if (nationup.registrationRequest == 'accepted'){
                         $('#syncStatus').closest('div').show();
-                        alert('hello')
                     }
                 },
                 error: function (status) {
                 	$('#syncStatus').closest('div').hide();
-                    alert('sachin')
                 }
             });
             //  manageCommunity.updateDropDownValue();
@@ -1073,8 +1071,11 @@ $(function() {
                                                         if (updatedJsonModel.registrationRequest == 'accepted'){
                                                             $('#onlineButton').css({"background-color": "#35ac19"});
                                                             $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
-                                                        } else if (updatedJsonModel.registrationRequest == 'rejected' || updatedJsonModel.registrationRequest == 'pending'){
+                                                        } else if (updatedJsonModel.registrationRequest == 'rejected'){
                                                             $('#onlineButton').css({"background-color": "#ff0000"});
+                                                            $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                                        } else if (updatedJsonModel.registrationRequest == 'pending') {
+                                                            $('#onlineButton').css({"background-color": "#ffff00"});
                                                             $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
                                                         }
                                                 }
@@ -6669,7 +6670,7 @@ $(function() {
                    }
 		})
 
-																								               $.ajax({
+               $.ajax({
                 url: 'http://' + nationURL + '/_all_dbs',
                 type: 'GET',
                 dataType: 'jsonp',
