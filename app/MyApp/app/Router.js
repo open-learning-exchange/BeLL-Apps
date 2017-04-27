@@ -6628,7 +6628,7 @@ $(function() {
             })
         },
         checkSum: function (nationNm, nationUri) {
-            if (nationNm.length > 0 && nationUri.length > 0) {
+            if (nationNm != undefined && nationUri != undefined) {
                 nationName = nationNm;
                 nationURL = nationUri;
             } else {
