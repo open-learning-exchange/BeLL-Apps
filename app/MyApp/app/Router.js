@@ -2054,17 +2054,25 @@ $(function() {
                     }
                 }
             });
-            cstep.set("resourceId", oldIds.concat(rids))
-            cstep.set("resourceTitles", oldTitles.concat(rtitle))
-            cstep.save(null, {
-                success: function(responseModel, responseRev) {
-                    cstep.set("_rev", responseRev.rev)
-                    alert(App.languageDict.attributes.Resource_Updated)
-                    Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
-                        trigger: true
-                    })
-                }
-            })
+            if(rids != "" && rtitle != ""){
+                cstep.set("resourceId", oldIds.concat(rids))
+                cstep.set("resourceTitles", oldTitles.concat(rtitle))
+                cstep.save(null, {
+                    success: function(responseModel, responseRev) {
+                        cstep.set("_rev", responseRev.rev)
+                        alert(App.languageDict.attributes.Resource_Updated)
+                        Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
+                            trigger: true
+                        })
+                    }
+                })
+                rids = []
+                rtitle = []
+            } else {
+                Backbone.history.navigate('level/view/' + cstep.get("id") + '/' + cstep.get("rev"), {
+                    trigger: true
+                })
+            }
         },
         SearchPresources: function(publicationId) {
             var publications = new App.Models.Publication({
