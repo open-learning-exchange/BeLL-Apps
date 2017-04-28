@@ -142,7 +142,8 @@ $(function() {
                 type: 'Date'
             },
             addedBy: 'Text', //Name of person/manager who is adding resource
-            openUrl: [] //URL link if it is an HTML resource,
+            openUrl: [], //URL link if it is an HTML resource,
+            openWhichFile: 'Text'
         },
         saveAttachment: function(formEl, fileEl, revEl) {
 
@@ -152,9 +153,12 @@ $(function() {
             var input_id = (this.get('_id')) ? this.get('_id') : this.get('id')
             var model = this
             
+            function fileExt(fileName) {
+                return fileName.match(/\.[a-z0-9]+$/i)[0].slice(1);
+            }
+            
             function mimeType(fileName) {
-                var ext = fileName.match(/\.[a-z0-9]+$/i)[0].slice(1);
-                return mimeTypeObj[ext] || 'text/plain';
+                return mimeTypeObj[fileExt(fileName)] || 'text/plain';
             }
             
             var preProcessZip = function(zip) {
@@ -177,7 +181,8 @@ $(function() {
                     
                     // Check if attachment is zip file
                     var file = $(fileEl)[0].files[0],
-                        isZip = file.type === 'application/x-zip-compressed'
+                        zipTypes = ['application/x-zip-compressed','application/zip','application/zip-compressed', 'multipart/x-zip','application/octet-stream'],
+                        isZip = zipTypes.indexOf(zipTypes) > -1 && fileExt(file.name) === 'zip';
                     
                     if(isZip) {
                         var zip = new JSZip();
