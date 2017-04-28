@@ -31,18 +31,47 @@ $(function() {
             },
             "click #nextPressed": function(e) {
                 this.nextquestion();
+            },
+            "click #resetButton":function(e){
+                this.resetanswer();
+            }
+        },
+
+        resetanswer: function(e){
+            if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
+                $("input[type='text'][name='singleLineAnswer']").val("")
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input[type='text'][name='commentEssay']").val() != undefined ){
+                $("input[type='text'][name='commentEssay']").val("")
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input[type='hidden'][name='_attachment']").val() != undefined){
+                $("input[type='hidden'][name='_attachment']").val("")
+                $('#downloadAttac').hide()
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input:checkbox[name='multiplechoice[]']").val() != undefined){
+                $("input:checkbox[name='multiplechoice[]']").attr("checked",false)
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if ($("input:radio[name='multiplechoice[]']").val()!= undefined) {
+                $("input:radio[name='multiplechoice[]']").attr("checked",false)
+                delete this.Givenanswers[$("input[name=question_id]").val()]
             }
         },
 
         nextquestion: function (e) {
             if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
-                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
+                if($("input[type='text'][name='singleLineAnswer']").val() != ""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));   
+                }
                 this.renderQuestion();
             } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
-                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+                if($("input[type='text'][name='commentEssay']").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+                }
                 this.renderQuestion();
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
-                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val()));
+                if($("input[type='hidden'][name='_attachment']").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val())); 
+                }
                 this.renderQuestion();
             } else if ($("input:checkbox[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
@@ -50,17 +79,17 @@ $(function() {
                 $("input:checkbox[name='multiplechoice[]']:checked").each(function(index) {
                     if($(this).is(':checked')==true){
                         res.push(decodeURI($(this).val()));
+                        that.Givenanswers[$("input[name='question_id']").val()] = res;
                     }
                 });
-                that.Givenanswers[$("input[name='question_id']").val()] = res;
                 that.renderQuestion()
             }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
                 var res = [];
                 if($("input:radio[name='multiplechoice[]']:checked").length > 0){
                     res.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
+                    that.Givenanswers[$("input[name='question_id']").val()] = res;
                 }
-                that.Givenanswers[$("input[name='question_id']").val()] = res;
                 that.renderQuestion()
             } else {
                 alert(App.languageDict.attributes.No_Option_Selected)
@@ -68,22 +97,16 @@ $(function() {
         },
 
         answersave: function(attempt) {
-            for (var i =0; i < this.TotalCount; i++) {
+            for (var questionId in this.Givenanswers) {
                 var result = null;
-                var questions = this.Questionlist[i];
                 var coursequestion = new App.Models.CourseQuestion()
-                coursequestion.id = this.Questionlist[i]
+                coursequestion.id = questionId
                 coursequestion.fetch({
                     async:false
                 })
-                console.log(this.Givenanswers[coursequestion.id])
-                if(this.Givenanswers[coursequestion.id] != undefined){
-                    var answer = this.Givenanswers[coursequestion.id]
-                } else {
-                    var answer = "";
-                }
-                if (typeof answer ==  'string'){      
-                    answer = [answer];      
+                var answer = this.Givenanswers[questionId]
+                if (typeof answer ==  'string'){
+                    answer = [answer];
                 }
                 if (coursequestion.attributes.Type == "Multiple Choice" ) {
                     result = 0;
@@ -111,7 +134,7 @@ $(function() {
                 saveanswer.set('Answer',answer);
                 saveanswer.set('pqattempts',attempt);
                 saveanswer.set('AttemptMarks',result);
-                saveanswer.set('QuestionID',questions);
+                saveanswer.set('QuestionID',questionId);
                 var memberId = $.cookie('Member._id')
                 saveanswer.set('MemberID',memberId);
                 saveanswer.set('StepID',this.stepId);
@@ -177,6 +200,7 @@ $(function() {
             for (var i = 0; i < courseAnswer.length; i++) {
                 this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
             }
+
         },
 
         renderQuestion: function() {
@@ -227,6 +251,7 @@ $(function() {
                 } else {
                     this.$el.find('.quizActions').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>');
                 }
+                 this.$el.append('<div class="quizActions" ><div class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div></</div>')
             } else {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
