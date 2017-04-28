@@ -1075,7 +1075,7 @@ $(function() {
                                                             $('#onlineButton').css({"background-color": "#ff0000"});
                                                             $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
                                                         } else if (updatedJsonModel.registrationRequest == 'pending') {
-                                                            $('#onlineButton').css({"background-color": "#ffff00"});
+                                                            $('#onlineButton').css({"background-color": "#FFA500"});
                                                             $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
                                                         }
                                                 }

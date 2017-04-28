@@ -1345,13 +1345,17 @@ $(function() {
             that.vars.new_publication_count = new_publications_count;
             that.vars.new_survey_count = new_surveys_count;
             this.vars.type = App.configuration.get("type");
-            that.$el.html(_.template(this.template, this.vars));
-            this.checkAvailableUpdates(member.get('roles'), nation_version);
-            $('#newPublication').html(App.languageDict.attributes.Publications + '(' + new_publications_count + ')');
-            $('#updateButton').html(App.languageDict.attributes.Update_Available + '(' + nation_version + ')');
-            $('#newSurvey').html(App.languageDict.attributes.Surveys + '(' + new_surveys_count + ')');
-            return new_publications_count;
-
+            var getComStatus = App.configuration.get("registrationRequest")
+            if (getComStatus == 'accepted'){
+                that.$el.html(_.template(this.template, this.vars));
+                this.checkAvailableUpdates(member.get('roles'), nation_version);
+                $('#newPublication').html(App.languageDict.attributes.Publications + '(' + new_publications_count + ')');
+                $('#updateButton').html(App.languageDict.attributes.Update_Available + '(' + nation_version + ')');
+                $('#newSurvey').html(App.languageDict.attributes.Surveys + '(' + new_surveys_count + ')');
+                return new_publications_count;
+            } else {
+                alert('save me')
+            }
         },
 
         lookup: function(obj, key) {
