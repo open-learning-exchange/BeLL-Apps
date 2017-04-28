@@ -36,13 +36,19 @@ $(function() {
 
         nextquestion: function (e) {
             if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
-                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
+                if($("input[type='text'][name='singleLineAnswer']").val() != ""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));   
+                }
                 this.renderQuestion();
             } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
-                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+                if($("input[type='text'][name='commentEssay']").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+                }
                 this.renderQuestion();
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
-                this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val()));
+                if($("input[type='hidden'][name='_attachment']").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val())); 
+                }
                 this.renderQuestion();
             } else if ($("input:checkbox[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
@@ -50,17 +56,17 @@ $(function() {
                 $("input:checkbox[name='multiplechoice[]']:checked").each(function(index) {
                     if($(this).is(':checked')==true){
                         res.push(decodeURI($(this).val()));
+                        that.Givenanswers[$("input[name='question_id']").val()] = res;
                     }
                 });
-                that.Givenanswers[$("input[name='question_id']").val()] = res;
                 that.renderQuestion()
             }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
                 var res = [];
                 if($("input:radio[name='multiplechoice[]']:checked").length > 0){
                     res.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
+                    that.Givenanswers[$("input[name='question_id']").val()] = res;
                 }
-                that.Givenanswers[$("input[name='question_id']").val()] = res;
                 that.renderQuestion()
             } else {
                 alert(App.languageDict.attributes.No_Option_Selected)
@@ -68,58 +74,54 @@ $(function() {
         },
 
         answersave: function(attempt) {
-            for (var i =0; i < this.TotalCount; i++) {
+            for (var questionId in this.Givenanswers) {
+                console.log(questionId + " is " + this.Givenanswers[questionId])
                 var result = null;
-                var questions = this.Questionlist[i];
                 var coursequestion = new App.Models.CourseQuestion()
-                coursequestion.id = this.Questionlist[i]
+                coursequestion.id = questionId
                 coursequestion.fetch({
                     async:false
                 })
-                console.log(this.Givenanswers[coursequestion.id])
-                if(this.Givenanswers[coursequestion.id] != undefined){
-                    var answer = this.Givenanswers[coursequestion.id]
-                } else {
-                    var answer = "";
-                }
-                if (typeof answer ==  'string'){      
-                    answer = [answer];      
-                }
-                if (coursequestion.attributes.Type == "Multiple Choice" ) {
-                    result = 0;
-                    var correctAnswer = coursequestion.get("CorrectAnswer");
-                    var questionMarks = coursequestion.get("Marks");
-                    var rsl = "0";
-                    if (correctAnswer.length == answer.length) {
-                        rsl = "1"
-                        //loop correctAnswer j
-                        var a =answer.indexOf(correctAnswer[j])
-                        for(var j=0; j<correctAnswer.length; j++) {
-                           if(answer.indexOf(correctAnswer[j]) < 0) {
-                                rsl = "0"
-                                break
+                    var answer = this.Givenanswers[questionId]
+                    if (typeof answer ==  'string'){
+                        answer = [answer];
+                    }
+                    if (coursequestion.attributes.Type == "Multiple Choice" ) {
+                        result = 0;
+                        var correctAnswer = coursequestion.get("CorrectAnswer");
+                        var questionMarks = coursequestion.get("Marks");
+                        var rsl = "0";
+                        if (correctAnswer.length == answer.length) {
+                            rsl = "1"
+                            //loop correctAnswer j
+                            var a =answer.indexOf(correctAnswer[j])
+                            for(var j=0; j<correctAnswer.length; j++) {
+                               if(answer.indexOf(correctAnswer[j]) < 0) {
+                                    rsl = "0"
+                                    break
+                                }
                             }
                         }
+                        if(rsl == "1") {
+                            result = parseInt(questionMarks)
+                            this.totalMarks = this.totalMarks + result;
+                        }
+                        this.preview++;
                     }
-                    if(rsl == "1") {
-                        result = parseInt(questionMarks)
-                        this.totalMarks = this.totalMarks + result;
-                    }
-                    this.preview++;
-                }
-                var saveanswer = new App.Models.CourseAnswer()
-                saveanswer.set('Answer',answer);
-                saveanswer.set('pqattempts',attempt);
-                saveanswer.set('AttemptMarks',result);
-                saveanswer.set('QuestionID',questions);
-                var memberId = $.cookie('Member._id')
-                saveanswer.set('MemberID',memberId);
-                saveanswer.set('StepID',this.stepId);
-                saveanswer.save(null, {
-                    error: function() {
-                        console.log("Not Saved")
-                    }
-                });
+                    console.log(this.Givenanswers)
+                    var saveanswer = new App.Models.CourseAnswer()
+                    saveanswer.set('Answer',answer);
+                    saveanswer.set('pqattempts',attempt);
+                    saveanswer.set('AttemptMarks',result);
+                    saveanswer.set('QuestionID',questionId);
+                    var memberId = $.cookie('Member._id')
+                    saveanswer.set('MemberID',memberId);
+                    saveanswer.set('StepID',this.stepId);
+                    saveanswer.save(null, {
+                        error: function() {
+                            console.log("Not Saved")
+                        }
+                    });
             }
             var coursestep = new App.Models.CourseStep({
               _id: this.stepId
@@ -177,6 +179,7 @@ $(function() {
             for (var i = 0; i < courseAnswer.length; i++) {
                 this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
             }
+
         },
 
         renderQuestion: function() {
@@ -273,7 +276,7 @@ $(function() {
                         console.log("Not Saved")
                     }
                 });
-                location.reload();
+                //location.reload();
             }
         },
 
