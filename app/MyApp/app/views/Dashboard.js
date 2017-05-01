@@ -217,7 +217,6 @@ $(function() {
             return nationInfo;
         },
         updateVersion: function(e) {
-            console.log(e)
             var that = this;
             App.startActivityIndicator();
             var currCommConfig = that.getCommunityConfigs()
