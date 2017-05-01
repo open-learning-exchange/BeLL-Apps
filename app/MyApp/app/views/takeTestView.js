@@ -97,9 +97,7 @@ $(function() {
         },
 
         answersave: function(attempt) {
-            console.log(this.Givenanswers)
             for (var questionId in this.Givenanswers) {
-                console.log(questionId + " is " + this.Givenanswers[questionId])
                 var result = null;
                 var coursequestion = new App.Models.CourseQuestion()
                 coursequestion.id = questionId
@@ -132,7 +130,6 @@ $(function() {
                         }
                         this.preview++;
                     }
-                    console.log(this.Givenanswers)
                     var saveanswer = new App.Models.CourseAnswer()
                     saveanswer.set('Answer',answer);
                     saveanswer.set('pqattempts',attempt);
