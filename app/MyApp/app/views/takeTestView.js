@@ -31,6 +31,29 @@ $(function() {
             },
             "click #nextPressed": function(e) {
                 this.nextquestion();
+            },
+            "click #resetButton":function(e){
+                this.resetanswer();
+            }
+        },
+
+        resetanswer: function(e){
+            if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
+                $("input[type='text'][name='singleLineAnswer']").val("")
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input[type='text'][name='commentEssay']").val() != undefined ){
+                $("input[type='text'][name='commentEssay']").val("")
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input[type='hidden'][name='_attachment']").val() != undefined){
+                $("input[type='hidden'][name='_attachment']").val("")
+                $('#downloadAttac').hide()
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input:checkbox[name='multiplechoice[]']").val() != undefined){
+                $("input:checkbox[name='multiplechoice[]']").attr("checked",false)
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if ($("input:radio[name='multiplechoice[]']").val()!= undefined) {
+                $("input:radio[name='multiplechoice[]']").attr("checked",false)
+                delete this.Givenanswers[$("input[name=question_id]").val()]
             }
         },
 
@@ -74,6 +97,7 @@ $(function() {
         },
 
         answersave: function(attempt) {
+            console.log(this.Givenanswers)
             for (var questionId in this.Givenanswers) {
                 console.log(questionId + " is " + this.Givenanswers[questionId])
                 var result = null;
@@ -230,6 +254,7 @@ $(function() {
                 } else {
                     this.$el.find('.quizActions').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>');
                 }
+                 this.$el.append('<div class="quizActions" ><div class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div></</div>')
             } else {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
@@ -276,7 +301,7 @@ $(function() {
                         console.log("Not Saved")
                     }
                 });
-                //location.reload();
+                location.reload();
             }
         },
 
