@@ -301,10 +301,7 @@ $(function() {
                 dataType: 'jsonp',
                 async: false,
                 success: function (json) {
-                    var nationup = getRequestDocFromLocalDB();
-                    if(nationup.registrationRequest == 'accepted'){
                         $('#syncStatus').closest('div').show();
-                    }
                 },
                 error: function (status) {
                 	$('#syncStatus').closest('div').hide();
