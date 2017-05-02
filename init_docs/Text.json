@@ -61,7 +61,7 @@
     "Become_a_member": "Become a Member",
     "My_Home": "My Home",
     "Welcome": "Welcome",
-    "Answer_Reset":"Answer Reset",
+    "Answer_Reset":"Erase",
     "Functionality_Under_Construction": "This functionality is under construction.",
     "Add_new_Resource": "Add New Resource",
     "Search": "Search",
@@ -918,5 +918,9 @@
     "Msg_Re_ResetPassword": "You have recently updated password. Do you want to reset your password again ?",
     "Msg_Success_ResetPassword_ChangePassword": "Your request has been approved. You can change your password.",
     "Msg_Confirm_ResetPassword_ChangePassword": "You have recently updated password. Do you want to reset your password again ?If you click No then it will resend the password email again.",
-    "Test_Inprogress": "Test in progress"
+    "Test_Inprogress": "Test in progress",
+    "Btn_Prev": "Previous",
+    "Btn_Cancel": "Cancel",
+    "Nation_Rejected": "Community registration request rejected",
+    "Nation_Pending": "Community registration request Pending"
 }
