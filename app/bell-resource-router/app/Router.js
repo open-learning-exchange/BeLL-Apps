@@ -250,7 +250,7 @@ $(function() {
                 if (resource.get('openUrl') && resource.get('openUrl').length > 0) {
                     openUrl = resource.get('openUrl');
                 } else if (resource.get('openWhichFile') && resource.get('openWhichFile').length > 0) {
-                    openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + resource.get('openWhichFile');
+                    openUrl = resource.__proto__.openWithMap[resource.get('openWith')] + '/resources/' + resource.id + '/' + resource.get('openWhichFile')
                 } else {
                     //We want to open only one attachment which is the latest one, so no need for secondAttachment logic
                     /*if (_.keys(resource.get('_attachments'))[1] && resource.get('openWith') != 'Bell-Reader') {
