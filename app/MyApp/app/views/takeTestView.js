@@ -82,46 +82,45 @@ $(function() {
                 coursequestion.fetch({
                     async:false
                 })
-                    var answer = this.Givenanswers[questionId]
-                    if (typeof answer ==  'string'){
-                        answer = [answer];
-                    }
-                    if (coursequestion.attributes.Type == "Multiple Choice" ) {
-                        result = 0;
-                        var correctAnswer = coursequestion.get("CorrectAnswer");
-                        var questionMarks = coursequestion.get("Marks");
-                        var rsl = "0";
-                        if (correctAnswer.length == answer.length) {
-                            rsl = "1"
-                            //loop correctAnswer j
-                            var a =answer.indexOf(correctAnswer[j])
-                            for(var j=0; j<correctAnswer.length; j++) {
-                               if(answer.indexOf(correctAnswer[j]) < 0) {
-                                    rsl = "0"
-                                    break
-                                }
+                var answer = this.Givenanswers[questionId]
+                if (typeof answer ==  'string'){
+                    answer = [answer];
+                }
+                if (coursequestion.attributes.Type == "Multiple Choice" ) {
+                    result = 0;
+                    var correctAnswer = coursequestion.get("CorrectAnswer");
+                    var questionMarks = coursequestion.get("Marks");
+                    var rsl = "0";
+                    if (correctAnswer.length == answer.length) {
+                        rsl = "1"
+                        //loop correctAnswer j
+                        var a =answer.indexOf(correctAnswer[j])
+                        for(var j=0; j<correctAnswer.length; j++) {
+                           if(answer.indexOf(correctAnswer[j]) < 0) {
+                                rsl = "0"
+                                break
                             }
                         }
-                        if(rsl == "1") {
-                            result = parseInt(questionMarks)
-                            this.totalMarks = this.totalMarks + result;
-                        }
-                        this.preview++;
                     }
-                    console.log(this.Givenanswers)
-                    var saveanswer = new App.Models.CourseAnswer()
-                    saveanswer.set('Answer',answer);
-                    saveanswer.set('pqattempts',attempt);
-                    saveanswer.set('AttemptMarks',result);
-                    saveanswer.set('QuestionID',questionId);
-                    var memberId = $.cookie('Member._id')
-                    saveanswer.set('MemberID',memberId);
-                    saveanswer.set('StepID',this.stepId);
-                    saveanswer.save(null, {
-                        error: function() {
-                            console.log("Not Saved")
-                        }
-                    });
+                    if(rsl == "1") {
+                        result = parseInt(questionMarks)
+                        this.totalMarks = this.totalMarks + result;
+                    }
+                    this.preview++;
+                }
+                var saveanswer = new App.Models.CourseAnswer()
+                saveanswer.set('Answer',answer);
+                saveanswer.set('pqattempts',attempt);
+                saveanswer.set('AttemptMarks',result);
+                saveanswer.set('QuestionID',questionId);
+                var memberId = $.cookie('Member._id')
+                saveanswer.set('MemberID',memberId);
+                saveanswer.set('StepID',this.stepId);
+                saveanswer.save(null, {
+                    error: function() {
+                        console.log("Not Saved")
+                    }
+                });
             }
             var coursestep = new App.Models.CourseStep({
               _id: this.stepId
