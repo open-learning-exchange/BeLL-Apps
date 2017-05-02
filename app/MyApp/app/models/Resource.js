@@ -182,7 +182,7 @@ $(function() {
                     // Check if attachment is zip file
                     var file = $(fileEl)[0].files[0],
                         zipTypes = ['application/x-zip-compressed','application/zip','application/zip-compressed', 'multipart/x-zip','application/octet-stream'],
-                        isZip = zipTypes.indexOf(zipTypes) > -1 && fileExt(file.name) === 'zip';
+                        isZip = zipTypes.indexOf(file.type) > -1 && fileExt(file.name) === 'zip';
                     
                     if(isZip) {
                         var zip = new JSZip();
