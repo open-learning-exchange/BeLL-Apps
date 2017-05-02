@@ -3,15 +3,15 @@ $(function () {
     App.Views.PasswordReset = Backbone.View.extend({
         vars:{},
         template: $('#template-password-reset').html(),
-		
+
         events: {
             "click #btnPasswordReset": "password_reset"
         },
-		
+
         render: function() {
             this.$el.html(_.template(this.template))
         },
-		
+
         password_reset: function(){
             var login_name = this.options.name;
             var pwd = $('#pwd').val();
@@ -21,10 +21,6 @@ $(function () {
             }else if(re_pwd == ""){
                 alert(App.languageDict.attributes.Validation_Required_ReTypePassword);
             }else if(pwd != "" && re_pwd != ""){
-                if(pwd.length <= 7 || re_pwd.length <= 7){
-                    alert(App.languageDict.attributes.Msg_Validation_Length_Password);
-                    return false;
-                }
                 if(pwd == re_pwd){
                     var loginCollection = new App.Collections.Members();
                     loginCollection.login = login_name;
@@ -32,7 +28,7 @@ $(function () {
                         async: false
                     })
                     var existLogin = false;
-					
+
                     loginCollection.each(function(m) {
                         if (m.get("login") == login_name) {
                             member_id = m.get("_id");

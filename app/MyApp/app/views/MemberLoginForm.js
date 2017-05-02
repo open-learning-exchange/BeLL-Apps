@@ -76,9 +76,9 @@ $(function() {
             var $button = $('<a class="login-form-button btn btn-block btn-lg btn-success" style="background-color:#2ecc71; margin-left: 1px;margin-top: -21px; font-size:27px;" id="formButton">' + languageDictValue.attributes.Sign_In + '</button>')
 
             var $button2 = $('<div class="signup-div" ><a style="margin-left: 1px;margin-top: -21px; font-size:22px;" class="signup-form-button btn btn-block btn-lg btn-info" id="formButton2">' + languageDictValue.attributes.Become_a_member + '</button></div>')
-			
+
             // Button3 for Forgot Password
-            var $button3 = $('<div class="forgot-password-div" ><a style="margin-left: 1px;margin-top: -15px; font-size:22px;" class="forgot-password-form-button btn btn-block btn-lg btn-danger" id="formButton3">' + languageDictValue.attributes.Forgot_Password + '</button></div>');
+            var $button3 = $('<div class="forgot-password-div"><a class="forgot-password-form-button" id="formButton3">' + languageDictValue.attributes.Forgot_Password + '</button></div>');
             this.$el.append($button);
             this.$el.append($button2);
             this.$el.append($button3);
@@ -91,7 +91,7 @@ $(function() {
             $('#welcomeButtonOnLogin').html(languageDict.attributes.Welcome)
             $('#formButton').html(languageDict.attributes.Sign_In);
             $('#formButton2').html(languageDict.attributes.Become_a_member);
-			$('#formButton3').html(languageDict.attributes.Forgot_Password);
+            $('#formButton3').html(languageDict.attributes.Forgot_Password);
         },
 
         showWelcomeVideo: function() {
@@ -155,9 +155,9 @@ $(function() {
                                     member.set("credentials", generate_credentials(member.get('login'), member.get('password')));
                                     member.set("password","");
                                 }
-								
+
                                 //updating Password Reset email if the user have requested password rest and at the same time if he remembered his password again and login
-                                memberLoginForm.updatePasswordResetEmail(member);
+                                memberLoginForm.updateLoggedInPasswordResetEmail(member);
 
                                 if(member.get('community') == bellCode){
                                     memberLoginForm.processMemberLogin(member);  //Does the functionality of after-login
@@ -197,11 +197,15 @@ $(function() {
                         }
                         if(i==members.length)
                         {
-                            var check = memberLoginForm.checkPasswordResetEmail(member);
-                            if(check == 0){
+                            var flag = memberLoginForm.checkPasswordResetEmail(member);
+                            if(flag == "Nothing"){
                                 //Do nothing
-                            }else if(check == 2){
+                            }else if(flag == "PasswordReset"){
                                 window.location.href = '#password-reset';
+                            }else if(flag == "Pending"){
+                                alert(App.languageDict.attributes.Msg_Pending_PasswordReset)
+                            }else if(flag == "Rejected"){
+                                alert(App.languageDict.attributes.Msg_Rejected_PasswordReset)
                             }else{
                                 alert(App.languageDict.attributes.Invalid_Credentials)
                             }
@@ -365,63 +369,52 @@ $(function() {
                     }
                 });
         },
-		
-		updatePasswordResetEmail: function(member){
-			if (member.get('status') == "active") {
-				 var login_ID = member.get('_id');
-				 var login_member = member.get('login');
-				 var mailCollections = new App.Collections.Mails({
-					senderId : login_ID,
-					type : "PasswordReset",
-					skip: 0
-				});
-				mailCollections.fetch({
-					async : false,
-					success: function(){
-						var mail_id;
-						var mail_status;
-						var member_status;
-						if(mailCollections.length > 0){
-							mail_id = mailCollections.models[0].get('_id');
-							mail_subject = mailCollections.models[0].get('subject');
-							mail_status = mailCollections.models[0].get('status');
-							member_status = mailCollections.models[0].get('member_status');
-						}
-						if(mail_id){
-							var mail = new App.Models.Mail();
-							mail.id = mail_id;
-							mail.fetch({
-								async: false
-							})
-							var currentdate = new Date();
-							if(mail_status == 0 && member_status == 0){
-								var subject =  '<td>' + 'Reset automatically' + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol">'+ App.languageDict.attributes.Remembered_AND_Login +'</td></tr>';
-							}else if(mail_status == 1 && member_status == 0){
-								var subject =  '<td>' + 'Reset automatically' + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol">'+ App.languageDict.attributes.Remembered_AND_Login +'</td></tr>';
-							}else if(mail_status == 1 && member_status == 1){
-								var subject =  '<td>' + 'Reset automatically' + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol">'+ App.languageDict.attributes.PasswordResetLogin +'</td></tr>';
-							}
-							mail.set("subject", subject);
-							mail.set("status", "3");
-							mail.set("member_status", "1");
-							mail.set("sentDate", currentdate);
-							mail.save();
-							flag = 1;
-						}
-					}
-				});
-			 }
-		},
-		
-        checkPasswordResetEmail: function(member){
-            var flag = 1 ;
+
+        updateLoggedInPasswordResetEmail: function(member){
             if (member.get('status') == "active") {
                 var login_ID = member.get('_id');
                 var login_member = member.get('login');
                 var mailCollections = new App.Collections.Mails({
                     senderId : login_ID,
-                    type : "PasswordReset",
-                    skip: 0
+                    type : "PasswordReset"
+                });
+                mailCollections.fetch({
+                    async : false,
+                    success: function(){
+                        if(mailCollections.length > 0){
+                            var currentdate = new Date();
+                            var subject;
+                            for(var i = 0; i < mailCollections.length; i++){
+                                var mail_id = mailCollections.models[i].get('_id');
+                                var mail_status = mailCollections.models[i].get('status');
+                                var member_status = mailCollections.models[i].get('member_status');
+                                var mail = new App.Models.Mail();
+                                mail.id = mail_id;
+                                mail.fetch({
+                                    async: false
+                                });
+                                subject =  App.languageDict.attributes.Set_Password + ' | ' + login_member;
+                                mail.set("subject", subject);
+                                mail.set("status", "3");
+                                mail.set("member_status", "1");
+                                mail.set("sentDate", currentdate);
+                                mail.save();
+                            }
+                        }
+                    }
+                });
+            }
+        },
+
+        checkPasswordResetEmail: function(member){
+            var flag = "" ;
+            var self = this;
+            if (member.get('status') == "active") {
+                var login_ID = member.get('_id');
+                var login_member = member.get('login');
+                var mailCollections = new App.Collections.Mails({
+                    senderId : login_ID,
+                    type : "PasswordReset"
                 });
                 mailCollections.fetch({
                     async : false,
@@ -429,38 +422,111 @@ $(function() {
                         var mail_id;
                         var mail_status;
                         var member_status;
-                        console.log(mailCollections);
+                        var mail_dateTime;
                         if(mailCollections.length > 0){
                             mail_id = mailCollections.models[0].get('_id');
                             mail_status = mailCollections.models[0].get('status');
                             member_status = mailCollections.models[0].get('member_status');
+                            mail_dateTime = new Date(mailCollections.models[0].get('sentDate'));
                         }
+
+                        var currentdate = new Date();
+                        var duration = App,con
+                        var diff = currentdate - mail_dateTime;
+                        var diffSeconds = diff / 1000;
+                        var hr = Math.floor(diffSeconds / 3600);
+                        var passwordResetDuration = App.configuration.get("passwordResetDuration");
+                        var duration; // Automatic Password Reset Duration
+                        if(passwordResetDuration == undefined)
+                            duration = 0;
+                        else
+                            duration = passwordResetDuration;
                         if(mail_status == 0){
-                            //still Pending
-                            alert(App.languageDict.attributes.Msg_Pending_PasswordReset);
-                            return false;
+                            if(hr > duration && duration > 0){
+                                // automatic password reset
+                                var check = self.automaticApprovedPasswordResetEmail(mailCollections);
+                                if(check == "Msg_AutomaticApproved_PasswordReset"){
+                                    alert(App.languageDict.attributes.Msg_PasswordReset_AutomaticApproval);
+                                    Backbone.history.navigate('password-reset', {
+                                        trigger: true
+                                    });
+                                }
+                            }else{
+                                //still Pending
+                                flag = "Pending";
+                            }
+                        }else if(mail_status == 2){
+                            //Rejected
+                            flag = "Rejected";
                         }
                         if(mail_status == 1 && member_status == 1){
                             var check_confirm = confirm(App.languageDict.attributes.Msg_Re_ResetPassword);
                             if(check_confirm)
-                            flag = 2;
+                                flag = "PasswordReset";
                             else
-                            flag = 0;
+                                flag = "Nothing";
                         }if(mail_status == 1 && member_status == 0){
                             var check_confirm = confirm(App.languageDict.attributes.Msg_Success_ResetPassword_ChangePassword);
                             if(check_confirm)
-                                flag = 2;
+                                flag = "PasswordReset";
                             else
-                                flag = 0;
+                                flag = "Nothing";
                         }
                     }
                 });
             }
             return flag;
         },
-		
+
+        updatePasswordResetEmail: function(mailCollections){
+            var flag = "";
+            if(mailCollections.length > 0){
+                var currentdate = new Date();
+                for(var i = 0; i < mailCollections.length; i++){
+                    var mail_id = mailCollections.models[i].get('_id');
+                    var mail = new App.Models.Mail();
+                    mail.id = mail_id;
+                    mail.fetch({
+                        async: false
+                    });
+                    mail.set("status", "0");
+                    mail.set("member_status", "0");
+                    mail.set("sentDate", currentdate);
+                    if(mail.save()){
+                        flag = "Msg_Request_PasswordReset";
+                    }
+                }
+            }
+            return flag;
+        },
+
+        automaticApprovedPasswordResetEmail: function(mailCollections){
+            var flag = "";
+            if(mailCollections.length > 0){
+                var currentdate = new Date();
+                for(var i = 0; i < mailCollections.length; i++){
+                    var mail_id = mailCollections.models[i].get('_id');
+                    var mail = new App.Models.Mail();
+                    mail.id = mail_id;
+                    mail.fetch({
+                        async: false
+                    });
+                    var subject =  "Automatic Approval";
+                    mail.set('status',1);
+                    mail.set('member_status',0);
+                    mail.set('subject',subject);
+                    mail.set("sentDate", currentdate);
+                    if(mail.save()){
+                        flag = "Msg_AutomaticApproved_PasswordReset";
+                    }
+                }
+            }
+            return flag;
+        },
+
         sendPasswordResetEmail: function(member){
             //check the login input
+            var self = this;
             this.form.commit()
             var credentials = this.form.model;
             var members = new App.Collections.Members();
@@ -480,110 +546,119 @@ $(function() {
                                 success: function(){
                                     if(isManager.length > 0){
                                         var admin_ID = [];
-                                        for( var i = 0; i < isManager.length; i++){
-                                            if(isManager.models[i].get('_id') != login_ID)
-                                                admin_ID.push(isManager.models[i].get('_id'));
-                                        }
-                                        if(login_member && admin_ID){
-                                            var mailCollections = new App.Collections.Mails({
-                                                senderId : login_ID,
-                                                type : "PasswordReset",
-                                                skip: 0
-                                            });
-                                            mailCollections.fetch({
-                                                async : false,
-                                                success: function(){
-                                                    var mail_status;
-                                                    var member_status;
-                                                    var mail_id;
-                                                    /**
-                                                    mail_status
-                                                    0: Pending
-                                                    1: Approved
-                                                    2: Rejected
-                                                    **/
-                                                    if(mailCollections.length > 0){
-                                                        mail_status = mailCollections.models[0].get('status');
-                                                        member_status = mailCollections.models[0].get('member_status');
-                                                        mail_id = mailCollections.models[0].get('_id');
-                                                    }
-                                                    if(mail_status){
-                                                        if(mail_status == 0){
+                                        var mail = new App.Models.Mail();
+                                        var currentdate = new Date();
+                                        var subject = "";
+                                        var mailBody = "";
+                                        var flag = "";
+                                        //check whether the user already requested or not.
+                                        var mailCollections = new App.Collections.Mails({
+                                            senderId : login_ID,
+                                            type : "PasswordReset"
+                                        });
+                                        mailCollections.fetch({
+                                            async : false,
+                                            success: function(){
+                                                var mail_status;
+                                                var member_status;
+                                                var mail_id;
+                                                var passwordResetDuration = App.configuration.get("passwordResetDuration");
+                                                var duration; // Automatic Password Reset Duration
+                                                var mail_dateTime;
+                                                if(passwordResetDuration == undefined)
+                                                    duration = 0;
+                                                else
+                                                    duration = passwordResetDuration;
+                                                /**
+                                                mail_status
+                                                0: Pending
+                                                1: Approved
+                                                2: Rejected
+                                                **/
+                                                if(mailCollections.length > 0){
+                                                    mail_status = mailCollections.models[0].get('status');
+                                                    member_status = mailCollections.models[0].get('member_status');
+                                                    mail_id = mailCollections.models[0].get('_id');
+                                                    mail_dateTime = new Date(mailCollections.models[0].get('sentDate'));
+                                                }
+                                                var diff = currentdate - mail_dateTime;
+                                                var diffSeconds = diff / 1000;
+                                                var hr = Math.floor(diffSeconds / 3600);
+                                                if(mail_status){
+                                                    if(mail_status == 0){
+                                                        if(hr > duration && duration > 0){
+                                                            // automatic password reset
+                                                            var check = self.automaticApprovedPasswordResetEmail(mailCollections);
+                                                            if(check == "Msg_AutomaticApproved_PasswordReset"){
+                                                                alert(App.languageDict.attributes.Msg_PasswordReset_AutomaticApproval);
+                                                                Backbone.history.navigate('password-reset', {
+                                                                    trigger: true
+                                                                });
+                                                            }
+                                                        }else{
                                                             //still Pending
-                                                            alert(App.languageDict.attributes.Msg_Pending_PasswordReset);
-                                                            return false;
-                                                        }else if(mail_status == 1){
-                                                            //Approved
-                                                            if(member_status == 0){
-                                                                alert(App.languageDict.attributes.Msg_Success_ResetPassword_ChangePassword);
+                                                            flag = "Msg_Pending_PasswordReset";
+                                                        }
+                                                    }else if(mail_status == 1){
+                                                        //Approved
+                                                        if(member_status == 0){
+                                                            flag = "Msg_Success_ResetPassword_ChangePassword";
+                                                            Backbone.history.navigate('password-reset', {
+                                                                trigger: true
+                                                            });
+                                                        }else{
+                                                            //update to the same email id
+                                                            var check_confirm = confirm(App.languageDict.attributes.Msg_Confirm_ResetPassword_ChangePassword);
+                                                            if(check_confirm){
                                                                 Backbone.history.navigate('password-reset', {
                                                                     trigger: true
                                                                 });
                                                             }else{
-                                                                //update to the same email id
-                                                                var check_confirm = confirm(App.languageDict.attributes.Msg_Confirm_ResetPassword_ChangePassword);
-                                                                if(check_confirm){
-                                                                    Backbone.history.navigate('password-reset', {
-                                                                        trigger: true
-                                                                    });
-                                                                }else{
-                                                                    var mail = new App.Models.Mail();
-                                                                    mail.id = mail_id;
-                                                                    mail.fetch({
-                                                                        async: false
-                                                                    })
-                                                                    var currentdate = new Date();
-                                                                    var subject =  '<td>' + App.languageDict.attributes.Email_PasswordReset_Subject + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol"><button  class="btn btn-primary accepted">' + App.languageDict.attributes.Approved + '</button>&nbsp;&nbsp;<button  class="btn btn-danger rejectId" >' + App.languageDict.attributes.Rejected + '</button></td></tr>';
-                                                                    mail.set("subject", subject);
-                                                                    mail.set("status", "0");
-                                                                    mail.set("member_status", "0");
-                                                                    mail.set("sentDate", currentdate);
-                                                                    if(mail.save()){
-                                                                        alert(App.languageDict.attributes.Msg_Request_PasswordReset);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }else if(mail_status == 2){
-                                                            //Rejected
-                                                            alert(App.languageDict.attributes.Msg_Rejected_PasswordReset);
-                                                            return false;
-                                                        }else{
-                                                            //update to the same email id
-                                                            var mail = new App.Models.Mail();
-                                                            mail.id = mail_id;
-                                                            mail.fetch({
-                                                                async: false
-                                                            })
-                                                            var currentdate = new Date();
-                                                            var subject =  '<td>' + App.languageDict.attributes.Email_PasswordReset_Subject + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol"><button  class="btn btn-primary accepted">' + App.languageDict.attributes.Approved + '</button>&nbsp;&nbsp;<button  class="btn btn-danger rejectId" >' + App.languageDict.attributes.Rejected + '</button></td></tr>';
-                                                            mail.set("subject", subject);
-                                                            mail.set("status", "0");
-                                                            mail.set("member_status", "0");
-                                                            mail.set("sentDate", currentdate);
-                                                            if(mail.save()){
-                                                                alert(App.languageDict.attributes.Msg_Request_PasswordReset);
+                                                                flag = self.updatePasswordResetEmail(mailCollections);
                                                             }
                                                         }
+                                                    }else if(mail_status == 2){
+                                                        //Rejected
+                                                        flag = "Msg_Rejected_PasswordReset";
                                                     }else{
-                                                        var mail = new App.Models.Mail();
-                                                        var currentdate = new Date();
-                                                        var subject =  '<td>' + App.languageDict.attributes.Email_PasswordReset_Subject + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol"><button  class="btn btn-primary accepted">' + App.languageDict.attributes.Approved + '</button>&nbsp;&nbsp;<button  class="btn btn-danger rejectId" >' + App.languageDict.attributes.Rejected + '</button></td></tr>';
-                                                        var mailBody = "Request for password reset";
-                                                        mail.set("senderId", login_ID);
-                                                        mail.set("receiverId", admin_ID);
-                                                        mail.set("subject", subject);
-                                                        mail.set("body", mailBody);
-                                                        mail.set("status", "0");
-                                                        mail.set("member_status", "0");
-                                                        mail.set("type", "PasswordReset");
-                                                        mail.set("sentDate", currentdate);
-                                                        if(mail.save()){
-                                                            alert(App.languageDict.attributes.Msg_Request_PasswordReset);
+                                                        //update to the same email id
+                                                        flag = self.updatePasswordResetEmail(mailCollections);
+                                                    }
+                                                }else{
+                                                    for( var i = 0; i < isManager.length; i++){
+                                                        if(isManager.models[i].get('_id') != login_ID){
+                                                            admin_ID = isManager.models[i].get('_id');
+                                                            //send email to all the manager
+                                                            subject =  App.languageDict.attributes.Email_PasswordReset_Subject + ' | ' + login_member;
+                                                            mailBody = "Request for password reset";
+                                                            mail.set("senderId", login_ID);
+                                                            mail.set("receiverId", admin_ID);
+                                                            mail.set("subject", subject);
+                                                            mail.set("body", mailBody);
+                                                            mail.set("status", "0");
+                                                            mail.set("member_status", "0");
+                                                            mail.set("type", "PasswordReset");
+                                                            mail.set("sentDate", currentdate);
+                                                            if(mail.save()){
+                                                                flag = "Msg_Request_PasswordReset";
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            });
-                                        }
+                                                if(flag == "Msg_Request_PasswordReset"){
+                                                    alert(App.languageDict.attributes.Msg_Request_PasswordReset);
+                                                }else if(flag == "Msg_Pending_PasswordReset"){
+                                                    alert(App.languageDict.attributes.Msg_Pending_PasswordReset);
+                                                }else if(flag == "Msg_Success_ResetPassword_ChangePassword"){
+                                                    alert(App.languageDict.attributes.Msg_Success_ResetPassword_ChangePassword);
+                                                }else if(flag == "Msg_Request_PasswordReset"){
+                                                    alert(App.languageDict.attributes.Msg_Request_PasswordReset);
+                                                }else if(flag == "Msg_Rejected_PasswordReset"){
+                                                    alert(App.languageDict.attributes.Msg_Rejected_PasswordReset);
+                                                }
+                                            }
+                                        });
+                                        return false;
                                     }
                                 }
                             });

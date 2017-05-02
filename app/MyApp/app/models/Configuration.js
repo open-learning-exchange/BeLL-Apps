@@ -101,7 +101,11 @@ $(function() {
                 type: 'Text' // This attribute will be removed when all the communities will have 'easy-install' work.
             },
             countDoubleUpdate: 'Number', //Saves status of community's update.
-            kind: 'Text' // Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            kind: 'Text', // Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            passwordResetDuration: {
+                type: 'Select',
+                validators: ['required']
+            }
         }
     })
 

@@ -23,6 +23,7 @@ $(function() {
             }
             vars["nations"] = [];
             vars["languages"] = [];
+            vars["passwordResetDuration"] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
             vars.languages = getAvailableLanguages();
             vars.languageDict=App.languageDict;
             if(navigator.onLine){ //Check if there is a stable internet connection
@@ -95,6 +96,7 @@ $(function() {
             $('#leader-lastname').val(that.model.get('superManagerLastName'));
             $('#leader-phone').val(that.model.get('superManagerPhone'));
             $('#leader-email').val(that.model.get('superManagerEmail'));
+            $('#pwd_reset_duration').val(that.model.get('passwordResetDuration'));
         },
 
         validateForm: function () {
@@ -289,7 +291,8 @@ $(function() {
                 kind: 'Community',
                 //Temporarily adding these attributes
                 Name: $.trim($('#community-name').val()),
-                Code: $.trim($('#community-code').val())
+                Code: $.trim($('#community-code').val()),
+                passwordResetDuration: $.trim($('#pwd_reset_duration').val())
             });
             if(configDoc.registrationRequest == 'rejected' || prevNation != selectedNation) {
                 this.model.set('registrationRequest', 'pending');

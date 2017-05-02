@@ -59,7 +59,7 @@ $(function() {
             // added to new page   'reports/sync' : 'syncReports',
             'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
-            'mail(/:PasswordReset)': 'email',
+            'mail': 'email',
             'newsfeed': 'NewsFeed',
             'badges': 'Badges',
             'badgesDetails/:cid':'badgesDetails',
@@ -305,7 +305,7 @@ $(function() {
                     $('#syncStatus').closest('div').show();
                 },
                 error: function (status) {
-                	$('#syncStatus').closest('div').hide();
+                    $('#syncStatus').closest('div').hide();
                 }
             });
             //  manageCommunity.updateDropDownValue();
@@ -3110,21 +3110,21 @@ $(function() {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             membersView.changeDirection();
             if(App.configuration.get('type') == 'nation') {
-	            $.ajax({
-	                url: '/community/_design/bell/_view/getCommunityByCode',
-	                type: 'GET',
-	                dataType: "jsonp",
-	                async: false,
-	                success: function(json) {
-	                	var communityList = '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
-	                	$.each(json.rows, function(rec, index) {
-	                		communityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
-	                	})
-	                	communityList = '<select id="selectCommunity" style="margin-right: 30px;">'+communityList+'</select>';
-	                	$(communityList).insertBefore('#searchText');
-                	}
-	            });
-        	}
+                $.ajax({
+                    url: '/community/_design/bell/_view/getCommunityByCode',
+                    type: 'GET',
+                    dataType: "jsonp",
+                    async: false,
+                    success: function(json) {
+                        var communityList = '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
+                        $.each(json.rows, function(rec, index) {
+                            communityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
+                        })
+                        communityList = '<select id="selectCommunity" style="margin-right: 30px;">'+communityList+'</select>';
+                        $(communityList).insertBefore('#searchText');
+                    }
+                });
+            }
             if(App.languageDict.get('directionOfLang').toLowerCase()==="right") {
                 $('#membersSearchHeading').css('float','left');
                 $("#AddNewMember").addClass('addMarginsOnCourseUrdu');
@@ -4728,7 +4728,7 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang);
         },
 
-        email: function(type) {
+        email: function() {
             App.$el.children('.body').html('&nbsp')
             var config = new App.Collections.Configurations()
             config.fetch({
@@ -4738,35 +4738,17 @@ $(function() {
             var cofigINJSON = currentConfig.toJSON()
             code = cofigINJSON.code
             Bellname = cofigINJSON.nationName
-            if(type == "PasswordReset"){
-                var mymail = new App.Collections.Mails({
-                    type: type,
-                    status: "0",
+            var mymail = new App.Collections.Mails({
                     skip: 0
                 })
-                mymail.fetch({
-                    async: false
-                })
-                var mailview = new App.Views.MailView({
-                    collection: mymail,
-                    community_code: code,
-                    nationName: Bellname,
-                    type: type
-                })
-            }else{
-                var mymail = new App.Collections.Mails({
-                    skip: 0
-                })
-                mymail.fetch({
-                    async: false
-                })
-                var mailview = new App.Views.MailView({
-                    collection: mymail,
-                    community_code: code,
-                    nationName: Bellname
-                })
-            }
-			
+            mymail.fetch({
+                async: false
+            })
+            var mailview = new App.Views.MailView({
+                collection: mymail,
+                community_code: code,
+                nationName: Bellname
+            })
             mailview.render()
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)
@@ -6669,63 +6651,63 @@ $(function() {
             localDesign = [];
             $('.body').html('');
             $.ajax({
-                    url: '/_all_dbs',
-                    type: 'GET',
-                    dataType: 'json',
-                    async: false,
-                    success: function(result) {
-                           $('.body').append('<h4>'+ App.languageDict.attributes.Databases + ' : ' + result.length + '</h4>');
-                   },
-                   error: function(err) {
-                       console.log(err);
-                   }
-		})
+                url: '/_all_dbs',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function(result) {
+                    $('.body').append('<h4>'+ App.languageDict.attributes.Databases + ' : ' + result.length + '</h4>');
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+        })
 
-																								               $.ajax({
+        $.ajax({
                 url: 'http://' + nationURL + '/_all_dbs',
                 type: 'GET',
                 dataType: 'jsonp',
                 async: false,
                 success: function(result) {
-                	$.each(result, function(i, val) {
-                		if(val.substr(0, 1) != '_') {
-                			 $.ajax({
-            	                url: 'http://' + nationURL + '/'+val+'/_design/bell',
-            	                type: 'GET',
-            	                dataType: 'jsonp',
-            	                async: false,
-            	                success: function(resultR) {
-            	                	if(resultR['_id'] != undefined) resultR['_id'] = '';
-            	                	if(resultR['_rev'] != undefined) resultR['_rev'] = '';
-            	                	remoteDesign[val] = hex_md5(JSON.stringify(resultR));
-            	                	$.ajax({
-                    	                url: '/'+val+'/_design/bell',
-                    	                type: 'GET',
-                    	                dataType: 'json',
-                    	                async: false,
-                    	                success: function(resultL) {
-                    	                	if(resultL['_id'] != undefined) resultL['_id'] = '';
-                    	                	if(resultL['_rev'] != undefined) resultL['_rev'] = '';
-                    	                	localDesign[val] = hex_md5(JSON.stringify(resultL));
-                    	                	if(localDesign[val] == remoteDesign[val]) 
-                    	                		$('.body').append('<br/><b>' + val + '</b>: <span class="correct">'+ App.languageDict.attributes.Synced_Success + '</span>');
-                    	                	else 
-                    	                		$('.body').append('<br/><b>' + val + '</b>: <span class="wrong">'+ App.languageDict.attributes.Not_Synced + '</span>');
-                    	                	
-                    	                },
-                    	                error: function(err) {
-                    	                    console.log(err);
-                    	                }
-                    	            })
-            	                },
-            	                error: function(err) {
-            	                    console.log(err);
-            	                }
-            	            })
-            	            return true;
-                		}
-                		
-                	});
+                    $.each(result, function(i, val) {
+                        if(val.substr(0, 1) != '_') {
+                             $.ajax({
+                                url: 'http://' + nationURL + '/'+val+'/_design/bell',
+                                type: 'GET',
+                                dataType: 'jsonp',
+                                async: false,
+                                success: function(resultR) {
+                                    if(resultR['_id'] != undefined) resultR['_id'] = '';
+                                    if(resultR['_rev'] != undefined) resultR['_rev'] = '';
+                                    remoteDesign[val] = hex_md5(JSON.stringify(resultR));
+                                    $.ajax({
+                                        url: '/'+val+'/_design/bell',
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        async: false,
+                                        success: function(resultL) {
+                                            if(resultL['_id'] != undefined) resultL['_id'] = '';
+                                            if(resultL['_rev'] != undefined) resultL['_rev'] = '';
+                                            localDesign[val] = hex_md5(JSON.stringify(resultL));
+                                            if(localDesign[val] == remoteDesign[val]) 
+                                                $('.body').append('<br/><b>' + val + '</b>: <span class="correct">'+ App.languageDict.attributes.Synced_Success + '</span>');
+                                            else 
+                                                $('.body').append('<br/><b>' + val + '</b>: <span class="wrong">'+ App.languageDict.attributes.Not_Synced + '</span>');
+                                            
+                                        },
+                                        error: function(err) {
+                                            console.log(err);
+                                        }
+                                    })
+                                },
+                                error: function(err) {
+                                    console.log(err);
+                                }
+                            })
+                            return true;
+                        }
+                        
+                    });
                 },
                 error: function(err) {
                     console.log(err);
@@ -6733,7 +6715,7 @@ $(function() {
             })
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
-		
+        
         showPasswordReset: function(){
             // password reset page:
             var login_name = $('input[name=login]').val();

@@ -1,6 +1,6 @@
 /*This stylesheet is supposed to applied on page for RTL languages like Arabic, Urdu etc*/
 .body {
-	direction: rtl;
+    direction: rtl;
 }
 #dashboard {
     height: 600px;
@@ -317,7 +317,7 @@ table.stu-nav-table{
     padding: 0 0 0 0;
 }
 .scrollable-courses .course-box:first-of-type , .scrollable-badges .meetup-box:first-of-type {
-	border-right: none !important;
+    border-right: none !important;
 }
 .scrollable-shelf
 {
@@ -582,7 +582,7 @@ body{
 }
 .withoutWelcomeVideo {
     background-color: #edeff1;
-    padding: 23px 16px 64px;
+    padding: 23px 16px 16px;
     position: relative;
     border-radius: 11px;
 }
@@ -1181,10 +1181,10 @@ textarea[name="comment"]
     cursor: pointer;
 }
 .correct {
-	color: green;
+    color: green;
 }
 .wrong {
-	color: red;
+    color: red;
 }
 .flotHeight{
     height: 400px;
@@ -1202,4 +1202,18 @@ textarea[name="comment"]
 .stprog_plot_color{
     text-align:center; 
     margin: 10px 0 15px;
+}
+.forgot-password-div{
+    margin-top: 35px;
+}
+a.forgot-password-form-button{
+    color: #3498db;
+    font-size: 16px;
+    text-align: center;
+    margin-left: 104px;
+    margin-top: 20px;
+}
+a.forgot-password-form-button:hover{
+    cursor: pointer;
+    color: #3498db;
 }

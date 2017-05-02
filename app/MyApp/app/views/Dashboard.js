@@ -1099,7 +1099,7 @@ $(function() {
                 }
             })
           
-		    
+
             shelfSpans = new App.Views.ShelfSpans()
             shelfSpans.render()
 
@@ -1327,7 +1327,7 @@ $(function() {
                     App.surveyAlert = 0;
                 }
             }
-			
+
             // Password Reset Email
             var newPasswordResetEmailCount = dashboard.getPasswordResetCount();
             this.vars.password_reset_email_count = newPasswordResetEmailCount;
@@ -1470,7 +1470,7 @@ $(function() {
 
             return 0;
         },
-		
+
         getPasswordResetCount: function(){
             //count the email
             var count = 0;
