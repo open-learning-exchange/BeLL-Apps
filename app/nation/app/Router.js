@@ -3407,6 +3407,10 @@ $(function() {
             {
                 $('#nav').hide();
                 lang = "English";
+                if($.cookie('languageFromCookie'))
+                {
+                    lang = $.cookie('languageFromCookie')
+                }
             }
             App.languageDictValue = App.Router.loadLanguageDocs(lang);
             var commConfigModel;
