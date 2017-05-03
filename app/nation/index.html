@@ -965,6 +965,10 @@
 </script>
 
 <script type="text/template" id="template-communityDetails">
+    <% if (!$.cookie('Member.login')) {%>
+        <div><img src="img/logo.png" width="108px" height="108px" style="z-index:1; border:2px solid white;border-radius:60px;"/><a style="margin-top: 15px;float: right;" class='btn btn-success' href='../MyApp/index.html#login'><%= App.languageDictValue.attributes.Sign_In %></a>
+        </div>
+    <%}%>
     <div>
         <h5><%=languageDict.attributes.community_details%></h5>
     </div>
