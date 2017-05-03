@@ -406,7 +406,7 @@ margin-left:40px;
 /******************************************/
 .withoutWelcomeVideo {
 	background-color: #edeff1;
-	padding: 23px 16px 16px;
+	padding: 23px 16px 64px;
 	position: relative;
 	border-radius: 11px;
 }

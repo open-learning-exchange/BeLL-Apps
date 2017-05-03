@@ -7,6 +7,7 @@ $(function() {
         modelNo: null,
         nextButton: null,
         unopen: null,
+		status: "0",
         searchText: null,
         resultArray: null,
         inViewModel: null,
@@ -37,7 +38,11 @@ $(function() {
                 this.searchText = ""
                 $("#search-text").val("")
                 this.resultArray = []
-                this.unopen = false
+				if(this.type == "PasswordReset"){
+					this.status = "AllMail"
+				}else{
+					this.unopen = false
+				}
                 this.fetchRecords()
                 $("#nextButton").show()
                 $("#previousButton").hide()
@@ -302,7 +307,14 @@ $(function() {
             this.searchText = ""
             $("#search-text").val("")
             this.resultArray = []
-            this.unopen = true
+			if(this.type == "PasswordReset"){
+				this.status = "0";
+				skip = 0;
+				this.type = "PasswordReset";
+			}
+            else{
+				this.unopen = true
+			}
             this.fetchRecords()
             $("#nextButton").show()
             $("#previousButton").hide()
@@ -362,6 +374,7 @@ $(function() {
         initialize: function(args) {
             this.code = args.community_code
             this.nationName = args.nationName
+			this.type = args.type
             this.modelNo = 0
             skip = 0
             this.unopen = true
@@ -393,24 +406,41 @@ $(function() {
                 } else {
                     row = '<tr bgcolor="E7E7E7" style="color:#2D2D34">'
                 }
-                var deleteId = "delete" + this.modelNo
-                var viewId = "view" + this.modelNo
+				if(this.type == "PasswordReset"){
+					var receiverId = $.cookie('Member._id');
+					if(model.get('receiverId').indexOf(receiverId) != -1){
+						row = row + vars.subject;
+						$('#inbox_mails').append(row);
+						$(".accepted").click(this.acceptButton);
+						$(".rejectId").click(this.rejectButton);
+						mailView = this;
+						if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
+							$('#viewDelCol').find('td').eq(2).attr("align","left")
+						}
+						else {
+							$('#viewDelCol').find('td').eq(2).attr("align","right")
+						}
+					}
+				}else{
+					var deleteId = "delete" + this.modelNo
+					var viewId = "view" + this.modelNo
 
-                row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn btn-danger">'+App.languageDict.get("DeleteLabel")+'</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn btn-primary" >'+App.languageDict.get("View")+'</button></td></tr>'
-                $('#inbox_mails').append(row)
-                this.modelNo++
-                $("#" + deleteId).click(this.deleteButton)
-                $("#" + viewId).click(this.viewButton)
-                mailView = this;
-                if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
-                    $('#viewDelCol').find('td').eq(2).attr("align","left")
-                }
-                else {
-                    $('#viewDelCol').find('td').eq(2).attr("align","right")
-                }
+					row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn btn-danger">'+App.languageDict.get("DeleteLabel")+'</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn btn-primary" >'+App.languageDict.get("View")+'</button></td></tr>'
+					$('#inbox_mails').append(row)
+					this.modelNo++
+					$("#" + deleteId).click(this.deleteButton)
+					$("#" + viewId).click(this.viewButton)
+					mailView = this;
+					if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
+						$('#viewDelCol').find('td').eq(2).attr("align","left")
+					}
+					else {
+						$('#viewDelCol').find('td').eq(2).attr("align","right")
+					}
+				}
             }
         },
-
+		
         addAll: function() {
 
             $('#inbox_mails').html('')
@@ -444,11 +474,18 @@ $(function() {
 
         fetchRecords: function() {
             var obj = this
-            var newCollection = new App.Collections.Mails({
-                receiverId: $.cookie('Member._id'),
-                unread: obj.unopen
-            })
-
+			if(this.type == "PasswordReset"){
+				var newCollection = new App.Collections.Mails({
+					type: this.type,
+					status: obj.status,
+					skip: 0
+				});
+			}else{
+				var newCollection = new App.Collections.Mails({
+					receiverId: $.cookie('Member._id'),
+					unread: obj.unopen
+				})
+			}
             newCollection.fetch({
                 success: function() {
                     obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(newCollection.models, obj.searchText))
@@ -692,7 +729,39 @@ $(function() {
             model.set('body', body)
             model.save()
             $('#mail-body').html('<br/>' + body)
-        }
+        },
+		
+		acceptButton: function(e){
+			var that = e.currentTarget;
+			var modelNo = $(that).closest('tr').index();
+			var acceptedBy = $.cookie('Member.login');
+			var model = mailView.collection.at(modelNo);
+			var login_member = $(that).parent().parent().find('td#.member').text();
+			var subject =  '<td>' + App.languageDict.attributes.Email_PasswordReset_Subject + ' | ' + login_member + '</td><td align="center">' + login_member + '</td><td id="viewDelCol">'+ App.languageDict.attributes.Msg_Email_ApprovedBy +' '+ acceptedBy +'</td></tr>';
+			model.set('subject',subject);
+			model.set('status',1);
+			model.set('member_status',0);
+			if(model.save()){
+				alert(App.languageDict.attributes.Msg_PasswordReset_Email_Approved);
+				$(that).closest('tr').remove();
+			}
+		},
+		
+		rejectButton: function(e){
+			var that = e.currentTarget;
+			var modelNo = $(that).closest('tr').index();
+			var rejectedBy = $.cookie('Member.login');
+			var model = mailView.collection.at(modelNo);
+			var login_member = $(that).parent().parent().find('td#.member').text();
+			var subject =  '<td>' + App.languageDict.attributes.Email_PasswordReset_Subject + ' | ' + login_member + '</td><td align="center">' + login_member + '</td><td id="viewDelCol">' + App.languageDict.attributes.Msg_Email_RejectedBy + ' '+ rejectedBy +'</td></tr>';
+			model.set('subject',subject);
+			model.set('status',2);
+			model.set('member_status',0);
+			if(model.save()){
+				alert(App.languageDict.attributes.Msg_PasswordReset_Email_Rejected);
+				$(that).closest('tr').remove();
+			}
+		}
 
     })
 

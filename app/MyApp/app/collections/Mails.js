@@ -4,15 +4,24 @@ $(function() {
 
         initialize: function(e) {
             if (e) {
-
-                if (e.senderId) {
-
+				if (e.senderId && e.type) {
+                    this.url = App.Server + '/mail/_design/bell/_view/GetPasswordResetStatusWithSenderID?include_docs=true&key="' + e.senderId + '"&limit=5&skip=' + e.skip
+                } else if (e.senderId) {
                     this.url = App.Server + '/mail/_design/bell/_view/sentbox?include_docs=true&key="' + e.senderId + '"&limit=5&skip=' + e.skip
                 } else if (e.receiverId && e.unread) {
                     this.url = App.Server + '/mail/_design/bell/_view/unopen?include_docs=true&key="' + e.receiverId + '"&limit=5&skip=' + skip
                 } else if (e.receiverId && !e.unread) {
                     this.url = App.Server + '/mail/_design/bell/_view/inbox?include_docs=true&key="' + e.receiverId + '"&limit=5&skip=' + skip
-                } else {
+                } else if (e.type && e.status) {
+					if(e.status == "countPending"){
+						this.url = App.Server + '/mail/_design/bell/_view/GetPasswordResetStatus?include_docs=true&key="0"'
+					}else if(e.status == "AllMail"){
+						this.url = App.Server + '/mail/_design/bell/_view/GetPasswordResetStatus?include_docs=true'
+					}else{
+						this.url = App.Server + '/mail/_design/bell/_view/GetPasswordResetStatus?include_docs=true&key="' + e.status + '"&limit=5&skip=' + skip
+					}
+				}
+				else {
                     this.url = App.Server + '/mail/_all_docs?include_docs=true&limit=5&skip=' + skip
                 }
             } else {
