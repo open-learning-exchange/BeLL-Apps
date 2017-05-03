@@ -59,8 +59,7 @@ $(function() {
             // added to new page   'reports/sync' : 'syncReports',
             'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
-            'mail': 'email',
-
+            'mail(/:PasswordReset)': 'email',
             'newsfeed': 'NewsFeed',
             'badges': 'Badges',
             'badgesDetails/:cid':'badgesDetails',
@@ -94,7 +93,9 @@ $(function() {
             'memberSurveys': 'SurveysForMembers',
             'configurationsForm': 'configurationsForm',
             'checksum(/:nation/:url)': 'checkSum',
-            'listLearnersCredits/:cid': 'showLearnersListForCredits'
+            'listLearnersCredits/:cid': 'showLearnersListForCredits',
+            'passwordResetEmail': 'showPasswordResetEmail',
+            'password-reset': 'showPasswordReset'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -785,7 +786,7 @@ $(function() {
 
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
-                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add' && $.url().attr('fragment') != 'admin/add') {
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add' && $.url().attr('fragment') != 'admin/add' && $.url().attr('fragment') != 'password-reset') {
                     Backbone.history.stop()
                     App.start()
                 }
@@ -4727,7 +4728,7 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang);
         },
 
-        email: function() {
+        email: function(type) {
             App.$el.children('.body').html('&nbsp')
             var config = new App.Collections.Configurations()
             config.fetch({
@@ -4737,17 +4738,35 @@ $(function() {
             var cofigINJSON = currentConfig.toJSON()
             code = cofigINJSON.code
             Bellname = cofigINJSON.nationName
-            var mymail = new App.Collections.Mails({
-                skip: 0
-            })
-            mymail.fetch({
-                async: false
-            })
-            var mailview = new App.Views.MailView({
-                collection: mymail,
-                community_code: code,
-                nationName: Bellname
-            })
+            if(type == "PasswordReset"){
+                var mymail = new App.Collections.Mails({
+                    type: type,
+                    status: "0",
+                    skip: 0
+                })
+                mymail.fetch({
+                    async: false
+                })
+                var mailview = new App.Views.MailView({
+                    collection: mymail,
+                    community_code: code,
+                    nationName: Bellname,
+                    type: type
+                })
+            }else{
+                var mymail = new App.Collections.Mails({
+                    skip: 0
+                })
+                mymail.fetch({
+                    async: false
+                })
+                var mailview = new App.Views.MailView({
+                    collection: mymail,
+                    community_code: code,
+                    nationName: Bellname
+                })
+            }
+			
             mailview.render()
             App.$el.children('.body').append(mailview.el)
             skipStack.push(skip)
@@ -6713,6 +6732,17 @@ $(function() {
                 }
             })
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+        },
+		
+        showPasswordReset: function(){
+            // password reset page:
+            var login_name = $('input[name=login]').val();
+            $('div#cont').html('');
+            var passwordResetView = new App.Views.PasswordReset({
+                name : login_name
+            });
+            passwordResetView.render();
+            App.$el.children('.body').append(passwordResetView.el)
         }
     }))
 })

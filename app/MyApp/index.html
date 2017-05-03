@@ -303,6 +303,7 @@
     <script src="app/views/ViewTest.js"></script> <!-- app/views.js -->
 
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
+    <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
 
 
     <!-- javaScript -->
@@ -320,6 +321,24 @@
             <% } %>
         </select>
 
+    </script>
+	
+    <!-- template for password reset -->
+    <script type="text/template" id="template-password-reset">
+        <h5><%= languageDict.attributes.Set_Password %></h5>
+        <div class="form">
+            <div class="form-group">
+                <label for="pwd"><%= languageDict.attributes.Password %></label>
+                <input type="password" id="pwd" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="re-pwd"><%= languageDict.attributes.ReTypePassword %></label>
+                <input type="password" id="re_pwd" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <button class="form-control" id="btnPasswordReset"><%= languageDict.attributes.Submit %></button>
+            </div>
+        </div>
     </script>
 
     <script type='text/template' id='template-app'>
@@ -549,6 +568,7 @@
                         <td><button id="newPublication" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Publications%>(<%=new_publication_count%>)</button></td>
                         <td><button id="newSurvey" class="btn btn-hg btn-primary" style="display:none;color:Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Surveys%>(<%=new_survey_count%>)</button></td>
                         <td><button id="updateButton" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" ><%= languageDict.attributes.Update_Available %>(<%=nation_version%></button></td>
+                        <td><button id= "passwordResetEmail" class="btn btn-hg btn-primary" onclick = "document.location.href='#mail/PasswordReset'"></button></td>
                     <%} %>
                 </tr>
             </table>
@@ -1752,8 +1772,10 @@
             <b id="mailHeading"><%= languageDict.attributes.Inbox %>
                 <button class="btn btn-primary" id="all-mails" style="width:auto"><%= languageDict.attributes.All %>  </button>
                 <button class="btn btn-primary" id="unread-mails"><%= languageDict.attributes.Unread %></button>
-                <button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton"><%= languageDict.attributes.Compose %></button>
-                <span class="new_mails"></span>
+                <% if(this.type != "PasswordReset"){ %>
+                    <button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton"><%= languageDict.attributes.Compose %></button>
+                    <span class="new_mails"></span>
+                <% } %>
                 <span id="searchOnMail"><input id="search-text" type="text" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail"><%= languageDict.attributes.Go %></button></span>
             </b>
         </div>
