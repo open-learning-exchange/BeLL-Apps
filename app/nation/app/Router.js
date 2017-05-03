@@ -2682,7 +2682,7 @@ $(function() {
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
 
-                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember' && !(/^listCommunityPage/.test($.url().attr('fragment'))) && !(/^communityreport/.test($.url().attr('fragment')))) {
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'landingPage' && $.url().attr('fragment') != 'becomemember' && !(/^listCommunityPage/.test($.url().attr('fragment'))) && !(/^communityreport/.test($.url().attr('fragment'))) && !(/^communityDetails/.test($.url().attr('fragment')))) {
                     Backbone.history.stop()
                     App.start()
                 }
@@ -3397,11 +3397,19 @@ $(function() {
         },
 
         communityDetails: function (commDocId, requestStatus) {
+            var lang;
+            var img;
+            if($.cookie('Member.login'))
+            {
+                lang = App.Router.getLanguage($.cookie('Member.login'));
+            }
+            else
+            {
+                $('#nav').hide();
+                lang = "English";
+            }
+            App.languageDictValue = App.Router.loadLanguageDocs(lang);
             var commConfigModel;
-            var loginOfMem = $.cookie('Member.login');
-            var lang = App.Router.getLanguage(loginOfMem);
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
-            App.languageDictValue=languageDictValue;
             if(requestStatus == 'registered') {
                 commConfigModel = new App.Models.Community({
                     _id: commDocId
