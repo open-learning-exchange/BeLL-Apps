@@ -301,7 +301,7 @@ $(function() {
                 dataType: 'jsonp',
                 async: false,
                 success: function (json) {
-                        $('#syncStatus').closest('div').show();
+                    $('#syncStatus').closest('div').show();
                 },
                 error: function (status) {
                 	$('#syncStatus').closest('div').hide();
@@ -924,7 +924,6 @@ $(function() {
         getNationVersion: function (dashboard) {
             var that = this;
             var configuration = App.configuration
-            var jsonModel = getRequestDocFromLocalDB();
             var nationName = configuration.get("nationName")
             var nationURL = configuration.get("nationUrl")
             var nationConfigURL = 'http://' + nationName + ':oleoleole@' + nationURL + '/configurations/_all_docs?include_docs=true';
@@ -1059,22 +1058,16 @@ $(function() {
                                             dataType: 'jsonp',
                                             async: false,
                                             success: function (json) {
-                                                var jasonModel = getRequestDocFromLocalDB();
-                                                if (jasonModel != null){
-                                                    var modelId = jasonModel._Id;
-                                                    var docIDs = [];
-                                                    docIDs.push(modelId);
-                                                    var updatedJasonModel = getRequestDocFromLocalDB();
-                                                    if (updatedJasonModel.registrationRequest == 'accepted'){
-                                                        $('#onlineButton').css({"background-color": "#35ac19"});
-                                                        $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
-                                                    } else if (updatedJasonModel.registrationRequest == 'rejected') {
-                                                        $('#onlineButton').css({"background-color": "#ff0000"});
-                                                        $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
-                                                    } else {
-                                                        $('#onlineButton').css({"background-color": "#FFA500"});
-                                                        $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
-                                                    }
+                                                var getComStats = App.configuration.get('registrationRequest')
+                                                if (getComStats == 'accepted'){
+                                                    $('#onlineButton').css({"background-color": "#35ac19"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
+                                                } else if (getComStats == 'rejected') {
+                                                    $('#onlineButton').css({"background-color": "#ff0000"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                                } else {
+                                                    $('#onlineButton').css({"background-color": "#FFA500"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
                                                 }
                                                 var SurveyDocsFromNation = [];
                                                 _.each(json.rows, function (row) {
