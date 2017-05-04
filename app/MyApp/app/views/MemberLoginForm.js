@@ -384,6 +384,8 @@ $(function() {
 						if(mailCollections.length > 0){
 							mail_id = mailCollections.models[0].get('_id');
 							mail_subject = mailCollections.models[0].get('subject');
+							mail_status = mailCollections.models[0].get('status');
+							member_status = mailCollections.models[0].get('member_status');
 						}
 						if(mail_id){
 							var mail = new App.Models.Mail();
@@ -392,10 +394,13 @@ $(function() {
 								async: false
 							})
 							var currentdate = new Date();
-							if(mail_subject.match('button'))
+							if(mail_status == 0 && member_status == 0){
 								var subject =  '<td>' + 'Reset automatically' + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol">'+ App.languageDict.attributes.Remembered_AND_Login +'</td></tr>';
-							else
+							}else if(mail_status == 1 && member_status == 0){
+								var subject =  '<td>' + 'Reset automatically' + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol">'+ App.languageDict.attributes.Remembered_AND_Login +'</td></tr>';
+							}else if(mail_status == 1 && member_status == 1){
 								var subject =  '<td>' + 'Reset automatically' + ' | ' + login_member + '</td><td align="center" class="member">' + login_member + '</td><td id="viewDelCol">'+ App.languageDict.attributes.PasswordResetLogin +'</td></tr>';
+							}
 							mail.set("subject", subject);
 							mail.set("status", "3");
 							mail.set("member_status", "1");
