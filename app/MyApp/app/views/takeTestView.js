@@ -61,7 +61,7 @@ $(function() {
         },
 
         nextquestion: function (e) {
-                if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
+            if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
                 if($("input[type='text'][name='singleLineAnswer']").val() != ""){
                     this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));   
                 }
