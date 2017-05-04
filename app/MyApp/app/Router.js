@@ -94,8 +94,8 @@ $(function() {
             'configurationsForm': 'configurationsForm',
             'checksum(/:nation/:url)': 'checkSum',
             'listLearnersCredits/:cid': 'showLearnersListForCredits',
-			'passwordResetEmail': 'showPasswordResetEmail',
-			'password-reset': 'showPasswordReset'
+            'passwordResetEmail': 'showPasswordResetEmail',
+            'password-reset': 'showPasswordReset'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -4727,34 +4727,34 @@ $(function() {
             var cofigINJSON = currentConfig.toJSON()
             code = cofigINJSON.code
             Bellname = cofigINJSON.nationName
-			if(type == "PasswordReset"){
-				var mymail = new App.Collections.Mails({
-					type: type,
-					status: "0",
-					skip: 0
-				})
-				mymail.fetch({
-					async: false
-				})
-				var mailview = new App.Views.MailView({
-					collection: mymail,
-					community_code: code,
-					nationName: Bellname,
-					type: type
-				})
-			}else{
-				var mymail = new App.Collections.Mails({
-					skip: 0
-				})
-				mymail.fetch({
-					async: false
-				})
-				var mailview = new App.Views.MailView({
-					collection: mymail,
-					community_code: code,
-					nationName: Bellname
-				})
-			}
+            if(type == "PasswordReset"){
+                var mymail = new App.Collections.Mails({
+                    type: type,
+                    status: "0",
+                    skip: 0
+                })
+                mymail.fetch({
+                    async: false
+                })
+                var mailview = new App.Views.MailView({
+                    collection: mymail,
+                    community_code: code,
+                    nationName: Bellname,
+                    type: type
+                })
+            }else{
+                var mymail = new App.Collections.Mails({
+                    skip: 0
+                })
+                mymail.fetch({
+                    async: false
+                })
+                var mailview = new App.Views.MailView({
+                    collection: mymail,
+                    community_code: code,
+                    nationName: Bellname
+                })
+            }
 			
 			mailview.render()
 			App.$el.children('.body').append(mailview.el)
@@ -6723,15 +6723,15 @@ $(function() {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
 		
-		showPasswordReset: function(){
-			// password reset page:
-			var login_name = $('input[name=login]').val();
-			$('div#cont').html('');
-			var passwordResetView = new App.Views.PasswordReset({
-				name : login_name
-			});
+        showPasswordReset: function(){
+            // password reset page:
+            var login_name = $('input[name=login]').val();
+            $('div#cont').html('');
+            var passwordResetView = new App.Views.PasswordReset({
+                name : login_name
+            });
             passwordResetView.render();
             App.$el.children('.body').append(passwordResetView.el)
-		}
+        }
     }))
 })
