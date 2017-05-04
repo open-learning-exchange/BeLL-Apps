@@ -27,15 +27,16 @@ $(function() {
                 $('div.takeTestDiv').html('')
             },
             "click #finishPressed": function(e) {
-                this.index++
-                this.TotalCount = this.index+1
-                this.nextquestion();
+                this.nextquestion("finish");
             },
-            "click #nextPressed": function(e) {
-                this.nextquestion();
+            "click #nextPressed": function() {
+                this.nextquestion("next");
             },
             "click #resetButton":function(e){
                 this.resetanswer();
+            },
+            "click #previousPressed": function(e){
+                this.nextquestion("previous");
             }
         },
 
@@ -60,21 +61,21 @@ $(function() {
         },
 
         nextquestion: function (e) {
-            if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
+                if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
                 if($("input[type='text'][name='singleLineAnswer']").val() != ""){
                     this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));   
                 }
-                this.renderQuestion();
+                this.renderQuestion(e);
             } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
                 if($("input[type='text'][name='commentEssay']").val() !=""){
                     this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
                 }
-                this.renderQuestion();
+                this.renderQuestion(e);
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
                 if($("input[type='hidden'][name='_attachment']").val() !=""){
                     this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val())); 
                 }
-                this.renderQuestion();
+                this.renderQuestion(e);
             } else if ($("input:checkbox[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
                 var res = [];
@@ -84,7 +85,7 @@ $(function() {
                         that.Givenanswers[$("input[name='question_id']").val()] = res;
                     }
                 });
-                that.renderQuestion()
+                that.renderQuestion(e)
             }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
                 var res = [];
@@ -92,7 +93,7 @@ $(function() {
                     res.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
                     that.Givenanswers[$("input[name='question_id']").val()] = res;
                 }
-                that.renderQuestion()
+                that.renderQuestion(e)
             } else {
                 alert(App.languageDict.attributes.No_Option_Selected)
             }
@@ -205,9 +206,12 @@ $(function() {
 
         },
 
-        renderQuestion: function() {
-            if ((this.index + 1) != this.TotalCount) {
-                this.index++
+        renderQuestion: function(e) {
+            if ( e !='finish' ) {
+                if (e == 'next')
+                    this.index++
+                else
+                    this.index--
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 var coursedetail = new App.Models.CourseQuestion({
@@ -246,13 +250,17 @@ $(function() {
                 var singleline = coursedetail.get("Statement")
                 this.vars.singleLineQuestionTitle = singleline
                 this.$el.append(this.template(this.vars));
-                this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div></</div>&nbsp')
-                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>&nbsp');
-                if((this.index + 1) != this.TotalCount){
-                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>');
+                //this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
+                this.$el.append('<div class="quizActions" ></div>')
+                this.$el.find('.quizActions').append('<div  style="margin-right: 303px;" class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
+                if(this.index !=0){
+                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="previousPressed">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
                 }
-                this.$el.append('<div class="quizActions" ><div class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div></</div>')
+                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
+                if((this.index + 1) != this.TotalCount){
+                    this.$el.find('.quizActions').append('<div style="margin-right: 303px;" class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
+                }
+                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Btn_Cancel+'</div>')
             } else {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
@@ -305,7 +313,7 @@ $(function() {
 
         start: function() {
             $('div.takeTestDiv').show()
-            this.renderQuestion()
+            this.renderQuestion("next")
         },
        
         render: function() {
