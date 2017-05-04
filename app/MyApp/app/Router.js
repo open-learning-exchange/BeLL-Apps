@@ -4756,22 +4756,22 @@ $(function() {
                 })
             }
 			
-			mailview.render()
-			App.$el.children('.body').append(mailview.el)
-			skipStack.push(skip)
-			mailview.fetchRecords();
-			applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-			$('#searchOnMail').find('input').eq(0).attr("placeholder",App.languageDict.get('searchMessages'))
-			if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
-				$('#mailHeading').css({"color":"black","font-size":"25px","margin-right": "10%"})
-				$('#searchOnMail').css("float","left");
-				$('#errorMessage').css({"direction":"rtl"});
-				$('#errorMessage').find('p').css({"color":"red","margin-right":"10%"});
-			} else {
-				$('#mailHeading').css({"color":"black","font-size":"25px"});
-				$('#searchOnMail').css("float","right");
-				$('#errorMessage').find('p').css({"color":"red","margin-left":"10%"});
-			}
+            mailview.render()
+            App.$el.children('.body').append(mailview.el)
+            skipStack.push(skip)
+            mailview.fetchRecords();
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+            $('#searchOnMail').find('input').eq(0).attr("placeholder",App.languageDict.get('searchMessages'))
+            if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
+                $('#mailHeading').css({"color":"black","font-size":"25px","margin-right": "10%"})
+                $('#searchOnMail').css("float","left");
+                $('#errorMessage').css({"direction":"rtl"});
+                $('#errorMessage').find('p').css({"color":"red","margin-right":"10%"});
+            } else {
+                $('#mailHeading').css({"color":"black","font-size":"25px"});
+                $('#searchOnMail').css("float","right");
+                $('#errorMessage').find('p').css({"color":"red","margin-left":"10%"});
+            }
         },
 
         CoursesBarChart: function() {

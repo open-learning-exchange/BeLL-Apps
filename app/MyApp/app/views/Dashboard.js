@@ -1328,15 +1328,15 @@ $(function() {
                 }
             }
 			
-			// Password Reset Email
-			var newPasswordResetEmailCount = dashboard.getPasswordResetCount();
-			this.vars.password_reset_email_count = newPasswordResetEmailCount;
-			if(this.vars.password_reset_email_count > 0){
-				$('#passwordResetEmail').html(App.languageDict.attributes.Password_Reset_Email + '(' + this.vars.password_reset_email_count + ')');
+            // Password Reset Email
+            var newPasswordResetEmailCount = dashboard.getPasswordResetCount();
+            this.vars.password_reset_email_count = newPasswordResetEmailCount;
+            if(this.vars.password_reset_email_count > 0){
+                $('#passwordResetEmail').html(App.languageDict.attributes.Password_Reset_Email + '(' + this.vars.password_reset_email_count + ')');
                 $('#passwordResetEmail').css({"color": "red"});
             }else{
-				$('#passwordResetEmail').remove();
-			}
+                $('#passwordResetEmail').remove();
+            }
         },
         updateVariables: function(nation_version, new_publications_count, new_surveys_count) {
             var that = this;
@@ -1470,27 +1470,27 @@ $(function() {
             return 0;
         },
 		
-		getPasswordResetCount: function(){
-			//count the email
-			var count = 0;
-			var mailCollections = new App.Collections.Mails({
-											type: "PasswordReset",
-											status: "countPending"
-										});
-			mailCollections.fetch({
-				async: false,
-				success: function(){
-					var receiverId = $.cookie('Member._id');
-					if(mailCollections.length > 0 ){
-						for( var i= 0 ; i < mailCollections.length; i++){
-							if(mailCollections.models[i].get('receiverId').indexOf(receiverId) != -1)
-								count += 1;
-						}
-					}
-				}
-			});
-			return count;
-		}
+        getPasswordResetCount: function(){
+            //count the email
+            var count = 0;
+            var mailCollections = new App.Collections.Mails({
+                type: "PasswordReset",
+                status: "countPending"
+            });
+            mailCollections.fetch({
+                async: false,
+                success: function(){
+                    var receiverId = $.cookie('Member._id');
+                    if(mailCollections.length > 0 ){
+                        for( var i= 0 ; i < mailCollections.length; i++){
+                        if(mailCollections.models[i].get('receiverId').indexOf(receiverId) != -1)
+                            count += 1;
+                        }
+                    }
+                }
+            });
+            return count;
+        }
 
     });
 
