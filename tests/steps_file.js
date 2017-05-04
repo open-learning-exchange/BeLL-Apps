@@ -13,7 +13,7 @@ module.exports = function () {
     login: function (login, password) {
 
       if (loginCount < 1) {
-        this.amOnPage('/');
+        this.amOnPage('/apps/_design/bell/MyApp/index.html');
         this.fillField('Login', login);
         this.fillField('Password', password);
 
@@ -35,7 +35,7 @@ module.exports = function () {
       }
       else {
 
-        this.amOnPage('/');
+        this.amOnPage('/apps/_design/bell/MyApp/index.html');
         this.loadCookies();
         this.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
         this.seeInCurrentUrl('#dashboard');
