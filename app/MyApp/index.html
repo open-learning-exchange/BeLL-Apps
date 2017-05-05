@@ -227,8 +227,6 @@
     <script src="app/views/CourseStepsView.js"></script> <!-- app/views.js -->
     <script src="app/views/BecomeMemberForm.js"></script> <!-- app/views.js -->
     <script src="app/views/CoursesStudentsProgress.js"></script> <!-- app/views.js -->
-    <script src='app/views/CoursesStatistics.js'></script> <!-- app/views.js -->
-    <script src='app/views/CourseStepStatistics.js'></script> <!-- app/views.js -->
     <script src="app/views/CourseInfoView.js"></script> <!-- app/views.js -->
     <script src="app/views/CourseMembers.js"></script> <!-- app/views.js -->
     <script src="app/views/InvitationForm.js"></script> <!-- app/views.js -->
@@ -303,9 +301,6 @@
     <script src="app/views/ViewTest.js"></script> <!-- app/views.js -->
 
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
-    <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
-
-
     <!-- javaScript -->
 
     <script src="indexFile.js"></script>
@@ -321,24 +316,6 @@
             <% } %>
         </select>
 
-    </script>
-	
-    <!-- template for password reset -->
-    <script type="text/template" id="template-password-reset">
-        <h5><%= languageDict.attributes.Set_Password %></h5>
-        <div class="form">
-            <div class="form-group">
-                <label for="pwd"><%= languageDict.attributes.Password %></label>
-                <input type="password" id="pwd" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label for="re-pwd"><%= languageDict.attributes.ReTypePassword %></label>
-                <input type="password" id="re_pwd" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <button class="form-control" id="btnPasswordReset"><%= languageDict.attributes.Submit %></button>
-            </div>
-        </div>
     </script>
 
     <script type='text/template' id='template-app'>
@@ -568,7 +545,6 @@
                         <td><button id="newPublication" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Publications%>(<%=new_publication_count%>)</button></td>
                         <td><button id="newSurvey" class="btn btn-hg btn-primary" style="display:none;color:Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Surveys%>(<%=new_survey_count%>)</button></td>
                         <td><button id="updateButton" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" ><%= languageDict.attributes.Update_Available %>(<%=nation_version%></button></td>
-                        <td><button id= "passwordResetEmail" class="btn btn-hg btn-primary" onclick = "document.location.href='#mail/PasswordReset'"></button></td>
                     <%} %>
                 </tr>
             </table>
@@ -1041,7 +1017,7 @@
             <%= stepNo %>
         </td>
         <td>
-            <%if(status[attempts] == "1"  ){%>
+            <%if(status == "1"  ){%>
                 <%=App.languageDict.attributes.Submitted%>
             <%}else{%>
                 <%=App.languageDict.attributes.Un_Submitted%>
@@ -1049,13 +1025,10 @@
         </td>
         <td>
             <input type="hidden" name="percentage"  id="<%=percentage%>">
-            <%= credits[attempts] %>/100
+            <%= credits %>/100
         </td>
         <td>
-            <%= credits[attempts] %>%
-        </td>
-        <td>
-            <%= attempts%>
+            <%= credits %>%
         </td>
         <td>
             <a id="" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'> <%=App.languageDict.attributes.View_Test%>
@@ -1092,9 +1065,11 @@
         <%}else if(status[attempts] === null || status[attempts] === undefined){%>
             <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'><%=App.languageDict.attributes.Answer_Review%>
             </a>
-        <%}else{%>
+            <%}else if(status[attempts] === -1){ %>
+            <%=App.languageDict.attributes.Test_Incomplete%>
+        <%} else {%>
             <%=App.languageDict.attributes.Your_Answer_Has_Been_Reviewed%>
-        <%}%>
+        <% } %>
                
         </td>
         <td>
@@ -1116,15 +1091,6 @@
         </td>
 
         <td>
-            <% if(admission_button) { %>
-                <a role='button' id="admissionButton" class='btn btn-danger' onClick="sendAdminRequest('<%= courseLeader %>','<%= CourseTitle %>','<%=_id%>')">
-                <%=App.languageDict.attributes.Admission%></a>
-            <% } else {%>
-                <a href="#course/resign/<%=_id%>"><button id="resignCourse" class="btn resignBtn btn-danger" value="0"><%=App.languageDict.attributes.Resign%></button></a>
-            <% } %>
-        </td>
-
-        <td>
             <%if(isAdmin==1||isLeader==1){%>
             <a id="manageCourseButton"  role='button' class='btn btn-inverse' href='#course/manage/<%= _id %>'>
                 <i class="icon-wrench icon-white"></i> <%=manage%>
@@ -1140,11 +1106,9 @@
         </td>
 
         <td>
-            <% if(showCreditButton) { %>
             <a role='button' class='btn btn-credit' id= "credit_view"href='<%= link %>'>
                 <%=App.languageDict.attributes.Credits%>
             </a>
-            <%}%>
         </td>
 
         <td>
@@ -1177,64 +1141,6 @@
         <% if(courseId!=null){%>
         <td><input type="checkbox" name="addCourse" value='<%= _id %>'><%=App.languageDict.attributes.Add%> </td>
         <%}%>
-    </script>
-
-    <script type="text/html" id="template-CourseStatistics">
-            <table class="table table-striped">
-            <tr>
-            <th colspan = ""><%=App.languageDict.attributes.Members%></th>
-            <th colspan = "25"><%=App.languageDict.attributes.Steps%></th>
-            </tr>
-                <th></th>
-                    <% for(var i = 0; i < stepName.length; i++) {%>
-                        <%var a = i + 1%>
-                        <th><a href ="#CourseStepStatistics/<%=stepId[i]%>"><%=a%></a>
-                        </th>
-                    <% } %>
-             </tr>
-            <% for(var k = 0; k < Totalfailstat.length; k++) {%>
-                <tr>
-                    <td><%=member_Name[k]%></td>
-                         <% for(var j = 0; j < member_sstatus.length; j++) {%>
-                                <td><%=Totalfailstat[k][j]%></td>
-                         <% } %>
-                </tr>
-            <% } %>
-            </table>
-    </script>
-
-    <script type="text/html" id="template-CourseStepStatistics">
-            <table class="table table-striped">
-                <% if(StepType != "objective"){%>
-                    <tr>
-                        <th><%=App.languageDict.attributes.Question_Number%></th>
-                        <th><%=App.languageDict.attributes.Percentage%></th>
-                        <th><%=App.languageDict.attributes.Attempt%></th>
-                    </tr>
-                        <% for(var i = 0; i < Total_Question; i++) {%>
-                           <tr>
-                                <%var a = i + 1%>
-                                <td><%=a%></td>
-                                <td><%=Total_Percentage[i]%></td>
-                                <td><%=Last_Attempt%></td>
-                            </tr>
-                        <% } %>
-                <%} else { %>
-                    <tr>
-                        <th><%=App.languageDict.attributes.Question_Number%></th>
-                        <th><%=App.languageDict.attributes.Errors%></th>
-                        <th><%=App.languageDict.attributes.Attempt%></th>
-                    </tr>
-                    <% for(var i = 0; i < Total_Question; i++) {%>
-                           <tr>
-                                <%var a = i + 1%>
-                                <td><%=a%></td>
-                                <td><%=TotalFailCount[i]%></td>
-                                <td><%=Last_Attempt%></td>
-                            </tr>
-                        <% } %>
-                <% } %>
-            </table>
     </script>
 
     <script type="text/html" id="template-LevelRow">
@@ -1427,17 +1333,12 @@
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
-            <%for(var i = 0; i< questionlist.length; i++){%>
-                <% questionlist = []%>
-                <% if(questionlist != null || questionlist[i] != [] ){%>
-                    <% if(lastAttemptsMarks == undefined){%>
-                        <span  style="float:right;" >[<%=lastAttemptStatus%>] 0%</span>
-                    <% } else { %>
-                        <span  style="float:right;" ><%= languageDict.attributes.Attempt%>:<%=lastAttempt%>
-                        [<%=lastAttemptStatus%>] <%=lastAttemptsMarks%>%</span>
-                    <% } %>
-                <%}%>
-            <%}%>
+            <% if(lastAttemptsMarks == undefined){%>
+            <span  style="float:right;" >[<%=lastAttemptStatus%>] 0%</span>
+            <% } else { %>
+             <span  style="float:right;" ><%= languageDict.attributes.Attempt%>:<%=lastAttempt%>
+            [<%=lastAttemptStatus%>] <%=lastAttemptsMarks%>%</span>
+            <% } %>
         </div>
         </h3>
 
@@ -1488,7 +1389,7 @@
                     </td>
                 </tr>
                 <%}%>
-                <%if (questionslist != null && questionslist.length > 0){%>
+                <%if (questionslist!=null && questionslist.length > 0){%>
                 <tr class="level-section-title">
                     <td colspan="2" style="width: 60%">
                         <%=languageDict.attributes.Test%></br>
@@ -1507,7 +1408,6 @@
         <div class="answersection">
         <p><%= languageDict.attributes.require_answer %></p>
         <div class="Progress"></div>
-        <input type="hidden" name="question_id" value=<%=_id%>>
     <% if (Type == "Single Textbox") { %>
          <div class="singlelineAnswer">
                 <table>
@@ -1518,7 +1418,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" value="<%=answer[0]%>" name="singleLineAnswer">
+                            <input type="text" name="singleLineAnswer">
                         </td>
                     </tr>
                 </table>
@@ -1533,7 +1433,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" value="<%=answer[0]%>" name="commentEssay">
+                            <input type="text" name="commentEssay">
                         </td>
                     </tr>
                 </table>
@@ -1554,9 +1454,6 @@
                      <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
                      <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
                      <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
-                     <% if (answer[0] != null && answer[0] != "") { %>
-                        <a id="downloadAttac" class="btn btn-primary" href="/assignmentpaper/<%=answer[0]%>/<%=attachmentName%>"  target="_blank" ><%=App.languageDict.attributes.Download %></a>
-                     <% } %>
                     </td>
                </tr>
                 </table>
@@ -1573,19 +1470,11 @@
                        <td>
                        <% for (var i = 0; i < Options.length; i++) { %>
                             <% if(CorrectAnswer.length > 1) { %>
-                                <% if(answer.indexOf(Options[i] ) > -1) { %>
-                                    <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>" checked="checked">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
-                                <% } else { %>
-                                    <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>" >&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
-                                <% } %>
+                            <input type="checkbox" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
                             <% } else { %>
-                                <% if(answer.indexOf(Options[i]) > -1 ) { %>
-                                    <input type="radio" name="multiplechoice[]" checked="checked" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
-                                 <% } else { %>
-                                    <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
-                                <%  } %>
+                                 <input type="radio" name="multiplechoice[]" value="<%=Options[i]%>">&nbsp;&nbsp;&nbsp;<%=Options[i]%></br>
                             <% } %>
-                       <% } %>
+                       <% }; %> 
                         </td>
                     </tr>
                 </table>
@@ -1772,10 +1661,8 @@
             <b id="mailHeading"><%= languageDict.attributes.Inbox %>
                 <button class="btn btn-primary" id="all-mails" style="width:auto"><%= languageDict.attributes.All %>  </button>
                 <button class="btn btn-primary" id="unread-mails"><%= languageDict.attributes.Unread %></button>
-                <% if(this.type != "PasswordReset"){ %>
-                    <button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton"><%= languageDict.attributes.Compose %></button>
-                    <span class="new_mails"></span>
-                <% } %>
+                <button class="btn btn-info" onclick="showComposePopup()" id="mailComposeButton"><%= languageDict.attributes.Compose %></button>
+                <span class="new_mails"></span>
                 <span id="searchOnMail"><input id="search-text" type="text" style="height: 30px;width: 243px; border-radius: 9px; border:1px solid #000000;"/>&nbsp;&nbsp;<button class="btn btn-primary" id="search-mail"><%= languageDict.attributes.Go %></button></span>
             </b>
         </div>
