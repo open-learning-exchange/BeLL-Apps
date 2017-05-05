@@ -73,7 +73,7 @@ function installDesignDocs() {
             }
         });
 } else {
-        insertDummyVipMember();
+        //insertDummyVipMember();
         updateNationCouchVersion();
         fs.readdir('../init_docs/languages', function doneReadDir(err, files) {
             files.forEach(function (element) {
