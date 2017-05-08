@@ -151,6 +151,7 @@ $(function() {
                 async:false
             })
             var totalMarks = coursestep.get("totalMarks");
+            var anslist =Object.keys(this.Givenanswers).length
             this.totalObtainMarks = (Math.round((this.totalMarks / totalMarks) * 100))
             if(this.preview == this.TotalCount) {
                 if(this.pp <= this.totalObtainMarks){
@@ -158,24 +159,11 @@ $(function() {
                 } else { 
                     this.sstatus = "0"
                 }
-            } else {
-                this.sstatus = null
             }
-            var coursestep = new App.Models.CourseStep({
-                _id: this.stepId
-            })
-            coursestep.fetch({
-                async:false
-            })
-            var totalMarks = coursestep.get("totalMarks");
-            this.totalObtainMarks = (Math.round((this.totalMarks / totalMarks) * 100))
-            if(this.preview == this.TotalCount) {
-                if(this.pp <= this.totalObtainMarks){
-                    this.sstatus = "1"
-                } else { 
-                    this.sstatus = "0"
-                }
-            } else {
+            if (anslist != this.TotalCount){
+                this.sstatus = -1
+            }
+            else {
                 this.sstatus = null
             }
         },
