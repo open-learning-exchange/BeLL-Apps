@@ -1092,6 +1092,8 @@
         <%}else if(status[attempts] === null || status[attempts] === undefined){%>
             <a id="answerreview" role='button' class='btn btn-primary' href='#course/answerreview/<%= memberid %>/<%= id %>/<%=attempts%>'><%=App.languageDict.attributes.Answer_Review%>
             </a>
+        <%}else if(status[attempts] === -1){ %>
+            <%=App.languageDict.attributes.Test_Incomplete%>
         <%}else{%>
             <%=App.languageDict.attributes.Your_Answer_Has_Been_Reviewed%>
         <%}%>
