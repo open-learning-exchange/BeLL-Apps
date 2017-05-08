@@ -112,8 +112,12 @@ $(function () {
                 }
                 if ((sr[index] instanceof Array) && (sr[index][totalattempt[index]] != 'undefined')) {
                     this.vars.lastAttemptStatus = App.languageDict.attributes.UnReviewed;
-                    if ((sstatus[index] instanceof Array) && (sstatus[index][totalattempt[index]] != 'undefined') && (sstatus[index][totalattempt[index]] != null)) {
+                    if ((sstatus[index] instanceof Array) && (sstatus[index][totalattempt[index]] != 'undefined') && (sstatus[index][totalattempt[index]] != null) && (sstatus[index][totalattempt[index]] != -1)) {
                         this.vars.lastAttemptStatus = App.languageDict.attributes.Reviewed;
+                    }if (sstatus[index][totalattempt[index]] == -1){
+                        this.vars.lastAttemptStatus = App.languageDict.attributes.Test_Inprogress;
+                    } else {
+                        this.vars.lastAttemptStatus = App.languageDict.attributes.UnReviewed;
                     }
                 }
                 this.vars.lastAttemptsMarks = sr[index][totalattempt[index]]
