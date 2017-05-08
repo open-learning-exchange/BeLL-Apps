@@ -250,7 +250,7 @@ $(function() {
 
                 if(flagAttempts && this.myModel.get('pqAttempts')) {
                     var pqattempts = this.myModel.get('pqAttempts')
-                    if( sstatus[this.stepindex][pqattempts[this.stepindex]] == null){
+                    if( sstatus[this.stepindex][pqattempts[this.stepindex]] == null || sstatus[this.stepindex][pqattempts[this.stepindex]] == -1){
                         var courseAnswer = new App.Collections.CourseAnswer()
                         courseAnswer.MemberID = $.cookie('Member._id')
                         courseAnswer.StepID = stepid[this.stepindex]
