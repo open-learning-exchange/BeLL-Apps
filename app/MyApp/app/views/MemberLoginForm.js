@@ -190,9 +190,9 @@ $(function() {
                                             i--;
                                             memberLoginForm.processMemberLogin(member);
                                         }
+					break;
                                     }
                                 }
-                                break;
                             }
                         }
                         if(i==members.length)
