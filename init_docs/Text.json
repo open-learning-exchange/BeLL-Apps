@@ -918,5 +918,5 @@
     "Msg_Re_ResetPassword": "You have recently updated password. Do you want to reset your password again ?",
     "Msg_Success_ResetPassword_ChangePassword": "Your request has been approved. You can change your password.",
     "Msg_Confirm_ResetPassword_ChangePassword": "You have recently updated password. Do you want to reset your password again ?If you click No then it will resend the password email again.",
-    "Test_Inprogress": "Test on progress"
+    "Test_Inprogress": "Test in progress"
 }
