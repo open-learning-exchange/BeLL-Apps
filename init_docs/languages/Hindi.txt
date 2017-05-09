@@ -61,7 +61,7 @@
   "Become_a_member":"सदस्य बनें",
   "My_Home":"मेरा घर",
   "Welcome":"प्रणाम",
-  "Answer_Reset":"Answer Reset",
+  "Answer_Reset":"Erase",
   "Functionality_Under_Construction":"यह कार्यक्षमता निर्माण के तहत है।",
   "Add_new_Resource":"नया संसाधन जोड़ें",
   "Search":"खोजे:",
@@ -917,5 +917,8 @@
   "PasswordResetLogin":"Password Reset and logged in",
   "Msg_Re_ResetPassword":"You have recently updated password. Do you want to reset your password again ?",
   "Msg_Success_ResetPassword_ChangePassword":"Your request has been approved. You can change your password.",
-  "Msg_Confirm_ResetPassword_ChangePassword":"You have recently updated password. Do you want to reset your password again ?If you click No then it will resend the password email again."
+  "Msg_Confirm_ResetPassword_ChangePassword":"You have recently updated password. Do you want to reset your password again ?If you click No then it will resend the password email again.",
+  "Test_Inprogress":"Test in progress",
+  "Btn_Prev":"पिछला",
+  "Btn_Cancel":"रद्द करें"
 }

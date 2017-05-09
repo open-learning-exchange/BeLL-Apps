@@ -61,7 +61,7 @@
   "Become_a_member":"Diventa un membro\n\nDiventare un membro",
   "My_Home":"La mia casa",
   "Welcome":"Benvenuto/a",
-  "Answer_Reset":"Answer Reset",
+  "Answer_Reset":"Erase",
   "Functionality_Under_Construction":"Questa funzionalità è in costruzione.",
   "Add_new_Resource":"Aggiungi nuova risorsa",
   "Search":"Cerca",
@@ -917,5 +917,8 @@
   "PasswordResetLogin":"Password Reset and logged in",
   "Msg_Re_ResetPassword":"You have recently updated password. Do you want to reset your password again ?",
   "Msg_Success_ResetPassword_ChangePassword":"Your request has been approved. You can change your password.",
-  "Msg_Confirm_ResetPassword_ChangePassword":"You have recently updated password. Do you want to reset your password again ?If you click No then it will resend the password email again."
+  "Msg_Confirm_ResetPassword_ChangePassword":"You have recently updated password. Do you want to reset your password again ?If you click No then it will resend the password email again.",
+  "Test_Inprogress":"Test in progress",
+  "Btn_Prev":"Precedente",
+  "Btn_Cancel":"Annulla"
 }
