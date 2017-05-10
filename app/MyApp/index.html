@@ -1183,22 +1183,21 @@
     <script type="text/html" id="template-CourseStatistics">
             <table class="table table-striped">
             <tr>
-            <th colspan = ""><%=App.languageDict.attributes.Members%></th>
-            <th colspan = "25"><%=App.languageDict.attributes.Steps%></th>
+                <th colspan = ""><%=App.languageDict.attributes.Members%></th>
+                <th colspan = "25"><%=App.languageDict.attributes.Steps%></th>
             </tr>
+            <tr>
                 <th></th>
                     <% for(var i = 0; i < stepName.length; i++) {%>
                         <%var a = i + 1%>
                         <th><a href ="#CourseStepStatistics/<%=stepId[i]%>"><%=a%></a>
                         </th>
                     <% } %>
-             </tr>
+            </tr>
             <% for(var k = 0; k < Totalfailstat.length; k++) {%>
                 <tr>
                     <td><%=member_Name[k]%></td>
-                         <% for(var j = 0; j < member_sstatus.length; j++) {%>
-                                <td><%=Totalfailstat[k][j]%></td>
-                         <% } %>
+                    <td><%=Totalfailstat[k]%></td>
                 </tr>
             <% } %>
             </table>

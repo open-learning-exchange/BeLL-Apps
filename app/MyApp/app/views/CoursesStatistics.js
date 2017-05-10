@@ -17,7 +17,6 @@ $(function() {
             var stepid = []
             var failarr = []
             var totalFailStatus = []
-            console.log(this.model.attributes)
                for(var i = 0; i <this.model.attributes.members.length; i++){
                     var statisticscourseProgress = new App.Collections.membercourseprogresses()
                     statisticscourseProgress.memberId = this.model.attributes.members[i];
@@ -25,9 +24,7 @@ $(function() {
                     statisticscourseProgress.fetch({
                         async:false
                     });
-                    console.log(statisticscourseProgress)
                     var staticProgress = statisticscourseProgress.first()
-                    console.log(staticProgress)
                     memberStep = staticProgress.attributes.stepsIds
                     membersstatus = staticProgress.attributes.stepsStatus
                     var pqattempts = staticProgress.attributes.pqAttempts
@@ -41,9 +38,8 @@ $(function() {
                                 count++
                             } 
                         }
-                        failarr.push(count)
                     }
-                    totalFailStatus.push(failarr)
+                    totalFailStatus.push(count)
                     var members = new App.Models.Member({
                         _id: member
                     })

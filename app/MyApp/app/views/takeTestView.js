@@ -181,15 +181,18 @@ $(function() {
             this.stepindex = this.options.stepIndex
             this.Givenanswers = []
             var pqattempt = this.myModel.get('pqAttempts')
-            var courseAnswer = new App.Collections.CourseAnswer()
-            courseAnswer.StepID = this.stepId
-            courseAnswer.MemberID = $.cookie('Member._id')
-            courseAnswer.pqattempts = pqattempt[this.stepindex]
-            courseAnswer.fetch({
-                async: false
-            })
-            for (var i = 0; i < courseAnswer.length; i++) {
-                this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
+            var sStatus = this.myModel.get('stepsStatus')
+            if( sStatus[this.stepindex][pqattempt[this.stepindex]] == null || sStatus[this.stepindex][pqattempt[this.stepindex]] == -1){
+                var courseAnswer = new App.Collections.CourseAnswer()
+                courseAnswer.StepID = this.stepId
+                courseAnswer.MemberID = $.cookie('Member._id')
+                courseAnswer.pqattempts = pqattempt[this.stepindex]
+                courseAnswer.fetch({
+                    async: false
+                })
+                for (var i = 0; i < courseAnswer.length; i++) {
+                    this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
+                }
             }
 
         },
