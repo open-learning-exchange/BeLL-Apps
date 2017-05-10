@@ -324,8 +324,12 @@ $(function() {
                         async: false,
                         success: function (response) {
                             App.stopActivityIndicator();
-                            alert(App.languageDict.get('Successfully_Registered'));
-                            window.location.href = '#dashboard';
+                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                alert(App.languageDict.attributes.UnableToReplicate);
+                            }else{
+                                alert(App.languageDict.get('Successfully_Registered'));
+                                window.location.href = '#dashboard';
+                            }
                         },
                         error: function(status) {
                             console.log(status);
