@@ -921,5 +921,7 @@
     "Btn_Cancel": "Cancel",
     "Msg_PasswordReset_AutomaticApproval": "Your password reset email has been automatically approved. Please reset the password.",
     "Automatic_Password_Reset_Duration_HH": "Automatic Password Reset Duration(hr)",
-    "Note_Password_Reset_Duration_HH": "Note : 0 hr means Manual"
+    "Note_Password_Reset_Duration_HH": "Note : 0 hr means Manual",
+    "Nation_Rejected": "Community registration request rejected",
+    "Nation_Pending": "Community registration request pending"
 }
