@@ -1059,9 +1059,12 @@ $(function() {
                                                     $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
                                                 } else if (getComStats == 'rejected') {
                                                     $('#onlineButton').css({"background-color": "#ff0000"});
-                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_Rejected"));
+						} else if (getComStats == 'pending') {
+						    $('#onlineButton').css({"background-color": "#FFA500"});
+						    $('#onlineButton').attr("title", App.languageDict.get("Nation_Pending"));
                                                 } else {
-                                                    $('#onlineButton').css({"background-color": "#FFA500"});
+                                                    $('#onlineButton').css({"background-color": "#ff0000"});
                                                     $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
                                                 }
                                                 var SurveyDocsFromNation = [];
