@@ -1,6 +1,6 @@
 /*This stylesheet is supposed to applied on page for LTR languages like English, Spanish etc*/
 .body {
-	direction: ltr;
+    direction: ltr;
 }
 /*input::-moz-focus-inner {
     border: 0;
@@ -17,25 +17,25 @@ select#onLoginLanguage {
     background-color: floralwhite;
 }
 select#onDashboardLanguage {
-	position: relative;
-	display: inline-flex;
-	margin-top: 9px;
-	width: 156px;
-	background-color: #e1e1e1;
+    position: relative;
+    display: inline-flex;
+    margin-top: 9px;
+    width: 156px;
+    background-color: #e1e1e1;
 }
 #PromoteToManager{
-	margin-top:-90px;
-	margin-bottom: 25px;
-	margin-left:17px;
+    margin-top:-90px;
+    margin-bottom: 25px;
+    margin-left:17px;
 }
 #manageOnCourseProgress{
-	margin-left:84px;
+    margin-left:84px;
 }
 #mailActions{
-	height: 64px;
-	margin-left: 10%;
-	overflow: hidden;
-	width: 90%;
+    height: 64px;
+    margin-left: 10%;
+    overflow: hidden;
+    width: 90%;
 }
 #dashboard {
     height: 600px;
@@ -44,55 +44,55 @@ select#onDashboardLanguage {
     margin: 0 auto;
 }
 .backToSearchButton{
-	float:right;
+    float:right;
 }
 #linkOnMyHome
 {
     margin-right:25px;
 }
 .dateOnDashboard{
-	margin-top: -5%;
-	position: static;
+    margin-top: -5%;
+    position: static;
 }
 .dashboardLang{
-	margin-top: 2%;
+    margin-top: 2%;
 }
 #requestResourceOnCollection{
-	margin-left:10px
+    margin-left:10px
 }
 #inbox_mails{
-	font-size: 17px;
-	margin-left: 10%;
-	width: 80%;
+    font-size: 17px;
+    margin-left: 10%;
+    width: 80%;
 }
 .addEvent-heading{
-	margin-left: 30%;
-	text-decoration: underline;
+    margin-left: 30%;
+    text-decoration: underline;
 }
 #option-area
 {
-	background-color: #E7E7E7;
-	height: 222px;
-	margin-top: 5px;
-	width: 630px;
-	text-align:left;
+    background-color: #E7E7E7;
+    height: 222px;
+    margin-top: 5px;
+    width: 630px;
+    text-align:left;
 }
 #options-table
 {
-	position: absolute;
+    position: absolute;
 }
 #AddCollectionOnCollections{
 
-	margin:-20px 0 0 150px;
+    margin:-20px 0 0 150px;
 }
 #sendMailButton{
-	margin-left:10px
+    margin-left:10px
 }
 #retrunBack{
-	margin-left:10px
+    margin-left:10px
 }
 #mergeCollection{
-	margin-left:20px;
+    margin-left:20px;
 }
 
 #viewCourseMembers {
@@ -107,18 +107,18 @@ select#onDashboardLanguage {
     height: 40%;
 }
 .btable th, .btable td {
-	border-top: 1px solid #DDDDDD;
-	line-height: 20px;
-	padding: 8px;
-	text-align: left;
-	vertical-align: top;
+    border-top: 1px solid #DDDDDD;
+    line-height: 20px;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
 }
 .imageData {
     width: 112px;
 }
 .submitSurveyBtn {
-	margin: 0px auto;
-	display: flex;
+    margin: 0px auto;
+    display: flex;
 }
 .btn.fui-gear {
     height: 40px;
@@ -136,14 +136,14 @@ select#onDashboardLanguage {
 }
 .table th,
 .table td {
-	padding: 8px;
-	line-height: 20px;
-	text-align: left;
-	vertical-align: top;
-	border-top: 1px solid #dddddd;
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
 }
 #ProgressButton{
-	margin-left: 52%;
+    margin-left: 52%;
 }
 /*#welcomeButton{
     margin-left:25%;
@@ -159,45 +159,45 @@ background-color:#E1E1E1;
 }
 #page-body
 {
-	height: 400px;
+    height: 400px;
 }
 .name{
-	 font-size: 30px;
-	 padding-top: 12px;
-	font-weight: 900;
+     font-size: 30px;
+     padding-top: 12px;
+    font-weight: 900;
 }
 .stu-nav-table  
 {
-padding:5 5 0 5;	
-width:100%;	
+padding:5 5 0 5;    
+width:100%;    
 height:280px;
 padding-top:5px;
 }
 .page-bottom-navtable 
 {
 width: 943px;
-height:50px;	
+height:50px;    
 margin-bottom: 50px;
 }
 
 .stu-nav-title > a{
-	color: #FFA500;
-	
+    color: #FFA500;
+    
 }
 
 .stu-nav-title
 {
 border: 1.5px solid darkgrey;
-	font-weight:bolder;
-	text-align:left;	
-	font-family: verdana;
-	font-size: large;
-	padding: 8px 8px;
+    font-weight:bolder;
+    text-align:left;    
+    font-family: verdana;
+    font-size: large;
+    padding: 8px 8px;
 background-color: #e1e1e1;
-	width:50px;
-	border-top-left-radius: 20px;
-	border-bottom-left-radius: 20px;
-	color:darkorange;
+    width:50px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    color:darkorange;
 }
 
 .stu-nav-title-courses
@@ -218,7 +218,7 @@ color: #2f816f;
 
 #page-bottom-navbuttons
 {
-	margin-left: 12px;
+    margin-left: 12px;
 height: 60px;
 overflow: hidden;
 margin-top: 14px;
@@ -228,24 +228,24 @@ margin-top: 14px;
 {
 border: 1.5px solid darkgreen;
 padding: 5px 5px;
-	font:arial;
-	text-align:center;
-	font-family: verdana;
-	width:50px;
-	border-top-right-radius: 15px;
-	border-bottom-right-radius: 15px;
-	background-color: #bee065;
-	color: #35690f;
-	font-weight: bolder;
-	font-size: larger;
+    font:arial;
+    text-align:center;
+    font-family: verdana;
+    width:50px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #bee065;
+    color: #35690f;
+    font-weight: bolder;
+    font-size: larger;
 }
 .stu-nav-option-empty
 {
-	background-color: #E1E1E1;
-	border: 1.5px solid #A9A9A9;
-	width:30px;
-	border-top-right-radius:15px;
-	border-bottom-right-radius:15px;
+    background-color: #E1E1E1;
+    border: 1.5px solid #A9A9A9;
+    width:30px;
+    border-top-right-radius:15px;
+    border-bottom-right-radius:15px;
 }
 
 .scrollable-courses
@@ -255,7 +255,7 @@ border-bottom: 2.5px solid orange;
 padding: 0 0 0 0;
 }
 .scrollable-courses .course-box:last-of-type , .scrollable-badges .meetup-box:last-of-type {
-	border-right: none !important;
+    border-right: none !important;
 }
 .scrollable-shelf
 {
@@ -283,71 +283,71 @@ border-right-width:0px;
 }
 
 .btn-green {
-	-moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
-	-webkit-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
-	box-shadow:inset 0px 0px 0px 0px #c1ed9c;
-	background-color:#9dce2c;
-	-webkit-border-top-left-radius:9px;
-	-moz-border-radius-topleft:9px;
-	border-top-left-radius:9px;
-	-webkit-border-top-right-radius:9px;
-	-moz-border-radius-topright:9px;
-	border-top-right-radius:9px;
-	-webkit-border-bottom-right-radius:9px;
-	-moz-border-radius-bottomright:9px;
-	border-bottom-right-radius:9px;
-	-webkit-border-bottom-left-radius:9px;
-	-moz-border-radius-bottomleft:9px;
-	border-bottom-left-radius:9px;
-	text-indent:0;
-	border:2px solid #014D0F;
-	display:inline-block;
-	color:#014D0F;
-	font-family:verdana;
-	font-weight:bold;
-	font-style:normal;
-	text-decoration:none;
-	text-align:center;
-	/*text-shadow:0px 0px 0px #689324;*/
+    -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+    -webkit-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+    box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+    background-color:#9dce2c;
+    -webkit-border-top-left-radius:9px;
+    -moz-border-radius-topleft:9px;
+    border-top-left-radius:9px;
+    -webkit-border-top-right-radius:9px;
+    -moz-border-radius-topright:9px;
+    border-top-right-radius:9px;
+    -webkit-border-bottom-right-radius:9px;
+    -moz-border-radius-bottomright:9px;
+    border-bottom-right-radius:9px;
+    -webkit-border-bottom-left-radius:9px;
+    -moz-border-radius-bottomleft:9px;
+    border-bottom-left-radius:9px;
+    text-indent:0;
+    border:2px solid #014D0F;
+    display:inline-block;
+    color:#014D0F;
+    font-family:verdana;
+    font-weight:bold;
+    font-style:normal;
+    text-decoration:none;
+    text-align:center;
+    /*text-shadow:0px 0px 0px #689324;*/
 }
 
 .btn-red {
-	-moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
-	-webkit-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
-	box-shadow:inset 0px 0px 0px 0px #c1ed9c;
-	background-color:#ff0000;
-	-webkit-border-top-left-radius:9px;
-	-moz-border-radius-topleft:9px;
-	border-top-left-radius:9px;
-	-webkit-border-top-right-radius:9px;
-	-moz-border-radius-topright:9px;
-	border-top-right-radius:9px;
-	-webkit-border-bottom-right-radius:9px;
-	-moz-border-radius-bottomright:9px;
-	border-bottom-right-radius:9px;
-	-webkit-border-bottom-left-radius:9px;
-	-moz-border-radius-bottomleft:9px;
-	border-bottom-left-radius:9px;
-	text-indent:0;
-	border:2px solid #8A1732;
-	display:inline-block;
-	color:#fff;
-	font-family: verdana;
-	font-weight:bold;
-	font-style:normal;
-	text-decoration:none;
-	text-align:center;
-	
-	/*text-shadow:1px 1px 12px #689324;*/
+    -moz-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+    -webkit-box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+    box-shadow:inset 0px 0px 0px 0px #c1ed9c;
+    background-color:#ff0000;
+    -webkit-border-top-left-radius:9px;
+    -moz-border-radius-topleft:9px;
+    border-top-left-radius:9px;
+    -webkit-border-top-right-radius:9px;
+    -moz-border-radius-topright:9px;
+    border-top-right-radius:9px;
+    -webkit-border-bottom-right-radius:9px;
+    -moz-border-radius-bottomright:9px;
+    border-bottom-right-radius:9px;
+    -webkit-border-bottom-left-radius:9px;
+    -moz-border-radius-bottomleft:9px;
+    border-bottom-left-radius:9px;
+    text-indent:0;
+    border:2px solid #8A1732;
+    display:inline-block;
+    color:#fff;
+    font-family: verdana;
+    font-weight:bold;
+    font-style:normal;
+    text-decoration:none;
+    text-align:center;
+    
+    /*text-shadow:1px 1px 12px #689324;*/
 }
 
 .btn-green, .btn-red
 {
-	 height: 40px;
+     height: 40px;
     margin-left: 19px;
     width: 158px;
  vertical-align: middle;
-	font-size:18px;
+    font-size:18px;
 }
 .btn.btn-primary1 {
   background-color: #b20000;
@@ -367,7 +367,7 @@ border-right-width:0px;
 
 
 body{
-	background-color:none;
+    background-color:none;
     color: none;
     font-family: verdana;
     font-size: none;
@@ -395,20 +395,20 @@ margin-left:40px;
 }
 .btn.btn-hg, .input-course-hg .btn 
 {
-	line-height:13px;
-	color: white;
-	    font-size: 15px;
-	    height: 51px;
-	    width: 233px;
-	    font-weight: 900;
+    line-height:13px;
+    color: white;
+        font-size: 15px;
+        height: 51px;
+        width: 233px;
+        font-weight: 900;
 }
 /* CSS for login form without welcom video/
 /******************************************/
 .withoutWelcomeVideo {
-	background-color: #edeff1;
-	padding: 23px 16px 16px;
-	position: relative;
-	border-radius: 11px;
+    background-color: #edeff1;
+    padding: 23px 16px 16px;
+    position: relative;
+    border-radius: 11px;
 }
 /******************************************/
 .login-form > .bbf-form{
@@ -426,7 +426,7 @@ margin-left:40px;
 
 .login-form
 {
-	height: 300px;
+    height: 300px;
         margin-left: 35%;
         width: 370px;
     left:46%;
@@ -453,27 +453,27 @@ margin-left:40px;
 */
 #olelogo
 {
-	float: left;
-	width: 125px;
-	float: left;
-	padding-left: 183px;
-	padding-top: 31px;
+    float: left;
+    width: 125px;
+    float: left;
+    padding-left: 183px;
+    padding-top: 31px;
 }
 #logo
 {
-	width:50px;
+    width:50px;
 }
 
 .teams_table_heading
 {
-	font-size: large;
+    font-size: large;
 }
 
 .navbar-inverse .nav > li > a
 {
-	border: none;
-	font-size: 15px;
-	padding: 16px 20px 15px 0px;	
+    border: none;
+    font-size: 15px;
+    padding: 16px 20px 15px 0px;    
 }
 
 #itemsinnavbar{
@@ -487,36 +487,36 @@ padding-top: 5px;
     margin-right: 30%;
     overflow: hidden;
     width: 40%;
-	color:white;
-	background-color:#1ABC9C;
-	border-collapse:collapse;
+    color:white;
+    background-color:#1ABC9C;
+    border-collapse:collapse;
 }
 .news-table th
 {background-color:#34495E;
-	font-weight: bolder;
-	    height: 40px;
-	font-size: 30px;
-	}
+    font-weight: bolder;
+        height: 40px;
+    font-size: 30px;
+    }
 .news-table tr
 {
- border-top: 2px dashed #000000;	
-	font-size: 17px;
+ border-top: 2px dashed #000000;    
+    font-size: 17px;
   font-weight: 900;
   height: 47px;
-  overflow: hidden;	
+  overflow: hidden;    
 }
 .news-table tr
 {background-color:#1ABC9C;}
 
 .news-table-td-title
 {
-	width:50%;
-	padding-left: 5%;
+    width:50%;
+    padding-left: 5%;
 }
 
 .news-table-td-link
 {
-	width:50%;
+    width:50%;
 }
 
 .btn.clickable {
@@ -529,15 +529,15 @@ padding-top: 5px;
 
 .search-Box
 {
-	margin-top: 3%;
+    margin-top: 3%;
 }
 
 .search-bottom-nav
 {
-	margin-left: 5%;
+    margin-left: 5%;
     overflow: hidden;
     width: 90%;
-	margin-right: 5%;	
+    margin-right: 5%;    
 }
 
 .previous-button-container {
@@ -548,8 +548,8 @@ padding-top: 5px;
 }
 #next_button
 {
-	width:45%;
-	float: right;
+    width:45%;
+    float: right;
 
 }
 #nav{
@@ -563,7 +563,7 @@ padding-top: 5px;
 }
 #previous_button
 {
-	width:45%;
+    width:45%;
 }
 .search-bottom-nav-table {
     width: 100%;
@@ -589,18 +589,18 @@ background:none;
     text-decoration: underline;}
 
 .fc-header-title h2 {
-	   font-size: 32px;
+       font-size: 32px;
 }
 .fc-header-left {
     margin-left: 0px;
-	padding-left: 0px;
+    padding-left: 0px;
 }
 .fc-state-default.fc-corner-left,.fc-state-default.fc-corner-right, .fc-button.fc-button-agendaWeek.fc-state-default  {
     padding: 10px 20px;
 }
 .fc-event-time, .fc-event-title
 {
-	font-weight:900;
+    font-weight:900;
 }
 .name > a {
     color: #16A085;
@@ -641,60 +641,60 @@ text-align:right;
 }
 .signup-form .field-lastName
 {
-	margin-top: -51px;
-	margin-left: 400px;
+    margin-top: -51px;
+    margin-left: 400px;
 }
 .signup-form .field-middleNames
 {
-	position: absolute;
-	margin-left: 196px;
-	margin-top: -54px;
+    position: absolute;
+    margin-left: 196px;
+    margin-top: -54px;
 
 }
 .signup-form .field-login
 {
-	margin-left: 0%;
-	margin-top: 5%;
+    margin-left: 0%;
+    margin-top: 5%;
 }
 .signup-form .field-password
 {
         position: absolute;
-	margin-left: 196px;
-	margin-top: -53px;
+    margin-left: 196px;
+    margin-top: -53px;
 }
 .signup-form .field-phone
 {
-	margin-left : 0%;
-	margin-top: 40px;
+    margin-left : 0%;
+    margin-top: 40px;
 }
 .signup-form .field-email
 {
-	margin-left: 400px;
-	margin-top: -145px;
+    margin-left: 400px;
+    margin-top: -145px;
 }
 .signup-form .field-language
 {
-	margin-left: 195px;
-	margin-top: 40px;
+    margin-left: 195px;
+    margin-top: 40px;
 }
 .signup-form .field-BirthDate
 {
-	margin-left: 400px;
+    margin-left: 400px;
     margin-top: -54px;
 }
 .signup-form .field-Gender
 {
-	margin-top: 50px;
+    margin-top: 50px;
 }
 .signup-form .field-levels
 {
-	margin-left: 195px;
+    margin-left: 195px;
     margin-top: -41px;
 }
 .signup-form .field-roles
 {
-	margin-left: 68%;
-	margin-top: -7%;
+    margin-left: 68%;
+    margin-top: -7%;
 }
 .field-teachingCredentials{
     margin-left: 195px;
@@ -702,8 +702,8 @@ text-align:right;
 }
 .field-subjectSpecialization
 {
-	margin-left: 68%;
-	margin-top: -7%;
+    margin-left: 68%;
+    margin-top: -7%;
 }
 .navbar .nav {
     width: 85%;
@@ -766,42 +766,42 @@ margin-left:35%;
 }
 .well
 {
-	background-color : white;
-	width: 35%;
-	height : 60%
+    background-color : white;
+    width: 35%;
+    height : 60%
 }
 .newEmailDiv
 {
-	background-color: gray;
-	height: 20px;
-	color: white;
+    background-color: gray;
+    height: 20px;
+    color: white;
 }
 .mailsubject
 {
-	height: 35px;
-	width:98%;
+    height: 35px;
+    width:98%;
 }
 .mailrecipients
 {
-	height: 35px;
-	width:98%;
+    height: 35px;
+    width:98%;
 }
 .mailbody
 {
-	height : 57%;
-	width:98%;
+    height : 57%;
+    width:98%;
 }
 #mailbodytexarea
 {
-	width: 95%;
-	height: 100%;
-	margin-top : 2%;
-	resize: none;
+    width: 95%;
+    height: 100%;
+    margin-top : 2%;
+    resize: none;
 }
 #recipients, #subject 
 {
-	width: 100%;
-	height: 100%
+    width: 100%;
+    height: 100%
 }
 #browseImage{
     margin-left: 42px;
@@ -835,13 +835,13 @@ margin-left:35%;
             transform: translateX(0) translateY(0);
 }
 #emailCompose{
-	display: inline-block;
-	opacity: 1;
-	outline: medium none;
-	position: relative;
-	text-align: left;
-	vertical-align: bottom;
-	visibility: visible;
+    display: inline-block;
+    opacity: 1;
+    outline: medium none;
+    position: relative;
+    text-align: left;
+    vertical-align: bottom;
+    visibility: visible;
 }
 
 #underconstruction {
@@ -858,14 +858,14 @@ margin-top: 2px;
 }
 .courseInfo-table
 {
-	border: 2px solid #000000;
-	overflow: hidden;
-	width: 940px;
-	color:white;
-	margin:0px auto;
-	background-color:#1ABC9C;
-	border-collapse:collapse;
-	direction: ltr;
+    border: 2px solid #000000;
+    overflow: hidden;
+    width: 940px;
+    color:white;
+    margin:0px auto;
+    background-color:#1ABC9C;
+    border-collapse:collapse;
+    direction: ltr;
 }
 .tutor-box {
     background-color: #8A4C80;
@@ -881,30 +881,30 @@ margin-top: 2px;
 
 }
 .Progress{
-	float:right;
+    float:right;
 }
 .userCourseHeading{
-	float:right;
-	margin-right:10%
+    float:right;
+    margin-right:10%
 }
 #showBCourseMembers{
-	float:right;
-	margin-right: 10%;
+    float:right;
+    margin-right: 10%;
 }
 .marginsOnMeetUp{
-	margin-left:20px
+    margin-left:20px
 }
 #invitationdiv
 {
-	direction: ltr;
+    direction: ltr;
 }
 #syncReport{
-	margin-left: 10px;
-	margin-bottom: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 #report_button {
-	margin-left: 190px;
-	margin-top: 20px;
+    margin-left: 190px;
+    margin-top: 20px;
 }
 /*.bbf-form .field-endDate
 {
@@ -912,22 +912,22 @@ margin-left: 259px;
 
 }*/
 #infoAboutGraph{
-	float: left;
-	margin-left: 20px;
-	margin-top: 20px;
-	position: relative;
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+    position: relative;
 }
 #showReleaseNotes{
-	direction: ltr;
-	margin: 0 auto;
-	width: 940px;
+    direction: ltr;
+    margin: 0 auto;
+    width: 940px;
 }
 .Graphbutton{
     height: 100%;
     width: 100%;
-	float: left;
-	margin-top: 20px;
-	position: relative;
+    float: left;
+    margin-top: 20px;
+    position: relative;
 }
 /*.bbf-form .field-endTime
 {
@@ -968,14 +968,14 @@ margin-top: 20px;
     cursor: pointer;
 }
 .correct {
-	color: green;
+    color: green;
 }
 .wrong {
-	color: red;
+    color: red;
 }
 .flotHeight{
-	height: 400px;
-	width:1200px;
+    height: 400px;
+    width:1200px;
 }
 .choice{
     float:right;
@@ -994,4 +994,18 @@ margin-top: 20px;
 .stprog_plot_color{
     text-align:center; 
     margin: 10px 0 15px;
+}
+.forgot-password-div{
+    margin-top: 35px;
+}
+a.forgot-password-form-button{
+    color: #3498db;
+    font-size: 16px;
+    text-align: center;
+    margin-left: 104px;
+    margin-top: 20px;
+}
+a.forgot-password-form-button:hover{
+    cursor: pointer;
+    color: #3498db;
 }
