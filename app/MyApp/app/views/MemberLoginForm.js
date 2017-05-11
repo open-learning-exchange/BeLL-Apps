@@ -190,7 +190,7 @@ $(function() {
                                             i--;
                                             memberLoginForm.processMemberLogin(member);
                                         }
-					break;
+                                        break;
                                     }
                                 }
                             }
@@ -428,49 +428,48 @@ $(function() {
                             mail_status = mailCollections.models[0].get('status');
                             member_status = mailCollections.models[0].get('member_status');
                             mail_dateTime = new Date(mailCollections.models[0].get('sentDate'));
-                        }
-
-                        var currentdate = new Date();
-                        var duration = App,con
-                        var diff = currentdate - mail_dateTime;
-                        var diffSeconds = diff / 1000;
-                        var hr = Math.floor(diffSeconds / 3600);
-                        var passwordResetDuration = App.configuration.get("passwordResetDuration");
-                        var duration; // Automatic Password Reset Duration
-                        if(passwordResetDuration == undefined)
-                            duration = 0;
-                        else
-                            duration = passwordResetDuration;
-                        if(mail_status == 0){
-                            if(hr > duration && duration > 0){
-                                // automatic password reset
-                                var check = self.automaticApprovedPasswordResetEmail(mailCollections);
-                                if(check == "Msg_AutomaticApproved_PasswordReset"){
-                                    alert(App.languageDict.attributes.Msg_PasswordReset_AutomaticApproval);
-                                    Backbone.history.navigate('password-reset', {
-                                        trigger: true
-                                    });
+                            var currentdate = new Date();
+                            var duration = App,con
+                            var diff = currentdate - mail_dateTime;
+                            var diffSeconds = diff / 1000;
+                            var hr = Math.floor(diffSeconds / 3600);
+                            var passwordResetDuration = App.configuration.get("passwordResetDuration");
+                            var duration; // Automatic Password Reset Duration
+                            if(passwordResetDuration == undefined)
+                                duration = 0;
+                            else
+                                duration = passwordResetDuration;
+                            if(mail_status == 0){
+                                if(hr > duration && duration > 0){
+                                    // automatic password reset
+                                    var check = self.automaticApprovedPasswordResetEmail(mailCollections);
+                                    if(check == "Msg_AutomaticApproved_PasswordReset"){
+                                        alert(App.languageDict.attributes.Msg_PasswordReset_AutomaticApproval);
+                                        Backbone.history.navigate('password-reset', {
+                                            trigger: true
+                                        });
+                                    }
+                                }else{
+                                    //still Pending
+                                    flag = "Pending";
                                 }
-                            }else{
-                                //still Pending
-                                flag = "Pending";
+                            }else if(mail_status == 2){
+                                //Rejected
+                                flag = "Rejected";
                             }
-                        }else if(mail_status == 2){
-                            //Rejected
-                            flag = "Rejected";
-                        }
-                        if(mail_status == 1 && member_status == 1){
-                            var check_confirm = confirm(App.languageDict.attributes.Msg_Re_ResetPassword);
-                            if(check_confirm)
-                                flag = "PasswordReset";
-                            else
-                                flag = "Nothing";
-                        }if(mail_status == 1 && member_status == 0){
-                            var check_confirm = confirm(App.languageDict.attributes.Msg_Success_ResetPassword_ChangePassword);
-                            if(check_confirm)
-                                flag = "PasswordReset";
-                            else
-                                flag = "Nothing";
+                            if(mail_status == 1 && member_status == 1){
+                                var check_confirm = confirm(App.languageDict.attributes.Msg_Re_ResetPassword);
+                                if(check_confirm)
+                                    flag = "PasswordReset";
+                                else
+                                    flag = "Nothing";
+                            }if(mail_status == 1 && member_status == 0){
+                                var check_confirm = confirm(App.languageDict.attributes.Msg_Success_ResetPassword_ChangePassword);
+                                if(check_confirm)
+                                    flag = "PasswordReset";
+                                else
+                                    flag = "Nothing";
+                            }
                         }
                     }
                 });
