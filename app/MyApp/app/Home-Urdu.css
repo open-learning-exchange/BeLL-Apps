@@ -1205,13 +1205,11 @@ textarea[name="comment"]
 }
 .forgot-password-div{
     margin-top: 35px;
+    text-align: center;
 }
 a.forgot-password-form-button{
     color: #3498db;
     font-size: 16px;
-    text-align: center;
-    margin-left: 104px;
-    margin-top: 20px;
 }
 a.forgot-password-form-button:hover{
     cursor: pointer;

@@ -21,6 +21,7 @@ $(function() {
             lastPublicationsSyncDate: '-', // Remembers the day when last time a community synced(downloaded) publications from nation
             authName: '', // Saves name of that person who accepts/rejects community's registration request
             authDate: '', // Saves date of acceptation/rejection of community's registration request
+            passwordResetDuration: '0'
         },
         schema: {
             //Community's information
@@ -104,6 +105,7 @@ $(function() {
             kind: 'Text', // Saves kind of document according to corresponding db's.Mostly used in couch db views.
             passwordResetDuration: {
                 type: 'Select',
+                options: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
                 validators: ['required']
             }
         }
