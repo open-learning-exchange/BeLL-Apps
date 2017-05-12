@@ -894,10 +894,8 @@
   "Credits":"crwdns16313:0crwdne16313:0",
   "Forgot_Password":"crwdns16319:0crwdne16319:0",
   "Email_PasswordReset_Subject":"crwdns16320:0crwdne16320:0",
-  "Password_Reset_Email":"crwdns16321:0crwdne16321:0",
   "Validation_Required_Password":"crwdns16322:0crwdne16322:0",
   "Validation_Required_ReTypePassword":"crwdns16323:0crwdne16323:0",
-  "Msg_Validation_Length_Password":"crwdns16324:0crwdne16324:0",
   "Msg_Success_PasswordReset":"crwdns16325:0crwdne16325:0",
   "Approved":"crwdns16326:0crwdne16326:0",
   "Rejected":"crwdns16327:0crwdne16327:0",
@@ -920,5 +918,10 @@
   "Msg_Confirm_ResetPassword_ChangePassword":"crwdns16344:0crwdne16344:0",
   "Test_Inprogress":"crwdns16345:0crwdne16345:0",
   "Btn_Prev":"crwdns16347:0crwdne16347:0",
-  "Btn_Cancel":"crwdns16348:0crwdne16348:0"
+  "Btn_Cancel":"crwdns16348:0crwdne16348:0",
+  "Msg_PasswordReset_AutomaticApproval":"crwdns16349:0crwdne16349:0",
+  "Automatic_Password_Reset_Duration_HH":"crwdns16350:0crwdne16350:0",
+  "Note_Password_Reset_Duration_HH":"crwdns16351:0crwdne16351:0",
+  "Nation_Rejected":"crwdns16352:0crwdne16352:0",
+  "Nation_Pending":"crwdns16353:0crwdne16353:0"
 }

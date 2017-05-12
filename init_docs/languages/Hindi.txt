@@ -894,10 +894,8 @@
   "Credits":"Credits",
   "Forgot_Password":"Forgot Password ?",
   "Email_PasswordReset_Subject":"Request for Password Reset",
-  "Password_Reset_Email":"Password Reset Email",
   "Validation_Required_Password":"Password is empty.",
   "Validation_Required_ReTypePassword":"Re-type Password is empty.",
-  "Msg_Validation_Length_Password":"Password should not be less than 8 characters.",
   "Msg_Success_PasswordReset":"Password has been updated.Please login with your new password.",
   "Approved":"Approved",
   "Rejected":"Rejected",
@@ -920,5 +918,10 @@
   "Msg_Confirm_ResetPassword_ChangePassword":"You have recently updated password. Do you want to reset your password again ?If you click No then it will resend the password email again.",
   "Test_Inprogress":"Test in progress",
   "Btn_Prev":"पिछला",
-  "Btn_Cancel":"रद्द करें"
+  "Btn_Cancel":"रद्द करें",
+  "Msg_PasswordReset_AutomaticApproval":"Your password reset email has been automatically approved. Please reset the password.",
+  "Automatic_Password_Reset_Duration_HH":"Automatic Password Reset Duration(hr)",
+  "Note_Password_Reset_Duration_HH":"Note : 0 hr means Manual",
+  "Nation_Rejected":"Community registration request rejected",
+  "Nation_Pending":"Community registration request pending"
 }
