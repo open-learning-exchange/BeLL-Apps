@@ -51,6 +51,8 @@ $(function() {
             this.$el.find('.field-version label').text(languageDictValue.get("Version"));
             this.$el.find('.field-notes label').text(languageDictValue.get("Notes"));
             this.$el.find('.field-selectLanguage label').text(languageDictValue.get("Select_Language"));
+            this.$el.find('.field-notes label').text(languageDictValue.get("Notes"));
+            this.$el.find('.field-accept label').text(languageDictValue.get("Auto_Approve"));
             this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">' + languageDictValue.get("Submit_Configurations") + '</a>');
         },
         setForm: function() {
@@ -104,6 +106,7 @@ $(function() {
             con.set('notes', Config.get('notes'));
             con.set('version', Config.get('version'));
             con.set('subType', 'dummyy');
+            con.set('accept', Config.get('accept')); // accept = true means automatic approval
            // con.set('flagDoubleUpdate' , true); //flag Double update
             if(Config.get('selectLanguage') != "Select an Option") {
                 con.set('currentLanguage', Config.get('selectLanguage'));
