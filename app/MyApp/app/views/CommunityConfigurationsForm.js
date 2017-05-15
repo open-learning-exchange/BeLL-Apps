@@ -260,6 +260,7 @@ $(function() {
                 this.changeMembersCommunity(oldCode, newCode);
                 this.changeCodeInActivityLogs(newCode);
             }
+            var newURL = this.model.get('nationUrl');
             var prevNation = this.model.get('nationName') + ',' + this.model.get('nationUrl');
             var that = this;
             var selectedNation = $('#nation-selector').val();
@@ -300,45 +301,70 @@ $(function() {
 
             if(this.model.get('registrationRequest') == 'pending' || this.isChanged(this.model ,configDoc )){
 
-                this.model.set('registrationRequest', 'pending');
+                this.model.set('registrationRequest', 'accepted');
                 App.stopActivityIndicator();
 
-            that.model.save(null, {
-                success: function (model, response) {
-                    var docIds = [];
-                    var id = that.model.get('id');
-                    docIds.push(id);
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        type: 'POST',
-                        url: '/_replicate',
-                        dataType: 'json',
-                        data: JSON.stringify({
-                            "source": "configurations",
-                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                            'doc_ids': docIds
-                        }),
-                        async: false,
-                        success: function (response) {
-                            App.stopActivityIndicator();
-                            if(response.docs_written == 0 || response.docs_written == undefined){
+                that.model.save(null, {
+                    success: function (model, response) {
+                        var docIds = [];
+                        var id = that.model.get('id');
+                        docIds.push(id);
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            type: 'POST',
+                            url: '/_replicate',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                "source": "configurations",
+                                "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                'doc_ids': docIds
+                            }),
+                            async: false,
+                            success: function (response) {
+                                if(response.docs_written == 0 || response.docs_written == undefined){
+                                    alert(App.languageDict.attributes.UnableToReplicate);
+                                }else{
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "configurations",
+                                            "target": 'http://' + newURL + '/community',
+                                            'doc_ids': docIds
+                                        }),
+                                        async: false,
+                                        success: function (response) {
+                                            App.stopActivityIndicator();
+                                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                                alert(App.languageDict.attributes.UnableToReplicate);
+                                            }else{
+                                                alert(App.languageDict.get('Successfully_Registered'));
+                                                window.location.href = '#dashboard';
+                                            }
+                                        },
+                                        error: function(status) {
+                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                            App.stopActivityIndicator();
+                                        }
+                                    });
+                                }
+                            },
+                            error: function(status) {
+                                console.log(status);
                                 alert(App.languageDict.attributes.UnableToReplicate);
-                            }else{
-                                alert(App.languageDict.get('Successfully_Registered'));
-                                window.location.href = '#dashboard';
+                                App.stopActivityIndicator();
                             }
-                        },
-                        error: function(status) {
-                            console.log(status);
-                            alert(App.languageDict.attributes.UnableToReplicate);
-                            App.stopActivityIndicator();
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
             } else{
                 alert("you have not made any changes");
                 App.stopActivityIndicator();
