@@ -1,5 +1,5 @@
 
-Feature('Meetup');
+Feature('Courses');
 var FirstLogin = false;
 var loginCookies = [];
 
@@ -24,8 +24,8 @@ Scenario('Add Meetup', (I) => {
     I.waitForEnabled(Addmeetup);
     I.click(Addmeetup);
     I.wait(10);
-    I.fillField('title', "Virtual Interns");
-    I.fillField('description', "For Upgrading Bell-App");
+    I.fillField('title', "Virtual Interns II");
+    I.fillField('description', "For switching in Angular");
     I.fillField('startDate', "05/23/2017");
     I.fillField('endDate', "05/23/2017");
     I.checkOption(check);
@@ -35,6 +35,11 @@ Scenario('Add Meetup', (I) => {
     I.wait(5);
     I.fillField('meetupLocation', "Kathmandu");
     I.click(InviteMembers);
-    I.wait(20);
+    I.wait(5);
+    I.selectOption('invitationType',"All");
+    I.wait(5);
+    I.click("Invite");
+    I.wait(10);
 });
+
 

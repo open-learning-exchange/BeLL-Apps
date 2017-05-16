@@ -37,7 +37,7 @@ module.exports = {
     mlIsRequired: "(//input[@id='required_question'])[3]",
 
     add_survey_q(isRequired) {
-        this.isCurrentQReqired = isRequired;
+        this.isCurrentQReqired  = isRequired;
         I.waitForVisible(this.addQuestion);
         I.waitForEnabled(this.addQuestion);
         I.wait(1);
