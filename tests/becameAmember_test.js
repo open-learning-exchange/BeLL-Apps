@@ -1,7 +1,7 @@
 
 Feature('BecameAmember');
 
-Scenario('test something', (I) => {
+Scenario('test BecomeAmember', (I) => {
 	var date = '//*[@data-type="date"]';
 	var month = '//*[@data-type="month"]';
 	var year = '//*[@data-type="year"]';
@@ -21,11 +21,8 @@ Scenario('test something', (I) => {
 	I.selectOption(date, "1");
 	I.selectOption(month, "October");
 	I.selectOption(year, "2010")
-	I.wait(1);
 	I.selectOption(Gen, "Male");
-	I.wait(1);
 	I.selectOption(lvl, "Higher");
-	I.wait(1);
 	I.click('Register');
 	I.wait(2);
 	I.seeInPopup('Successfully registered.');
