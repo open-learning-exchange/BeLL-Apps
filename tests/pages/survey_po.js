@@ -52,7 +52,7 @@ module.exports = {
         I.click(this.addSurveyBtn);
         I.waitForVisible(this.surveyTitle);
         I.waitForEnabled(this.surveyTitle);
-        I.fillField('', name);
+        I.fillField('SurveyTitle', name);
         I.waitForVisible(this.saveSurveybtn);
         I.waitForEnabled(this.saveSurveybtn);
         I.click(this.saveSurveybtn);
