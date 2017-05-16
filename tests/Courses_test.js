@@ -9,7 +9,7 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('test successful login', (I) => {
+Scenario('Add Course', (I) => {
     var courses = '//*[@href="#courses"]';
     var addcourses = '//*[@id="addCourseButton"]';
     var check = '//*[@value="Daily"]';
@@ -40,10 +40,5 @@ Scenario('test successful login', (I) => {
     I.waitForEnabled(courses);
     I.click(courses);
     I.wait(20);
-});
-
-Scenario('test something', (I) => {
-  I.amOnPage('/');
-  I.see('Welcome');
 });
 

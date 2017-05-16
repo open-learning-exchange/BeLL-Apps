@@ -1,5 +1,5 @@
 
-Feature('Courses');
+Feature('Meetup');
 var FirstLogin = false;
 var loginCookies = [];
 
@@ -9,7 +9,7 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('test successful login', (I) => {
+Scenario('Add Meetup', (I) => {
 	var Meetup = '//*[@href="#meetups"]';
     var Addmeetup = '//*[@href="#meetup/add"]';
     var InviteMembers = '//*[@id="InviteMembers"]';
@@ -36,11 +36,5 @@ Scenario('test successful login', (I) => {
     I.fillField('meetupLocation', "Kathmandu");
     I.click(InviteMembers);
     I.wait(20);
-
-});
-
-Scenario('test something', (I) => {
-  I.amOnPage('/');
-  I.see('Welcome');
 });
 
