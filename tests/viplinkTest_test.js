@@ -37,10 +37,9 @@ Scenario('test second DeleteVipLink', (I) => {
 	I.wait(5);
 	I.click(vpPage);
 	I.seeInCurrentUrl('#viplink');
-	I.wait(5);
+	I.wait(2);
 	I.click(del);
 	I.seeInPopup("Are you sure that you want to delete this link?")
-	I.wait(3);
 	I.acceptPopup();
 	I.seeInCurrentUrl('#viplink');
 	I.wait(5);
