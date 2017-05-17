@@ -362,6 +362,7 @@ $(function() {
         initialize: function(args) {
             this.code = args.community_code
             this.nationName = args.nationName
+            this.type = args.type
             this.modelNo = 0
             skip = 0
             this.unopen = true
@@ -393,14 +394,31 @@ $(function() {
                 } else {
                     row = '<tr bgcolor="E7E7E7" style="color:#2D2D34">'
                 }
-                var deleteId = "delete" + this.modelNo
-                var viewId = "view" + this.modelNo
-
-                row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn btn-danger">'+App.languageDict.get("DeleteLabel")+'</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn btn-primary" >'+App.languageDict.get("View")+'</button></td></tr>'
-                $('#inbox_mails').append(row)
-                this.modelNo++
-                $("#" + deleteId).click(this.deleteButton)
-                $("#" + viewId).click(this.viewButton)
+                if(vars.type == "PasswordReset"){
+                    var acceptId = "accept" + this.modelNo
+                    var rejectId = "reject" + this.modelNo
+                    if(vars.status == 1){
+                        row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol">'+ App.languageDict.get("Approved") +'</td></tr>'
+                    }else if(vars.status == 2){
+                        row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol">'+ App.languageDict.get("Rejected") +'</td></tr>'
+                    }else if(vars.status == 3){
+                        row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol">Logged In</td></tr>'
+                    }else{
+                        row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol"><button value="' + this.modelNo + '" id ="' + rejectId + '" class="btn btn-danger">'+App.languageDict.get("Rejected")+'</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + acceptId + '" class="btn btn-primary" >'+App.languageDict.get("Approved")+'</button></td></tr>'
+                    }
+                    $('#inbox_mails').append(row)
+                    this.modelNo++
+                    $("#" + rejectId).click(this.rejectButton)
+                    $("#" + acceptId).click(this.acceptButton)
+                }else{
+                    var deleteId = "delete" + this.modelNo
+                    var viewId = "view" + this.modelNo
+                    row = row + '<td>' + vars.subject + '</td><td align="center">' + name + '</td><td id="viewDelCol"><button value="' + this.modelNo + '" id ="' + deleteId + '" class="btn btn-danger">'+App.languageDict.get("DeleteLabel")+'</button>&nbsp;&nbsp;<button value="' + this.modelNo + '" id="' + viewId + '" class="btn btn-primary" >'+App.languageDict.get("View")+'</button></td></tr>'
+                    $('#inbox_mails').append(row)
+                    this.modelNo++
+                    $("#" + deleteId).click(this.deleteButton)
+                    $("#" + viewId).click(this.viewButton)
+                }
                 mailView = this;
                 if(App.languageDict.get('directionOfLang').toLowerCase()==="right"){
                     $('#viewDelCol').find('td').eq(2).attr("align","left")
@@ -448,7 +466,6 @@ $(function() {
                 receiverId: $.cookie('Member._id'),
                 unread: obj.unopen
             })
-
             newCollection.fetch({
                 success: function() {
                     obj.resultArray.push.apply(obj.resultArray, obj.searchInArray(newCollection.models, obj.searchText))
@@ -692,6 +709,90 @@ $(function() {
             model.set('body', body)
             model.save()
             $('#mail-body').html('<br/>' + body)
+        },
+
+        acceptButton: function(e){
+            var modelNo = e.currentTarget.value;
+            var model = mailView.collection.at(modelNo);
+            var senderId = model.get("senderId");
+            var mailCollections = new App.Collections.Mails({
+                    senderId : senderId,
+                    type : "PasswordReset"
+            });
+            mailCollections.fetch({
+                async : false,
+                success: function(){
+                    var flag;
+                    var currentdate = new Date();
+                    if(mailCollections.length > 0){
+                        for( var i = 0; i < mailCollections.length; i++){
+                            var mail_id = mailCollections.models[i].get('_id');
+                            var mail_status = mailCollections.models[i].get('status');
+                            var member_status = mailCollections.models[i].get('member_status');
+                            if(mail_status == 0 && member_status == 0 && mail_id != 0){
+                                // accept the request
+                                var mail = new App.Models.Mail();
+                                mail.id = mail_id;
+                                mail.fetch({
+                                    async: false
+                                })
+                                mail.set('status',1);
+                                mail.set('member_status',0);
+                                mail.set("sentDate", currentdate);
+                                if(mail.save()){
+                                    flag = "success";
+                                }
+                            }
+                        }
+                        if(flag == "success"){
+                            alert(App.languageDict.attributes.Msg_PasswordReset_Email_Approved);
+                            e.currentTarget.closest('tr').remove();
+                        }
+                    }
+                }
+            });
+        },
+
+        rejectButton: function(e){
+            var modelNo = e.currentTarget.value;
+            var model = mailView.collection.at(modelNo);
+            var senderId = model.get("senderId");
+            var mailCollections = new App.Collections.Mails({
+                    senderId : senderId,
+                    type : "PasswordReset"
+            });
+            mailCollections.fetch({
+                async : false,
+                success: function(){
+                    var flag;
+                    var currentdate = new Date();
+                    if(mailCollections.length > 0){
+                        for( var i = 0; i < mailCollections.length; i++){
+                            var mail_id = mailCollections.models[i].get('_id');
+                            var mail_status = mailCollections.models[i].get('status');
+                            var member_status = mailCollections.models[i].get('member_status');
+                            if(mail_status == 0 && member_status == 0 && mail_id != 0){
+                                // reject the request
+                                var mail = new App.Models.Mail();
+                                mail.id = mail_id;
+                                mail.fetch({
+                                    async: false
+                                })
+                                mail.set('status',2);
+                                mail.set('member_status',0);
+                                mail.set("sentDate", currentdate);
+                                if(mail.save()){
+                                    flag = "success";
+                                }
+                            }
+                        }
+                        if(flag == "success"){
+                            alert(App.languageDict.attributes.Msg_PasswordReset_Email_Rejected);
+                            e.currentTarget.closest('tr').remove();
+                        }
+                    }
+                }
+            });
         }
 
     })

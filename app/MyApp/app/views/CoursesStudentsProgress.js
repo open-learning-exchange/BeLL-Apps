@@ -169,7 +169,6 @@ $(function () {
             var previousPoint = null;
             $("#graph2").unbind("plothover");
                 $("#graph2").bind("plothover", function (event, pos, item) {
-                    console.log(item,resultdata)
                 if (item) {
                     if (previousPoint != item.datapoint) {
                         previousPoint = item.datapoint;

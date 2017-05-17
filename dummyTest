@@ -114,7 +114,7 @@ function createDummyCourses() {
 					}
 					return random_member;
 				}
-				var courses = nano.db.use('course');
+				var courses = nano.db.use('courses');
 				for(course = 0; course < n_courses; course++){
 					course_number = course + 1;
 					var subjectLevel;

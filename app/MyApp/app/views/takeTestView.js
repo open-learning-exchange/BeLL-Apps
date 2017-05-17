@@ -7,7 +7,7 @@ $(function() {
         Score: 0,
         Correctanswers: {},
         res: [],
-        Givenanswers: new Array(),
+        Givenanswers: [],
         AttemptMarks: [],
         index: -1,
         TotalCount: 0,
@@ -27,59 +27,90 @@ $(function() {
                 $('div.takeTestDiv').html('')
             },
             "click #finishPressed": function(e) {
-                this.nextquestion();
+                this.nextquestion("finish");
             },
-            "click #nextPressed": function(e) {
-                this.nextquestion();
+            "click #nextPressed": function() {
+                this.nextquestion("next");
+            },
+            "click #resetButton":function(e){
+                this.resetanswer();
+            },
+            "click #previousPressed": function(e){
+                this.nextquestion("previous");
+            }
+        },
+
+        resetanswer: function(e){
+            if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
+                $("input[type='text'][name='singleLineAnswer']").val("")
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input[type='text'][name='commentEssay']").val() != undefined ){
+                $("input[type='text'][name='commentEssay']").val("")
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input[type='hidden'][name='_attachment']").val() != undefined){
+                $("input[type='hidden'][name='_attachment']").val("")
+                $('#downloadAttac').hide()
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if($("input:checkbox[name='multiplechoice[]']").val() != undefined){
+                $("input:checkbox[name='multiplechoice[]']").attr("checked",false)
+                delete this.Givenanswers[$("input[name=question_id]").val()]
+            }else if ($("input:radio[name='multiplechoice[]']").val()!= undefined) {
+                $("input:radio[name='multiplechoice[]']").attr("checked",false)
+                delete this.Givenanswers[$("input[name=question_id]").val()]
             }
         },
 
         nextquestion: function (e) {
             if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
-                this.Givenanswers.push(decodeURI($("input[type='text'][name='singleLineAnswer']").val()));
-                this.renderQuestion();
+                if($("input[type='text'][name='singleLineAnswer']").val() != ""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));   
+                }
+                this.renderQuestion(e);
             } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
-                this.Givenanswers.push(decodeURI($("input[type='text'][name='commentEssay']").val()));
-                this.renderQuestion();
+                if($("input[type='text'][name='commentEssay']").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+                }
+                this.renderQuestion(e);
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
-                this.Givenanswers.push(decodeURI($("input[type='hidden'][name='_attachment']").val()));
-                this.renderQuestion();
+                if($("input[type='hidden'][name='_attachment']").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='hidden'][name='_attachment']").val())); 
+                }
+                this.renderQuestion(e);
             } else if ($("input:checkbox[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
                 var res = [];
                 $("input:checkbox[name='multiplechoice[]']:checked").each(function(index) {
                     if($(this).is(':checked')==true){
                         res.push(decodeURI($(this).val()));
+                        that.Givenanswers[$("input[name='question_id']").val()] = res;
                     }
                 });
-                that.Givenanswers.push(res);
-                that.renderQuestion()
+                that.renderQuestion(e)
             }else if ($("input:radio[name='multiplechoice[]']").val() != undefined) {
                 var that = this;
                 var res = [];
                 if($("input:radio[name='multiplechoice[]']:checked").length > 0){
                     res.push(decodeURI($("input:radio[name='multiplechoice[]']:checked").val()));
+                    that.Givenanswers[$("input[name='question_id']").val()] = res;
                 }
-                that.Givenanswers.push(res);
-                that.renderQuestion()
+                that.renderQuestion(e)
             } else {
                 alert(App.languageDict.attributes.No_Option_Selected)
             }
         },
 
         answersave: function(attempt) {
-            for (var i =0; i < this.TotalCount; i++) {
+            for (var questionId in this.Givenanswers) {
                 var result = null;
-                var answer = this.Givenanswers[i];
-                if (typeof answer ==  'string'){
-                    answer = [this.Givenanswers[i]];
-                }
-                var questions = this.Questionlist[i];
                 var coursequestion = new App.Models.CourseQuestion()
-                coursequestion.id = this.Questionlist[i]
+                coursequestion.id = questionId
                 coursequestion.fetch({
                     async:false
                 })
+                var answer = this.Givenanswers[questionId]
+                if (typeof answer ==  'string'){
+                    answer = [answer];
+                }
                 if (coursequestion.attributes.Type == "Multiple Choice" ) {
                     result = 0;
                     var correctAnswer = coursequestion.get("CorrectAnswer");
@@ -106,7 +137,7 @@ $(function() {
                 saveanswer.set('Answer',answer);
                 saveanswer.set('pqattempts',attempt);
                 saveanswer.set('AttemptMarks',result);
-                saveanswer.set('QuestionID',questions);
+                saveanswer.set('QuestionID',questionId);
                 var memberId = $.cookie('Member._id')
                 saveanswer.set('MemberID',memberId);
                 saveanswer.set('StepID',this.stepId);
@@ -123,32 +154,19 @@ $(function() {
                 async:false
             })
             var totalMarks = coursestep.get("totalMarks");
+            var anslist =Object.keys(this.Givenanswers).length
             this.totalObtainMarks = (Math.round((this.totalMarks / totalMarks) * 100))
-            console.log(memberProgressRecord)
             if(this.preview == this.TotalCount) {
                 if(this.pp <= this.totalObtainMarks){
                     this.sstatus = "1"
                 } else { 
                     this.sstatus = "0"
                 }
-            } else {
-                this.sstatus = null
             }
-            var coursestep = new App.Models.CourseStep({
-                _id: this.stepId
-            })
-            coursestep.fetch({
-                async:false
-            })
-            var totalMarks = coursestep.get("totalMarks");
-            this.totalObtainMarks = (Math.round((this.totalMarks / totalMarks) * 100))
-            if(this.preview == this.TotalCount) {
-                if(this.pp <= this.totalObtainMarks){
-                    this.sstatus = "1"
-                } else { 
-                    this.sstatus = "0"
-                }
-            } else {
+            if (anslist != this.TotalCount){
+                this.sstatus = -1
+            }
+            else {
                 this.sstatus = null
             }
         },
@@ -161,12 +179,30 @@ $(function() {
             this.pp = parseInt(this.options.passP)
             this.myModel = this.options.resultModel
             this.stepindex = this.options.stepIndex
-            this.Givenanswers = []  
+            this.Givenanswers = []
+            var pqattempt = this.myModel.get('pqAttempts')
+            var sStatus = this.myModel.get('stepsStatus')
+            if( sStatus[this.stepindex][pqattempt[this.stepindex]] == null || sStatus[this.stepindex][pqattempt[this.stepindex]] == -1){
+                var courseAnswer = new App.Collections.CourseAnswer()
+                courseAnswer.StepID = this.stepId
+                courseAnswer.MemberID = $.cookie('Member._id')
+                courseAnswer.pqattempts = pqattempt[this.stepindex]
+                courseAnswer.fetch({
+                    async: false
+                })
+                for (var i = 0; i < courseAnswer.length; i++) {
+                    this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
+                }
+            }
+
         },
 
-        renderQuestion: function() {
-            if ((this.index + 1) != this.TotalCount) {
-                this.index++
+        renderQuestion: function(e) {
+            if ( e !='finish' ) {
+                if (e == 'next')
+                    this.index++
+                else
+                    this.index--
                 this.$el.html('&nbsp')
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 var coursedetail = new App.Models.CourseQuestion({
@@ -176,17 +212,46 @@ $(function() {
                     async: false
                 });
                 this.vars = coursedetail.toJSON();
+                this.vars.answer = this.Givenanswers[this.Questionlist[this.index]]
+                if (this.vars.answer == undefined){
+                    this.vars.answer = []
+                }
+                if(coursedetail.attributes.Type == "Attachment"){
+                    var attachmentName = null;
+                    //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button
+                    var memberAssignmentPaper = new App.Models.AssignmentPaper({
+                        _id: this.Givenanswers[this.Questionlist[this.index]]
+                    })
+                    memberAssignmentPaper.fetch({
+                        async: false,
+                        success: function (json) {
+                            var existingModels = json;
+                            if (typeof existingModels.get('_attachments') !== 'undefined') {
+                                attachmentName = _.keys(existingModels.get('_attachments'))
+                            }
+                        }
+                    });
+                    if (attachmentName != null) {
+                        this.vars.attachmentName = attachmentName;
+                    } else {
+                        this.vars.attachmentName = null;
+                    }
+                }
                 this.vars.languageDict=App.languageDict;
                 var singleline = coursedetail.get("Statement")
                 this.vars.singleLineQuestionTitle = singleline
                 this.$el.append(this.template(this.vars));
-                this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div></</div>')
-                if((this.index + 1) == this.TotalCount){
-                    this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>');
-                } else {
-                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>');
+                //this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
+                this.$el.append('<div class="quizActions" ></div>')
+                this.$el.find('.quizActions').append('<div  style="margin-right: 303px;" class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
+                if(this.index !=0){
+                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="previousPressed">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
                 }
+                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
+                if((this.index + 1) != this.TotalCount){
+                    this.$el.find('.quizActions').append('<div style="margin-right: 303px;" class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
+                }
+                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Btn_Cancel+'</div>')
             } else {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
@@ -197,7 +262,7 @@ $(function() {
 
                 if(flagAttempts && this.myModel.get('pqAttempts')) {
                     var pqattempts = this.myModel.get('pqAttempts')
-                    if( sstatus[this.stepindex][pqattempts[this.stepindex]] == null){
+                    if( sstatus[this.stepindex][pqattempts[this.stepindex]] == null || sstatus[this.stepindex][pqattempts[this.stepindex]] == -1){
                         var courseAnswer = new App.Collections.CourseAnswer()
                         courseAnswer.MemberID = $.cookie('Member._id')
                         courseAnswer.StepID = stepid[this.stepindex]
@@ -239,7 +304,7 @@ $(function() {
 
         start: function() {
             $('div.takeTestDiv').show()
-            this.renderQuestion()
+            this.renderQuestion("next")
         },
        
         render: function() {

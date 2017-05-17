@@ -1,4 +1,4 @@
-$(function() {
+ $(function() {
 
     App.Views.CourseStepQuestionRow = Backbone.View.extend({
 

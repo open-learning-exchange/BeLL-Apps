@@ -1419,6 +1419,7 @@ if (imgVal != "" && extension[(extension.length - 1)] != 'doc' && extension[(ext
             // After Upload Paper refresh page
             assignmentpaper.on('savedAttachment', function() {
                 //Attatchment successfully saved
+                $("#downloadAttac").hide();
                 alert(App.languageDict.attributes.Assignment_Submitted)
                 //location.reload();
             }, assignmentpaper)

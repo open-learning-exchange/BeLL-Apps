@@ -4,9 +4,9 @@ $(function() {
 
         initialize: function(e) {
             if (e) {
-
-                if (e.senderId) {
-
+                if (e.senderId && e.type) {
+                    this.url = App.Server + '/mail/_design/bell/_view/GetPasswordResetStatusWithSenderID?include_docs=true&key="' + e.senderId + '"'
+                } else if (e.senderId) {
                     this.url = App.Server + '/mail/_design/bell/_view/sentbox?include_docs=true&key="' + e.senderId + '"&limit=5&skip=' + e.skip
                 } else if (e.receiverId && e.unread) {
                     this.url = App.Server + '/mail/_design/bell/_view/unopen?include_docs=true&key="' + e.receiverId + '"&limit=5&skip=' + skip

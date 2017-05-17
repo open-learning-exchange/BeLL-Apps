@@ -21,7 +21,11 @@ $(function() {
                 vars = this.model;
                 vars.authDate = new Date();
             }
-            vars.authName = that.getLoggedInName();
+            if (!$.cookie('Member.login')){
+                vars.authName == ''
+            }else {
+                vars.authName = that.getLoggedInName();
+            }
             vars.languageDict=App.languageDictValue;
             this.$el.append(_.template(that.template, vars));
         },

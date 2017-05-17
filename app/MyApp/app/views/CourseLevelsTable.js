@@ -98,6 +98,7 @@ $(function () {
             while (index < sstatus.length && ssids[index] != this.vars._id) {
                 index++
             }
+            this.vars.questionlist = model.attributes.questionslist;
             this.vars.lastAttemptStatus = App.languageDict.attributes.UnAttempted;
             if (index == sstatus.length) {
                 this.vars.status = App.languageDict.attributes.Error
@@ -111,8 +112,10 @@ $(function () {
                 }
                 if ((sr[index] instanceof Array) && (sr[index][totalattempt[index]] != 'undefined')) {
                     this.vars.lastAttemptStatus = App.languageDict.attributes.UnReviewed;
-                    if ((sstatus[index] instanceof Array) && (sstatus[index][totalattempt[index]] != 'undefined') && (sstatus[index][totalattempt[index]] != null)) {
+                    if ((sstatus[index] instanceof Array) && (sstatus[index][totalattempt[index]] != 'undefined') && (sstatus[index][totalattempt[index]] != null) && (sstatus[index][totalattempt[index]] != -1)) {
                         this.vars.lastAttemptStatus = App.languageDict.attributes.Reviewed;
+                    } else if ((sstatus[index] instanceof Array) && (sstatus[index][totalattempt[index]] != 'undefined') && (sstatus[index][totalattempt[index]] == -1)){
+                        this.vars.lastAttemptStatus = App.languageDict.attributes.Test_Inprogress;
                     }
                 }
                 this.vars.lastAttemptsMarks = sr[index][totalattempt[index]]

@@ -28,6 +28,8 @@ $(function() {
             'course/details/:courseId/:courseName': 'courseDetails',
             'usercourse/details/:courseId/:courseName': 'UserCourseDetails',
             'course/report/:courseId/:courseName': 'CourseReport',
+            'CourseStatistics/:courseId': 'CourseStatistics',
+            'CourseStepStatistics/:StepId': 'CourseStepStatistics',
             'course/assignments/week-of/:courseId/:weekOf': 'CourseWeekOfAssignments',
             'course/assignments/:courseId': 'CourseAssignments',
             'course/add': 'CourseForm',
@@ -58,7 +60,6 @@ $(function() {
             'reports/edit/:resportId': 'ReportForm',
             'reports/add': 'ReportForm',
             'mail': 'email',
-
             'newsfeed': 'NewsFeed',
             'badges': 'Badges',
             'badgesDetails/:cid':'badgesDetails',
@@ -92,7 +93,9 @@ $(function() {
             'memberSurveys': 'SurveysForMembers',
             'configurationsForm': 'configurationsForm',
             'checksum(/:nation/:url)': 'checkSum',
-            'listLearnersCredits/:cid': 'showLearnersListForCredits'
+            'listLearnersCredits/:cid': 'showLearnersListForCredits',
+            'passwordResetEmail': 'showPasswordResetEmail',
+            'password-reset': 'showPasswordReset'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -299,10 +302,10 @@ $(function() {
                 dataType: 'jsonp',
                 async: false,
                 success: function (json) {
-                	$('#syncStatus').closest('div').show();
+                    $('#syncStatus').closest('div').show();
                 },
                 error: function (status) {
-                	$('#syncStatus').closest('div').hide();
+                    $('#syncStatus').closest('div').hide();
                 }
             });
             //  manageCommunity.updateDropDownValue();
@@ -454,15 +457,15 @@ $(function() {
             });
             var resLength = [];
             var stepLength = [];
+            var attempt;
+            console.log(courseProgress.models[0].get('stepsResult').length )
+            var totatObtinedMarks = 0
+            var totoalPercentage = 0
             for (var i =0; i< courseProgress.models[0].get('stepsResult').length ; i++){
                 stepLength = courseProgress.models[0].get('stepsResult')[i];
+                totatObtinedMarks= totatObtinedMarks + parseInt( stepLength[stepLength.length-1])
+                attempt = courseProgress.models[0].get('pqAttempts');
                 if($.isArray(stepLength)){
-                    if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))) {
-                        resLength.push(0);
-                    }
-                    else {
-                        resLength.push(parseInt(courseProgress.models[0].get('stepsResult')[i][0]))
-                    }
                     if(isNaN(parseInt(courseProgress.models[0].get('stepsResult')[i][1]))) {
                         resLength.push(0);
                     }
@@ -479,14 +482,8 @@ $(function() {
                     }
                 }
             }
-            var marks = 0; var totalMarks = 100*resLength.length ;
-            for (var i =0; i< resLength.length ; i++){
-                if(resLength[i] != NaN) {
-                    marks = marks+resLength[i]
-                }
-
-            }
-
+            var marks = 0; var totalMarks = 100*resLength.length;
+            totoalPercentage= (totatObtinedMarks/totalMarks)*100
             var courseSteps = new App.Collections.coursesteps()
             courseSteps.courseId=courseId;
             courseSteps.fetch({
@@ -509,7 +506,7 @@ $(function() {
             App.$el.children('.body').html('<div id="badgesTable"></div>');
             $('#badgesTable').append('<h3>' + name + '\'s Badges' + '</h3>');
             $('#badgesTable').append(badgesTableView.el);
-            $('#badges-details').append('<tr><td>' + languageDictValue.get('Total')  + '</td><td></td><td></td><td>' + marks + "/" + totalMarks + '</td><td>' + marks + "%" + '</td><td></td></tr>');
+            $('#badges-details').append('<tr><td>' + languageDictValue.get('Total')  + '</td><td></td><td>' + totatObtinedMarks + "/" + totalMarks + '</td><td>' + totoalPercentage + "%" + '</td><td></td></tr>');
             $('#badgesTable').append(' <hr   style= "border-width: 5px;">' );
             applyCorrectStylingSheet(languageDictValue.get('directionOfLang'));
         },
@@ -789,7 +786,7 @@ $(function() {
 
         checkLoggedIn: function() {
             if (!$.cookie('Member._id')) {
-                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add' && $.url().attr('fragment') != 'admin/add') {
+                if ($.url().attr('fragment') != 'login' && $.url().attr('fragment') != '' && $.url().attr('fragment') != 'member/add' && $.url().attr('fragment') != 'admin/add' && $.url().attr('fragment') != 'password-reset') {
                     Backbone.history.stop()
                     App.start()
                 }
@@ -1056,8 +1053,20 @@ $(function() {
                                             dataType: 'jsonp',
                                             async: false,
                                             success: function (json) {
-                                                $('#onlineButton').css({"background-color": "#35ac19"});
-                                                $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
+                                                var getComStats = App.configuration.get('registrationRequest')
+                                                if (getComStats == 'accepted'){
+                                                    $('#onlineButton').css({"background-color": "#35ac19"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_Visible"));
+                                                } else if (getComStats == 'rejected') {
+                                                    $('#onlineButton').css({"background-color": "#ff0000"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_Rejected"));
+						} else if (getComStats == 'pending') {
+						    $('#onlineButton').css({"background-color": "#FFA500"});
+						    $('#onlineButton').attr("title", App.languageDict.get("Nation_Pending"));
+                                                } else {
+                                                    $('#onlineButton').css({"background-color": "#ff0000"});
+                                                    $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                                                }
                                                 var SurveyDocsFromNation = [];
                                                 _.each(json.rows, function (row) {
                                                     if (row.value.submittedBy.indexOf(App.configuration.get('name')) == -1) {
@@ -2058,17 +2067,25 @@ $(function() {
                     }
                 }
             });
-            cstep.set("resourceId", oldIds.concat(rids))
-            cstep.set("resourceTitles", oldTitles.concat(rtitle))
-            cstep.save(null, {
-                success: function(responseModel, responseRev) {
-                    cstep.set("_rev", responseRev.rev)
-                    alert(App.languageDict.attributes.Resource_Updated)
-                    Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
-                        trigger: true
-                    })
-                }
-            })
+            if(rids != "" && rtitle != ""){
+                cstep.set("resourceId", oldIds.concat(rids))
+                cstep.set("resourceTitles", oldTitles.concat(rtitle))
+                cstep.save(null, {
+                    success: function(responseModel, responseRev) {
+                        cstep.set("_rev", responseRev.rev)
+                        alert(App.languageDict.attributes.Resource_Updated)
+                        Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
+                            trigger: true
+                        })
+                    }
+                })
+                rids = []
+                rtitle = []
+            } else {
+                Backbone.history.navigate('level/view/' + cstep.get("id") + '/' + cstep.get("rev"), {
+                    trigger: true
+                })
+            }
         },
         SearchPresources: function(publicationId) {
             var publications = new App.Models.Publication({
@@ -2294,6 +2311,46 @@ $(function() {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },
 
+        CourseStatistics: function (cId){
+            var course = new App.Models.Course();
+            course.id = cId
+            course.fetch({
+                async: false
+            })
+            var coursestatisticview = new App.Views.CoursesStatistics({
+                  model:course,
+                  attributes:{
+                    courseid:  cId
+                  }
+                 });
+            coursestatisticview.render()
+            App.$el.children('.body').html('<div id="couarsestat"></div>');
+            $('#couarsestat').append('<div><h2>'+App.languageDict.attributes.Course_Progress_Statistics+'</h2></div>')
+            $('#couarsestat').append(coursestatisticview.el);
+             var directionOfLang = App.languageDict.get('directionOfLang');
+             applyCorrectStylingSheet(directionOfLang)
+        },
+
+        CourseStepStatistics: function (sId){
+            var step = new App.Models.CourseStep();
+            step.id = sId
+            step.fetch({
+                async: false
+            })
+            var courseStepstatisticview = new App.Views.CourseStepStatistics({
+                  model:step,
+                  attributes:{
+                    stepid: sId
+                  }
+                 });
+            courseStepstatisticview.render()
+            App.$el.children('.body').html('<div id="couarsestepstat"></div>');
+            $('#couarsestepstat').append('<div><h2>'+App.languageDict.attributes.Course_Step_Progress_Statistics+'</h2></div>')
+            $('#couarsestepstat').append(courseStepstatisticview.el);
+             var directionOfLang = App.languageDict.get('directionOfLang');
+             applyCorrectStylingSheet(directionOfLang)
+        },
+
         CourseReport: function(cId, cname) {
             var roles = this.getRoles()
             var course = new App.Models.Course();
@@ -2305,6 +2362,7 @@ $(function() {
             $('.courseSearchResults_Bottom').append("<h2> " + cname + "</h2>")
             if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
+                $('.courseSearchResults_Bottom').append('<a id="CourseStatistics" class="btn btn-inverse"  href=\'#CourseStatistics/' + cId + '\'">'+App.languageDict.attributes.Course_Progress_Statistics+'</a>')
             }
             $('.courseSearchResults_Bottom').append('<p id="graph2title"style="text-align:center">'+App.languageDict.attributes.Individual_Member_Course_Progress+'</p>')
             App.$el.children('.body').append('<div id="detailView"><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
@@ -2518,7 +2576,7 @@ $(function() {
             var courseLeader = courseModel.get('courseLeader')
             var courseName = courseModel.get('name')
             var courseMembers = courseModel.get('members')
-            var button = '<br><a href="#courses"><button class="btn btn-success">'+App.languageDict.attributes.Back_To_Course+'</button></a>'
+            var button = '<br><a href="#courses"><button class="btn btn-success">'+App.languageDict.attributes.Back_To_Course+'</button></a>' + '<a id="showBCourseMembers"  href="#course/members/'+ courseId + '"  class="btn btn-info">'+App.languageDict.attributes.Course_Members+'</a>'
             if (courseMembers && courseMembers.indexOf($.cookie('Member._id')) == -1) {
                 button += '&nbsp;&nbsp;<button class="btn btn-danger" id="admissionButton" onClick=sendAdminRequest("' + courseLeader + '","' + encodeURI(courseName) + '","' + courseId + '")>'+App.languageDict.attributes.Admission+'</button><br/><br/>'
             } else {
@@ -3055,21 +3113,21 @@ $(function() {
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
             membersView.changeDirection();
             if(App.configuration.get('type') == 'nation') {
-	            $.ajax({
-	                url: '/community/_design/bell/_view/getCommunityByCode',
-	                type: 'GET',
-	                dataType: "jsonp",
-	                async: false,
-	                success: function(json) {
-	                	var communityList = '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
-	                	$.each(json.rows, function(rec, index) {
-	                		communityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
-	                	})
-	                	communityList = '<select id="selectCommunity" style="margin-right: 30px;">'+communityList+'</select>';
-	                	$(communityList).insertBefore('#searchText');
-                	}
-	            });
-        	}
+                $.ajax({
+                    url: '/community/_design/bell/_view/getCommunityByCode',
+                    type: 'GET',
+                    dataType: "jsonp",
+                    async: false,
+                    success: function(json) {
+                        var communityList = '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
+                        $.each(json.rows, function(rec, index) {
+                            communityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
+                        })
+                        communityList = '<select id="selectCommunity" style="margin-right: 30px;">'+communityList+'</select>';
+                        $(communityList).insertBefore('#searchText');
+                    }
+                });
+            }
             if(App.languageDict.get('directionOfLang').toLowerCase()==="right") {
                 $('#membersSearchHeading').css('float','left');
                 $("#AddNewMember").addClass('addMarginsOnCourseUrdu');
@@ -4684,8 +4742,8 @@ $(function() {
             code = cofigINJSON.code
             Bellname = cofigINJSON.nationName
             var mymail = new App.Collections.Mails({
-                skip: 0
-            })
+                    skip: 0
+                })
             mymail.fetch({
                 async: false
             })
@@ -6585,7 +6643,7 @@ $(function() {
             })
         },
         checkSum: function (nationNm, nationUri) {
-            if (nationNm.length > 0 && nationUri.length > 0) {
+            if (nationNm != undefined && nationUri != undefined) {
                 nationName = nationNm;
                 nationURL = nationUri;
             } else {
@@ -6596,69 +6654,80 @@ $(function() {
             localDesign = [];
             $('.body').html('');
             $.ajax({
-                    url: '/_all_dbs',
-                    type: 'GET',
-                    dataType: 'json',
-                    async: false,
-                    success: function(result) {
-                           $('.body').append('<h4>'+ App.languageDict.attributes.Databases + ' : ' + result.length + '</h4>');
-                   },
-                   error: function(err) {
-                       console.log(err);
-                   }
-		})
+                url: '/_all_dbs',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function(result) {
+                    $('.body').append('<h4>'+ App.languageDict.attributes.Databases + ' : ' + result.length + '</h4>');
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+        })
 
-																								               $.ajax({
+        $.ajax({
                 url: 'http://' + nationURL + '/_all_dbs',
                 type: 'GET',
                 dataType: 'jsonp',
                 async: false,
                 success: function(result) {
-                	$.each(result, function(i, val) {
-                		if(val.substr(0, 1) != '_') {
-                			 $.ajax({
-            	                url: 'http://' + nationURL + '/'+val+'/_design/bell',
-            	                type: 'GET',
-            	                dataType: 'jsonp',
-            	                async: false,
-            	                success: function(resultR) {
-            	                	if(resultR['_id'] != undefined) resultR['_id'] = '';
-            	                	if(resultR['_rev'] != undefined) resultR['_rev'] = '';
-            	                	remoteDesign[val] = hex_md5(JSON.stringify(resultR));
-            	                	$.ajax({
-                    	                url: '/'+val+'/_design/bell',
-                    	                type: 'GET',
-                    	                dataType: 'json',
-                    	                async: false,
-                    	                success: function(resultL) {
-                    	                	if(resultL['_id'] != undefined) resultL['_id'] = '';
-                    	                	if(resultL['_rev'] != undefined) resultL['_rev'] = '';
-                    	                	localDesign[val] = hex_md5(JSON.stringify(resultL));
-                    	                	if(localDesign[val] == remoteDesign[val]) 
-                    	                		$('.body').append('<br/><b>' + val + '</b>: <span class="correct">'+ App.languageDict.attributes.Synced_Success + '</span>');
-                    	                	else 
-                    	                		$('.body').append('<br/><b>' + val + '</b>: <span class="wrong">'+ App.languageDict.attributes.Not_Synced + '</span>');
-                    	                	
-                    	                },
-                    	                error: function(err) {
-                    	                    console.log(err);
-                    	                }
-                    	            })
-            	                },
-            	                error: function(err) {
-            	                    console.log(err);
-            	                }
-            	            })
-            	            return true;
-                		}
-                		
-                	});
+                    $.each(result, function(i, val) {
+                        if(val.substr(0, 1) != '_') {
+                             $.ajax({
+                                url: 'http://' + nationURL + '/'+val+'/_design/bell',
+                                type: 'GET',
+                                dataType: 'jsonp',
+                                async: false,
+                                success: function(resultR) {
+                                    if(resultR['_id'] != undefined) resultR['_id'] = '';
+                                    if(resultR['_rev'] != undefined) resultR['_rev'] = '';
+                                    remoteDesign[val] = hex_md5(JSON.stringify(resultR));
+                                    $.ajax({
+                                        url: '/'+val+'/_design/bell',
+                                        type: 'GET',
+                                        dataType: 'json',
+                                        async: false,
+                                        success: function(resultL) {
+                                            if(resultL['_id'] != undefined) resultL['_id'] = '';
+                                            if(resultL['_rev'] != undefined) resultL['_rev'] = '';
+                                            localDesign[val] = hex_md5(JSON.stringify(resultL));
+                                            if(localDesign[val] == remoteDesign[val]) 
+                                                $('.body').append('<br/><b>' + val + '</b>: <span class="correct">'+ App.languageDict.attributes.Synced_Success + '</span>');
+                                            else 
+                                                $('.body').append('<br/><b>' + val + '</b>: <span class="wrong">'+ App.languageDict.attributes.Not_Synced + '</span>');
+                                            
+                                        },
+                                        error: function(err) {
+                                            console.log(err);
+                                        }
+                                    })
+                                },
+                                error: function(err) {
+                                    console.log(err);
+                                }
+                            })
+                            return true;
+                        }
+                        
+                    });
                 },
                 error: function(err) {
                     console.log(err);
                 }
             })
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
+        },
+        
+        showPasswordReset: function(){
+            // password reset page:
+            var login_name = $('input[name=login]').val();
+            $('div#cont').html('');
+            var passwordResetView = new App.Views.PasswordReset({
+                name : login_name
+            });
+            passwordResetView.render();
+            App.$el.children('.body').append(passwordResetView.el)
         }
     }))
 })

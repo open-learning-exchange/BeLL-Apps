@@ -33,6 +33,13 @@ ddoc.views = {
         emit(doc.receiverId, 1);
       }
     }
+  },
+  GetPasswordResetStatusWithSenderID: {
+    map: function(doc) {
+      if (doc.senderId && doc.type == 'PasswordReset') {
+        emit(doc.senderId, doc);
+      }
+    }
   }
 }
 
