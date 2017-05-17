@@ -3,7 +3,7 @@ Feature('Login');
 
 Scenario('test bad login', function* (I) {
     //// Bad username
-    I.amOnPage('/');
+    I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
     I.waitForVisible('//*[@name="login"]');
     I.fillField('Login', '');
     I.fillField('Password', 'password');
