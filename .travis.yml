@@ -42,9 +42,9 @@ install:
   - travis_retry npm install -g codeceptjs
   - travis_retry npm install -g webdriverio
   - travis_retry npm install -g cookie
-  - pip install -I selenium==3.0.2
-  - pip install sauceclient
-  - pip install pycouchdb
+  #- pip install -I selenium==3.0.2
+  #- pip install sauceclient
+  #- pip install pycouchdb
 
 before_install:
   - docker pull klaemo/couchdb:1.6.1
@@ -80,10 +80,10 @@ before_install:
   - npm install --save -g co
 
 script:
-  - export
+  #- export
   - docker ps -a | grep bell
   - curl -X GET http://127.0.0.1:5981/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 40 ]; then exit 1; fi
-  - node -v
+  #- node -v
   - (cd tests && codeceptjs run --steps)
-  - python -m unittest discover tests
+  #- python -m unittest discover tests

@@ -275,7 +275,6 @@
   "Invite_Member":"Erikokya abekithunga",
   "GradeLevelList":[
     "Erithendekero lyabana balere kutsibu",
-    "Erithendekero lyabana balere kutsibu",
     "1",
     "2",
     "3",
