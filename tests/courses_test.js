@@ -1,8 +1,7 @@
-
+/// <reference path="./steps.d.ts" />
 Feature('Courses');
 var FirstLogin = false;
 var loginCookies = [];
-
 
 Before((I) => {
     I.login('admin', 'password');
