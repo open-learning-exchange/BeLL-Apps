@@ -162,12 +162,13 @@ $(function() {
                 } else { 
                     this.sstatus = "0"
                 }
-            }
-            if (anslist != this.TotalCount){
-                this.sstatus = -1
-            }
-            else {
-                this.sstatus = null
+            }else{
+                if (anslist != this.TotalCount){
+                    this.sstatus = -1
+                }
+                else {
+                    this.sstatus = null
+                }
             }
         },
 
@@ -287,6 +288,7 @@ $(function() {
                 }
                 this.answersave(pqattempts[this.stepindex]);
                 sstatus[this.stepindex][pqattemptss[this.stepindex]] = this.sstatus
+                console.log(sstatus[this.stepindex][pqattemptss[this.stepindex]])
                 this.myModel.set('stepsStatus', sstatus)
                 sp[this.stepindex][pqattemptss[this.stepindex]] = this.totalObtainMarks.toString()
                 this.myModel.set('stepsResult', sp)

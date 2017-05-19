@@ -1209,7 +1209,9 @@
             <% for(var k = 0; k < Totalfailstat.length; k++) {%>
                 <tr>
                     <td><%=member_Name[k]%></td>
-                    <td><%=Totalfailstat[k]%></td>
+                    <% for(var j = 0; j < steps.length; j++) {%>
+                            <td><%=Totalfailstat[k][j]%></td>
+                    <% } %>
                 </tr>
             <% } %>
             </table>

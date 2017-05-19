@@ -110,6 +110,7 @@ $(function () {
                 if (sstatus[index].length > 1) {
                     this.vars.lastAttemptStatus = App.languageDict.attributes.Attempted;
                 }
+                console.log(sr[index][totalattempt[index]],(sr[index] instanceof Array))
                 if ((sr[index] instanceof Array) && (sr[index][totalattempt[index]] != 'undefined')) {
                     this.vars.lastAttemptStatus = App.languageDict.attributes.UnReviewed;
                     if ((sstatus[index] instanceof Array) && (sstatus[index][totalattempt[index]] != 'undefined') && (sstatus[index][totalattempt[index]] != null) && (sstatus[index][totalattempt[index]] != -1)) {
