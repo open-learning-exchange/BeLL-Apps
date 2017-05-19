@@ -8,7 +8,7 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('Test For Course', (I) => {
+Scenario('Test For Course', (I,add_test_question) => {
     var courses = '//*[@href="#courses"]';
     var addcourses = '//*[@id="addCourseButton"]';
     var check = '//*[@value="Daily"]';
@@ -23,6 +23,13 @@ Scenario('Test For Course', (I) => {
     var attachmentTextarea = '//*[@id="10"]/div/textarea[@name="question_text"]';
     var attachmentMarks = '//*[@id="10"]/div/input[@type="number"]';
     var saveAttachment = '//*[@id="10"]/div/input[@value="Save Question"]';
+    var multipleTextarea = '//*[@id="1"]/div/textarea[@name="question_text"]';
+    var multipleMarks = '//*[@id="1"]/div/div/input[@class="inputmarks"]';
+    var saveMultiple = '//*[@id="1"]/div/input[@value="Save Question"]';
+    var checkbox1 = '//*[@class="question_class"]/div[1]/input[@type="checkbox"]';
+    var checkbox2 = '//*[@class="question_class"]/div[2]/input[@type="checkbox"]';
+    var inputfield =  '//*[@class="question_class"]/div[1]/input[@type="textbox"]';
+    var inputfield1 = '//*[@class="question_class"]/div[2]/input[@type="textbox"]';
 
     I.waitForVisible(courses);
     I.waitForEnabled(courses);
@@ -55,41 +62,31 @@ Scenario('Test For Course', (I) => {
         $("[name=passingPercentage]").val(45);
     });
     I.click("Save");
-    I.wait(4);
+    I.wait(10);
     I.click(("View Details").toString());
-    I.wait(4);
+    I.wait(6);
     I.click("Create Test");
-    I.wait(2);
-
-    I.selectOption(selectQType, "Single Textbox");
-    I.waitForVisible(singlelineTextarea);
-    I.waitForEnabled(singlelineTextarea);
-    I.fillField(singlelineTextarea, 'What is your Name');
-    I.fillField(singlelineMarks, "100");
-    I.click(saveSingleline);
-    I.seeInPopup('Question has been saved');
-    I.acceptPopup();
     I.wait(4);
 
-    I.selectOption(selectQType, "Comment/Essay Box");
-    I.waitForVisible(commentboxTextarea);
-    I.waitForEnabled(commentboxTextarea);
-    I.fillField(commentboxTextarea, 'What is your Name');
-    I.fillField(commentboxMarks, "100");
-    I.click(saveCommentbox);
-    I.seeInPopup('Question has been saved');
-    I.acceptPopup();
-    I.wait(4);
-    
-    I.selectOption(selectQType, "Attachment");
-    I.waitForVisible(attachmentTextarea);
-    I.waitForEnabled(attachmentTextarea);
-    I.fillField(attachmentTextarea, 'Upload file?');
-    I.fillField(attachmentMarks, "100");
-    I.click(saveAttachment);
+    add_test_question.selectQuestionType(selectQType,"Single Textbox",singlelineTextarea);
+    add_test_question.questionFillupAndSave(singlelineTextarea, 'What is your Name?', singlelineMarks, "100", saveSingleline)
+    add_test_question.selectQuestionType(selectQType,"Comment/Essay Box",commentboxTextarea);
+    add_test_question.questionFillupAndSave(commentboxTextarea, 'What is your Name', commentboxMarks, "100", saveCommentbox)
+    add_test_question.selectQuestionType(selectQType,"Attachment",attachmentTextarea);
+    add_test_question.questionFillupAndSave(attachmentTextarea, 'Upload file?', attachmentMarks, "100", saveAttachment)
+    add_test_question.selectQuestionType(selectQType,"Multiple Choice",multipleTextarea);
+    I.fillField(multipleTextarea, 'Choice type question?');
+    I.fillField(inputfield, "Cycle");
+    I.fillField(inputfield1, "Bike");
+    I.checkOption(checkbox1);
+    I.checkOption(checkbox2);
+    I.fillField(multipleMarks, "100");
+    I.click(saveMultiple);
     I.seeInPopup('Question has been saved');
     I.acceptPopup();
     I.wait(4);
     I.click(courses);
+    I.wait(10);
 });
+
 

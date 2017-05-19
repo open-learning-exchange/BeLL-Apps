@@ -82,10 +82,15 @@ $(function() {
                                     if (pqattempts != undefined) {
                                         m.set("pqAttempts", pqattempts)
                                     }
-                                    m.save()
+                                    m.save({}, {
+                                        success:function(){
+                                            last_member = allcrs.last()
+                                            if(last_member.get('id') == m.get('id')){
+                                                location.reload()
+                                            }
+                                    }})
                                 }
                             })
-                            location.reload()
                         }
                     })
                 } else {

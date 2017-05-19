@@ -53,7 +53,8 @@ if (process.env.SAUCE_USERNAME) {
     "include": {
       "I": "./steps_file.js",
       "survey_po": "./pages/survey_po.js",
-      "survey_dialog": "./pages/survey_dialog.js"
+      "survey_dialog": "./pages/survey_dialog.js",
+      "add_test_question": "./pages/add_test_question.js"
     },
     "mocha": {},
     "name": "tests"
