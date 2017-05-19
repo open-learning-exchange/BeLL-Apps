@@ -47,7 +47,7 @@ $(function() {
                 this.vars.Total_Percentage = totalpercentEachQuestion
                 this.vars.Last_Attempt = attempt
                 this.vars.Total_Question = this.model.attributes.questionslist.length
-                this.vars.StepType = questionlist.attributes.stepType
+                this.vars.StepType = this.model.attributes.stepType
                 this.vars.TotalFailCount = countarr
                 this.$el.html(_.template(this.template,this.vars))
             }

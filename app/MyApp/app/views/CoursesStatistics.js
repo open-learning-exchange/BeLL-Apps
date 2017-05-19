@@ -31,15 +31,16 @@ $(function() {
                     var member = staticProgress.attributes.memberId
                     for (var k = 0; k < memberStep.length; k++)
                     {
-                         var count = 0
+                        var count = 0
                         for(var j = 1; j <= pqattempts[k]; j++){
                            if (membersstatus[k][j] == "0")
                             {
                                 count++
                             } 
                         }
+                       failarr.push(count)
                     }
-                    totalFailStatus.push(count)
+                    totalFailStatus.push(failarr)
                     var members = new App.Models.Member({
                         _id: member
                     })
@@ -61,6 +62,7 @@ $(function() {
                  this.vars.stepName =  stepName;
                  this.vars.member_Name =  memberName;
                  this.vars.member_sstatus = failarr;
+                 this.vars.steps = memberStep;
                  this.vars.Totalfailstat = totalFailStatus;
                  this.$el.html(_.template(this.template,this.vars))
         }
