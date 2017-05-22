@@ -88,5 +88,3 @@ Scenario('Test For Course', (I,add_test_question) => {
     I.click(courses);
     I.wait(10);
 });
-
-
