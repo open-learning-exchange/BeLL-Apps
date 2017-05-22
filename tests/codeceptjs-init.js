@@ -1,6 +1,7 @@
 
 var co = require('co');
 var cookie = require('cookie');
+var test_data = require('TestData');
 console.log("Cleaning up couchdb.")
 module.exports = function (done) {
     var auth = {}
@@ -14,7 +15,7 @@ module.exports = function (done) {
     // otherwise call done('error description')
 
     var fn = co.wrap(function* (val) {
-        nano.auth(username, userpass, function (err, body, headers) {
+       /** nano.auth(username, userpass, function (err, body, headers) {
             if (err) {
                 console.log("Could not log in:");
                 return callback(err);
@@ -112,5 +113,7 @@ module.exports = function (done) {
                 }
             });
         }
-    });
+    });**/
+    
+    test_data.increaseLimits();
 }
