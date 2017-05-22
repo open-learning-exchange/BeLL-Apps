@@ -260,7 +260,6 @@ $(function() {
                 this.changeMembersCommunity(oldCode, newCode);
                 this.changeCodeInActivityLogs(newCode);
             }
-            var newURL = this.model.get('nationUrl');
             var prevNation = this.model.get('nationName') + ',' + this.model.get('nationUrl');
             var that = this;
             var selectedNation = $('#nation-selector').val();
@@ -301,32 +300,25 @@ $(function() {
 
             if(this.model.get('registrationRequest') == 'pending' || this.isChanged(this.model ,configDoc )){
 
-                this.model.set('registrationRequest', 'accepted');
-                App.stopActivityIndicator();
+                $.ajax({
+                        type: 'GET',
+                        url: 'http://' + nationUrl + '/configurations/_all_docs?include_docs=true',
+                        dataType: 'jsonp',
+                        async: false,
+                        success: function (response) {
+                            var accept = response.rows[0].doc.accept;
+                            if(accept == undefined || accept == false){
+                                accept = false;
+                                that.model.set('registrationRequest', 'pending');
+                            }else{
+                                that.model.set('registrationRequest', 'accepted');
+                            }
 
-                that.model.save(null, {
-                    success: function (model, response) {
-                        var docIds = [];
-                        var id = that.model.get('id');
-                        docIds.push(id);
-                        $.ajax({
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            type: 'POST',
-                            url: '/_replicate',
-                            dataType: 'json',
-                            data: JSON.stringify({
-                                "source": "configurations",
-                                "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                                'doc_ids': docIds
-                            }),
-                            async: false,
-                            success: function (response) {
-                                if(response.docs_written == 0 || response.docs_written == undefined){
-                                    alert(App.languageDict.attributes.UnableToReplicate);
-                                }else{
+                            that.model.save(null, {
+                                success: function (model, response) {
+                                    var docIds = [];
+                                    var id = that.model.get('id');
+                                    docIds.push(id);
                                     $.ajax({
                                         headers: {
                                             'Accept': 'application/json',
@@ -337,33 +329,97 @@ $(function() {
                                         dataType: 'json',
                                         data: JSON.stringify({
                                             "source": "configurations",
-                                            "target": 'http://' + newURL + '/community',
+                                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
                                             'doc_ids': docIds
                                         }),
                                         async: false,
                                         success: function (response) {
-                                            App.stopActivityIndicator();
                                             if(response.docs_written == 0 || response.docs_written == undefined){
                                                 alert(App.languageDict.attributes.UnableToReplicate);
                                             }else{
-                                                alert(App.languageDict.get('Successfully_Registered'));
-                                                window.location.href = '#dashboard';
+                                                if(accept == true){// for automatic approval
+                                                    $.ajax({
+                                                        headers: {
+                                                            'Accept': 'application/json',
+                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                        },
+                                                        type: 'POST',
+                                                        url: '/_replicate',
+                                                        crossDomain: true,
+                                                        dataType: 'json',
+                                                        data: JSON.stringify({
+                                                            "source": "configurations",
+                                                            "target": 'http://' + nationUrl + '/community',
+                                                            'doc_ids': docIds
+                                                        }),
+                                                        async: false,
+                                                        success: function (response) {
+                                                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                                                alert(App.languageDict.attributes.UnableToReplicate);
+                                                            }else{
+                                                                $.couch.urlPrefix = 'http://' + nationUrl;
+                                                                $.couch.db("communityregistrationrequests").openDoc(""+docIds+"", {
+                                                                    success: function(data) {
+                                                                        $.couch.db('communityregistrationrequests').removeDoc(response, {
+                                                                            success: function(data) {
+                                                                                alert(App.languageDict.get('request_accepted'));
+                                                                                window.location.href = '#dashboard';
+                                                                            }
+                                                                        });
+                                                                    },
+                                                                    error: function(status) {
+                                                                        if(status == 404){
+                                                                            alert(App.languageDict.get('request_accepted'));
+                                                                            window.location.href = '#dashboard';
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        },
+                                                        error: function(status) {
+                                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                                            App.stopActivityIndicator();
+                                                        }
+                                                    });
+                                                    App.stopActivityIndicator();
+                                                }else if(accept == false || accept == undefined){
+                                                    if(docIds.length > 0){
+                                                        var commConfigModel = new App.Models.Community({
+                                                            _id: docIds
+                                                        });
+                                                        commConfigModel.server = nationUrl;
+                                                        commConfigModel.fetch({
+                                                            async: false,
+                                                            dataType: 'jsonp',
+                                                            success: function(response){
+                                                                console.log(response);
+                                                                // Removed from community if present;
+                                                                commConfigModel._id = response.attributes._id;
+                                                                commConfigModel.destroy({
+                                                                    success: function(){
+                                                                        alert(App.languageDict.get('Successfully_Registered'));
+                                                                        window.location.href = '#dashboard';
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    }else{
+                                                        alert(App.languageDict.get('Successfully_Registered'));
+                                                        window.location.href = '#dashboard';
+                                                    }
+                                                    App.stopActivityIndicator();
+                                                }
                                             }
                                         },
                                         error: function(status) {
+                                            console.log(status);
                                             alert(App.languageDict.attributes.UnableToReplicate);
                                             App.stopActivityIndicator();
                                         }
                                     });
                                 }
-                            },
-                            error: function(status) {
-                                console.log(status);
-                                alert(App.languageDict.attributes.UnableToReplicate);
-                                App.stopActivityIndicator();
-                            }
-                        });
-                    }
+                            });
+                        }
                 });
             } else{
                 alert("you have not made any changes");

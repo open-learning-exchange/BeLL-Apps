@@ -48,6 +48,9 @@ $(function() {
             selectLanguage: {// This attribute is being used to select BeLL-Apps language(After easy-install it is only used for nation, for community there is another way to select language)
                 type: 'Select',
                 options:[]
+            },
+            accept: {
+                type: 'Checkbox'
             }
         }
     })
