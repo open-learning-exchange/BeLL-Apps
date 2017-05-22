@@ -19,5 +19,4 @@ module.exports = {
 	    I.acceptPopup();
 	    I.wait(4);
    	}
-
 }
