@@ -300,6 +300,7 @@ $(function() {
 
             if(this.model.get('registrationRequest') == 'pending' || this.isChanged(this.model ,configDoc )){
 
+            App.stopActivityIndicator();
                 $.ajax({
                         type: 'GET',
                         url: 'http://' + nationUrl + '/configurations/_all_docs?include_docs=true',
@@ -329,6 +330,21 @@ $(function() {
                                         dataType: 'json',
                                         data: JSON.stringify({
                                             "source": "configurations",
+                                            "target": 'http://' + nationUrl + '/communityregistrationrequests',
+                                            'doc_ids': docIds
+                                        }),
+                                        async: false,
+                                    });
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "configurations",
                                             "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
                                             'doc_ids': docIds
                                         }),
@@ -337,30 +353,31 @@ $(function() {
                                             if(response.docs_written == 0 || response.docs_written == undefined){
                                                 alert(App.languageDict.attributes.UnableToReplicate);
                                             }else{
-                                                if(accept == true){// for automatic approval
-                                                    $.ajax({
-                                                        headers: {
-                                                            'Accept': 'application/json',
-                                                            'Content-Type': 'application/json; charset=utf-8'
-                                                        },
-                                                        type: 'POST',
-                                                        url: '/_replicate',
-                                                        crossDomain: true,
-                                                        dataType: 'json',
-                                                        data: JSON.stringify({
-                                                            "source": "configurations",
-                                                            "target": 'http://' + nationUrl + '/community',
-                                                            'doc_ids': docIds
-                                                        }),
-                                                        async: false,
-                                                        success: function (response) {
-                                                            if(response.docs_written == 0 || response.docs_written == undefined){
-                                                                alert(App.languageDict.attributes.UnableToReplicate);
-                                                            }else{
-                                                                $.couch.urlPrefix = 'http://' + nationUrl;
-                                                                $.couch.db("communityregistrationrequests").openDoc(""+docIds+"", {
+                                                $.ajax({
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                    },
+                                                    type: 'POST',
+                                                    url: '/_replicate',
+                                                    crossDomain: true,
+                                                    dataType: 'json',
+                                                    data: JSON.stringify({
+                                                        "source": "configurations",
+                                                        "target": 'http://' + nationUrl + '/community',
+                                                        'doc_ids': docIds
+                                                    }),
+                                                    async: false,
+                                                    success: function (response) {
+                                                        if(response.docs_written == 0 || response.docs_written == undefined){
+                                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                                        }else{
+                                                            var id = docIds.toString();
+                                                            $.couch.urlPrefix = 'http://' + nationUrl;
+                                                            if(accept == true){
+                                                                $.couch.db("communityregistrationrequests").openDoc(id, {
                                                                     success: function(data) {
-                                                                        $.couch.db('communityregistrationrequests').removeDoc(response, {
+                                                                        $.couch.db('communityregistrationrequests').removeDoc(data, {
                                                                             success: function(data) {
                                                                                 alert(App.languageDict.get('request_accepted'));
                                                                                 window.location.href = '#dashboard';
@@ -374,41 +391,36 @@ $(function() {
                                                                         }
                                                                     }
                                                                 });
+                                                            }else if(accept == false || accept == undefined){
+                                                                if(docIds.length > 0){
+                                                                    $.couch.db("community").openDoc(id, {
+                                                                        success: function(data) {
+                                                                            $.couch.db('community').removeDoc(data, {
+                                                                                success: function(data) {
+                                                                                    alert(App.languageDict.get('Successfully_Registered'));
+                                                                                    window.location.href = '#dashboard';
+                                                                                }
+                                                                            });
+                                                                        },
+                                                                        error: function(status) {
+                                                                            if(status == 404){
+                                                                                alert(App.languageDict.get('Successfully_Registered'));
+                                                                                window.location.href = '#dashboard';
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }else{
+                                                                    alert(App.languageDict.get('Successfully_Registered'));
+                                                                    window.location.href = '#dashboard';
+                                                                }
                                                             }
-                                                        },
-                                                        error: function(status) {
-                                                            alert(App.languageDict.attributes.UnableToReplicate);
-                                                            App.stopActivityIndicator();
                                                         }
-                                                    });
-                                                    App.stopActivityIndicator();
-                                                }else if(accept == false || accept == undefined){
-                                                    if(docIds.length > 0){
-                                                        var commConfigModel = new App.Models.Community({
-                                                            _id: docIds
-                                                        });
-                                                        commConfigModel.server = nationUrl;
-                                                        commConfigModel.fetch({
-                                                            async: false,
-                                                            dataType: 'jsonp',
-                                                            success: function(response){
-                                                                console.log(response);
-                                                                // Removed from community if present;
-                                                                commConfigModel._id = response.attributes._id;
-                                                                commConfigModel.destroy({
-                                                                    success: function(){
-                                                                        alert(App.languageDict.get('Successfully_Registered'));
-                                                                        window.location.href = '#dashboard';
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
-                                                    }else{
-                                                        alert(App.languageDict.get('Successfully_Registered'));
-                                                        window.location.href = '#dashboard';
+                                                    },
+                                                    error: function(status) {
+                                                        alert(App.languageDict.attributes.UnableToReplicate);
+                                                        App.stopActivityIndicator();
                                                     }
-                                                    App.stopActivityIndicator();
-                                                }
+                                                });
                                             }
                                         },
                                         error: function(status) {
