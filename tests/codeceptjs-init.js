@@ -1,7 +1,7 @@
 
 var co = require('co');
 var cookie = require('cookie');
-var test_data = require('TestData');
+var test_data = require('SampleData');
 console.log("Cleaning up couchdb.")
 module.exports = function (done) {
     var auth = {}
