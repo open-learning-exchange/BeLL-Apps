@@ -28,6 +28,7 @@ if (process.env.SAUCE_USERNAME) {
     },
     "include": {
         "I": "./steps_file.js",
+        "addquestion_po": "./pages/addquestion_po.js",
         "survey_po": "./pages/survey_po.js",
         "survey_dialog": "./pages/survey_dialog.js",
         "feedback_po": "./pages/feedback_po.js",
