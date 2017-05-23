@@ -14,10 +14,10 @@ Scenario('test BecomeAmember', (I) => {
 	I.waitForVisible(becMem);
 	I.waitForEnabled(becMem);
 	I.click(becMem);
+	I.seeInCurrentUrl('#member/add');
 	I.wait(2);
 	I.waitForVisible(memForm);
-	I.waitForEnabled(memForm)
-	I.seeInCurrentUrl('#member/add')
+	I.waitForEnabled(memForm);
 	I.fillField('firstName', "YourFname");
 	I.fillField('lastName', "YourLname");
 	I.fillField('middleNames', "YourMName");
