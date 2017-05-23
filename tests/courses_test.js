@@ -8,7 +8,7 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('Test For Course', (I,add_test_question) => {
+Scenario('Test For Course', (I, addquestion_po) => {
     var courses = '//*[@href="#courses"]';
     var addcourses = '//*[@id="addCourseButton"]';
     var check = '//*[@value="Daily"]';
@@ -68,13 +68,13 @@ Scenario('Test For Course', (I,add_test_question) => {
     I.click("Create Test");
     I.wait(4);
 
-    add_test_question.selectQuestionType(selectQType,"Single Textbox",singlelineTextarea);
-    add_test_question.questionFillupAndSave(singlelineTextarea, 'What is your Name?', singlelineMarks, "100", saveSingleline)
-    add_test_question.selectQuestionType(selectQType,"Comment/Essay Box",commentboxTextarea);
-    add_test_question.questionFillupAndSave(commentboxTextarea, 'What is your Name', commentboxMarks, "100", saveCommentbox)
-    add_test_question.selectQuestionType(selectQType,"Attachment",attachmentTextarea);
-    add_test_question.questionFillupAndSave(attachmentTextarea, 'Upload file?', attachmentMarks, "100", saveAttachment)
-    add_test_question.selectQuestionType(selectQType,"Multiple Choice",multipleTextarea);
+    addquestion_po.selectQuestionType(selectQType,"Single Textbox",singlelineTextarea);
+    addquestion_po.questionFillupAndSave(singlelineTextarea, 'What is your Name?', singlelineMarks, "100", saveSingleline)
+    addquestion_po.selectQuestionType(selectQType,"Comment/Essay Box",commentboxTextarea);
+    addquestion_po.questionFillupAndSave(commentboxTextarea, 'What is your Name', commentboxMarks, "100", saveCommentbox)
+    addquestion_po.selectQuestionType(selectQType,"Attachment",attachmentTextarea);
+    addquestion_po.questionFillupAndSave(attachmentTextarea, 'Upload file?', attachmentMarks, "100", saveAttachment)
+    addquestion_po.selectQuestionType(selectQType,"Multiple Choice",multipleTextarea);
     I.fillField(multipleTextarea, 'Choice type question?');
     I.fillField(inputfield, "Cycle");
     I.fillField(inputfield1, "Bike");

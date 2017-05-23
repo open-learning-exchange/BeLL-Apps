@@ -56,7 +56,7 @@ if (process.env.SAUCE_USERNAME) {
     },
     "include": {
       "I": "./steps_file.js",
-      "add_test_question": "./pages/add_test_question.js",
+      "addquestion_po": "./pages/addquestion_po.js",
       "feedback_po": "./pages/feedback_po.js",
       "meetup_po": "./pages/meetup_po.js",
       "publication_po": "./pages/publication_po.js",
