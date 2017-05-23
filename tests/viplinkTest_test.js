@@ -13,7 +13,7 @@ Scenario('test CreateVipLink', (I) => {
 	I.waitForVisible(managerLink);
 	I.waitForEnabled(managerLink);
 	I.click(managerLink);
-	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/nation/index.html#dashboard');
+	I.amOnPage('#dashboard');
 	I.wait(3);
 	I.waitForVisible(vpPage);
 	I.waitForEnabled(vpPage);
