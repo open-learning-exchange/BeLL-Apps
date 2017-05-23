@@ -13,7 +13,7 @@ Scenario('test CreateVipLink', (I) => {
 	I.waitForVisible(managerLink);
 	I.waitForEnabled(managerLink);
 	I.click(managerLink);
-	I.amOnPage('#dashboard');
+	I.seeInCurrentUrl('#dashboard');
 	I.wait(3);
 	I.waitForVisible(vpPage);
 	I.waitForEnabled(vpPage);
