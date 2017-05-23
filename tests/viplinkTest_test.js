@@ -8,22 +8,28 @@ Before((I) => {
 Scenario('test CreateVipLink', (I) => {
 	var managerLink = '//*[@id="NationManagerLink"]';
 	var vpPage = '//*[@href="#viplink"]';
+	var crLink = '//div/button[@class="create btn btn-success"]';
 	I.seeInCurrentUrl('#dashboard');
 	I.waitForVisible(managerLink);
 	I.waitForEnabled(managerLink);
 	I.click(managerLink);
-	I.wait(5);
+	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/nation/index.html#dashboard');
+	I.wait(3);
 	I.waitForVisible(vpPage);
 	I.waitForEnabled(vpPage);
 	I.click(vpPage)
 	I.seeInCurrentUrl('#viplink');
-	I.wait(2);
+	I.wait(3);
 	I.fillField('domain-name-name', "Your domain name");
-	I.click('Create Link');
+	I.waitForVisible(crLink);
+	I.waitForEnabled(crLink);
+	I.click(crLink);
+	I.wait(2);
 	I.seeInPopup('Vip link successfully created');
 	I.acceptPopup();
+	I.wait(2);
 	I.seeInCurrentUrl('#viplink')
-	I.wait(10)
+	I.wait(3)
 });
 
 Scenario('test second DeleteVipLink', (I) => {
@@ -34,14 +40,19 @@ Scenario('test second DeleteVipLink', (I) => {
 	I.waitForVisible(managerLink);
 	I.waitForEnabled(managerLink);
 	I.click(managerLink);
-	I.wait(5);
+	I.seeInCurrentUrl('#dashboard');
+	I.wait(3);
+	I.waitForVisible(vpPage);
+	I.waitForEnabled(vpPage);
 	I.click(vpPage);
 	I.seeInCurrentUrl('#viplink');
-	I.wait(5);
-	I.click(del);
-	I.seeInPopup("Are you sure that you want to delete this link?")
 	I.wait(3);
+	I.waitForVisible(del);
+	I.waitForEnabled(del);
+	I.click(del);
+	I.seeInPopup("Are you sure that you want to delete this link?");
 	I.acceptPopup();
+	I.wait(2);
 	I.seeInCurrentUrl('#viplink');
-	I.wait(5);
+	I.wait(2);
 });
