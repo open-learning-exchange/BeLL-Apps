@@ -288,7 +288,6 @@ $(function() {
                 }
                 this.answersave(pqattempts[this.stepindex]);
                 sstatus[this.stepindex][pqattemptss[this.stepindex]] = this.sstatus
-                console.log(sstatus[this.stepindex][pqattemptss[this.stepindex]])
                 this.myModel.set('stepsStatus', sstatus)
                 sp[this.stepindex][pqattemptss[this.stepindex]] = this.totalObtainMarks.toString()
                 this.myModel.set('stepsResult', sp)
