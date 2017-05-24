@@ -50,7 +50,8 @@ $(function() {
                 options:[]
             },
             accept: {
-                type: 'Checkbox'
+                type: 'Checkbox',
+                fieldAttrs : {id: "accept"}
             }
         }
     })

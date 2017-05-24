@@ -1270,3 +1270,8 @@ textarea[name="comment"]
     text-align:center; 
     margin: 10px 0 15px;
 }
+#accept div input[name=accept]{
+    margin-top: -46px;
+    margin-right: -20px;
+}
+
