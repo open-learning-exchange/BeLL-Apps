@@ -40,6 +40,7 @@ Scenario('test AddReport', (I) => {
 	var year = '//*[@data-type="year"]';
 	var saveBtn = '//*[@name="save"]';
 	var ActReport = '//*[@id="sHonRep"]';
+	var dateVis = '//input[@type="date"]';
 	var startDt = '//*[@id="start-date"]';
 	var endDt = '//*[@id="end-date"]';
 	var reportBtn = '//*[@id="report_button"]';
@@ -48,7 +49,6 @@ Scenario('test AddReport', (I) => {
 	var comment = '//div/table/tbody/tr[2]/td[6]/button[@id="commentButton"]';
 	var subBtn = '//*[@id="submitFormButton"]';
 	var clBtn ='//*[@id="cancelFormButton"]';
-	var delet = '//*[@class="btn btn-danger destroy"]';
 	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
 	I.waitForVisible(navBar);
 	I.waitForEnabled(navBar);
@@ -57,8 +57,6 @@ Scenario('test AddReport', (I) => {
 	I.wait(5)
 	I.waitForVisible(newReport);
 	I.waitForEnabled(newReport);
-	I.waitForVisible(ActReport);
-	I.waitForEnabled(ActReport);
 	I.click(newReport);
 	I.seeInCurrentUrl('#reports/add');
 	I.wait(2);
@@ -69,32 +67,32 @@ Scenario('test AddReport', (I) => {
 	I.selectOption(date, "22");
 	I.selectOption(month, "May");
 	I.selectOption(year, "2017");
-	I.wait(5);
 	I.waitForVisible(saveBtn);
 	I.waitForEnabled(saveBtn);
 	I.click(saveBtn);
 	I.seeInCurrentUrl('#report');
 	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#reports');
-	I.wait(2);
+	I.waitForVisible(ActReport);
+	I.waitForEnabled(ActReport);
 	I.click(ActReport);
 	I.seeInCurrentUrl('#logreports');
-	I.waitForVisible(startDt);
-	I.waitForEnabled(startDt);
+	I.wait(2);
+	I.waitForVisible(dateVis);
 	I.fillField(startDt, sdate);
-	I.waitForVisible(endDt);
-	I.waitForEnabled(endDt);
 	I.fillField(endDt, edate);
 	I.click(reportBtn);
 	I.seeInCurrentUrl('#logreports');
 	I.wait(5);
 	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#reports');
-	I.wait(5);
+	I.wait(2);
 	I.waitForVisible(comment);
 	I.waitForEnabled(comment);
 	I.click(comment);
 	I.fillField('comment', "This is a comment to Trend Report");
 	I.click(subBtn);
-	I.wait(5);
+	I.wait(2);
+	I.waitForVisible(clBtn);
+	I.waitForEnabled(clBtn);
 	I.click(clBtn);
 	I.seeInCurrentUrl('#reports');
 	I.wait(5);
@@ -109,14 +107,26 @@ Scenario('test AddReport', (I) => {
 	I.click(genRep);
 	I.seeInCurrentUrl('#trendreport');
 	I.wait(5);
-	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#reports');
+
+
+});
+Scenario('test second DeleteReport', (I) => {
+	var navBar = '//*[@id="itemsinnavbar"]';
+	var report = '//*[@id="itemsinnavbar"]/li/a[@href="#reports"]';
+	var delet = '//*[@class="btn btn-danger destroy"]';
+	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
 	I.wait(3);
+	I.waitForVisible(navBar);
+	I.waitForEnabled(navBar);
+	I.click(report);
+	I.seeInCurrentUrl('#reports');
+	I.wait(2)
 	I.waitForVisible(delet);
 	I.waitForEnabled(delet);
 	I.click(delet);
+	I.wait(2);
 	I.seeInPopup("Are you sure you want to delete this report?");
 	I.acceptPopup();
 	I.wait(5);
 	I.seeInCurrentUrl('#reports');
-
-});
+	}); 
