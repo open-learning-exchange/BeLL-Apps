@@ -1441,6 +1441,7 @@
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
+        <%if(questionlist != null) {%>
             <%for(var i = 0; i< questionlist.length; i++){%>
                 <% questionlist = []%>
                 <% if(questionlist != null || questionlist[i] != [] ){%>
@@ -1452,6 +1453,7 @@
                     <% } %>
                 <%}%>
             <%}%>
+        <%}%>
         </div>
         </h3>
 
