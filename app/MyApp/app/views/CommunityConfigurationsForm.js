@@ -375,6 +375,18 @@ $(function() {
                                                             var id = docIds.toString();
                                                             $.couch.urlPrefix = 'http://' + nationUrl;
                                                             if(accept == true){
+                                                                var members = new App.Models.Member({
+                                                                    "_id": $.cookie('Member._id')
+                                                                });
+                                                                members.fetch({
+                                                                    async: false,
+                                                                    success: function(data){
+                                                                        if(data){
+                                                                            members.set('community',newCode);
+                                                                            members.save();
+                                                                        }
+                                                                    }
+                                                                });
                                                                 $.couch.db("communityregistrationrequests").openDoc(id, {
                                                                     success: function(data) {
                                                                         $.couch.db('communityregistrationrequests').removeDoc(data, {
@@ -393,6 +405,18 @@ $(function() {
                                                                 });
                                                             }else if(accept == false || accept == undefined){
                                                                 if(docIds.length > 0){
+                                                                    var members = new App.Models.Member({
+                                                                        "_id": $.cookie('Member._id')
+                                                                    });
+                                                                    members.fetch({
+                                                                        async: false,
+                                                                        success: function(data){
+                                                                            if(data){
+                                                                                members.set('community',newCode);
+                                                                                members.save();
+                                                                            }
+                                                                        }
+                                                                    });
                                                                     $.couch.db("community").openDoc(id, {
                                                                         success: function(data) {
                                                                             $.couch.db('community').removeDoc(data, {
