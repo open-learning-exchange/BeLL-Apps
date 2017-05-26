@@ -131,32 +131,37 @@ $(function() {
             var that = this;
             var qStatement = $('#6').find('#question_text').val();
             var input_marks = $('#6').find('.inputmarks').val();
-            if(qStatement.toString().trim() != '' && input_marks.toString().trim() != '') {
-                var questionObject = new App.Models.CourseQuestion({
-                    Type: 'Single Textbox',
-                    Statement: qStatement.toString().trim(),
-                    Marks: input_marks.toString().trim(),
-                    stepId: lid
-                });
-                if(isEdit) {
-                    questionObject.set('_id', questionModel.get('_id'));
-                    questionObject.set('_rev', questionModel.get('_rev'));
-                    var coursestep = new App.Models.CourseStep({
-                        _id: lid
-                    })
-                    coursestep.fetch({
-                        async: false
-                    })
-                    var totalmarks = parseInt(coursestep.get("totalMarks"));
-                    var inputmarks = parseInt(questionModel.get('Marks'));
-                    coursestep.set('totalMarks', (totalmarks-inputmarks));
-                    coursestep.save();
-                    that.saveQuizQuestion(questionObject, lid, true);
+            console.log(input_marks)
+            if(input_marks!=0){
+                if(qStatement.toString().trim() != '' && input_marks.toString().trim() != '') {
+                    var questionObject = new App.Models.CourseQuestion({
+                        Type: 'Single Textbox',
+                        Statement: qStatement.toString().trim(),
+                        Marks: input_marks.toString().trim(),
+                        stepId: lid
+                    });
+                    if(isEdit) {
+                        questionObject.set('_id', questionModel.get('_id'));
+                        questionObject.set('_rev', questionModel.get('_rev'));
+                        var coursestep = new App.Models.CourseStep({
+                            _id: lid
+                        })
+                        coursestep.fetch({
+                            async: false
+                        })
+                        var totalmarks = parseInt(coursestep.get("totalMarks"));
+                        var inputmarks = parseInt(questionModel.get('Marks'));
+                        coursestep.set('totalMarks', (totalmarks-inputmarks));
+                        coursestep.save();
+                        that.saveQuizQuestion(questionObject, lid, true);
+                    } else {
+                        that.saveQuizQuestion(questionObject, lid);
+                    }
                 } else {
-                    that.saveQuizQuestion(questionObject, lid);
+                    alert(App.languageDict.attributes.question_stat_missing);
                 }
-            } else {
-                alert(App.languageDict.attributes.question_stat_missing);
+            }else{
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
             }
 
         },
@@ -165,32 +170,36 @@ $(function() {
             var that = this;
             var qStatement = $('#8').find('#question_text').val();
             var input_marks = $('#8').find('.inputmarks').val();
-            if(qStatement.toString().trim() != '') {
-                var questionObjectForEB = new App.Models.CourseQuestion({
-                    Type: 'Comment/Essay Box',
-                    Statement: qStatement.toString().trim(),
-                    Marks: input_marks.toString().trim(),
-                    stepId: lid
-                });
-                if(isEdit) {
-                    questionObjectForEB.set('_id', questionModel.get('_id'));
-                    questionObjectForEB.set('_rev', questionModel.get('_rev'));
-                    var coursestep = new App.Models.CourseStep({
-                        _id: lid
-                    })
-                    coursestep.fetch({
-                        async: false
-                    })
-                    var totalmarks = parseInt(coursestep.get("totalMarks"));
-                    var inputmarks = parseInt(questionModel.get('Marks'));
-                    coursestep.set('totalMarks', (totalmarks-inputmarks));
-                    coursestep.save();
-                    that.saveQuizQuestion(questionObjectForEB, lid, true);
+            if(input_marks!=0){
+                if(qStatement.toString().trim() != '') {
+                    var questionObjectForEB = new App.Models.CourseQuestion({
+                        Type: 'Comment/Essay Box',
+                        Statement: qStatement.toString().trim(),
+                        Marks: input_marks.toString().trim(),
+                        stepId: lid
+                    });
+                    if(isEdit) {
+                        questionObjectForEB.set('_id', questionModel.get('_id'));
+                        questionObjectForEB.set('_rev', questionModel.get('_rev'));
+                        var coursestep = new App.Models.CourseStep({
+                            _id: lid
+                        })
+                        coursestep.fetch({
+                            async: false
+                        })
+                        var totalmarks = parseInt(coursestep.get("totalMarks"));
+                        var inputmarks = parseInt(questionModel.get('Marks'));
+                        coursestep.set('totalMarks', (totalmarks-inputmarks));
+                        coursestep.save();
+                        that.saveQuizQuestion(questionObjectForEB, lid, true);
+                    } else {
+                        that.saveQuizQuestion(questionObjectForEB, lid);
+                    }
                 } else {
-                    that.saveQuizQuestion(questionObjectForEB, lid);
+                    alert(App.languageDict.attributes.question_stat_missing);
                 }
-            } else {
-                alert(App.languageDict.attributes.question_stat_missing);
+            }else{
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
             }
         },
 
@@ -198,22 +207,26 @@ $(function() {
             var that = this;
             var qStatement = $('#10').find('#question_text').val();
             var input_marks = $('#10').find('.inputmarks').val();
-            if(qStatement.toString().trim() != '') {
-                var questionObject = new App.Models.CourseQuestion({
-                    Type: 'Attachment',
-                    Statement: qStatement.toString().trim(),
-                    Marks: input_marks.toString().trim(),
-                    stepId: lid
-                });
-                if(isEdit) {
-                    questionObject.set('_id', questionModel.get('_id'));
-                    questionObject.set('_rev', questionModel.get('_rev'));
-                    that.saveQuizQuestion(questionObject, lid, true);
+            if(input_marks!=0){
+                if(qStatement.toString().trim() != '') {
+                    var questionObject = new App.Models.CourseQuestion({
+                        Type: 'Attachment',
+                        Statement: qStatement.toString().trim(),
+                        Marks: input_marks.toString().trim(),
+                        stepId: lid
+                    });
+                    if(isEdit) {
+                        questionObject.set('_id', questionModel.get('_id'));
+                        questionObject.set('_rev', questionModel.get('_rev'));
+                        that.saveQuizQuestion(questionObject, lid, true);
+                    } else {
+                        that.saveQuizQuestion(questionObject, lid);
+                    }
                 } else {
-                    that.saveQuizQuestion(questionObject, lid);
+                    alert(App.languageDict.attributes.question_stat_missing);
                 }
-            } else {
-                alert(App.languageDict.attributes.question_stat_missing);
+            }else{
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
             }
         },
 
@@ -237,39 +250,43 @@ $(function() {
                     valid_answer.push(correct);
                 } 
             });
-            if(qStatement.toString() != '') {
-                if(validOptionValues != [] && validOptionValues.length > 1) {
-                    var questionObjectMC = new App.Models.CourseQuestion({
-                        Type: 'Multiple Choice',
-                        Statement: qStatement.toString().trim(),
-                        Marks: input_marks.toString().trim(),
-                        stepId: lid,
-                        Options: validOptionValues,
-                        CorrectAnswer: valid_answer,
-                        Marks: input_marks.toString().trim(),
-                    });
-                    if(isEdit) {
-                        questionObjectMC.set('_id', questionModel.get('_id'));
-                        questionObjectMC.set('_rev', questionModel.get('_rev'));
-                        var coursestep = new App.Models.CourseStep({
-                        _id: lid
-                        })
-                        coursestep.fetch({
-                            async: false
-                        })
-                        var totalmarks = parseInt(coursestep.get("totalMarks"));
-                        var inputmarks = parseInt(questionModel.get('Marks'));
-                        coursestep.set('totalMarks', (totalmarks-inputmarks));
-                        coursestep.save();
-                        that.saveQuizQuestion(questionObjectMC, lid, true);
+            if(input_marks!=0){
+                if(qStatement.toString() != '') {
+                    if(validOptionValues != [] && validOptionValues.length > 1) {
+                        var questionObjectMC = new App.Models.CourseQuestion({
+                            Type: 'Multiple Choice',
+                            Statement: qStatement.toString().trim(),
+                            Marks: input_marks.toString().trim(),
+                            stepId: lid,
+                            Options: validOptionValues,
+                            CorrectAnswer: valid_answer,
+                            Marks: input_marks.toString().trim(),
+                        });
+                        if(isEdit) {
+                            questionObjectMC.set('_id', questionModel.get('_id'));
+                            questionObjectMC.set('_rev', questionModel.get('_rev'));
+                            var coursestep = new App.Models.CourseStep({
+                            _id: lid
+                            })
+                            coursestep.fetch({
+                                async: false
+                            })
+                            var totalmarks = parseInt(coursestep.get("totalMarks"));
+                            var inputmarks = parseInt(questionModel.get('Marks'));
+                            coursestep.set('totalMarks', (totalmarks-inputmarks));
+                            coursestep.save();
+                            that.saveQuizQuestion(questionObjectMC, lid, true);
+                        } else {
+                            that.saveQuizQuestion(questionObjectMC, lid);
+                        }
                     } else {
-                        that.saveQuizQuestion(questionObjectMC, lid);
+                        alert(App.languageDict.attributes.atleast_two_options);
                     }
                 } else {
-                    alert(App.languageDict.attributes.atleast_two_options);
+                    alert(App.languageDict.attributes.question_stat_missing);
                 }
-            } else {
-                alert(App.languageDict.attributes.question_stat_missing);
+            }else{
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
             }
         },
 
