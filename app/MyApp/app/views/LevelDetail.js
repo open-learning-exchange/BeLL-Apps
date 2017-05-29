@@ -68,9 +68,9 @@ $(function() {
                     /////Attatchment successfully saved
                     alert(App.languageDict.attributes.Assignment_Submit_Success)
                     App.Router.ViewLevel(that.model.get('_id'), that.model.get("_rev"))
-                    //                	this.$el.html('')
-                    //                	this.model.fetch({async:false})
-                    //                	this.render()
+                    //                 this.$el.html('')
+                    //                 this.model.fetch({async:false})
+                    //                 this.render()
                 }, this.model)
 
             }
@@ -98,7 +98,7 @@ $(function() {
                 }
                 stepResources = stepResources + '</table>'
                 this.$el.append(stepResources)
-                this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">'+App.languageDict.attributes.Add+'</a><br/><br/>')
+                //this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">'+App.languageDict.attributes.Add+'</a><br/><br/>')
                 var uploadString = '<form method="post" id="fileAttachment">'
                 uploadString = uploadString + '<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" /> '
                 uploadString = uploadString + '<input class="rev" type="hidden" name="_rev"></form>'
