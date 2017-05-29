@@ -99,7 +99,7 @@ $(function() {
                 }
                 stepResources = stepResources + '</table>'
                 this.$el.append(stepResources)
-                this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'<TextArea id="LevelDescription" name ="description" rows="5" cols="100" style="width:98% ";>' + this.model.get("instruction") +'</TextArea>'+'</B>&nbsp;&nbsp;<a class="btn btn-success" id="addInstructions" style = "float:right;">'+App.languageDict.attributes.Add+'</a><br/><br/>')
+                //this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'<TextArea id="LevelDescription" name ="description" rows="5" cols="100" style="width:98% ";>' + this.model.get("instruction") +'</TextArea>'+'</B>&nbsp;&nbsp;<a class="btn btn-success" id="addInstructions" style = "float:right;">'+App.languageDict.attributes.Add+'</a><br/><br/>')
 
             }
         }

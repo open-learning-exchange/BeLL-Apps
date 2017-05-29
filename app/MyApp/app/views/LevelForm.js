@@ -135,7 +135,10 @@ $(function() {
             }
              else if (isNaN(this.model.get("step"))) {
                 alert(App.languageDict.attributes.InvalidStepNumber)
-            } else {
+            } else if (this.model.get("instruction") == undefined || $.trim(this.model.get("instruction")) == ""){
+                alert(App.languageDict.attributes.Description_Error);
+            }
+            else {
                 if (!this.edit) {
                     this.model.set("resourceId", [])
                     this.model.set("resourceTitles", [])
