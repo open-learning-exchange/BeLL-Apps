@@ -89,6 +89,7 @@ $(function () {
 
         addOne: function (model) {
             this.vars = model.toJSON();
+            var Instruction = this.vars.instruction
             this.vars.languageDict = App.languageDict;
             var index = 0
             var sstatus = this.modl.get('stepsStatus')
@@ -135,6 +136,7 @@ $(function () {
                     }
                 }
             }
+            this.vars.instruction = Instruction
             this.vars.attachmentNames = attachmentNames
             this.vars.attachmentURLs = attachmentURLs
             this.$el.append(this.template(this.vars))

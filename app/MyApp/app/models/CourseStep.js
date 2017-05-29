@@ -35,6 +35,9 @@ $(function() {
                 type: 'Select',
                 options: []
             },
+            instruction: {
+                type: 'TextArea'
+            },
             resourceTitles: { //Names of all those resources which are attached with given step.
                 type: 'Select',
                 options: []
