@@ -132,7 +132,7 @@ $(function() {
             var qStatement = $('#6').find('#question_text').val();
             var input_marks = $('#6').find('.inputmarks').val();
             console.log(input_marks)
-            if(input_marks!=0){
+            if(input_marks > 0){
                 if(qStatement.toString().trim() != '' && input_marks.toString().trim() != '') {
                     var questionObject = new App.Models.CourseQuestion({
                         Type: 'Single Textbox',
@@ -161,7 +161,7 @@ $(function() {
                     alert(App.languageDict.attributes.question_stat_missing);
                 }
             }else{
-                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero_or_Negative);
             }
 
         },
@@ -170,7 +170,7 @@ $(function() {
             var that = this;
             var qStatement = $('#8').find('#question_text').val();
             var input_marks = $('#8').find('.inputmarks').val();
-            if(input_marks!=0){
+            if(input_marks > 0 ){
                 if(qStatement.toString().trim() != '') {
                     var questionObjectForEB = new App.Models.CourseQuestion({
                         Type: 'Comment/Essay Box',
@@ -199,7 +199,7 @@ $(function() {
                     alert(App.languageDict.attributes.question_stat_missing);
                 }
             }else{
-                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero_or_Negative);
             }
         },
 
@@ -207,7 +207,7 @@ $(function() {
             var that = this;
             var qStatement = $('#10').find('#question_text').val();
             var input_marks = $('#10').find('.inputmarks').val();
-            if(input_marks!=0){
+            if(input_marks > 0){
                 if(qStatement.toString().trim() != '') {
                     var questionObject = new App.Models.CourseQuestion({
                         Type: 'Attachment',
@@ -226,7 +226,7 @@ $(function() {
                     alert(App.languageDict.attributes.question_stat_missing);
                 }
             }else{
-                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero_or_Negative);
             }
         },
 
@@ -250,7 +250,7 @@ $(function() {
                     valid_answer.push(correct);
                 } 
             });
-            if(input_marks!=0){
+            if(input_marks > 0){
                 if(qStatement.toString() != '') {
                     if(validOptionValues != [] && validOptionValues.length > 1) {
                         var questionObjectMC = new App.Models.CourseQuestion({
@@ -286,7 +286,7 @@ $(function() {
                     alert(App.languageDict.attributes.question_stat_missing);
                 }
             }else{
-                alert(App.languageDict.attributes.Marks_Should_not_be_Zero)
+                alert(App.languageDict.attributes.Marks_Should_not_be_Zero_or_Negative);
             }
         },
 
