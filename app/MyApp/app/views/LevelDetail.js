@@ -49,7 +49,6 @@ $(function() {
                 var value = $('#LevelDescription').val()
                 this.model.set('instruction', value);
                 this.model.save();
-                alert('saved');
             },
             "change #_attachments": function(e) {
                 var that = this
