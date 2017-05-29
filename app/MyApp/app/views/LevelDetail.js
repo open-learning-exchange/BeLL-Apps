@@ -46,8 +46,14 @@ $(function() {
 
             },
             "click #addInstructions": function(e) {
-                var fileinput = document.forms["fileAttachment"]["_attachments"]
-                fileinput.click();
+                var value = $('#LevelDescription').val()
+                var fileinput = new App.Models.CourseStep()
+                console.log(fileinput)
+                fileinput.set('name', value);
+                fileinput.save();
+                alert('saved')
+                // document.forms["fileAttachment"]["_attachments"]
+                // fileinput.click();
             },
             "change #_attachments": function(e) {
                 var that = this
@@ -98,7 +104,7 @@ $(function() {
                 }
                 stepResources = stepResources + '</table>'
                 this.$el.append(stepResources)
-                this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">'+App.languageDict.attributes.Add+'</a><br/><br/>')
+                this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'<TextArea id="LevelDescription" name ="description" rows="5" cols="100" style="width:98%";></TextArea>'+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">'+App.languageDict.attributes.Add+'</a><br/><br/>')
                 var uploadString = '<form method="post" id="fileAttachment">'
                 uploadString = uploadString + '<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" /> '
                 uploadString = uploadString + '<input class="rev" type="hidden" name="_rev"></form>'
