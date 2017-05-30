@@ -62,7 +62,7 @@ if (process.env.SAUCE_USERNAME) {
         "publication_po": "./pages/publication_po.js",
         "resource_po": "./pages/resource_po.js",
         "survey_po": "./pages/survey_po.js",
-        "survey_dialog": "./pages/survey_dialog.js"
+        "survey_dialog": "./pages/survey_dialog.js",
         "add_test_question": "./pages/add_test_question.js"
     },
     "mocha": {},
