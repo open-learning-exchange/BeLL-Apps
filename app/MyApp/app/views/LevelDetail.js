@@ -46,9 +46,8 @@ $(function() {
 
             },
             "click #addInstructions": function(e) {
-                var value = $('#LevelDescription').val()
-                this.model.set('instruction', value);
-                this.model.save();
+                var fileinput = document.forms["fileAttachment"]["_attachments"]
+                fileinput.click();
             },
             "change #_attachments": function(e) {
                 var that = this
@@ -69,9 +68,9 @@ $(function() {
                     /////Attatchment successfully saved
                     alert(App.languageDict.attributes.Assignment_Submit_Success)
                     App.Router.ViewLevel(that.model.get('_id'), that.model.get("_rev"))
-                    //                	this.$el.html('')
-                    //                	this.model.fetch({async:false})
-                    //                	this.render()
+                    //                 this.$el.html('')
+                    //                 this.model.fetch({async:false})
+                    //                 this.render()
                 }, this.model)
 
             }
@@ -99,7 +98,28 @@ $(function() {
                 }
                 stepResources = stepResources + '</table>'
                 this.$el.append(stepResources)
-                //this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'<TextArea id="LevelDescription" name ="description" rows="5" cols="100" style="width:98% ";>' + this.model.get("instruction") +'</TextArea>'+'</B>&nbsp;&nbsp;<a class="btn btn-success" id="addInstructions" style = "float:right;">'+App.languageDict.attributes.Add+'</a><br/><br/>')
+                //this.$el.append('<br/><br/><B>'+App.languageDict.attributes.Instructions+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" id="addInstructions">'+App.languageDict.attributes.Add+'</a><br/><br/>')
+                var uploadString = '<form method="post" id="fileAttachment">'
+                uploadString = uploadString + '<input type="file" name="_attachments" id="_attachments" multiple="multiple" style="display: none" /> '
+                uploadString = uploadString + '<input class="rev" type="hidden" name="_rev"></form>'
+                this.$el.append(uploadString)
+                if (!this.model.get('_attachments')) {
+                    return
+                }
+                var tableString = '<table class="table table-striped">'
+                for (i = 0; i < _.keys(this.model.get('_attachments')).length; i++) {
+
+                    var attachmentURL = '/coursestep/' + this.model.get('_id') + '/'
+                    var attachmentName = ''
+                    if (typeof this.model.get('_attachments') !== 'undefined') {
+                        attachmentURL = attachmentURL + _.keys(this.model.get('_attachments'))[i]
+                        attachmentName = _.keys(this.model.get('_attachments'))[i]
+                    }
+
+                    tableString = tableString + ("<tr><td>" + attachmentName + "</td><td><a class='btn btn-info' href='" + attachmentURL + "'  target='_blank' ><i class='icon-eye-open'></i>"+App.languageDict.attributes.View+"</a></td><td><button class='removeAttachment btn btn-danger' value='" + i + "'>"+App.languageDict.attributes.Remove+" </button><input type='hidden'/>")
+                }
+                tableString = tableString + '</table>'
+                this.$el.append(tableString)
 
             }
         }
