@@ -923,5 +923,6 @@
   "Automatic_Password_Reset_Duration_HH":"crwdns16350:0crwdne16350:0",
   "Note_Password_Reset_Duration_HH":"crwdns16351:0crwdne16351:0",
   "Nation_Rejected":"crwdns16352:0crwdne16352:0",
-  "Nation_Pending":"crwdns16353:0crwdne16353:0"
+  "Nation_Pending":"crwdns16353:0crwdne16353:0",
+  "Marks_Should_not_be_Zero_or_Negative":"crwdns16354:0crwdne16354:0"
 }
