@@ -256,7 +256,8 @@
     <script src="app/views/ReportsTable.js"></script> <!-- app/views.js -->
     <script src="app/views/ReportForm.js"></script> <!-- app/views.js -->
     <script src="app/views/CommunityReportCommentView.js"></script> <!-- app/views.js -->
-
+    <script src="app/views/CourseCareerPath.js"></script> <!-- app/views.js -->
+    <script src="app/views/AddCourseCareer.js"></script> <!-- app/views.js -->
     <script src="app/views/CourseLevelsTable.js"></script> <!-- app/views.js -->
     <script src="app/views/ResourceForm.js"></script> <!-- app/views.js -->
     <script src="app/views/MeetupInvitation.js"></script> <!-- app/views.js -->
@@ -1438,6 +1439,58 @@
             </tr>
         </table>
     </script>
+
+    <script type="text/template" id="template-courseCareerPath">
+        <hr/>
+        <button style="margin-top: -186px; margin-left: 536px;" class='btn btn-primary' id="addNewCoursePath" onclick = "document.location.href='#courseCareerPath/add'" >Add New Career</button>
+        <button class="back_button btn btn-primary" style = "margin-left: -677px;"
+        onclick = "document.location.href='#courses'"><%= languageDict.attributes.Back_To_Course %></button>
+        <input id="searchText" type="Text" placeholder="Course Career Name" style="margin-top: -165px; margin-left: 1051px; height: 28px; width: 170px;">
+        <button style="margin-top: -242px; margin-left: 1395px;" class="Search btn btn-info" id="SearchCoursePath" >Search</button>
+        <div>
+            <table class="btable btable-striped">>
+                    <th>Course Career</th>
+            </table>
+        </div>
+    </script>
+    <script type="text/template" id="template-addCourseCareer">
+        <button class="back_button btn btn-primary" onclick = "document.location.href='#courseCareerPath'"><%= languageDict.attributes.Back_To_Course_Career %></button>
+        <hr/>
+        <h4 id="new-quiz"><%= languageDict.attributes.New_Career_Path %></h4>
+        <style>
+            input[type=text], select { width: 22%%;padding: 26px 16px; margin:15px 4px;display: inline-block;border: 1px solid #ccc;border-radius: 4px;box-sizing: border-box;}
+            input[type=submit] { width: 100%;background-color: #4CAF50;color: white;padding: 14px 20px;margin: 8px 0;
+                border: none;border-radius: 4px;cursor: pointer;}}
+        </style>
+        <div>
+            <form action="/action_page.php">
+                <label for="fname">Level Name</label>
+                <input type="text" id="fname" name="firstname" placeholder="Leve Name">
+                <label for="lname">Course Career Path Name</label>
+                <input type="text" id="lname" name="lastname" placeholder="Course Career Path Name">
+                <label for="country">List of Courses</label>
+                <select id="country" Placeholder="List of Courses" name="country">
+                  <option value="australia">Australia</option>
+                  <option value="canada">Canada</option>
+                  <option value="usa">USA</option>
+                </select>
+                <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px;">Create Course Career</button>
+                <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;" >Cancel</button>
+            </form>
+        </div>
+        <div>
+        <table class="btable btable-striped">
+                <tbody><tr><th style="width: 430px">Course Career</th>
+                    <th>Action</th>
+                        </tr>
+                            <td> </td>
+                        </tr>
+                </tbody>
+            </table
+        </div>
+
+    </script>
+  
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>

@@ -95,7 +95,9 @@ $(function() {
             'checksum(/:nation/:url)': 'checkSum',
             'listLearnersCredits/:cid': 'showLearnersListForCredits',
             'passwordResetEmail': 'showPasswordResetEmail',
-            'password-reset': 'showPasswordReset'
+            'password-reset': 'showPasswordReset',
+            'courseCareerPath':'CourseCareerPath',
+            'courseCareerPath/add':'addCareerPath'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -2174,6 +2176,7 @@ $(function() {
                     var button = '<p id="library-top-buttons">'
                     button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
                     button += '<a id="requestCourseButton" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
+                    button += '<a id="courseCareerPath" class="btn btn-info" style = "margin-left: 15px;" href="#courseCareerPath">'+App.languageDict.attributes.Course_Career_Path+'</a>'
                     button += '<span id="searchSpan"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
@@ -6728,6 +6731,25 @@ $(function() {
             });
             passwordResetView.render();
             App.$el.children('.body').append(passwordResetView.el)
+        },
+        CourseCareerPath:function(){
+            var coursePath = new App.Views.CourseCareerPath();
+            coursePath.render()
+            App.$el.children('.body').html('<div id="CareerPath"></div>');
+            $('#CareerPath').append('<div><h2>'+App.languageDict.attributes.Course_Career_Path+'</h2></div>')
+            $('#CareerPath').append(coursePath.el);
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
+        },
+        addCareerPath:function(){
+            var addCourseCareer = new App.Views.AddCourseCareer();
+            addCourseCareer.render()
+            App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
+            $('#ManageCourseCareer').append('<div><h2>'+App.languageDict.attributes.Add_Multiple_Courses+'</h2></div>')
+            $('#ManageCourseCareer').append(addCourseCareer.el);
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang) 
+
         }
     }))
 })
