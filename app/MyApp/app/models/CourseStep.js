@@ -22,7 +22,8 @@ $(function() {
             },
             stepMethod: 'Text',
             description: {
-                type: 'TextArea'
+                type: 'TextArea',
+                fieldAttrs: {id:'stepDescription'}
             },
             stepGoals: 'TextArea',
 

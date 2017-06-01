@@ -178,7 +178,7 @@ $(function () {
             }
             $("#accordion").accordion({
                 active: parseInt($.cookie("sectionNo").split('/')[1]),
-                header: "h3",
+                header: " > h3",
                 heightStyle: "content"
             }).sortable({
                 axis: "y",
