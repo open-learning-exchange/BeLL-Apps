@@ -52,7 +52,7 @@
   "News_Feed":"crwdns15488:0crwdne15488:0",
   "My_Library":"crwdns15489:0crwdne15489:0",
   "My_Courses_Progress":"crwdns15490:0crwdne15490:0",
-  "My_Tutors":"crwdns15491:0crwdne15491:0",
+  "My_Teams":"crwdns16356:0crwdne16356:0",
   "My_Meetups":"crwdns15492:0crwdne15492:0",
   "Member":"crwdns15493:0crwdne15493:0",
   "Login":"crwdns15494:0crwdne15494:0",
@@ -924,5 +924,6 @@
   "Note_Password_Reset_Duration_HH":"crwdns16351:0crwdne16351:0",
   "Nation_Rejected":"crwdns16352:0crwdne16352:0",
   "Nation_Pending":"crwdns16353:0crwdne16353:0",
-  "Marks_Should_not_be_Zero_or_Negative":"crwdns16354:0crwdne16354:0"
+  "Marks_Should_not_be_Zero_or_Negative":"crwdns16354:0crwdne16354:0",
+  "Auto_Approve":"crwdns16355:0crwdne16355:0"
 }
