@@ -1222,7 +1222,7 @@ $(function() {
             wordsOfLibraryTable.push(App.languageDict.attributes.My_Library);
             wordsOfLibraryTable.push(App.languageDict.attributes.My_Courses_Progress);
             wordsOfLibraryTable.push(App.languageDict.attributes.My_Meetups);
-            wordsOfLibraryTable.push(App.languageDict.attributes.My_Team);
+            wordsOfLibraryTable.push(App.languageDict.attributes.My_Teams);
             var classToAppend=new Array();
             classToAppend.push('shelf');
             classToAppend.push('badges');
