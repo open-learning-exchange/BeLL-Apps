@@ -4,20 +4,39 @@ $(function() {
         template: $('#template-addCourseCareer').html(),
         vars: {},
         events: {
+            "click #AddCareerPath": function() {
+               this.saveCareerPath();
+            },
+            "click #CancelCOursePath": function(e) {
+                this.saveCareerPath();
+            },
         },
 
-        "click #AddCareerPath": function(e) {
-            this.saveCareerPath();
-         },
-        "click #CancelCOursePath": function(e) {
-            this.saveCareerPath();
-         },
         initialize: function() {
             
         },
 
         saveCareerPath: function(){
-            alert("What's up");
+            var levelname = $('#level').val()
+            var coursetitle = $('#LCourse').val()
+            var arrcourseId = []
+            for(var i = 0; i <this.collection.models.length; i++){
+                if(coursetitle === this.collection.models[i].attributes.CourseTitle){
+                    var courseid = this.collection.models[i].attributes._id
+                    arrcourseId.push(courseid)
+                }
+            }
+            var savecoursecareer = new App.Models.CoursecareerPath()
+                savecoursecareer.set('Level_Name',levelname);
+                savecoursecareer.set('Courses',coursetitle);
+                savecoursecareer.set('CourseIds',arrcourseId);
+                savecoursecareer.set('MemberID',$.cookie('Member._id'));
+                savecoursecareer.save(null, {
+                    error: function() {
+                        console.log("Not Saved")
+                    }
+                });
+                location.reload();
         },
 
         render: function() {

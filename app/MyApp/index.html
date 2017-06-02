@@ -134,6 +134,7 @@
     <script src="app/models/AdminMember.js"></script> <!-- app/models.js -->
     <script src="app/models/CourseQuestion.js"></script> <!-- app/models.js -->
     <script src="app/models/CourseAnswer.js"></script> <!-- app/models.js -->
+    <script src="app/models/CoursecareerPath.js"></script> <!-- app/models.js -->
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script> <!-- app/collections.js -->
@@ -1461,8 +1462,8 @@
         <div class ="multipleCourse">
             <form>
                 <label for="lName"><%= languageDict.attributes.Level_Name %></label>
-                <select id="LCourse" style="font-size: 15px;font-weight: 500;">
-                        <option selected><%= languageDict.attributes.Select_An_option %></option>
+                <select id="level" style="font-size: 15px;font-weight: 500;">
+                        <option><%= languageDict.attributes.Select_An_option %></option>
                         <option value='Begineers'>Begineers</option>
                         <option value='Intermediate'>Intermediate</option>
                         <option value='Professional'>Professional</option>
@@ -1471,7 +1472,7 @@
                 <input type="text" id="careerPath" placeholder="Course Career Path Name" style = "padding-top: 12px; padding-bottom: 11px;">
                 <label for="LCourse"><%= languageDict.attributes.List_of_Courses %></label>
                 <select id="LCourse" style="font-size: 15px;font-weight: 500;">
-                        <option selected><%= languageDict.attributes.Select_An_option %></option>
+                        <option><%= languageDict.attributes.Select_An_option %></option>
                     <%for(var i =0; i<Course_Length;i++){%>
                         <option value='<%=Courselist[i]%>'><%=Courselist[i]%></option>
                   <%}%>

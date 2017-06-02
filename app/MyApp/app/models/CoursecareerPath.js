@@ -1,6 +1,6 @@
 $(function() {
 
-    App.Models.CourseCareerPath = Backbone.Model.extend({
+    App.Models.CoursecareerPath = Backbone.Model.extend({
 
         idAttribute: "_id",
         url: function() {
@@ -13,12 +13,13 @@ $(function() {
             return url
         },
         defaults: {
-            kind: 'coursecareerpath'//Saves kind of document according to corresponding db's.Mostly used in couch db views.
+            kind: 'coursecareerpath',//Saves kind of document according to corresponding db's.Mostly used in couch db views.
         },
         schema: {
-            Level_Name: 'Text', .
-            Courses: [], //Array:Multiple Courses
+            Level_Name: 'Text', 
+            Course_Title: 'Text', 
+            CourseIds:[],//Array:Multiple Courses
             CourseCareer: []//Array:Arranging the Courses
-        }
+        },
     })
 })
