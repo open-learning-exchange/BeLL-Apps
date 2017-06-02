@@ -6742,7 +6742,14 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang)
         },
         addCareerPath:function(){
-            var addCourseCareer = new App.Views.AddCourseCareer();
+            var courses = new App.Collections.Courses()
+            courses.memberId = $.cookie('Member._id');
+            courses.fetch({
+                async:false
+            });
+            var addCourseCareer = new App.Views.AddCourseCareer({
+                collection:courses
+            });
             addCourseCareer.render()
             App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
             $('#ManageCourseCareer').append('<div><h2>'+App.languageDict.attributes.Add_Multiple_Courses+'</h2></div>')
