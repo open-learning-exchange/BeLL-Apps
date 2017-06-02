@@ -6754,6 +6754,7 @@ $(function() {
             App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
             $('#ManageCourseCareer').append('<div><h2>'+App.languageDict.attributes.Add_Multiple_Courses+'</h2></div>')
             $('#ManageCourseCareer').append(addCourseCareer.el);
+            $('#LCourse').multiselect({columns: 1,placeholder: 'Select Course'});
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang) 
 
