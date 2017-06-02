@@ -1462,23 +1462,22 @@
         <div class ="multipleCourse">
             <form>
                 <label for="lName"><%= languageDict.attributes.Level_Name %></label>
-                <select id="level" style="font-size: 15px;font-weight: 500;">
-                        <option><%= languageDict.attributes.Select_An_option %></option>
+                <select id="levelSelect" style="padding: 2px; margin-top: 8px;">
+                        <option selected><%= languageDict.attributes.Select_An_option %></option>
                         <option value='Begineers'>Begineers</option>
                         <option value='Intermediate'>Intermediate</option>
                         <option value='Professional'>Professional</option>
                 </select>
                 <label for="cpName"><%= languageDict.attributes.Course_Career_Path_Name %></label>
-                <input type="text" id="careerPath" placeholder="Course Career Path Name" style = "padding-top: 12px; padding-bottom: 11px;">
+                <input type="text" id="careerPath" placeholder="Course Career Path Name" style="padding: 2px; margin-top: 8px;">
                 <label for="LCourse"><%= languageDict.attributes.List_of_Courses %></label>
-                <select id="LCourse" style="font-size: 15px;font-weight: 500;">
-                        <option><%= languageDict.attributes.Select_An_option %></option>
+                <select id="LCourse" name = "LCourse[]">
                     <%for(var i =0; i<Course_Length;i++){%>
                         <option value='<%=Courselist[i]%>'><%=Courselist[i]%></option>
                   <%}%>
                 </select>
-                <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px;    margin-top: -15px;"><%= languageDict.attributes.Create_Course_Career %></button>
-                <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -15px;" ><%= languageDict.attributes.Cancel %></button>
+                <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px;    margin-top: -1px;"><%= languageDict.attributes.Create_Course_Career %></button>
+                <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
             </form>
         </div>
         <div>
