@@ -28,6 +28,7 @@ Scenario('test bad login', function* (I) {
 Scenario('test successful login', (I) => {
     I.login('admin', 'password');
     I.seeInCurrentUrl('#dashboard');
+    I.wait(20);
 });
 
 Scenario('test second successful login', (I) => {

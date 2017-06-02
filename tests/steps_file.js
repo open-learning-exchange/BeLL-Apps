@@ -35,10 +35,9 @@ module.exports = function () {
       }
       else {
 
-        this.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
+        this.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard');
         this.loadCookies();
-        this.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
-        this.seeInCurrentUrl('#dashboard');
+        this.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard');
       }
       loginCount = loginCount + 1;
     }
