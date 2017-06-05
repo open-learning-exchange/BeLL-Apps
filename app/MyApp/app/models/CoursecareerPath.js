@@ -17,9 +17,10 @@ $(function() {
         },
         schema: {
             Level_Name: 'Text', 
-            Course_Title: 'Text', 
+            CoursePathName:'Text',
+            Courselist: 'Text', 
             CourseIds:[],//Array:Multiple Courses
-            CourseCareer: []//Array:Arranging the Courses
+            MemberID:'Text'
         },
     })
 })

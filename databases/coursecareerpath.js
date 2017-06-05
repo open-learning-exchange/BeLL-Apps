@@ -13,10 +13,10 @@ ddoc.views = {
             }
         }
     },
-    GetCourseCareerByMember: {
+    GetCourseCareerByLevelNameMemberIds: {
         map: function(doc) {
-            if (this.MemberID != "") {
-                emit([doc.MemberID], doc);
+            if (this.CoursePathName!= "" && this.MemberID != "" ) {
+                emit([doc.CoursePathName,doc.MemberID], doc);
             }
         }
     },
