@@ -1484,13 +1484,15 @@
         <div>
             <table class="btable btable-striped">
                     <th style="width: 430px"><%= languageDict.attributes.Course_Career %></th>
+                    <th style="width: 430px"><%= languageDict.attributes.Level_Name %></th>
                     <th style="width: 430px"><%= languageDict.attributes.Courses_List %></th>
                     <th><%= languageDict.attributes.Actions %><th>
                     <% for (var i=0; i < careerList.length; i++){%>
                         <tr>
-                            <td><%= careerList[i].CoursePathName %></td>Courses
+                            <td><%= careerList[i].CoursePathName %></td>                            <td><%= careerList[i].Level_Name %></td>
                             <td><%= careerList[i].Courses %></td>
-                            <td><button  class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
+                            <td><button  class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
+                            <td><button  class='destroy btn btn-danger' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
                         </tr>
                     <% } %>
             </table>
