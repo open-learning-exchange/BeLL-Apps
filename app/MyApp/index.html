@@ -1451,8 +1451,8 @@
         <button style="margin-top: -242px; margin-left: 1395px;" class="Search btn btn-info" id="SearchCoursePath" >Search</button>
         <div>
             <table class="btable btable-striped">
-                    <th style="width: 430px">Course Career</th>
-                    <th>Action<th>
+                    <th style="width: 430px">Course Career Title </th>
+                    <th><%= languageDict.attributes.Actions %><th>
             </table>
         </div>
     </script>
@@ -1465,27 +1465,27 @@
                 <label for="lName"><%= languageDict.attributes.Level_Name %></label>
                 <select id="levelSelect" style="padding: 2px; margin-top: 8px;">
                         <option selected><%= languageDict.attributes.Select_An_option %></option>
-                        <option value='Begineers'>Begineers</option>
-                        <option value='Intermediate'>Intermediate</option>
-                        <option value='Professional'>Professional</option>
+                        <option value='Beginners'><%= languageDict.attributes.Beginners %></option>
+                        <option value='Intermediate'><%= languageDict.attributes.Intermediate %></option>
+                        <option value='Professional'><%= languageDict.attributes.Professional %></option>
                 </select>
                 <label for="cpName"><%= languageDict.attributes.Course_Career_Path_Name %></label>
                 <input type="text" id="careerPath" placeholder="Course Career Path Name" style="padding: 2px; margin-top: 8px;">
                 <label for="LCourse"><%= languageDict.attributes.List_of_Courses %></label>
-                <select id="LCourse" name = "LCourse[]">
+                <select id="LCourse" name = "LCourse">
                     <%for(var i =0; i<Course_Length;i++){%>
                         <option value='<%=Courseid[i]%>'><%=Courselist[i]%></option>
                     <%}%>
                 </select>
-                <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px;    margin-top: -1px;"><%= languageDict.attributes.Create_Course_Career %></button>
+                <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Create_Course_Career %></button>
                 <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
             </form>
         </div>
         <div>
             <table class="btable btable-striped">
-                    <th style="width: 430px">Course Career</th>
-                    <th style="width: 430px">Courses List</th>
-                    <th>Action<th>
+                    <th style="width: 430px"><%= languageDict.attributes.Course_Career %></th>
+                    <th style="width: 430px"><%= languageDict.attributes.Courses_List %></th>
+                    <th><%= languageDict.attributes.Actions %><th>
             </table>
         </div>
 

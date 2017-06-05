@@ -54,7 +54,7 @@ $(function() {
             this.vars.Courselist = arrcourses
             this.vars.Courseid = arrCourseIds
             this.vars.Course_Length = this.collection.models.length-1
-            this.$el.html(_.template(this.template,this.vars))
+            $el.html(_.template(this.template,this.vars))
         },
     })
 

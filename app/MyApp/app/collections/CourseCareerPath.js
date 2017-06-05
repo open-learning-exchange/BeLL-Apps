@@ -1,9 +1,8 @@
 $(function() {
 
     App.Collections.CourseCareerPath = Backbone.Collection.extend({
-
         url: function() {
-             if (this.CoursePathName != "" && this.MemberID != "") {
+             if (this.CoursePathName != "" && this.MemberID != "" && this.CoursePathName!= undefined && this.MemberID!= undefined ) {
                 return App.Server + '/coursecareerpath/_design/bell/_view/GetCourseCareerByLevelNameMemberIds/?key=["' +this.CoursePathName + '","' +this.MemberID+ '"]&include_docs=true'
             } else {
                 return App.Server + '/coursecareerpath/_all_docs?include_docs=true'
@@ -22,8 +21,6 @@ $(function() {
             var type = model.get('Type')
             if (type) return type.toLowerCase()
         },
-
-        model: App.Models.CourseacreerPath
     })
 
 })
