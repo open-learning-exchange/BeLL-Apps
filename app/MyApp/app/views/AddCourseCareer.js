@@ -51,6 +51,15 @@ $(function() {
                 arrcourses.push(courseslist)
                 arrCourseIds.push(courseId)
             }
+            var courseCareers = new App.Collections.CourseCareerPath()
+            courseCareers.memberId = $.cookie('Member._id');
+            courseCareers.fetch({
+                async:false
+            });
+            this.vars.careerList = [];
+            for(var i = 0; i < (courseCareers.length -1 ); i++) {
+                this.vars.careerList.push(courseCareers.models[i].attributes);
+            }
             this.vars.Courselist = arrcourses
             this.vars.Courseid = arrCourseIds
             this.vars.Course_Length = this.collection.models.length-1

@@ -1486,6 +1486,13 @@
                     <th style="width: 430px"><%= languageDict.attributes.Course_Career %></th>
                     <th style="width: 430px"><%= languageDict.attributes.Courses_List %></th>
                     <th><%= languageDict.attributes.Actions %><th>
+                    <% for (var i=0; i < careerList.length; i++){%>
+                        <tr>
+                            <td><%= careerList[i].CoursePathName %></td>Courses
+                            <td><%= careerList[i].Courses %></td>
+                            <td><button  class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
+                        </tr>
+                    <% } %>
             </table>
         </div>
 
