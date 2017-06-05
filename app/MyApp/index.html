@@ -1486,6 +1486,13 @@
                     <th style="width: 430px">Course Career</th>
                     <th style="width: 430px">Courses List</th>
                     <th>Action<th>
+                    <% for (var i=0; i < careerList.length; i++){%>
+                    <tr>
+                        <td><%= careerList[i].CoursePathName %></td>Courses
+                        <td><%= careerList[i].Courses %></td>
+                        <td><button  class='destroy btn btn-danger'><%=languageDict.attributes.DeleteLabel%></button></td>
+                    </tr>
+                    <% } %>
             </table>
         </div>
 
