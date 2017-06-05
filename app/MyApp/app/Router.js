@@ -1805,6 +1805,7 @@ $(function() {
             }
             $('.form .field-Tag select').attr("multiple", true);
             $('.form .field-Tag select').click(function() {
+                console.log(this.value)
                 context.AddNewSelect(this.value)
             });
             $('.form .field-Tag select').dblclick(function() {
@@ -6754,7 +6755,16 @@ $(function() {
             App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
             $('#ManageCourseCareer').append('<div><h2>'+App.languageDict.attributes.Add_Multiple_Courses+'</h2></div>')
             $('#ManageCourseCareer').append(addCourseCareer.el);
-            $('#LCourse').multiselect({columns: 1,placeholder: 'Select Course'});
+            $('#LCourse').multiselect().multiselectfilter();
+            $('#LCourse').multiselect({
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('#LCourse').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+            $('#LCourse').attr("multiple", true);
+            $('#LCourse').multiselect("uncheckAll");
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang) 
 

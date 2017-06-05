@@ -17,51 +17,42 @@ $(function() {
         },
 
         saveCareerPath: function(){
+            var selectedCourseId = []
+            var selectedCourseName = []
+            $('#LCourse option:selected').each(function(){ 
+                if ($(this).length) {
+                    selectedCourseId.push($(this).val());
+                    selectedCourseName.push($(this).text());
+                }
+            });
+            console.log(selectedCourseId, selectedCourseName)
             var levelname = $('#levelSelect').val()
-            var coursecareerpath = $('#careerPath').val()
-            var res = $('input:checked[name="multiselect_LCourse"]').val()
-          /*  if ($("input[name = 'LCourse[]']").val() != undefined) {
-                var res = [];
-                $("input[name = 'LCourse[]']:checked").each(function(index) {
-                    if($(this).is(':checked')==true){
-                        res.push(decodeURI($(this).val()));
-                    }
-                });
-            }
-                console.log(res)*/
-            var coursetitle = $('#LCourse').val()
-            var arrcourseId = []
-                for(var i = 0; i <this.collection.models.length; i++){
-                    if(coursetitle === this.collection.models[i].attributes.CourseTitle){
-                        var courseid = this.collection.models[i].attributes._id
-                        arrcourseId.push(courseid)
-                    }
-            }
+            var courseCareerTitle = $('#careerPath').val()
             var savecoursecareer = new App.Models.CoursecareerPath()
-                savecoursecareer.set('Level_Name',levelname);
-                savecoursecareer.set('CoursePathName',coursecareerpath);
-                savecoursecareer.set('Courselist',res);
-                savecoursecareer.set('CourseIds',arrcourseId);
-                savecoursecareer.set('MemberID',$.cookie('Member._id'));
-                savecoursecareer.save(null, {
-                    error: function() {
-                        console.log("Not Saved")
-                    }
-                });
-             
-            location.reload();
-             var Collection = new App.Collections.CourseCareerPath()
-                Collection.Level_Name=this.levelname
+            savecoursecareer.set('Level_Name',levelname);
+            savecoursecareer.set('CoursePathName',courseCareerTitle);
+            savecoursecareer.set('Courses',selectedCourseName);
+            savecoursecareer.set('CourseIds',selectedCourseId);
+            savecoursecareer.set('MemberID',$.cookie('Member._id'));
+            savecoursecareer.save(null, {
+                error: function() {
+                    console.log("Not Saved")
+                }
+            });
+                //location.reload();
         },
 
-        render: function() { 
+        render: function() {
             var arrcourses = []
+            var arrCourseIds = []
             for(var i = 0; i <this.collection.models.length-1; i++){
                 var courseslist = this.collection.models[i].attributes.CourseTitle
-                console.log(courseslist)
+                var courseId = this.collection.models[i].attributes._id
                 arrcourses.push(courseslist)
+                arrCourseIds.push(courseId)
             }
             this.vars.Courselist = arrcourses
+            this.vars.Courseid = arrCourseIds
             this.vars.Course_Length = this.collection.models.length-1
             this.$el.html(_.template(this.template,this.vars))
         },

@@ -1474,8 +1474,8 @@
                 <label for="LCourse"><%= languageDict.attributes.List_of_Courses %></label>
                 <select id="LCourse" name = "LCourse[]">
                     <%for(var i =0; i<Course_Length;i++){%>
-                        <option value='<%=Courselist[i]%>'><%=Courselist[i]%></option>
-                  <%}%>
+                        <option value='<%=Courseid[i]%>'><%=Courselist[i]%></option>
+                    <%}%>
                 </select>
                 <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px;    margin-top: -1px;"><%= languageDict.attributes.Create_Course_Career %></button>
                 <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
