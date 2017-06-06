@@ -56,6 +56,7 @@ Scenario('Test for creating Course, Step and questions', (I, addquestion_po) => 
     I.click('Continue');
     I.wait(2);
     I.seeInPopup('Course successfully created.');
+    I.wait(2);
     I.acceptPopup();
     I.wait(6);
     I.fillField('title', "Science Step");
