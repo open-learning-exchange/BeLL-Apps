@@ -1212,7 +1212,9 @@
             <% for(var k = 0; k < Totalfailstat.length; k++) {%>
                 <tr>
                     <td><%=member_Name[k]%></td>
-                    <td><%=Totalfailstat[k]%></td>
+                    <% for(var j = 0; j < steps.length; j++) {%>
+                            <td><%=Totalfailstat[k][j]%></td>
+                    <% } %>
                 </tr>
             <% } %>
             </table>
@@ -1442,6 +1444,7 @@
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
+        <%if(questionlist != null) {%>
             <%for(var i = 0; i< questionlist.length; i++){%>
                 <% questionlist = []%>
                 <% if(questionlist != null || questionlist[i] != [] ){%>
@@ -1453,6 +1456,7 @@
                     <% } %>
                 <%}%>
             <%}%>
+        <%}%>
         </div>
         </h3>
 

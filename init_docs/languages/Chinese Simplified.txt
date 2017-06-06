@@ -52,7 +52,7 @@
   "News_Feed":"新闻动态",
   "My_Library":"我的库",
   "My_Courses_Progress":"课程进度",
-  "My_Tutors":"我的老师",
+  "My_Teams":"My Teams",
   "My_Meetups":"聚会",
   "Member":"会员",
   "Login":"登录",
@@ -923,5 +923,7 @@
   "Automatic_Password_Reset_Duration_HH":"Automatic Password Reset Duration(hr)",
   "Note_Password_Reset_Duration_HH":"Note : 0 hr means Manual",
   "Nation_Rejected":"Community registration request rejected",
-  "Nation_Pending":"Community registration request pending"
+  "Nation_Pending":"Community registration request pending",
+  "Marks_Should_not_be_Zero_or_Negative":"Marks Should not be Zero or Negative",
+  "Auto_Approve":"Auto Approve"
 }

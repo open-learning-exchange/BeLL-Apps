@@ -52,7 +52,7 @@
   "News_Feed":"Fuente de noticias",
   "My_Library":"Mi biblioteca",
   "My_Courses_Progress":"El progreso de mis cursos",
-  "My_Tutors":"Mis tutores",
+  "My_Teams":"My Teams",
   "My_Meetups":"Mis MeetUps",
   "Member":"Miembro",
   "Login":"Iniciar sesión",
@@ -923,5 +923,7 @@
   "Automatic_Password_Reset_Duration_HH":"Automatic Password Reset Duration(hr)",
   "Note_Password_Reset_Duration_HH":"Note : 0 hr means Manual",
   "Nation_Rejected":"Community registration request rejected",
-  "Nation_Pending":"Community registration request pending"
+  "Nation_Pending":"Community registration request pending",
+  "Marks_Should_not_be_Zero_or_Negative":"Marks Should not be Zero or Negative",
+  "Auto_Approve":"Auto Approve"
 }

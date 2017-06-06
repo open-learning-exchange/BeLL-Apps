@@ -162,12 +162,13 @@ $(function() {
                 } else { 
                     this.sstatus = "0"
                 }
-            }
-            if (anslist != this.TotalCount){
-                this.sstatus = -1
-            }
-            else {
-                this.sstatus = null
+            }else{
+                if (anslist != this.TotalCount){
+                    this.sstatus = -1
+                }
+                else {
+                    this.sstatus = null
+                }
             }
         },
 
