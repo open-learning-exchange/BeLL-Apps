@@ -97,7 +97,8 @@ $(function() {
             'passwordResetEmail': 'showPasswordResetEmail',
             'password-reset': 'showPasswordReset',
             'courseCareerPath':'CourseCareerPath',
-            'courseCareerPath/add':'addCareerPath'
+            'courseCareerPath/add':'addCareerPath',
+            'courseCareerPath/manage/:careernmae':'ManageCourseCareer'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -6769,5 +6770,6 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang) 
 
         }
+
     }))
 })

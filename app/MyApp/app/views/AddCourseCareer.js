@@ -7,8 +7,7 @@ $(function() {
             "click #AddCareerPath": function() {
                this.saveCareerPath();  
             },
-            "click #CancelCOursePath": function(e) {
-                this.saveCareerPath();
+            "click #CancelCoursePath": function(e) {
             },
         },
 
@@ -25,22 +24,37 @@ $(function() {
                     selectedCourseName.push($(this).text());
                 }
             });
-            console.log(selectedCourseId, selectedCourseName)
-            var levelname = $('#levelSelect').val()
             var courseCareerTitle = $('#careerPath').val()
             var savecoursecareer = new App.Models.CoursecareerPath()
-            savecoursecareer.set('Level_Name',levelname);
             savecoursecareer.set('CoursePathName',courseCareerTitle);
             savecoursecareer.set('Courses',selectedCourseName);
             savecoursecareer.set('CourseIds',selectedCourseId);
             savecoursecareer.set('MemberID',$.cookie('Member._id'));
             savecoursecareer.save(null, {
-                error: function() {
-                    console.log("Not Saved")
+                success: function() {
+                    var coursecareer = new App.Collections.CourseCareerPath()
+                    coursecareer.memberId = $.cookie('Member._id');
+                    coursecareer.CoursePathName = courseCareerTitle
+                    coursecareer.fetch({
+                        async:false
+                    });
+                    console.log(coursecareer)
+                    var manageCaoursecareer = new App.Views.ManageCourseCareer({
+                        collection:coursecareer
+                    });
+                    manageCaoursecareer.render()
+
+                        $('#ManageCourseCareer').append(manageCaoursecareer.el)
+                        Backbone.history.navigate('courseCareerPath/add', {
+                            trigger: true
+                        })
                 }
+
+
             });
-                //location.reload();
+              
         },
+
 
         render: function() {
             var arrcourses = []

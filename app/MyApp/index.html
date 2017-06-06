@@ -307,6 +307,7 @@
 
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
+    <script src="app/views/ManageCourseCareer.js"></script> <!-- app/views.js -->
 
 
     <!-- javaScript -->
@@ -1456,19 +1457,13 @@
             </table>
         </div>
     </script>
+
     <script type="text/template" id="template-addCourseCareer">
         <button class="back_button btn btn-primary" onclick = "document.location.href='#courseCareerPath'"><%= languageDict.attributes.Back_To_Course_Career %></button>
         <hr/>
         <h4 id="new-quiz"><%= languageDict.attributes.New_Career_Path %></h4>
         <div class ="multipleCourse">
             <form>
-                <label for="lName"><%= languageDict.attributes.Level_Name %></label>
-                <select id="levelSelect" style="padding: 2px; margin-top: 8px;">
-                        <option selected><%= languageDict.attributes.Select_An_option %></option>
-                        <option value='Beginners'><%= languageDict.attributes.Beginners %></option>
-                        <option value='Intermediate'><%= languageDict.attributes.Intermediate %></option>
-                        <option value='Professional'><%= languageDict.attributes.Professional %></option>
-                </select>
                 <label for="cpName"><%= languageDict.attributes.Course_Career_Path_Name %></label>
                 <input type="text" id="careerPath" placeholder="Course Career Path Name" style="padding: 2px; margin-top: 8px;">
                 <label for="LCourse"><%= languageDict.attributes.List_of_Courses %></label>
@@ -1482,24 +1477,42 @@
             </form>
         </div>
         <div>
-            <table class="btable btable-striped">
+           <!-- <table class="btable btable-striped">
                     <th style="width: 430px"><%= languageDict.attributes.Course_Career %></th>
                     <th style="width: 430px"><%= languageDict.attributes.Level_Name %></th>
                     <th style="width: 430px"><%= languageDict.attributes.Courses_List %></th>
                     <th><%= languageDict.attributes.Actions %><th>
                     <% for (var i=0; i < careerList.length; i++){%>
                         <tr>
-                            <td><%= careerList[i].CoursePathName %></td>                            <td><%= careerList[i].Level_Name %></td>
-                            <td><%= careerList[i].Courses %></td>
+                            <td><%= careerList[i].CoursePathName %></td>              
+                            <td><%= careerList[i].Level_Name %></td>
+                            <td><ul><li><%= careerList[i].Courses %></li></ul></td>
                             <td><button  class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
                             <td><button  class='destroy btn btn-danger' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
                         </tr>
                     <% } %>
-            </table>
+            </table>-->
+
         </div>
 
     </script>
-  
+
+    <script type="text/template" id="template-careerPathManage">
+        <hr/>
+        <h4 id="new-quiz"><%= languageDict.attributes.Add_Level %></h4>
+        <form>
+            Title<br/>
+            <input type = "text" name = "title"/><br/>
+            Description<br/><textarea></textarea><br/>
+            Level<br/>
+            <input type = "text" name = "title" disabled ="disabled"/><br/>
+            Courses<br/>
+             <select id="LCourse" name = "LCourse"><br/>
+                        <option value=''></option>
+                </select>
+        </form>
+    </script>
+
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
