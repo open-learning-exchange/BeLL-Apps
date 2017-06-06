@@ -8,7 +8,7 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('Test For Course', (I, addquestion_po) => {
+Scenario('Test for creating Course, Step and questions', (I, addquestion_po) => {
     var courses = '//*[@href="#courses"]';
     var addcourses = '//*[@id="addCourseButton"]';
     var check = '//*[@value="Daily"]';
