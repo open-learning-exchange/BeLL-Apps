@@ -57,7 +57,7 @@ Scenario('Test for creating Course, Step and questions', (I, addquestion_po) => 
     I.wait(2);
     I.seeInPopup('Course successfully created.');
     I.acceptPopup();
-    I.wait(2);
+    I.wait(6);
     I.fillField('title', "Science Step");
     I.executeScript(function() {
         $("li#stepDescription > div textarea[name='description']").text("<strong><h2>Science</h2></strong><div><strong>           Science </strong>in a broad sense existed before the modern era and in many historical civilizations.");
