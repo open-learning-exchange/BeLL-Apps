@@ -1272,5 +1272,5 @@ textarea[name="comment"]
 }
 #accept div input[name=accept]{
     margin-top: -46px;
-    margin-right: -20px;
+    margin-right: 25px;
 }

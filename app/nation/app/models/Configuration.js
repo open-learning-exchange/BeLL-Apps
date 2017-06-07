@@ -25,33 +25,41 @@ $(function() {
         schema: {
             name: {//Name of a nation.Used mostly for displaying purpose.
                 type: 'Text',
+                fieldAttrs : {class: "form-field"},
                 validators: ['required']
             },
             code: {//Some specific value.Used mostly to specify a 'unique keyword' for a nation so that we can easily differentiate among multiple nations
                 type: 'Text',
-                validators: ['required']
+                validators: ['required'],
+                fieldAttrs : {class: "form-field"}
             },
             nationName: {// Saves couch/futon's admin/userName of a nation to which nation is registered(mostly it is not used for nation)
                 type: 'Text',
-                validators: ['required']
+                validators: ['required'],
+                fieldAttrs : {class: "form-field" }
             },
             nationUrl: {// Saves URL of a nation to which nation is registered(mostly it is not used for nation)
                 type: 'Text',
-                validators: ['required']
+                validators: ['required'],
+                fieldAttrs : {class: "form-field"}
             },
             version: {// Saves current version of community/nation
-                type: 'Text'
+                type: 'Text',
+                fieldAttrs : {class: "form-field"}
             },
             notes: {// Saves some descriptions about community/nation
-                type: 'Text'
+                type: 'Text',
+                fieldAttrs : {class: "form-field"}
             },
             selectLanguage: {// This attribute is being used to select BeLL-Apps language(After easy-install it is only used for nation, for community there is another way to select language)
                 type: 'Select',
-                options:[]
+                options:[],
+                fieldAttrs : {class: "form-field"}
             },
             accept: {
                 type: 'Checkbox',
                 fieldAttrs : {id: "accept"}
+
             }
         }
     })

@@ -596,7 +596,9 @@ $(function() {
             return year + '/' + month + '/' + day;
         },
         Configuration: function() {
-
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
             var configCollection = new App.Collections.Configurations();
             configCollection.fetch({
                 async: false
@@ -605,16 +607,13 @@ $(function() {
             var configForm = new App.Views.Configurations({
                 model: configModel
             });
-            App.$el.children('.body').html('<div id="configTable"></div>');
+            App.$el.children('.body').html('<div id="configTable" class ="addNation-form" ></div>');
             configForm.render();
             $('#configTable').append(configForm.el);
-            var loginOfMem = $.cookie('Member.login');
-            var lang = App.Router.getLanguage(loginOfMem);
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
             if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
-                $('#configTable').css({"direction":"rtl",
-                    "margin-right": "2%"});
-                $('#configTable div div h3').css('margin-right','0%');
+                $('#configTable').css({"direction":"rtl"});
+            } else {
+                $('#configTable').css({"direction":"ltr"});
             }
 
         },
