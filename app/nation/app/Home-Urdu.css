@@ -15,6 +15,10 @@ h1,h2,h3,h4,h5,h6{
     width: 950px;
     overflow: hidden;
 }
+div#parentLibrary{
+    margin-left: 20px;
+    margin-right: 20px;
+}
 .dashboard-buttons
 {
     padding-left: 20px;

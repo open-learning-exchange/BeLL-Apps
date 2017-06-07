@@ -2,6 +2,11 @@
 .body {
     direction: ltr;
 }
+div#parentLibrary{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+/*
 /*input::-moz-focus-inner {
     border: 0;
     padding: 0;
