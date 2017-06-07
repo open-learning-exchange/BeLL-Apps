@@ -2,6 +2,10 @@
 .body {
     direction: rtl;
 }
+div#parentLibrary{
+    margin-left: 20px;
+    margin-right: 20px;
+}
 #dashboard {
     height: 600px;
     width: 950px;
