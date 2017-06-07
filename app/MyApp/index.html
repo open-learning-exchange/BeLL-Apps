@@ -1524,27 +1524,33 @@
                 <table>
                     <tr>
                         <td>
-                            <textarea><%=Statement%></textarea> 
+                            <b><%=Statement%></b>
                         </td>
+                        </style>
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" value="<%=answer[0]%>" name="singleLineAnswer">
+                            <input type="text" value="<%=answer[0]%>" name="singleLineAnswer" style="margin-bottom: -45px;">
                         </td>
                     </tr>
                 </table>
             </div>
      <% } else if (Type == "Comment/Essay Box") { %>
+        <style>
+            textarea{margin: 0px 0px -45px;width: 616px;height: 298px;}
+        </style>
             <div class="commentEssay">
                 <table>
                     <tr>
                         <td>
-                            <textarea><%=Statement%></textarea> 
+                            <b><%=Statement%></b>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" value="<%=answer[0]%>" name="commentEssay">
+                            <textarea id="commentEssay" name ="commentEssay" >
+                                <%=answer[0]%>
+                            </textarea>
                         </td>
                     </tr>
                 </table>
@@ -1554,7 +1560,7 @@
                 <table>
                     <tr>
                         <td>
-                            <textarea><%=Statement%></textarea> 
+                           <b><%=Statement%></b>
                         </td>
                     </tr>
                 <tr>
@@ -1564,7 +1570,7 @@
                      <input type="hidden" name="_attachment" id="attachmentId" value="">
                      <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
                      <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
-                     <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
+                     <input class='btn btn-primary' style="font-size: 15px; margin-bottom: -45px;" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
                      <% if (answer[0] != null && answer[0] != "") { %>
                         <a id="downloadAttac" class="btn btn-primary" href="/assignmentpaper/<%=answer[0]%>/<%=attachmentName%>"  target="_blank" ><%=App.languageDict.attributes.Download %></a>
                      <% } %>
@@ -1577,7 +1583,7 @@
                 <table>
                     <tr>
                         <td>
-                            <textarea><%=Statement%></textarea> 
+                            <b><%=Statement%></b>
                         </td>
                     </tr>
                     <tr>
