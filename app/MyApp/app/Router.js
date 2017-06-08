@@ -2445,16 +2445,32 @@ $(function() {
                             var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
                             JSONObj.MemberId =  allResults.models[i].attributes.memberId
                             JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
-                            JSONObj.StepNo = courseSteps.attributes._id
+                            JSONObj.StepNo = courseSteps.attributes.step
                             JSONObj.StepName = courseSteps.attributes.title
                             JSONObj.QuestionID = questionlist.attributes._id
                             JSONObj.Question = questionlist.attributes.Statement
                             JSONObj.Attempt =  pqattempts[j]
                             JSONObj.TotalMarks =  questionlist.attributes.Marks
-                            if(courseAnswer.first().get('AttemptMarks') != null){
-                            JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
+                            if(courseSteps.attributes.stepType == "Subjective"){
+                                if(questionlist.attributes.Type == "Multiple Choice"){
+                                    if(courseAnswer.first().get('AttemptMarks') != null){
+                                        JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
+                                    } else {
+                                        JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                    }
+                                } else{
+                                    if(courseAnswer.first().get('ObtainMarks') != undefined){
+                                        JSONObj.ObtainMarks =  courseAnswer.first().get('ObtainMarks')
+                                    } else {
+                                        JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                    }
+                                }
                             } else {
-                                JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                if(courseAnswer.first().get('AttemptMarks') != null){
+                                    JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
+                                } else {
+                                    JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                }
                             }
                             JSONObj.Answer = courseAnswer.first().get('Answer')
                             jsonObjectsData.push(JSONObj)
