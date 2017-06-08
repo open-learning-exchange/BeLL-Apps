@@ -2363,6 +2363,7 @@ $(function() {
             if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
                 $('.courseSearchResults_Bottom').append('<a id="CourseStatistics" class="btn btn-inverse"  href=\'#CourseStatistics/' + cId + '\'">'+App.languageDict.attributes.Course_Progress_Statistics+'</a>')
+                $('.courseSearchResults_Bottom h2').append("<a class='btn btn-info' style='margin-left: 10px;' onclick=App.Router.downloadCourseCSV('" + cId + "')>" +App.languageDict.attributes.Download+"</a>")
             }
             $('.courseSearchResults_Bottom').append('<p id="graph2title"style="text-align:center">'+App.languageDict.attributes.Individual_Member_Course_Progress+'</p>')
             App.$el.children('.body').append('<div id="detailView"><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
@@ -2387,6 +2388,139 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang);
         },
 
+        downloadCourseCSV: function(courseId) {
+            var that = this;
+            var jsonObjectsData = [];
+            var course = new App.Models.Course({
+                _id: courseId
+            });
+            course.fetch({
+                async:false
+            });
+            var allResults = new App.Collections.StepResultsbyCourse()
+            allResults.courseId = courseId
+            allResults.fetch({
+                async: false
+            })
+
+            for (var i = 0; i < allResults.length; i++) {
+                student = new App.Models.Member({
+                    _id: allResults.models[i].attributes.memberId
+                })
+                student.fetch({
+                    async: false
+                })
+
+                var sstatus = allResults.models[i].attributes.stepsStatus
+                var sp = allResults.models[i].attributes.stepsResult
+                var ssids = allResults.models[i].attributes.stepsIds
+                var pqattempts = allResults.models[i].attributes.pqAttempts
+
+                memberProgressRecord = allResults.first();
+                var ssids = memberProgressRecord.get('stepsIds')
+                for (var j = 0; j < ssids.length; j++) {
+                    var courseSteps = new App.Models.CourseStep()
+                    courseSteps.id = ssids[j];
+                    courseSteps.fetch({
+                        async: false
+                    })
+                    var stepQuestionIds = courseSteps.attributes.questionslist
+                    for (var k = 0; k < stepQuestionIds.length; k++) {
+                        var questionlist = new App.Models.CourseQuestion({
+                            _id: stepQuestionIds[k]
+                        })
+                        questionlist.fetch({
+                            async: false
+                        });
+                        var courseAnswer = new App.Collections.CourseAnswer()
+                        courseAnswer.StepID = courseSteps.attributes._id
+                        courseAnswer.MemberID =  allResults.models[i].attributes.memberId
+                        courseAnswer.pqattempts = pqattempts[j]
+                        courseAnswer.QuestionID = stepQuestionIds[k]
+                        courseAnswer.fetch({
+                            async: false
+                        })
+                        console.log(courseAnswer)
+                        if(courseAnswer.first() != undefined && courseAnswer.pqattempts > 0 ){
+                            var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
+                            JSONObj.MemberId =  allResults.models[i].attributes.memberId
+                            JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
+                            JSONObj.StepNo = courseSteps.attributes._id
+                            JSONObj.StepName = courseSteps.attributes.title
+                            JSONObj.QuestionID = questionlist.attributes._id
+                            JSONObj.Question = questionlist.attributes.Statement
+                            JSONObj.Attempt =  pqattempts[j]
+                            JSONObj.TotalMarks =  questionlist.attributes.Marks
+                            if(courseAnswer.first().get('AttemptMarks') != null){
+                            JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
+                            } else {
+                                JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                            }
+                            JSONObj.Answer = courseAnswer.first().get('Answer')
+                            jsonObjectsData.push(JSONObj)
+                        }
+                    }
+                }
+            }
+            if(jsonObjectsData.length > 0) {
+                that.JSONToCSVConvertor(jsonObjectsData, course.attributes.CourseTitle);
+            } else {
+                alert(App.languageDict.attributes.Unable_To_Download_Data);
+            }
+        },
+
+        JSONToCSVConvertor: function (JSONData, ReportTitle) {
+            //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+            var CSV = '';
+            //Set Report title in first row or line
+            //CSV += label + '\r\n\n';
+            //This will generate the Label/Header
+            var row = "";
+            //This loop will extract the label from 1st index of on array
+            for (var index in arrData[0]) {
+                //Now convert each value to string and comma-seprated
+                row += index + ',';
+            }
+            row = row.slice(0, -1);
+            //append Label row with line break
+            CSV += row + '\r\n';
+            //1st loop is to extract each row
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+                //2nd loop will extract each column and convert it in string comma-seprated
+                for (var index in arrData[i]) {
+                    row += '"' + arrData[i][index] + '",';
+                }
+                row.slice(0, row.length - 1);
+                //add a line break after each row
+                CSV += row + '\r\n';
+            }
+            if (CSV == '') {
+                alert("Invalid data");
+                return;
+            }
+            //Generate a file name
+            var fileName = "";
+            //this will remove the blank-spaces from the title and replace it with an underscore
+            fileName += ReportTitle.toString().replace(/ /g,"_");
+            //Initialize file format you want csv or xls
+            var uri = 'data:text/csv;charset=utf-8,' + CSV;
+            uri = encodeURI(uri);
+            // Now the little tricky part.
+            // you can use either>> window.open(uri);
+            // but this will not work in some browsers
+            // or you will not get the correct file extension
+            //this trick will generate a temp <a /> tag
+            var link = document.createElement("a");
+            link.href = uri;
+            //set the visibility hidden so it will not effect on your web-layout
+            link.style = "visibility:hidden";
+            link.download = fileName + ".csv";
+            //this part will append the anchor tag and remove it after automatic click
+            App.$el.append(link);
+            link.click();
+        },
         ManageCourse: function(courseId) {
             var that = this
             levels = new App.Collections.CourseLevels()
