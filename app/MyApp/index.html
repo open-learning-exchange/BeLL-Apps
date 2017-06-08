@@ -1477,21 +1477,20 @@
             </form>
         </div>
         <div>
-           <!-- <table class="btable btable-striped">
-                    <th style="width: 430px"><%= languageDict.attributes.Course_Career %></th>
-                    <th style="width: 430px"><%= languageDict.attributes.Level_Name %></th>
+            <table class="btable btable-striped">
+                    <th style="width: 230px"><%= languageDict.attributes.Course_Career %></th>
                     <th style="width: 430px"><%= languageDict.attributes.Courses_List %></th>
                     <th><%= languageDict.attributes.Actions %><th>
                     <% for (var i=0; i < careerList.length; i++){%>
                         <tr>
-                            <td><%= careerList[i].CoursePathName %></td>              
-                            <td><%= careerList[i].Level_Name %></td>
+                            <td><%= careerList[i].CoursePathName %></td>
                             <td><ul><li><%= careerList[i].Courses %></li></ul></td>
                             <td><button  class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
                             <td><button  class='destroy btn btn-danger' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
+                            <td><button  class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>'" style="margin-left: -550px;"><%=languageDict.attributes.View_Details%></button></td>
                         </tr>
                     <% } %>
-            </table>-->
+            </table>
 
         </div>
 
@@ -1499,18 +1498,8 @@
 
     <script type="text/template" id="template-careerPathManage">
         <hr/>
-        <h4 id="new-quiz"><%= languageDict.attributes.Add_Level %></h4>
-        <form>
-            Title<br/>
-            <input type = "text" name = "title"/><br/>
-            Description<br/><textarea></textarea><br/>
-            Level<br/>
-            <input type = "text" name = "title" disabled ="disabled"/><br/>
-            Courses<br/>
-             <select id="LCourse" name = "LCourse"><br/>
-                        <option value=''></option>
-                </select>
-        </form>
+            <div id ="Manage">
+            </div>
     </script>
 
     <script type="text/html" id="template-courseLevelsTable">

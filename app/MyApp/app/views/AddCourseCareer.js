@@ -31,28 +31,10 @@ $(function() {
             savecoursecareer.set('CourseIds',selectedCourseId);
             savecoursecareer.set('MemberID',$.cookie('Member._id'));
             savecoursecareer.save(null, {
-                success: function() {
-                    var coursecareer = new App.Collections.CourseCareerPath()
-                    coursecareer.memberId = $.cookie('Member._id');
-                    coursecareer.CoursePathName = courseCareerTitle
-                    coursecareer.fetch({
-                        async:false
-                    });
-                    console.log(coursecareer)
-                    var manageCaoursecareer = new App.Views.ManageCourseCareer({
-                        collection:coursecareer
-                    });
-                    manageCaoursecareer.render()
-
-                        $('#ManageCourseCareer').append(manageCaoursecareer.el)
-                        Backbone.history.navigate('courseCareerPath/add', {
-                            trigger: true
-                        })
+                error: function() {
+                    console.log("Not Saved")
                 }
-
-
             });
-              
         },
 
 
