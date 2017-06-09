@@ -45,7 +45,7 @@ $(function() {
                 $("input[type='text'][name='singleLineAnswer']").val("")
                 delete this.Givenanswers[$("input[name=question_id]").val()]
             }else if($("#commentEssay").val() != undefined ){
-                $("#commentEssay").val().val("")
+                $("#commentEssay").val("")
                 delete this.Givenanswers[$("input[name=question_id]").val()]
             }else if($("input[type='hidden'][name='_attachment']").val() != undefined){
                 $("input[type='hidden'][name='_attachment']").val("")
