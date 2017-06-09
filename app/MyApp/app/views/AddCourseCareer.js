@@ -53,14 +53,12 @@ $(function() {
             courseCareers.fetch({
                 async:false
             });
-            console.log(courseCareers)
             this.vars.careerList = [];
             for(var i = 0; i < (courseCareers.length); i++) {
                 if(courseCareers.models[i].attributes._id !== "_design/bell"){
                     this.vars.careerList.push(courseCareers.models[i].attributes);
                 }
             }
-            console.log(this.vars.careerList)
             this.vars.Courselist = arrcourses
             this.vars.Courseid = arrCourseIds
             this.vars.Course_Length = this.collection.models.length-1

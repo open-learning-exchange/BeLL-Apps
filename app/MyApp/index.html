@@ -1508,7 +1508,7 @@
                 <label for="LCourse"><b><%= languageDict.attributes.Required_Course_Career_Path %></b></label>
                     <select id="LCourse" name = "LCourse">
                         <%for(var i =0; i< careerlength; i++){%>
-                            <option value='<%=careerList[i]%>'><%=careerList[i]%></option>
+                            <option value='<%=careerListIds[i]%>'><%=careerList[i]%></option>
                         <%}%>
                     </select>
                     <button id="AddMultipleCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Save %></button>
