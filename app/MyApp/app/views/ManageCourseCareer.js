@@ -35,6 +35,7 @@ $(function() {
                     console.log("Not Saved")
                 }
             });
+            location.reload()
         },
         render: function() {
             var multiplecareer = new App.Collections.CourseCareerPath();

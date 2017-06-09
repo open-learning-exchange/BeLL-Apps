@@ -9,6 +9,18 @@ $(function() {
             },
             "click #CancelCoursePath": function(e) {
             },
+            "click #Delete": function(e) {
+                var a = $(e.target).attr('data-id')
+                var career = new App.Models.CoursecareerPath({
+                    _id: a
+                })
+                career.fetch({
+                    async: false
+                })
+                career.destroy()
+                alert(App.languageDict.attributes.Selected);
+                location.reload();
+            },
             "click #careerEdit": function(e) {
                 var currentId = $(e.target).attr("data-id");
                 $('#AddCareerPath').hide();
@@ -24,7 +36,7 @@ $(function() {
                 console.log($('#UpdateCareerPath').attr('data-id'))
             },
             "click #UpdateCareerPath": function(e) {
-                this.saveCareerPath( $('#UpdateCareerPath').attr('data-id'));
+                this.saveCareerPath($('#UpdateCareerPath').attr('data-id'));
             },
         },
 

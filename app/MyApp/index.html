@@ -1487,7 +1487,7 @@
                             <td><%= careerList[i].CoursePathName %></td>
                             <td><ul><li><%= careerList[i].Courses %></li></ul></td>
                             <td><button   id="careerEdit" data-id = <%= careerList[i]._id %> class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
-                            <td><button  class='destroy btn btn-danger' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
+                            <td><button id="Delete" data-id="<%= careerList[i]['_id'] %>" class='destroy btn btn-danger' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
                             <td><button  class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>/<%= careerList[i]._id %>'" style="margin-left: -550px;"><%=languageDict.attributes.View_Details%></button></td>
                         </tr>
                     <% } %>

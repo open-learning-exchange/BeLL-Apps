@@ -6741,7 +6741,17 @@ $(function() {
             $('#CareerPath').append('<div><h2>'+App.languageDict.attributes.Course_Career_Path+'</h2></div>')
             $('#CareerPath').append(coursePath.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
-            applyCorrectStylingSheet(directionOfLang)
+            applyCorrectStylingSheet(directionOfLang);
+            $.ajax({
+                    url: '/coursecareerpath/_design/bell/_view/getCourseCareerByName',
+                    type: 'GET',
+                    dataType: "jsonp",
+                    async: false,
+                    success: function(json) {
+                        console.log(json)
+                        $(careerList).insertBefore('#searchText');
+                    }
+                });
         },
         addCareerPath:function(){
             var courses = new App.Collections.Courses()
