@@ -9,16 +9,57 @@ $(function() {
             },
             "click #CancelCoursePath": function(e) {
             },
-
+            "click #careerEdit": function(e) {
+                var currentId = $(e.target).attr("data-id");
+                $('#AddCareerPath').hide();
+                var courseCareer = new App.Models.CoursecareerPath({
+                    _id : currentId
+                })
+                courseCareer.fetch({
+                    async: false
+                });
+                $('#careerPath').val(courseCareer.attributes.CoursePathName);
+                $('#UpdateCareerPath').css('display','');
+                $('#UpdateCareerPath').attr('data-id',currentId);
+                console.log($('#UpdateCareerPath').attr('data-id'))
+            },
+            "click #UpdateCareerPath": function(e) {
+                this.saveCareerPath( $('#UpdateCareerPath').attr('data-id'));
+            },
         },
 
         initialize: function() {
             
         },
 
-        saveCareerPath: function(){
+        saveCareerPath: function(previousId){
             var selectedCourseId = []
             var selectedCourseName = []
+            if(previousId){
+                var courseCareer = new App.Models.CoursecareerPath({
+                    _id : previousId
+                })
+                courseCareer.fetch({
+                    async: false
+                });
+                $('#LCourse option:selected').each(function(){
+                    if ($(this).length) {
+                        selectedCourseId.push($(this).val());
+                        selectedCourseName.push($(this).text());
+                    }
+                });
+                var courseCareerTitle = $('#careerPath').val()
+                courseCareer.set('CoursePathName',courseCareerTitle);
+                courseCareer.set('Courses',selectedCourseName);
+                courseCareer.set('CourseIds',selectedCourseId);
+                courseCareer.set('MemberID',$.cookie('Member._id'));
+                courseCareer.save(null, {
+                    error: function() {
+                        console.log("Not Saved")
+                    }
+                })
+                location.reload();
+            } else {
             $('#LCourse option:selected').each(function(){ 
                 if ($(this).length) {
                     selectedCourseId.push($(this).val());
@@ -35,7 +76,8 @@ $(function() {
                 error: function() {
                     console.log("Not Saved")
                 }
-            });
+            })
+        }
         },
 
 
