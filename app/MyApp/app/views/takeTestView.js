@@ -68,7 +68,6 @@ $(function() {
                 this.renderQuestion(e);
             } else if ($("#commentEssay").val() != undefined ) {
                 if($("#commentEssay").val() !=""){
-                    console.log($("#commentEssay").val())
                     this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("#commentEssay").val()));
                 }
                 this.renderQuestion(e);
