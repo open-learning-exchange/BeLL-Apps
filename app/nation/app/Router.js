@@ -3906,7 +3906,7 @@ $(function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
-            var Communities = new App.Collections.Community();
+            var Communities = new App.Collections.Community({status : 'NoPending'});
             Communities.fetch({
                     async: false
                 }
@@ -4489,6 +4489,7 @@ $(function() {
             var nationUrl = $.url().data.attr.authority;
             var nationPort = nationUrl.split(':')[1];
             var docIDs=[];
+            var accepted_docIDs=[];
             $.ajax({
                 url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationPort + '"',
                 type: 'GET',
@@ -4498,11 +4499,32 @@ $(function() {
                     var jsonModels = json.rows;
                     for(var i = 0 ; i < jsonModels.length ; i++) {
                         var community = jsonModels[i].value;
-                        if(community.registrationRequest=="pending"){
-                            docIDs.push(community._id);
-                        }
+                        docIDs.push(community._id);
                     }
+
                     $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                            "target": 'community',
+                            'doc_ids': docIDs
+                        }),
+                        async: false,
+                        success: function (response) {
+                            console.log('Successfully replicated all accepted requests to community.')
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+
+                   $.ajax({
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json; charset=utf-8'
