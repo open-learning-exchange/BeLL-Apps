@@ -308,6 +308,7 @@
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
     <script src="app/views/ManageCourseCareer.js"></script> <!-- app/views.js -->
+    <script src="app/views/CareerPathTable.js"></script> <!-- app/views.js -->
 
 
     <!-- javaScript -->
@@ -1473,25 +1474,25 @@
                     <%}%>
                 </select>
                 <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Create_Course_Career %></button>
+                <button id="EditCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;">Update Course Career</button>
                 <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
             </form>
         </div>
         <div>
-           <!-- <table class="btable btable-striped">
-                    <th style="width: 430px"><%= languageDict.attributes.Course_Career %></th>
-                    <th style="width: 430px"><%= languageDict.attributes.Level_Name %></th>
+            <table class="btable btable-striped">
+                    <th style="width: 230px"><%= languageDict.attributes.Course_Career %></th>
                     <th style="width: 430px"><%= languageDict.attributes.Courses_List %></th>
                     <th><%= languageDict.attributes.Actions %><th>
                     <% for (var i=0; i < careerList.length; i++){%>
                         <tr>
-                            <td><%= careerList[i].CoursePathName %></td>              
-                            <td><%= careerList[i].Level_Name %></td>
+                            <td><%= careerList[i].CoursePathName %></td>
                             <td><ul><li><%= careerList[i].Courses %></li></ul></td>
-                            <td><button  class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
-                            <td><button  class='destroy btn btn-danger' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
+                            <td><button data-id="<%= careerList[i]['_id'] %>" id="Edit" class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
+                            <td><button data-id="<%= careerList[i]['_id'] %>" class='destroy btn btn-danger' id='Delete' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
+                            <td><button  class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>'" style="margin-left: -550px;"><%=languageDict.attributes.View_Details%></button></td>
                         </tr>
                     <% } %>
-            </table>-->
+            </table>
 
         </div>
 

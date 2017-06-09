@@ -5,9 +5,21 @@ $(function() {
         vars: {},
         events: {
             "click #AddCareerPath": function() {
-               this.saveCareerPath();  
+               this.saveCareerPath();
             },
             "click #CancelCoursePath": function(e) {
+            },
+            "click #Delete": function(e) {
+                var a = $(e.target).attr('data-id')
+                var career = new App.Models.CoursecareerPath({
+                    _id: a
+                })
+                career.fetch({
+                    async: false
+                })
+                career.destroy()
+                alert(App.languageDict.attributes.Selected);
+                location.reload();
             },
         },
 
@@ -31,28 +43,10 @@ $(function() {
             savecoursecareer.set('CourseIds',selectedCourseId);
             savecoursecareer.set('MemberID',$.cookie('Member._id'));
             savecoursecareer.save(null, {
-                success: function() {
-                    var coursecareer = new App.Collections.CourseCareerPath()
-                    coursecareer.memberId = $.cookie('Member._id');
-                    coursecareer.CoursePathName = courseCareerTitle
-                    coursecareer.fetch({
-                        async:false
-                    });
-                    console.log(coursecareer)
-                    var manageCaoursecareer = new App.Views.ManageCourseCareer({
-                        collection:coursecareer
-                    });
-                    manageCaoursecareer.render()
-
-                        $('#ManageCourseCareer').append(manageCaoursecareer.el)
-                        Backbone.history.navigate('courseCareerPath/add', {
-                            trigger: true
-                        })
+                error: function(){
+                    console.log("Not Saved")
                 }
-
-
             });
-              
         },
 
 
@@ -70,7 +64,6 @@ $(function() {
             courseCareers.fetch({
                 async:false
             });
-            console.log(courseCareers)
             this.vars.careerList = [];
             for(var i = 0; i < (courseCareers.length); i++) {
                 if(courseCareers.models[i].attributes._id !== "_design/bell"){

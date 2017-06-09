@@ -3,6 +3,8 @@ $(function() {
     App.Views.ManageCourseCareer = Backbone.View.extend({
         template: $('#template-careerPathManage').html(),
         vars: {},
+        events:{
+        },
 
         initialize: function() {
             

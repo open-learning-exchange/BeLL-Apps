@@ -6,6 +6,7 @@ $(function() {
 		className: "btable btable-striped",
 
 		addOne: function(model) {
+			console.log(model)
 			var memberRow = new App.Views.MemberRow({
 				model: model
 			})

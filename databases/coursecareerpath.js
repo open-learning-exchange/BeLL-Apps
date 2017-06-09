@@ -20,5 +20,12 @@ ddoc.views = {
             }
         }
     },
+    getCourseCareerByName: {
+        map: function(doc) {
+            if (this.CoursePathName!= "") {
+                emit([doc.CoursePathName], doc);
+            }
+        }
+    }
 }
 module.exports = ddoc;
