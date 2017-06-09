@@ -301,40 +301,21 @@ $(function() {
             if(this.model.get('registrationRequest') == 'pending' || this.isChanged(this.model ,configDoc )){
 
             App.stopActivityIndicator();
-                $.ajax({
-                        type: 'GET',
-                        url: 'http://' + nationUrl + '/configurations/_all_docs?include_docs=true',
-                        dataType: 'jsonp',
-                        async: false,
-                        success: function (response) {
-                            var accept = response.rows[0].doc.accept;
-                            if(accept == undefined || accept == false){
-                                accept = false;
-                                that.model.set('registrationRequest', 'pending');
-                            }else{
-                                that.model.set('registrationRequest', 'accepted');
-                            }
-
+            $.ajax({
+                type: 'GET',
+                url: 'http://' + nationUrl + '/configurations/_all_docs?include_docs=true',
+                dataType: 'jsonp',
+                async: false,
+                success: function (response) {
+                    if(response.rows.length > 0){
+                        var accept = response.rows[0].doc.accept;
+                        if(accept == undefined || accept == false){
+                            that.model.set('registrationRequest', 'pending');
                             that.model.save(null, {
                                 success: function (model, response) {
                                     var docIds = [];
                                     var id = that.model.get('id');
                                     docIds.push(id);
-                                    $.ajax({
-                                        headers: {
-                                            'Accept': 'application/json',
-                                            'Content-Type': 'application/json; charset=utf-8'
-                                        },
-                                        type: 'POST',
-                                        url: '/_replicate',
-                                        dataType: 'json',
-                                        data: JSON.stringify({
-                                            "source": "configurations",
-                                            "target": 'http://' + nationUrl + '/communityregistrationrequests',
-                                            'doc_ids': docIds
-                                        }),
-                                        async: false,
-                                    });
                                     $.ajax({
                                         headers: {
                                             'Accept': 'application/json',
@@ -353,96 +334,20 @@ $(function() {
                                             if(response.docs_written == 0 || response.docs_written == undefined){
                                                 alert(App.languageDict.attributes.UnableToReplicate);
                                             }else{
-                                                $.ajax({
-                                                    headers: {
-                                                        'Accept': 'application/json',
-                                                        'Content-Type': 'application/json; charset=utf-8'
-                                                    },
-                                                    type: 'POST',
-                                                    url: '/_replicate',
-                                                    crossDomain: true,
-                                                    dataType: 'json',
-                                                    data: JSON.stringify({
-                                                        "source": "configurations",
-                                                        "target": 'http://' + nationUrl + '/community',
-                                                        'doc_ids': docIds
-                                                    }),
+                                                var members = new App.Models.Member({
+                                                    "_id": $.cookie('Member._id')
+                                                });
+                                                members.fetch({
                                                     async: false,
-                                                    success: function (response) {
-                                                        if(response.docs_written == 0 || response.docs_written == undefined){
-                                                            alert(App.languageDict.attributes.UnableToReplicate);
-                                                        }else{
-                                                            var id = docIds.toString();
-                                                            $.couch.urlPrefix = 'http://' + nationUrl;
-                                                            if(accept == true){
-                                                                var members = new App.Models.Member({
-                                                                    "_id": $.cookie('Member._id')
-                                                                });
-                                                                members.fetch({
-                                                                    async: false,
-                                                                    success: function(data){
-                                                                        if(data){
-                                                                            members.set('community',newCode);
-                                                                            members.save();
-                                                                        }
-                                                                    }
-                                                                });
-                                                                $.couch.db("communityregistrationrequests").openDoc(id, {
-                                                                    success: function(data) {
-                                                                        $.couch.db('communityregistrationrequests').removeDoc(data, {
-                                                                            success: function(data) {
-                                                                                alert(App.languageDict.get('request_accepted'));
-                                                                                window.location.href = '#dashboard';
-                                                                            }
-                                                                        });
-                                                                    },
-                                                                    error: function(status) {
-                                                                        if(status == 404){
-                                                                            alert(App.languageDict.get('request_accepted'));
-                                                                            window.location.href = '#dashboard';
-                                                                        }
-                                                                    }
-                                                                });
-                                                            }else if(accept == false || accept == undefined){
-                                                                if(docIds.length > 0){
-                                                                    var members = new App.Models.Member({
-                                                                        "_id": $.cookie('Member._id')
-                                                                    });
-                                                                    members.fetch({
-                                                                        async: false,
-                                                                        success: function(data){
-                                                                            if(data){
-                                                                                members.set('community',newCode);
-                                                                                members.save();
-                                                                            }
-                                                                        }
-                                                                    });
-                                                                    $.couch.db("community").openDoc(id, {
-                                                                        success: function(data) {
-                                                                            $.couch.db('community').removeDoc(data, {
-                                                                                success: function(data) {
-                                                                                    alert(App.languageDict.get('Successfully_Registered'));
-                                                                                    window.location.href = '#dashboard';
-                                                                                }
-                                                                            });
-                                                                        },
-                                                                        error: function(status) {
-                                                                            if(status == 404){
-                                                                                alert(App.languageDict.get('Successfully_Registered'));
-                                                                                window.location.href = '#dashboard';
-                                                                            }
-                                                                        }
-                                                                    });
-                                                                }else{
-                                                                    alert(App.languageDict.get('Successfully_Registered'));
-                                                                    window.location.href = '#dashboard';
-                                                                }
+                                                    success: function(data){
+                                                        if(data){
+                                                            members.set('community',newCode);
+                                                            if(members.save()){
+                                                                App.stopActivityIndicator();
+                                                                alert(App.languageDict.get('Successfully_Registered'));
+                                                                window.location.href = '#dashboard';
                                                             }
                                                         }
-                                                    },
-                                                    error: function(status) {
-                                                        alert(App.languageDict.attributes.UnableToReplicate);
-                                                        App.stopActivityIndicator();
                                                     }
                                                 });
                                             }
@@ -455,8 +360,48 @@ $(function() {
                                     });
                                 }
                             });
+                        }else{
+                            that.model.set('registrationRequest', 'accepted');
+                            that.model.save(null, {
+                                success: function (model, response) {
+                                    var docIds = [];
+                                    var id = that.model.get('id');
+                                    docIds.push(id);
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "configurations",
+                                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                            'doc_ids': docIds
+                                        }),
+                                        async: false,
+                                        success: function (response) {
+                                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                                alert(App.languageDict.attributes.UnableToReplicate);
+                                            }else{
+                                                App.stopActivityIndicator();
+                                                alert(App.languageDict.get('request_accepted'));
+                                                window.location.href = '#dashboard';
+                                            }
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                            App.stopActivityIndicator();
+                                        }
+                                    });
+                                }
+                            });
                         }
-                });
+                    }
+                }
+            });
             } else{
                 alert("you have not made any changes");
                 App.stopActivityIndicator();
