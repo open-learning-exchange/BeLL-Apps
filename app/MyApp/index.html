@@ -1487,7 +1487,7 @@
                             <td><ul><li><%= careerList[i].Courses %></li></ul></td>
                             <td><button  class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
                             <td><button  class='destroy btn btn-danger' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
-                            <td><button  class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>'" style="margin-left: -550px;"><%=languageDict.attributes.View_Details%></button></td>
+                            <td><button  class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>/<%= careerList[i]._id %>'" style="margin-left: -550px;"><%=languageDict.attributes.View_Details%></button></td>
                         </tr>
                     <% } %>
             </table>
@@ -1499,7 +1499,21 @@
     <script type="text/template" id="template-careerPathManage">
         <hr/>
             <div id ="Manage">
+                <h4>Course Career | <%=CourseCareerName%></h4>
+                <h6>Course Lists</h6>
+                <textarea id="CareerDescription" rows="5" cols="100" style="width:98%;"><%=CouseLists%></textarea>
+                <button id="requiredCareer" class="course btn btn-success"><%= languageDict.attributes.Create_Course_Career %></button>
             </div>
+            <div id = "careerPathList">
+                <label for="LCourse"><b><%= languageDict.attributes.Required_Course_Career_Path %></b></label>
+                    <select id="LCourse" name = "LCourse">
+                        <%for(var i =0; i< careerlength; i++){%>
+                            <option value='<%=careerList[i]%>'><%=careerList[i]%></option>
+                        <%}%>
+                    </select>
+                    <button id="AddMultipleCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Save %></button>
+                <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
+            </div>    
     </script>
 
     <script type="text/html" id="template-courseLevelsTable">

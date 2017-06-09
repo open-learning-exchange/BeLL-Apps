@@ -9,6 +9,7 @@ $(function() {
             },
             "click #CancelCoursePath": function(e) {
             },
+
         },
 
         initialize: function() {

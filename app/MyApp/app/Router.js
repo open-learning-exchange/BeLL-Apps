@@ -98,7 +98,7 @@ $(function() {
             'password-reset': 'showPasswordReset',
             'courseCareerPath':'CourseCareerPath',
             'courseCareerPath/add':'addCareerPath',
-            'courseCareerPath/manage/:careernmae':'manageCourseCareer'
+            'courseCareerPath/manage/:careername/:careerId':'manageCourseCareer'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -6770,21 +6770,33 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang) 
 
         },
-        manageCourseCareer: function(cname){
-            var courseCareerPath = new App.Collections.CourseCareerPath()
-            courseCareerPath.memberId = $.cookie('Member._id');
-            courseCareerPath.CoursePathName =cname;
+        manageCourseCareer: function(cname,cId){
+            var courseCareerPath = new App.Models.CoursecareerPath({
+                _id : cId
+            });
             courseCareerPath.fetch({
                 async:false
             });
             console.log(courseCareerPath)
             var manageCouseCareer = new App.Views.ManageCourseCareer({
-                collection:courseCareerPath
+                model:courseCareerPath
             });
             manageCouseCareer.render();
+
             App.$el.children('.body').html('<div id="CourseCareerManage"></div>');
             $('#CourseCareerManage').append('<div><h2>'+App.languageDict.attributes.Add_Multiple_Courses+'</h2></div>')
             $('#CourseCareerManage').append(manageCouseCareer.el);
+            $('#careerPathList').hide()
+            $('#LCourse').multiselect().multiselectfilter();
+            $('#LCourse').multiselect({
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('#LCourse').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+            $('#LCourse').attr("multiple", true);
+            $('#LCourse').multiselect("uncheckAll");
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang) 
 
