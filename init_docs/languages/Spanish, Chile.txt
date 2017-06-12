@@ -925,5 +925,6 @@
   "Nation_Rejected":"Community registration request rejected",
   "Nation_Pending":"Community registration request pending",
   "Marks_Should_not_be_Zero_or_Negative":"Marks Should not be Zero or Negative",
-  "Auto_Approve":"Auto Approve"
+  "Auto_Approve":"Auto Approve",
+  "Unable_To_Download_Data":"Not Attempted, so unable to download data"
 }
