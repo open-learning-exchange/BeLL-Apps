@@ -98,7 +98,7 @@ $(function() {
             'password-reset': 'showPasswordReset',
             'courseCareerPath':'CourseCareerPath',
             'courseCareerPath/add':'addCareerPath',
-            'courseCareerPath/manage/:careernmae':'ManageCourseCareer'
+            'courseCareerPath/manage/:careername/:careerId':'manageCourseCareer'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -2178,7 +2178,7 @@ $(function() {
                     var button = '<p id="library-top-buttons">'
                     button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
                     button += '<a id="requestCourseButton" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
-                    button += '<a id="courseCareerPath" class="btn btn-info" style = "margin-left: 15px;" href="#courseCareerPath">'+App.languageDict.attributes.Course_Career_Path+'</a>'
+                    button += '<a id="courseCareerPath" class="btn btn-info" style = "margin-left: 15px;" href="#courseCareerPath/add">'+App.languageDict.attributes.Course_Career_Path+'</a>'
                     button += '<span id="searchSpan"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
@@ -6814,7 +6814,7 @@ $(function() {
             });
             addCourseCareer.render()
             App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
-            $('#ManageCourseCareer').append('<div><h2>'+App.languageDict.attributes.Add_Multiple_Courses+'</h2></div>')
+            $('#ManageCourseCareer').append('<div><h2>'+App.languageDict.attributes.Course_Career_Path+'</h2></div>')
             $('#ManageCourseCareer').append(addCourseCareer.el);
             $("#EditCareerPath").hide();
             $('#LCourse').multiselect().multiselectfilter();
@@ -6831,10 +6831,12 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang) 
 
         },
-        ManageCourseCareer: function(cname){
-            var courseCareerPath = new App.Collections.CourseCareerPath()
-            courseCareerPath.memberId = $.cookie('Member._id');
-            courseCareerPath.CoursePathName =cname;
+        manageCourseCareer: function(cname,cId){
+            console.log("CN--"+cname);
+            console.log("ID--"+cId)
+            var courseCareerPath = new App.Models.CoursecareerPath({
+                _id : cId
+            });
             courseCareerPath.fetch({
                 async:false
             });
@@ -6844,7 +6846,24 @@ $(function() {
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
-
+                model:courseCareerPath
+            manageCouseCareer.render();
+            App.$el.children('.body').html('<div id="CourseCareerManage"></div>');
+            $('#CourseCareerManage').append('<div><h2>'+App.languageDict.attributes.Add_Multiple_Courses+'</h2></div>')
+            $('#CourseCareerManage').append(manageCouseCareer.el);
+            $('#careerPathList').hide()
+            $('#LCourse').multiselect().multiselectfilter();
+            $('#LCourse').multiselect({
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('#LCourse').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+            $('#LCourse').attr("multiple", true);
+            $('#LCourse').multiselect("uncheckAll");
+            var directionOfLang = App.languageDict.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang)
         }
 
     }))

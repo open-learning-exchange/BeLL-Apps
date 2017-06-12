@@ -1460,7 +1460,9 @@
     </script>
 
     <script type="text/template" id="template-addCourseCareer">
-        <button class="back_button btn btn-primary" onclick = "document.location.href='#courseCareerPath'"><%= languageDict.attributes.Back_To_Course_Career %></button>
+    <input id="searchText" type="Text" placeholder="Course Career Name" style="margin-top: -80px; margin-left: 1212px; height: 28px; width: 170px;">
+        <button style="margin-top: -120px; margin-left: 1407px;" class="Search btn btn-info" id="SearchCoursePath" >Search</button>
+        <button class="back_button btn btn-primary" onclick = "document.location.href='#courses'"><%= languageDict.attributes.Back_To_Course %></button>
         <hr/>
         <h4 id="new-quiz"><%= languageDict.attributes.New_Career_Path %></h4>
         <div class ="multipleCourse">
@@ -1474,7 +1476,7 @@
                     <%}%>
                 </select>
                 <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Create_Course_Career %></button>
-                <button id="EditCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;">Update Course Career</button>
+                <button id="UpdateCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px; display:none;"><%= languageDict.attributes.Update_Career_Path %></button>
                 <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
             </form>
         </div>
@@ -1487,9 +1489,10 @@
                         <tr>
                             <td><%= careerList[i].CoursePathName %></td>
                             <td><ul><li><%= careerList[i].Courses %></li></ul></td>
-                            <td><button data-id="<%= careerList[i]['_id'] %>" id="Edit" class='course btn btn-success'><%=languageDict.attributes.EditLabel%></button></td>
-                            <td><button data-id="<%= careerList[i]['_id'] %>" class='destroy btn btn-danger' id='Delete' style="margin-right: 420px;"><%=languageDict.attributes.DeleteLabel%></button></td>
-                            <td><button  class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>'" style="margin-left: -550px;"><%=languageDict.attributes.View_Details%></button></td>
+                            <td><a role="button" id="careerEdit" data-id = <%= careerList[i]._id %> class='course btn btn-success'><%=languageDict.attributes.EditLabel%></a>
+                            <a role="button" data-id="<%= careerList[i]['_id'] %>" class='destroy btn btn-danger' id='Delete'><%=languageDict.attributes.DeleteLabel%></a>
+                            <a role="button" class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>/<%= careerList[i]._id %>'""><%=languageDict.attributes.View_Details%></a>
+                            </td>
                         </tr>
                     <% } %>
             </table>
@@ -1500,18 +1503,22 @@
 
     <script type="text/template" id="template-careerPathManage">
         <hr/>
-        <h4 id="new-quiz"><%= languageDict.attributes.Add_Level %></h4>
-        <form>
-            Title<br/>
-            <input type = "text" name = "title"/><br/>
-            Description<br/><textarea></textarea><br/>
-            Level<br/>
-            <input type = "text" name = "title" disabled ="disabled"/><br/>
-            Courses<br/>
-             <select id="LCourse" name = "LCourse"><br/>
-                        <option value=''></option>
-                </select>
-        </form>
+            <div id ="Manage">
+                <h4>Course Career | <%=CourseCareerName%></h4>
+                <h6>Course Lists</h6>
+                <textarea id="CareerDescription" rows="5" cols="100" style="width:98%;"><%=CouseLists%></textarea>
+                <button id="requiredCareer" class="course btn btn-success"><%= languageDict.attributes.Create_Course_Career %></button>
+            </div>
+            <div id = "careerPathList">
+                <label for="LCourse"><b><%= languageDict.attributes.Required_Course_Career_Path %></b></label>
+                    <select id="LCourse" name = "LCourse">
+                        <%for(var i =0; i< careerlength; i++){%>
+                            <option value='<%=careerListIds[i]%>'><%=careerList[i]%></option>
+                        <%}%>
+                    </select>
+                    <button id="AddMultipleCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Save %></button>
+                <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
+            </div>    
     </script>
 
     <script type="text/html" id="template-courseLevelsTable">
