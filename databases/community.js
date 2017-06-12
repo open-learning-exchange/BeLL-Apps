@@ -18,9 +18,9 @@ ddoc.views = {
                 emit(doc.Code, doc);
         }
     },
-    getCommunityByStatus: {
+    getCommunityByNoPending: {
         map: function(doc) {
-            if (doc && doc.registrationRequest)
+            if (doc && doc.registrationRequest != 'Pending')
                 emit(doc.registrationRequest, doc);
         }
     }

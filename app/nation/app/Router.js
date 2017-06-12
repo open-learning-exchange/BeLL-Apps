@@ -3907,7 +3907,7 @@ $(function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
-            var Communities = new App.Collections.Community({status : 'accepted'});
+            var Communities = new App.Collections.Community({status : 'NoPending'});
             Communities.fetch({
                     async: false
                 }

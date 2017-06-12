@@ -5,8 +5,8 @@ $(function() {
         initialize: function(e) {
 
             if (e) {
-                if(e.status == "accepted")
-                    this.url = App.Server + '/community/_design/bell/_view/getCommunityByStatus?include_docs=true&key="accepted"'
+                if(e.status == "NoPending")
+                    this.url = App.Server + '/community/_design/bell/_view/getCommunityByNoPending?include_docs=true'
                 else
                     this.url = App.Server + '/community/_all_docs?include_docs=true' + '&limit=' + e.limit
             } else {
