@@ -308,6 +308,7 @@
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
     <script src="app/views/ManageCourseCareer.js"></script> <!-- app/views.js -->
+    <script src="app/views/CareerPathTable.js"></script> <!-- app/views.js -->
 
 
     <!-- javaScript -->
@@ -1459,7 +1460,9 @@
     </script>
 
     <script type="text/template" id="template-addCourseCareer">
-        <button class="back_button btn btn-primary" onclick = "document.location.href='#courseCareerPath'"><%= languageDict.attributes.Back_To_Course_Career %></button>
+    <input id="searchText" type="Text" placeholder="Course Career Name" style="margin-top: -80px; margin-left: 1212px; height: 28px; width: 170px;">
+        <button style="margin-top: -120px; margin-left: 1407px;" class="Search btn btn-info" id="SearchCoursePath" >Search</button>
+        <button class="back_button btn btn-primary" onclick = "document.location.href='#courses'"><%= languageDict.attributes.Back_To_Course %></button>
         <hr/>
         <h4 id="new-quiz"><%= languageDict.attributes.New_Career_Path %></h4>
         <div class ="multipleCourse">
@@ -1473,7 +1476,7 @@
                     <%}%>
                 </select>
                 <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Create_Course_Career %></button>
-                <button id="UpdateCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px; display:none;"><%= languageDict.attributes.Update_Course_Career %></button>
+                <button id="UpdateCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px; display:none;"><%= languageDict.attributes.Update_Career_Path %></button>
                 <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
             </form>
         </div>

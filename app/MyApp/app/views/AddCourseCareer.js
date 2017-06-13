@@ -5,7 +5,7 @@ $(function() {
         vars: {},
         events: {
             "click #AddCareerPath": function() {
-               this.saveCareerPath();  
+               this.saveCareerPath();
             },
             "click #CancelCoursePath": function(e) {
             },
@@ -85,13 +85,12 @@ $(function() {
             savecoursecareer.set('CourseIds',selectedCourseId);
             savecoursecareer.set('MemberID',$.cookie('Member._id'));
             savecoursecareer.save(null, {
-                error: function() {
+                error: function(){
                     console.log("Not Saved")
                 }
-            })
-        }
+            });
+            }
         },
-
 
         render: function() {
             var arrcourses = []
