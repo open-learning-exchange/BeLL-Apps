@@ -5,7 +5,7 @@ $(function() {
         vars: {},
         events: {
             "click #AddCareerPath": function() {
-               this.saveCareerPath();
+               this.saveCareerPath();  
             },
             "click #CancelCoursePath": function(e) {
             },
@@ -61,7 +61,7 @@ $(function() {
                     }
                 });
                 var courseCareerTitle = $('#careerPath').val()
-                courseCareer.set('CoursePathName',courseCareerTitle);
+                courseCareer.set('CareerPathName',courseCareerTitle);
                 courseCareer.set('Courses',selectedCourseName);
                 courseCareer.set('CourseIds',selectedCourseId);
                 courseCareer.set('MemberID',$.cookie('Member._id'));
@@ -85,12 +85,13 @@ $(function() {
             savecoursecareer.set('CourseIds',selectedCourseId);
             savecoursecareer.set('MemberID',$.cookie('Member._id'));
             savecoursecareer.save(null, {
-                error: function(){
+                error: function() {
                     console.log("Not Saved")
                 }
-            });
-            }
+            })
+        }
         },
+
 
         render: function() {
             var arrcourses = []

@@ -17,7 +17,7 @@ $(function() {
         },
         schema: {
             Level_Name: 'Text', 
-            CoursePathName:'Text',
+            CareerPathName:'Text',
             Courselist: 'Text', 
             CourseIds:[],//Array:Multiple Courses
             MemberID:'Text'
