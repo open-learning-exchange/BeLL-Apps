@@ -53,12 +53,11 @@ $(function() {
             },
             selectLanguage: {// This attribute is being used to select BeLL-Apps language(After easy-install it is only used for nation, for community there is another way to select language)
                 type: 'Select',
-                options:[],
-                fieldAttrs : {class: "form-field"}
+                options:[]
             },
             accept: {
                 type: 'Checkbox',
-                fieldAttrs : {id: "accept"}
+                fieldAttrs : {id: "accept", class: "form-field"}
 
             }
         }

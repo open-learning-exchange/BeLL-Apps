@@ -6,7 +6,7 @@ $(function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             var languageDictValue=App.Router.loadLanguageDocs(lang);
-            this.$el.html('<h3>' + languageDictValue.get("Set_Configurations") + '</h3>');
+            this.$el.html('<h3 style="margin: 0px 38px;"">' + languageDictValue.get("Set_Configurations") + '</h3>');
 
         },
         events: {
@@ -19,7 +19,7 @@ $(function() {
             this.$el.append(this.form.render().el);
             var availableLanguages=App.Router.getAvailableLanguages();
             for(var key in availableLanguages){
-                this.$el.find('.field-selectLanguage .bbf-editor select style="width: 270px;"').append($('<option>', {
+                this.$el.find('.field-selectLanguage .bbf-editor select').append($('<option>', {
                     value: key,
                     text:availableLanguages[key]
                 }));
@@ -51,7 +51,6 @@ $(function() {
             this.$el.find('.field-version label').text(languageDictValue.get("Version"));
             this.$el.find('.field-notes label').text(languageDictValue.get("Notes"));
             this.$el.find('.field-selectLanguage label').text(languageDictValue.get("Select_Language"));
-            this.$el.find('.field-notes label').text(languageDictValue.get("Notes"));
             this.$el.find('.field-accept label').text(languageDictValue.get("Auto_Approve"));
             this.$el.append('<a style="display: table;margin: 0 auto" class="btn btn-success" id="formButton">' + languageDictValue.get("Submit_Configurations") + '</a>');
         },
