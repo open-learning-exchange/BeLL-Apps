@@ -1220,3 +1220,10 @@ textarea[name="comment"]
     margin-top: -40px;
     margin-left: 15px;
 }
+li.bbf-field.field-selectLanguage {
+    list-style-type: none;
+    margin-left: 7px;
+}
+.bbf-editor select[name=selectLanguage]{
+    width:284px;
+}
