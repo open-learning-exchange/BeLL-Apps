@@ -6809,6 +6809,16 @@ $(function() {
             courses.fetch({
                 async:false
             });
+            $.ajax({
+                    url: '/coursecareerpath/_design/bell/_view/getCourseCareerByName',
+                    type: 'GET',
+                    dataType: "jsonp",
+                    async: false,
+                    success: function(json) {
+                        console.log(json)
+                        $(careerList).insertBefore('#searchText');
+                    }
+                });
             var addCourseCareer = new App.Views.AddCourseCareer({
                 collection:courses
             });
@@ -6832,8 +6842,6 @@ $(function() {
 
         },
         manageCourseCareer: function(cname,cId){
-            console.log("CN--"+cname);
-            console.log("ID--"+cId)
             var courseCareerPath = new App.Models.CoursecareerPath({
                 _id : cId
             });
@@ -6842,7 +6850,7 @@ $(function() {
             });
             console.log(courseCareerPath)
             var manageCouseCareer = new App.Views.ManageCourseCareer({
-                collection:courseCareerPath
+                model:courseCareerPath
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)

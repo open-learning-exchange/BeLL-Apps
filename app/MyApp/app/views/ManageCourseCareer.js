@@ -9,6 +9,7 @@ $(function() {
             },
             "click #AddMultipleCareerPath":function(){
                this.saveMultipelCareer()
+               alert('saved')
             },
         },
 
@@ -35,6 +36,7 @@ $(function() {
                     console.log("Not Saved")
                 }
             });
+            location.reload()
         },
         render: function() {
             var multiplecareer = new App.Collections.CourseCareerPath();
@@ -45,7 +47,7 @@ $(function() {
             this.vars.careerList = [];
             this.vars.careerListIds = [];
             for(var i = 1; i< multiplecareer.length; i++){
-                if(multiplecareer.models[i].attributes._id != this.models.get('_id') ){
+                if(multiplecareer.models[i].attributes._id != this.model.get('_id') ){
                     this.vars.careerList.push(multiplecareer.models[i].attributes.CoursePathName);
                     this.vars.careerListIds.push(multiplecareer.models[i].attributes._id);
                 } 

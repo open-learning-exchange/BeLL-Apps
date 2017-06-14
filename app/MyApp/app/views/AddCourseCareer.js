@@ -3,7 +3,14 @@ $(function() {
     App.Views.AddCourseCareer = Backbone.View.extend({
         template: $('#template-addCourseCareer').html(),
         vars: {},
+        searchText: "",
         events: {
+            "click .Search": function(e) {
+             this.renderTable($('#searchText').val().toLowerCase())
+            },
+            "click #buttonCareer": function(){
+                alert('Hello')
+            },
             "click #AddCareerPath": function() {
                this.saveCareerPath();
             },
@@ -43,7 +50,27 @@ $(function() {
         initialize: function() {
             
         },
+        renderTable: function(searchText) {
+            App.startActivityIndicator()
+            var that = this
+            var career = new App.Collections.CourseCareerPath()
+            career.CoursePathName = searchText
+            career.fetch({
+                success: function(response){
+                    var careerTable = new App.Views.AddCourseCareer({
+                        collection: response
+                    })
+                    $(".btable").append("<tr><td>"+career.models[0].attributes.CoursePathName+"</td><td><ul><li>"+career.models[0].attributes.Courses+"</ul></li></td><td></td></tr>")
+                    App.stopActivityIndicator()
+                },
 
+                error: function() {
+                    App.stopActivityIndicator()
+                }
+            })
+            console.log(career)
+
+        },
         saveCareerPath: function(previousId){
             var selectedCourseId = []
             var selectedCourseName = []
@@ -116,6 +143,7 @@ $(function() {
             this.vars.Courseid = arrCourseIds
             this.vars.Course_Length = this.collection.models.length-1
             this.$el.html(_.template(this.template,this.vars))
+            
         },
     })
 
