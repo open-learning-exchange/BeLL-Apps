@@ -2425,55 +2425,56 @@ $(function() {
                         async: false
                     })
                     var stepQuestionIds = courseSteps.attributes.questionslist
-                    for (var k = 0; k < stepQuestionIds.length; k++) {
-                        var questionlist = new App.Models.CourseQuestion({
-                            _id: stepQuestionIds[k]
-                        })
-                        questionlist.fetch({
-                            async: false
-                        });
-                        var courseAnswer = new App.Collections.CourseAnswer()
-                        courseAnswer.StepID = courseSteps.attributes._id
-                        courseAnswer.MemberID =  allResults.models[i].attributes.memberId
-                        courseAnswer.pqattempts = pqattempts[j]
-                        courseAnswer.QuestionID = stepQuestionIds[k]
-                        courseAnswer.fetch({
-                            async: false
-                        })
-                        console.log(courseAnswer)
-                        if(courseAnswer.first() != undefined && courseAnswer.pqattempts > 0 ){
-                            var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
-                            JSONObj.MemberId =  allResults.models[i].attributes.memberId
-                            JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
-                            JSONObj.StepNo = courseSteps.attributes.step
-                            JSONObj.StepName = courseSteps.attributes.title
-                            JSONObj.QuestionID = questionlist.attributes._id
-                            JSONObj.Question = questionlist.attributes.Statement
-                            JSONObj.Attempt =  pqattempts[j]
-                            JSONObj.TotalMarks =  questionlist.attributes.Marks
-                            if(courseSteps.attributes.stepType == "Subjective"){
-                                if(questionlist.attributes.Type == "Multiple Choice"){
+                    if(stepQuestionIds != null) {
+                        for (var k = 0; k < stepQuestionIds.length; k++) {
+                            var questionlist = new App.Models.CourseQuestion({
+                                _id: stepQuestionIds[k]
+                            })
+                            questionlist.fetch({
+                                async: false
+                            });
+                            var courseAnswer = new App.Collections.CourseAnswer()
+                            courseAnswer.StepID = courseSteps.attributes._id
+                            courseAnswer.MemberID =  allResults.models[i].attributes.memberId
+                            courseAnswer.pqattempts = pqattempts[j]
+                            courseAnswer.QuestionID = stepQuestionIds[k]
+                            courseAnswer.fetch({
+                                async: false
+                            })
+                            if(courseAnswer.first() != undefined && courseAnswer.pqattempts > 0 ){
+                                var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
+                                JSONObj.MemberId =  allResults.models[i].attributes.memberId
+                                JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
+                                JSONObj.StepNo = courseSteps.attributes.step
+                                JSONObj.StepName = courseSteps.attributes.title
+                                JSONObj.QuestionID = questionlist.attributes._id
+                                JSONObj.Question = questionlist.attributes.Statement
+                                JSONObj.Attempt =  pqattempts[j]
+                                JSONObj.TotalMarks =  questionlist.attributes.Marks
+                                if(courseSteps.attributes.stepType == "Subjective"){
+                                    if(questionlist.attributes.Type == "Multiple Choice"){
+                                        if(courseAnswer.first().get('AttemptMarks') != null){
+                                            JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
+                                        } else {
+                                            JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                        }
+                                    } else{
+                                        if(courseAnswer.first().get('ObtainMarks') != undefined){
+                                            JSONObj.ObtainMarks =  courseAnswer.first().get('ObtainMarks')
+                                        } else {
+                                            JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                        }
+                                    }
+                                } else {
                                     if(courseAnswer.first().get('AttemptMarks') != null){
                                         JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
                                     } else {
                                         JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
                                     }
-                                } else{
-                                    if(courseAnswer.first().get('ObtainMarks') != undefined){
-                                        JSONObj.ObtainMarks =  courseAnswer.first().get('ObtainMarks')
-                                    } else {
-                                        JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
-                                    }
                                 }
-                            } else {
-                                if(courseAnswer.first().get('AttemptMarks') != null){
-                                    JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
-                                } else {
-                                    JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
-                                }
+                                JSONObj.Answer = courseAnswer.first().get('Answer')
+                                jsonObjectsData.push(JSONObj)
                             }
-                            JSONObj.Answer = courseAnswer.first().get('Answer')
-                            jsonObjectsData.push(JSONObj)
                         }
                     }
                 }
