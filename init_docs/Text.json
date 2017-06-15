@@ -928,5 +928,6 @@
     "Auto_Approve": "Auto Approve",
     "Unable_To_Download_Data" : "No data to download",
     "Label_PullNation" : "Pull Nation",
-    "publisher" : "Publisher"
+    "publisher" : "Publisher",
+    "Course_Progress_Statistics":"Course Progress Statistics"
 }
