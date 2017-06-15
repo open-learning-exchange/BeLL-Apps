@@ -543,7 +543,7 @@ $(function() {
                 creditsTableView.courseId=courseId;
                 creditsTableView.memberId=memberId;
                 creditsTableView.render();
-                App.$el.children('.body').html('<div id="creditsTable"></div>');
+                App.$el.children('.body').html('<div id="creditsTable" style = "margin-right:20px; margin-left:20px;"></div>');
                 var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
                 var name, id;
                 learnerCollection.each(
@@ -1432,7 +1432,7 @@ $(function() {
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-            App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+            App.$el.children('.body').html('<div id="AddCourseMainDiv" style = "margin-right:20px; margin-left:20px"></div>');
             // Bind form to the DOM
             if (modelId && url_split[1]=="view") {
                 model.id = modelId
@@ -2553,7 +2553,7 @@ $(function() {
                         trigger: true
                     })
                 })
-                App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+                App.$el.children('.body').html('<div id="AddCourseMainDiv" style = "margin-right:20px; margin-left:20px"></div>');
                 $('#AddCourseMainDiv').append('<br/><h3>'+App.languageDict.attributes.Course_Manage+'</h3>');
                 $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
@@ -2732,8 +2732,8 @@ $(function() {
             } else {
                 button += '<br/><br/>'
             }
-            App.$el.children('.body').html('<div class="courseEditStep"></div>')
-            $('.courseEditStep').append('<div id="courseName-heading"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
+            App.$el.children('.body').html('<div class="courseEditStep" style = "margin-right:20px; margin-left:20px;"></div>')
+            $('.courseEditStep').append('<div id="courseName-heading" style = "margin-right:20px; margin-left:20px;"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
             $('.courseEditStep').append(button)
             var memberModelArr = [];
             for(var i = 0; i < courseLeader.length; i++)
@@ -2974,7 +2974,7 @@ $(function() {
                         model: levelInfo
                     })
                     levelDetails.render();
-                    App.$el.children('.body').html('<div class="courseEditStep"></div>');
+                    App.$el.children('.body').html('<div class="courseEditStep" style ="margin-right:20px; margin-left:20px"></div>');
                     $('.courseEditStep').append('<h3>'  +App.languageDict.attributes.Step +levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
                     $('.courseEditStep').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
                     $('.courseEditStep').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Course+" </a>&nbsp;&nbsp;")
@@ -2989,7 +2989,7 @@ $(function() {
                         $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>')
                         $('.courseEditStep').append('<a class="btn btn-primary" style="margin-left: 1100px" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a>&nbsp;&nbsp;')
                     }
-                    $('.body').append('<div id="viewTest"></div>');
+                    $('.body').append('<div id="viewTest" style = "margin-right:20px; margin-left:20px"></div>');
 
                 }
             });
@@ -3313,7 +3313,7 @@ $(function() {
             resourcesTableView.render()
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
-                App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
+                App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px; margin-left: 23px;"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
                     '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
                     '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
             } else {
@@ -3334,8 +3334,8 @@ $(function() {
             } else {
                 temp = temp + ' ' +App.languageDict.attributes.Nation+' '+App.languageDict.attributes.Bell;
             }
-            App.$el.children('.body').append('<h4 id="secondHeadingOfReports"><span style="color:gray;">' + temp + '</span> | '+App.languageDict.attributes.Reports+'</h4>')
-            var tableDiv="<div id='reportTable'></div>";
+            App.$el.children('.body').append('<h4 id="secondHeadingOfReports"><span style="color:gray; margin-right:20px;margin-left:20px;">' + temp + '</span> | '+App.languageDict.attributes.Reports+'</h4>')
+            var tableDiv="<div id='reportTable' style = 'margin-right:20px;margin-left:20px;'></div>";
             App.$el.children('.body').append(tableDiv);
             $('#reportTable').append(resourcesTableView.el);
             if(directionOfLang.toLowerCase()==="right"){
@@ -4824,7 +4824,7 @@ $(function() {
                 })
                 resourceFeedback.on('sync', function() {
                     feedbackTable.render();
-                    App.$el.children('.body').html('<div id="feedbackResourceDiv"></div>');
+                    App.$el.children('.body').html('<div id="feedbackResourceDiv" style = "margin-right:20px; margin-left:20px"></div>');
                     $('#feedbackResourceDiv').append('<h3>'+App.languageDict.attributes.Feedback_For+' "' + resource.get('title') + '"</h3>')
                     var url_togo = "#resource/feedback/add/" + resourceId + "/" + resource.get('title')
                     $('#feedbackResourceDiv').append('<a class="btn btn-primary"" href="' + url_togo + '"><i class="icon-plus"></i>'+App.languageDict.attributes.Add_your_feedback+'</a>')
@@ -4867,7 +4867,7 @@ $(function() {
             feedbackForm.rtitle = resInfo.get('title')
             var user_rating
             feedbackForm.render()
-            App.$el.children('.body').html('<div id="feedbackResoDiv"></div>');
+            App.$el.children('.body').html('<div id="feedbackResoDiv" style = "margin-right:20px; margin-left:20px"></div>');
             $('#feedbackResoDiv').append('<h4 style="color:gray">'+App.languageDict.attributes.Add_Feedback_For+' '+'<span style="color:black;"> ' + resInfo.get('title') + '</span></h4>')
             $('#feedbackResoDiv').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>'+App.languageDict.attributes.Rating+'</p>')
             $('#feedbackResoDiv').append('<div id="star" data-score="0"></div>')
