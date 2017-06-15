@@ -25,8 +25,8 @@ $(function() {
         schema: {
             name: {//Name of a nation.Used mostly for displaying purpose.
                 type: 'Text',
-                validators: ['required'],
-                fieldAttrs : {class: "form-field"}
+		fieldAttrs : {class: "form-field"},
+                validators: ['required']
             },
             code: {//Some specific value.Used mostly to specify a 'unique keyword' for a nation so that we can easily differentiate among multiple nations
                 type: 'Text',
@@ -36,7 +36,7 @@ $(function() {
             nationName: {// Saves couch/futon's admin/userName of a nation to which nation is registered(mostly it is not used for nation)
                 type: 'Text',
                 validators: ['required'],
-                fieldAttrs : {class: "form-field"}
+                fieldAttrs : {class: "form-field" }
             },
             nationUrl: {// Saves URL of a nation to which nation is registered(mostly it is not used for nation)
                 type: 'Text',
