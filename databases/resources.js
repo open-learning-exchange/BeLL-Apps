@@ -496,6 +496,13 @@ ddoc.views = {
             }
         }
     },
+    GetResourcesByID: {
+        map: function(doc) {
+            if (doc && doc._id) {
+                emit(doc._id, doc);
+            }
+        }
+    },
     searchResourcesBySubsetOfTitleWords: {
         map: function(doc) {
             if (doc.title) {
