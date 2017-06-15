@@ -25,8 +25,8 @@ $(function() {
         schema: {
             name: {//Name of a nation.Used mostly for displaying purpose.
                 type: 'Text',
-		fieldAttrs : {class: "form-field"},
-		validators: ['required']
+                fieldAttrs : {class: "form-field"},
+                validators: ['required']
             },
             code: {//Some specific value.Used mostly to specify a 'unique keyword' for a nation so that we can easily differentiate among multiple nations
                 type: 'Text',
