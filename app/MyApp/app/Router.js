@@ -2324,7 +2324,7 @@ $(function() {
                   }
                  });
             coursestatisticview.render()
-            App.$el.children('.body').html('<div id="couarsestat"></div>');
+            App.$el.children('.body').html('<div id="couarsestat" style = "margin-right:20px; margin-left:20px"></div>');
             $('#couarsestat').append('<div><h2>'+App.languageDict.attributes.Course_Progress_Statistics+'</h2></div>')
             $('#couarsestat').append(coursestatisticview.el);
              var directionOfLang = App.languageDict.get('directionOfLang');
@@ -2344,7 +2344,7 @@ $(function() {
                   }
                  });
             courseStepstatisticview.render()
-            App.$el.children('.body').html('<div id="couarsestepstat"></div>');
+            App.$el.children('.body').html('<div id="couarsestepstat" style = "margin-right:20px; margin-left:20px"></div>');
             $('#couarsestepstat').append('<div><h2>'+App.languageDict.attributes.Course_Step_Progress_Statistics+'</h2></div>')
             $('#couarsestepstat').append(courseStepstatisticview.el);
              var directionOfLang = App.languageDict.get('directionOfLang');
@@ -2358,7 +2358,7 @@ $(function() {
             course.fetch({
                 async: false
             })
-            App.$el.children('.body').html('<div class="courseSearchResults_Bottom"></div>');
+            App.$el.children('.body').html('<div class="courseSearchResults_Bottom" ></div>');
             $('.courseSearchResults_Bottom').append("<h2> " + cname + "</h2>")
             if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
