@@ -3314,8 +3314,8 @@ $(function() {
             resourcesTableView.render()
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
-                App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
-                    '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
+                App.$el.children('.body').append('<p id="firstHeadingOfReports" style = " margin-left: 20px; margin-right: 20px;"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
+                    '<a id="sHonRep" style = " margin-left: 20px; margin-right: 20px;" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
                     '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
             } else {
                 App.$el.children('.body').append('<p id="sHonRep" style="margin-top:10px;margin-left:10px;"><a class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a></p>')
@@ -3335,8 +3335,8 @@ $(function() {
             } else {
                 temp = temp + ' ' +App.languageDict.attributes.Nation+' '+App.languageDict.attributes.Bell;
             }
-            App.$el.children('.body').append('<h4 id="secondHeadingOfReports"><span style="color:gray;">' + temp + '</span> | '+App.languageDict.attributes.Reports+'</h4>')
-            var tableDiv="<div id='reportTable'></div>";
+            App.$el.children('.body').append('<h4 id="secondHeadingOfReports"><span style="color:gray; margin-right:20px;margin-left:20px;">' + temp + '</span> | '+App.languageDict.attributes.Reports+'</h4>')
+            var tableDiv="<div id='reportTable' style = 'margin-right:20px;margin-left:20px;'></div>";
             App.$el.children('.body').append(tableDiv);
             $('#reportTable').append(resourcesTableView.el);
             if(directionOfLang.toLowerCase()==="right"){
