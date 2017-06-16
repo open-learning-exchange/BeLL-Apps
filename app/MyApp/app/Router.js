@@ -2364,6 +2364,7 @@ $(function() {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
                 $('.courseSearchResults_Bottom').append('<a id="CourseStatistics" class="btn btn-inverse"  href=\'#CourseStatistics/' + cId + '\'">'+App.languageDict.attributes.Course_Progress_Statistics+'</a>')
                 $('.courseSearchResults_Bottom h2').append("<a class='btn btn-info' style='margin-left: 10px;' onclick=App.Router.downloadCourseCSV('" + cId + "')>" +App.languageDict.attributes.Download+"</a>")
+                $('.courseSearchResults_Bottom h2').append("<a class='btn btn-info' style='margin-left: 10px;' onclick=App.Router.downloadSummariesCourseCSV('" + cId + "')>" +App.languageDict.attributes.Download_Summary+"</a>")
             }
             $('.courseSearchResults_Bottom').append('<p id="graph2title"style="text-align:center">'+App.languageDict.attributes.Individual_Member_Course_Progress+'</p>')
             App.$el.children('.body').append('<div id="detailView"><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
@@ -2386,6 +2387,62 @@ $(function() {
             $('.body').append(vi.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
+        },
+
+        downloadSummariesCourseCSV: function(courseId) {
+            var jsonObjectsData = [];
+            var course = new App.Models.Course({
+                _id: courseId
+            });
+            course.fetch({
+                async:false
+            });
+            var allResults = new App.Collections.StepResultsbyCourse()
+            allResults.courseId = courseId
+            allResults.fetch({
+                async: false
+            })
+            for (var i = 0; i < allResults.length; i++) {
+                student = new App.Models.Member({
+                    _id: allResults.models[i].attributes.memberId
+                })
+                student.fetch({
+                    async: false
+                })
+                var sstatus = allResults.models[i].attributes.stepsStatus
+                var sp = allResults.models[i].attributes.stepsResult
+                var ssids = allResults.models[i].attributes.stepsIds
+                var pqattempts = allResults.models[i].attributes.pqAttempts
+                for (var j = 0; j < ssids.length; j++) {
+                    var courseSteps = new App.Models.CourseStep()
+                    courseSteps.id = ssids[j];
+                    courseSteps.fetch({
+                        async: false
+                    })
+                    var count = 0
+                    for(var l = 0; l <= pqattempts[j]; l++){
+                        console.log( pqattempts[j])
+                       if (sstatus[j][l] === "1")
+                        {
+                            count++
+                        }
+                    }
+                    var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "Attempt":"","PassCount":""};
+                    JSONObj.MemberId =  allResults.models[i].attributes.memberId
+                    JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
+                    JSONObj.StepNo = courseSteps.attributes.step
+                    JSONObj.StepName = courseSteps.attributes.title
+                    JSONObj.Attempt =  pqattempts[j]
+                    JSONObj.PassCount =  count
+                    jsonObjectsData.push(JSONObj)
+                    console.log(jsonObjectsData);
+                }
+            }
+            if(jsonObjectsData.length > 0) {
+                this.JSONToCSVConvertor(jsonObjectsData, course.attributes.CourseTitle);
+            } else {
+                alert(App.languageDict.attributes.Unable_To_Download_Data);
+            }
         },
 
         downloadCourseCSV: function(courseId) {
