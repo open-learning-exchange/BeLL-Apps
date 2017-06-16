@@ -645,7 +645,7 @@
         <a href="#surveydetail/<%= _id %>" class="btn btn-warning">
             <%= languageDict.attributes.Details %>
         </a>
-        <a class='btn btn-info' onclick="App.Router.downloadCommunitySurveys('<%= SurveyNo %>', '<%= SurveyTitle %>')">
+        <a class='btn btn-info' onclick="App.Router.downloadCommunitySurveys('<%= SurveyNo %>', '<%= SurveyTitle %>','')">
             <%= languageDict.attributes.Download %>
         </a>
         <a class='btn btn-danger destroy'>
@@ -703,6 +703,7 @@
         <a class='resFeedBack btn btn-success edit_survey_question'>
             <i class='icon-eye-open icon-white'></i> <%= languageDict.attributes.EditLabel %>
         </a>
+        <a class='btn btn-info' onclick="App.Router.downloadCommunitySurveys('<%= surveyNo %>', '<%=surveyTitle %>','<%=_id %>')"> <%= languageDict.attributes.Download %><a>
         <a class='btn btn-danger destroy'>
             <i class='icon-remove icon-white'></i> <%= languageDict.attributes.Remove %>
         </a>
