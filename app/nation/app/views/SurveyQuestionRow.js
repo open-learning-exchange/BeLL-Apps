@@ -46,6 +46,14 @@ $(function() {
 
         render: function() {
             var vars = this.model.toJSON();
+            var surveyObject = new App.Models.Survey({
+                _id: this.Id
+            })
+            surveyObject.fetch({
+                async: false
+            })
+            vars.surveyNo = surveyObject.get('SurveyNo')
+            vars.surveyTitle = surveyObject.get('SurveyTitle')
             vars.languageDict=App.languageDictValue;
             this.$el.append(this.template(vars))
         },
