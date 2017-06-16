@@ -926,5 +926,8 @@
   "Nation_Pending":"crwdns16353:0crwdne16353:0",
   "Marks_Should_not_be_Zero_or_Negative":"crwdns16354:0crwdne16354:0",
   "Auto_Approve":"crwdns16355:0crwdne16355:0",
-  "Unable_To_Download_Data":"crwdns16357:0crwdne16357:0"
+  "Unable_To_Download_Data":"crwdns16358:0crwdne16358:0",
+  "Label_PullNation":"crwdns16359:0crwdne16359:0",
+  "publisher":"crwdns16360:0crwdne16360:0",
+  "Course_Progress_Statistics":"crwdns16361:0crwdne16361:0"
 }

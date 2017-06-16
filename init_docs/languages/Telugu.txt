@@ -18,7 +18,7 @@
   "Community":"సంఘం",
   "Manager":"నిర్వాహకుడు",
   "Super_Manager":"ఉన్నత నిర్వాహకుడు",
-  "Leader":"Leader",
+  "Leader":"నాయకుడు",
   "Bell":"బెల్",
   "Learner":"Learner",
   "Visits":"సందర్శనలు",
@@ -69,9 +69,9 @@
   "Resources":"Resources",
   "Title":"Title",
   "action":"Action",
-  "year":"Year",
+  "year":"సంవత్సరం",
   "media":"Media",
-  "language":"Language",
+  "language":"భాష",
   "subject":"Subject(s)",
   "level":"Level(s)",
   "publisher_attribution":"Publisher/Attribution",
@@ -926,5 +926,8 @@
   "Nation_Pending":"Community registration request pending",
   "Marks_Should_not_be_Zero_or_Negative":"Marks Should not be Zero or Negative",
   "Auto_Approve":"Auto Approve",
-  "Unable_To_Download_Data":"Not Attempted, so unable to download data"
+  "Unable_To_Download_Data":"No data to download",
+  "Label_PullNation":"Pull Nation",
+  "publisher":"Publisher",
+  "Course_Progress_Statistics":"Course Progress Statistics"
 }
