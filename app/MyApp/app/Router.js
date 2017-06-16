@@ -23,7 +23,7 @@ $(function() {
             'resource/search': 'bellResourceSearch',
             'search-bell/:levelId/:rId': 'SearchBell',
             'assign-to-level': 'AssignResourcetoLevel',
-            'courses': 'Courses',
+            'courses(/courseCareerPath)': 'Courses',
             'course/manage/:courseId': 'ManageCourse',
             'course/details/:courseId/:courseName': 'courseDetails',
             'usercourse/details/:courseId/:courseName': 'UserCourseDetails',
@@ -96,8 +96,8 @@ $(function() {
             'listLearnersCredits/:cid': 'showLearnersListForCredits',
             'passwordResetEmail': 'showPasswordResetEmail',
             'password-reset': 'showPasswordReset',
-            'courseCareerPath':'CourseCareerPath',
-            'courseCareerPath/add':'addCareerPath',
+            //'courseCareerPath':'CourseCareerPath',
+            'courseCareerPath':'addCareerPath',
             'courseCareerPath/manage/:careername/:careerId':'manageCourseCareer'
         },
         addOrUpdateWelcomeVideoDoc: function() {
@@ -2178,12 +2178,12 @@ $(function() {
                     var button = '<p id="library-top-buttons">'
                     button += '<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>'
                     button += '<a id="requestCourseButton" class="btn btn-success" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>'
-                    button += '<a id="courseCareerPath" class="btn btn-info" style = "margin-left: 15px;" href="#courseCareerPath/add">'+App.languageDict.attributes.Course_Career_Path+'</a>'
+                    //button += '<a id="courseCareerPath"  style = "margin-left: 15px;" href="#courseCareerPath/add">'+App.languageDict.attributes.Course_Career_Path+'</a>'
                     button += '<span id="searchSpan"><input id="searchText" value="" size="30" style="height:24px;margin-top:1%;" type="text"><span style="margin-left:10px">'
                     button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
                     $('#parentLibrary').append( button);
-                    $('#parentLibrary').append('<h3 id="headingOfCourses">'+App.languageDict.attributes.Courses+'</h3>')
+                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#courses"style="font-size:30px;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;">'+languageDict.attributes.Course_Career_Path+'</a></p>')                                        
                     $('#parentLibrary').append(coursesTable.el);
                     coursesTable.changeDirection();
                     if(directionOfLang.toLowerCase()==="right")
@@ -6764,7 +6764,9 @@ $(function() {
             });
             addCourseCareer.render()
             App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
-            $('#ManageCourseCareer').append('<div><h2>'+App.languageDict.attributes.Career_Path+'</h2></div>')
+            $('#ManageCourseCareer').append('<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>')
+            $('#ManageCourseCareer').append('<a id="requestCourseButton" class="btn btn-success" style="margin: 24px;" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>')
+            $('#ManageCourseCareer').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#courses"style="font-size:30px;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;">'+languageDict.attributes.Course_Career_Path+'</a></p>')
             $('#ManageCourseCareer').append(addCourseCareer.el);
             $("#EditCareerPath").hide();
             $('#LCourse').multiselect().multiselectfilter();
