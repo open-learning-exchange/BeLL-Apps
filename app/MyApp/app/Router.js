@@ -2183,7 +2183,11 @@ $(function() {
                     button += '<button class="btn btn-info" onclick="CourseSearch()">'+App.languageDict.attributes.Search+'</button></span>'
                     button += '</p>'
                     $('#parentLibrary').append( button);
-                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#courses"style="font-size:30px;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;">'+languageDict.attributes.Course_Career_Path+'</a></p>')                                        
+                    if($.url().attr('fragment') == "courses") {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#courses"style="font-size:30px;text-decoration: underline;;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;" >'+languageDict.attributes.Course_Career+'</a></p>')
+                    }else{
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#courses"style="font-size:30px;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;text-decoration: underline;">'+languageDict.attributes.Course_Career+'</a></p>')
+                    }
                     $('#parentLibrary').append(coursesTable.el);
                     coursesTable.changeDirection();
                     if(directionOfLang.toLowerCase()==="right")
@@ -6765,8 +6769,12 @@ $(function() {
             addCourseCareer.render()
             App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
             $('#ManageCourseCareer').append('<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>')
-            $('#ManageCourseCareer').append('<a id="requestCourseButton" class="btn btn-success" style="margin: 24px;" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>')
-            $('#ManageCourseCareer').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#courses"style="font-size:30px;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;">'+languageDict.attributes.Course_Career_Path+'</a></p>')
+            $('#ManageCourseCareer').append('<a id="requestCourseButton" class="btn btn-success" style="margin: 13px;margin-left: 9px;" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>')
+            if($.url().attr('fragment') == "courses") {
+                $('#ManageCourseCareer').append('<p id="labelOnResource" style="font-size:30px; margin-bottom: -23px;color:#808080"><a href="#courses"style="font-size:30px;text-decoration: underline;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;text-decoration: underline;"checked data-toggle="toggle">'+languageDict.attributes.Course_Career+'</a></p>')
+            }else{
+                $('#ManageCourseCareer').append('<p id="labelOnResource" style="font-size:30px; margin-bottom: -23px;color:#808080"><a href="#courses"style="font-size:30px;">'+languageDict.attributes.Courses+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#courseCareerPath" style="font-size:30px;text-decoration: underline;"checked data-toggle="toggle">'+languageDict.attributes.Course_Career+'</a></p>')
+            }
             $('#ManageCourseCareer').append(addCourseCareer.el);
             $("#EditCareerPath").hide();
             $('#LCourse').multiselect().multiselectfilter();
