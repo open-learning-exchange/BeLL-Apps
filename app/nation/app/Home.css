@@ -1227,3 +1227,12 @@ li.bbf-field.field-selectLanguage {
 .bbf-editor select[name=selectLanguage]{
     width:284px;
 }
+#selectCommunity{
+    margin-right: 30px;
+    float: right;
+    margin-top: 5px;
+}
+#accept div input[name=accept]{
+    margin-top: -45px;
+    margin-left: -35px;
+}

@@ -46,6 +46,21 @@ ddoc.views = {
                // emit([doc.Name, doc.nationUrl], true);
         }
     },
+    getCommunityByUniqueRegion: {
+        map: function(doc) {
+            if (doc.region && doc.kind == 'Community')
+                emit(doc.region, doc);
+        },
+        reduce: function(keys, values, rereduce) {
+            return values[0].region;
+        }
+    },
+    getCommunityByRegion: {
+        map: function(doc) {
+            if (doc && doc.region)
+                emit(doc.region, doc);
+        }
+    },
 
 
 }

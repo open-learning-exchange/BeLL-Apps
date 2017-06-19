@@ -3881,11 +3881,16 @@ $(function() {
                 window.location.href = "../MyApp/index.html#login";
             }
         },
-
         getPendingRequests: function() {
             var jsonModels = [];
+            if($.cookie('selectCommunity')){
+                url = '/communityregistrationrequests/_design/bell/_view/getCommunityByRegion?include_docs=true&key="'+$.cookie('selectCommunity')+'"'
+            }
+            else {
+                url ='/communityregistrationrequests/_design/bell/_view/getAllCommunities?_include_docs=true'
+            }
             $.ajax({
-                url: '/communityregistrationrequests/_design/bell/_view/getAllCommunities?_include_docs=true',
+                url: url,
                 type: 'GET',
                 dataType: 'json',
                 async: false,
@@ -3902,6 +3907,40 @@ $(function() {
             });
             return jsonModels;
         },
+        getUniqueRegion: function() {
+            var jsonModels = [];
+            var jsonModels1 = [];
+            $.ajax({
+                url: '/communityregistrationrequests/_design/bell/_view/getCommunityByUniqueRegion?group=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    for(var i = 0 ; i < json.rows.length ; i++) {
+                            jsonModels.push(json.rows[i].value);
+                    }
+                    $.ajax({
+                        url: '/community/_design/bell/_view/getCommunityByUniqueRegion?group=true',
+                        type: 'GET',
+                        dataType: 'json',
+                        async: false,
+                        success: function (json) {
+                            for(var i = 0 ; i < json.rows.length ; i++) {
+                                    jsonModels1.push(json.rows[i].value);
+                                }
+                        },
+                        error: function (status) {
+                            console.log(status);
+                        }
+                    });
+                },
+                error: function (status) {
+                    console.log(status);
+                }
+            });
+            return jsonModels.concat(jsonModels1);
+
+        },
 
         ListCommunitiesRequest: function(startDate){
             var that = this;
@@ -3912,10 +3951,16 @@ $(function() {
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             var Communities = new App.Collections.Community({status : 'NoPending'});
+            if($.cookie('selectCommunity')){
+                var Communities = new App.Collections.Community({ 
+                    selectCommunity: $.cookie('selectCommunity')
+                });
+            }else{
+                var Communities = new App.Collections.Community();
+            }
             Communities.fetch({
-                    async: false
-                }
-            );
+                async: false
+            });
             CommunityTable = new App.Views.CommunityRequestsTable({
                 collection: Communities,
                 startDate: startDate,
@@ -3935,7 +3980,7 @@ $(function() {
 		    urlFrag = $.url().data.attr.fragment.split('/');
 		    if(urlFrag[1]) {
 		        selDate = urlFrag[1].split('-');
-			setDt = new Date(selDate[0], selDate[1]-1, 01, 00, 00, 00);
+                setDt = new Date(selDate[0], selDate[1]-1, 01, 00, 00, 00);
 		    } else {
 		        setDt = new Date();
 		    }
@@ -3948,14 +3993,32 @@ $(function() {
                         firstDt = new Date();
 	            }
 	            today = new Date();
+                var getRegion = that.getUniqueRegion();
+                if(getRegion !=""){
+                   var getSelectRegion = '<option value="">'+App.languageDictValue.get('Select_Community_ByRegion')+'</option>';
+                        for(var i=0; i<getRegion.length; i++){
+                            getSelectRegion += '<option value="'+getRegion[i]+'">'+getRegion[i]+'</option>';
+                        }
+                         SelectRegion = '<select id="selectCommunity">'+getSelectRegion+'</select>';
+                }
 	            var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
+
 	            if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
 	                listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.date-picker{width:300px;float:right;}</style>';
 	            }
 	            listCommunity += "<div id='list-of-Communities'></div>"
-                    App.$el.children('.body').html('<div id="communityDiv"></div>');
+                App.$el.children('.body').html('<div id="communityDiv">');
+                $('#communityDiv').append(SelectRegion);
 	            $('#communityDiv').append(listCommunity);
-                    
+                if($.cookie('selectCommunity'))
+                    $('#selectCommunity option[value="'+$.cookie('selectCommunity')+'"').attr("selected",'selected');
+                $('#selectCommunity').change(function(){
+                    $.cookie('selectCommunity',$(this).val(), '');
+                    if($.cookie('selectCommunity'))
+                        $('#selectCommunity option[value="'+$.cookie('selectCommunity')+'"').attr("selected","selected");
+                    location.reload();
+                });
+                for (var it in $.cookie()) $.removeCookie(it);
 	            if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
 	                $('input.date-picker').datepicker({
                             minDate: firstDt,

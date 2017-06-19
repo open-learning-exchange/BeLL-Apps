@@ -7,8 +7,12 @@ $(function() {
             if (e) {
                 if(e.status == "NoPending")
                     this.url = App.Server + '/community/_design/bell/_view/getCommunityByNoPending?include_docs=true'
-                else
+                else if(e.selectCommunity){
+                    this.url = App.Server + '/community/_design/bell/_view/getCommunityByRegion?include_docs=true&key="'+e.selectCommunity+'"'
+                }
+                else{
                     this.url = App.Server + '/community/_all_docs?include_docs=true' + '&limit=' + e.limit
+                }
             } else {
                 this.url = App.Server + '/community/_all_docs?include_docs=true'
             }

@@ -68,7 +68,7 @@ $(function() {
                 $('#modal').modal({
                     show: true
                 })
-            }
+            },
         },
 
         //template : $("#template-CourseRow").html(),
