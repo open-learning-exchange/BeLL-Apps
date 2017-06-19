@@ -553,7 +553,7 @@ padding-top: 5px;
 }
 #next_button
 {
-    width:45%;
+    width:35%;
     float: right;
 
 }
@@ -568,7 +568,7 @@ padding-top: 5px;
 }
 #previous_button
 {
-    width:45%;
+    width:35%;
 }
 .search-bottom-nav-table {
     width: 100%;
@@ -1011,4 +1011,13 @@ a.forgot-password-form-button{
 a.forgot-password-form-button:hover{
     cursor: pointer;
     color: #3498db;
+}
+a#search1 {
+    margin-top: -317px;
+    margin-left: 440px;
+}
+a#Close {
+    margin-right: 4px;
+    float: right;
+    margin-top: 5px;
 }
