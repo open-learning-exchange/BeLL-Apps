@@ -8,6 +8,7 @@ $(function() {
         events: {
             "click .Search": function(e) {
              this.renderTable($('#searchText').val().toLowerCase())
+             alert('Hi')
             },
         },
         

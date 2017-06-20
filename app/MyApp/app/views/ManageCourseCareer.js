@@ -9,6 +9,7 @@ $(function() {
             },
             "click #AddMultipleCareerPath":function(){
                this.saveMultipelCareer()
+               alert('saved')
             },
         },
 
