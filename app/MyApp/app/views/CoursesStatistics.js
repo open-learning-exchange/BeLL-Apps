@@ -29,6 +29,7 @@ $(function() {
                     membersstatus = staticProgress.attributes.stepsStatus
                     var pqattempts = staticProgress.attributes.pqAttempts
                     var member = staticProgress.attributes.memberId
+                    console.log("MemberID: "+member+"member status: "+membersstatus)
                     for (var k = 0; k < memberStep.length; k++)
                     {
                         var count = 0
@@ -36,7 +37,7 @@ $(function() {
                            if (membersstatus[k][j] == "0")
                             {
                                 count++
-                            } 
+                            }
                         }
                        failarr.push(count)
                     }
@@ -49,6 +50,7 @@ $(function() {
                     });
                    memberName.push(members.toJSON().firstName + ' ' + members.toJSON().lastName)
                 }
+                console.log("MemberID: "+member+"member status: "+membersstatus)
                 for (var y = 0; y < memberStep.length; y++) {
                         var courseSteps = new App.Models.CourseStep()
                         courseSteps.id = memberStep[y];

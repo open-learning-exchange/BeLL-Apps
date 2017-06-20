@@ -1195,25 +1195,30 @@
     <script type="text/html" id="template-CourseStatistics">
             <table class="table table-striped">
             <tr>
-                <th colspan = ""><%=App.languageDict.attributes.Members%></th>
-                <th colspan = "25"><%=App.languageDict.attributes.Steps%></th>
+            <th></th>
+                <% for(var k = 0; k < Totalfailstat.length; k++) {%>
+                    <th> <%=member_Name[k]%></th>
+                <%}%>
+                
             </tr>
             <tr>
-                <th></th>
-                    <% for(var i = 0; i < stepName.length; i++) {%>
+                <th colspan = ""><%=App.languageDict.attributes.Steps%></th>
+                <% for(var k = 0; k < Totalfailstat.length; k++) {%>
+                    <th>Errors</th>
+                <%}%>
+            </tr>  
+                <% for(var i = 0; i < stepName.length; i++) {%><tr>
                         <%var a = i + 1%>
-                        <th><a href ="#CourseStepStatistics/<%=stepId[i]%>"><%=a%></a>
-                        </th>
-                    <% } %>
+                           <td><a href ="#CourseStepStatistics/<%=stepId[i]%>"><b><%=a%></b></a></td>
+
+                        <% for(var j = 0; j < steps.length; j++) {%>
+                            <td><%=Totalfailstat[i][j]%></td>
+                        <% } %>
+                    
+                <%}%>
+
             </tr>
-            <% for(var k = 0; k < Totalfailstat.length; k++) {%>
-                <tr>
-                    <td><%=member_Name[k]%></td>
-                    <% for(var j = 0; j < steps.length; j++) {%>
-                            <td><%=Totalfailstat[k][j]%></td>
-                    <% } %>
-                </tr>
-            <% } %>
+                
             </table>
     </script>
 
