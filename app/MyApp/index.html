@@ -1196,9 +1196,11 @@
             <table class="table table-striped">
             <tr>
                 <th colspan = ""><%=App.languageDict.attributes.Members%></th>
-                <th colspan = "25"><%=App.languageDict.attributes.Steps%></th>
+                <th></th>
+                <th colspan = "50v"><center><%=App.languageDict.attributes.Steps%></center></th>
             </tr>
             <tr>
+                <th></th>
                 <th></th>
                     <% for(var i = 0; i < stepName.length; i++) {%>
                         <%var a = i + 1%>
@@ -1208,12 +1210,22 @@
             </tr>
             <% for(var k = 0; k < Totalfailstat.length; k++) {%>
                 <tr>
-                    <td><%=member_Name[k]%></td>
-                    <% for(var j = 0; j < steps.length; j++) {%>
-                            <td><%=Totalfailstat[k][j]%></td>
+                    <td style ="color: #006400;"><b><%=member_Name[k]%></b></td>
+                    <td style="color: red;"><b><%=Totalerrors[k]%></b></td>
+                   <% for(var j = 0; j < member_sstatus.length; j++) {%>
+                            <td class = "attemptError"><%=Totalfailstat[k][j]%></td>
                     <% } %>
                 </tr>
             <% } %>
+             <tr>
+                <td><b>Total Errors</b></td>
+                <td></td>
+                <% for(var i = 0; i < stepName.length; i++) {%>
+                    <td style="color: red;"><b><%=TotalmemberSteperror[i]%></b></td>
+                <%}%>
+            </tr>
+
+
             </table>
     </script>
 
