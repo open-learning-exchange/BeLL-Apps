@@ -929,5 +929,6 @@
   "Unable_To_Download_Data":"No data to download",
   "Label_PullNation":"Pull Nation",
   "publisher":"Publisher",
-  "Course_Progress_Statistics":"Course Progress Statistics"
+  "Course_Progress_Statistics":"Course Progress Statistics",
+  "Download_Summary":"Download Summary"
 }

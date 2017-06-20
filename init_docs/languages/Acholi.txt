@@ -929,5 +929,6 @@
   "Unable_To_Download_Data":"crwdns16358:0crwdne16358:0",
   "Label_PullNation":"crwdns16359:0crwdne16359:0",
   "publisher":"crwdns16360:0crwdne16360:0",
-  "Course_Progress_Statistics":"crwdns16361:0crwdne16361:0"
+  "Course_Progress_Statistics":"crwdns16361:0crwdne16361:0",
+  "Download_Summary":"crwdns16362:0crwdne16362:0"
 }
