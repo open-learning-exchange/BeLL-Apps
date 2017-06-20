@@ -1234,7 +1234,7 @@
           </div>
         </div>
         <div class="container">
-            <div class="modal fade" id="modalResources" role="dialog">
+            <div class="modal fade" id="modalResources" role="dialog" aria-hidden="true" style="display: none; margin-top: 100px;">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -1261,7 +1261,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="modalCourses" role="dialog">
+            <div class="modal fade" id="modalCourses" role="dialog" aria-hidden="true" style="display: none; margin-top: 100px;">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -1270,9 +1270,9 @@
                         </div>
                         <div class="modal-body">
                             <dl class="dl-horizontal">
-                                <dt><%= languageDict.attributes.Name %>Name</dt><dd id="name"></dd>
-                                <dt><%= languageDict.attributes.Subject_Level %>Subject Level</dt><dd id="subjectLevel"></dd>
-                                <dt><%= languageDict.attributes.Grade_Level %>Grade Level</dt><dd id="gradeLevel"></dd>
+                                <dt><%= languageDict.attributes.Name %></dt><dd id="name"></dd>
+                                <dt><%= languageDict.attributes.Subject_Level %></dt><dd id="subjectLevel"></dd>
+                                <dt><%= languageDict.attributes.Grade_Level %></dt><dd id="gradeLevel"></dd>
                                 <dt><%= languageDict.attributes.Description %></dt><dd id="description"></dd>
                                 <dt><%= languageDict.attributes.Schedule %></dt><dd id="schedule"></dd>
                                 <dt><%= languageDict.attributes.Location %></dt><dd id="location"></dd>

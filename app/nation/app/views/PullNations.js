@@ -232,8 +232,91 @@ $(function() {
                                     }),
                                     async: false,
                                     success: function (response) {
-                                        alert(App.languageDictValue.attributes.Added_Success);
-                                        App.stopActivityIndicator();
+                                        //get StepID from coursestep
+                                         $.ajax({
+                                            url: 'http://'+ admin_name + ':oleoleole@' + nationUrl + '/coursestep/_design/bell/_view/GetCourseStepByCourseID?include_docs=true&key="'+ doc_id +'"',
+                                            type: 'GET',
+                                            dataType: 'jsonp',
+                                                success: function (response) {
+                                                    if(response.rows.length > 0){
+                                                        var jsonStepData = [];
+                                                        for( var i = 0; i < response.rows.length; i++){
+                                                            jsonStepData.push(response.rows[i].id);
+                                                        }
+                                                        //replicate coursetep
+                                                        $.ajax({
+                                                            headers: {
+                                                                'Accept': 'application/json',
+                                                                'Content-Type': 'application/json; charset=utf-8'
+                                                            },
+                                                            type: 'POST',
+                                                            url: '/_replicate',
+                                                            dataType: 'json',
+                                                            data: JSON.stringify({
+                                                                "source": 'http://' + nationUrl + '/coursestep',
+                                                                "target": 'coursestep',
+                                                                'doc_ids': jsonStepData
+                                                            }),
+                                                            async: false,
+                                                            success: function (response) {
+                                                                //get question from coursequestion
+                                                                $.ajax({
+                                                                    url: 'http://'+ admin_name + ':oleoleole@' + nationUrl + '/coursequestion/_design/bell/_view/GetCourseQuestionByStepID?include_docs=true&keys='+ JSON.stringify(jsonStepData) ,
+                                                                    type: 'GET',
+                                                                    dataType: 'jsonp',
+                                                                        success: function (response) {
+                                                                            if(response.rows.length > 0){
+                                                                                var jsonQuestionData = [];
+                                                                                for( var i = 0; i < response.rows.length; i++){
+                                                                                    jsonQuestionData.push(response.rows[i].id);
+                                                                                }
+                                                                                //replicate coursequestion
+                                                                                 $.ajax({
+                                                                                    headers: {
+                                                                                        'Accept': 'application/json',
+                                                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                                                    },
+                                                                                    type: 'POST',
+                                                                                    url: '/_replicate',
+                                                                                    dataType: 'json',
+                                                                                    data: JSON.stringify({
+                                                                                        "source": 'http://' + nationUrl + '/coursequestion',
+                                                                                        "target": 'coursequestion',
+                                                                                        'doc_ids': jsonQuestionData
+                                                                                    }),
+                                                                                    async: false,
+                                                                                    success: function (response) {
+                                                                                        //after replicated
+                                                                                        alert(App.languageDictValue.attributes.Added_Success);
+                                                                                        App.stopActivityIndicator();
+                                                                                    },
+                                                                                    error: function(status) {
+                                                                                        console.log(status);
+                                                                                    }
+                                                                                 });
+                                                                            }else{
+                                                                                alert(App.languageDictValue.attributes.Added_Success);
+                                                                                App.stopActivityIndicator();
+                                                                            }
+                                                                        },
+                                                                        error: function(status) {
+                                                                            console.log(status);
+                                                                        }
+                                                                });
+                                                            },
+                                                            error: function(status) {
+                                                                console.log(status);
+                                                            }
+                                                        });
+                                                    }else{
+                                                        alert(App.languageDictValue.attributes.Added_Success);
+                                                        App.stopActivityIndicator();
+                                                    }
+                                                },
+                                                error: function(status) {
+                                                    console.log(status);
+                                                }
+                                         });
                                     },
                                     error: function(status) {
                                         console.log(status);
@@ -249,7 +332,6 @@ $(function() {
                             console.log(status);
                         }
                     });
-                    App.stopActivityIndicator();
                 }
             }
         },
@@ -300,7 +382,11 @@ $(function() {
                             console.log(response);
                             if(response.rows.length > 0){
                                 var doc = response.rows[0].doc;
-                                var schedule = doc.startDate + ' | ' +doc.startTime;
+                                var schedule = "";
+                                if(doc.startTime != "")
+                                    schedule = doc.startDate + ' | ' +doc.startTime;
+                                else
+                                    schedule = doc.startDate;
                                 $('dd#name').html(doc.CourseTitle);
                                 $('dd#subjectLevel').html(doc.subjectLevel);
                                 $('dd#gradeLevel').html(doc.gradeLevel);
