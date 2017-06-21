@@ -12,7 +12,7 @@ $(function() {
                 alert('Hello')
             },
             "click #AddCareerPath": function() {
-               this.saveCareerPath();  
+               this.saveCareerPath();
             },
             "click #CancelCoursePath": function(e) {
             },
@@ -81,6 +81,7 @@ $(function() {
                 courseCareer.fetch({
                     async: false
                 });
+                console.log(courseCareer)
                 $('#LCourse option:selected').each(function(){
                     if ($(this).length) {
                         selectedCourseId.push($(this).val());
@@ -116,7 +117,19 @@ $(function() {
                     console.log("Not Saved")
                 }
             })
-        }
+             var selectedCareerIds = []
+            $('#LCareer option:selected').each(function(){
+                    if ($(this).length) {
+                        selectedCareerIds.push($(this).val());
+                    }
+                });
+            savecoursecareer.set('requiredCareerPathIds',selectedCareerIds);
+                savecoursecareer.save(null, {
+                    error: function() {
+                        console.log("Not Saved")
+                    }
+                });
+            }
         },
 
 
@@ -143,8 +156,16 @@ $(function() {
             this.vars.Courselist = arrcourses
             this.vars.Courseid = arrCourseIds
             this.vars.Course_Length = this.collection.models.length-1
+            ////PushRequired ID
+            this.vars.CareerList = [];
+            this.vars.careerListIds = [];
+            for(var j = 1; j< courseCareers.length; j++){
+                    this.vars.CareerList.push(courseCareers.models[j].attributes.CoursePathName);
+                    this.vars.careerListIds.push(courseCareers.models[j].attributes._id);
+
+            }
+            this.vars.careerlength =courseCareers.length-2
             this.$el.html(_.template(this.template,this.vars))
-            
         },
     })
 

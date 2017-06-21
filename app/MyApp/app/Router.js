@@ -6738,7 +6738,7 @@ $(function() {
             passwordResetView.render();
             App.$el.children('.body').append(passwordResetView.el)
         },
-        CourseCareerPath:function(){
+        /**CourseCareerPath:function(){
             var coursePath = new App.Views.CourseCareerPath();
             coursePath.render()
             App.$el.children('.body').html('<div id="CareerPath"></div>');
@@ -6756,8 +6756,8 @@ $(function() {
                         $(careerList).insertBefore('#searchText');
                     }
                 });
-        },
-        addCareerPath:function(){
+        },**/
+        addCareerPath:function(cId){
             var courses = new App.Collections.Courses()
             courses.memberId = $.cookie('Member._id');
             courses.fetch({
@@ -6797,6 +6797,22 @@ $(function() {
             $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
             $('#LCourse').attr("multiple", true);
             $('#LCourse').multiselect("uncheckAll");
+            ///--CarrerList
+            var courseCareerPath = new App.Collections.CourseCareerPath()
+            courseCareerPath.fetch({
+                async:false
+            });
+            $('#LCareer').multiselect().multiselectfilter();
+            $('#LCareer').multiselect({
+                checkAllText: App.languageDict.attributes.checkAll,
+                uncheckAllText: App.languageDict.attributes.unCheckAll,
+                selectedText: '# '+App.languageDict.attributes.Selected
+            });
+            $('#LCourse').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+            $('#LCareer').attr("multiple", true);
+            $('#LCareer').multiselect("uncheckAll");
+            ///
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang) 
 
@@ -6808,7 +6824,6 @@ $(function() {
             courseCareerPath.fetch({
                 async:false
             });
-            console.log(courseCareerPath)
             var manageCouseCareer = new App.Views.ManageCourseCareer({
                 model:courseCareerPath
             });

@@ -53,7 +53,7 @@ $(function() {
             }
             $('#careerPathList').hide()
             this.vars.careerlength = multiplecareer.length-2
-            this.vars.CourseCareerName = this.model.get('CoursePathName');
+            this.vars.CourseCareerName = this.model.get('CorsePathName');
             this.vars.CouseLists = this.model.get('Courses');
             this.$el.html(_.template(this.template,this.vars))
         },
