@@ -15,7 +15,7 @@ $(function() {
             var membersstatus=[]
             var stepName=[]
             var stepid = []
-            var failarr = []
+            var totalerrors = []
             var totalFailStatus = []
                for(var i = 0; i <this.model.attributes.members.length; i++){
                     var statisticscourseProgress = new App.Collections.membercourseprogresses()
@@ -24,12 +24,14 @@ $(function() {
                     statisticscourseProgress.fetch({
                         async:false
                     });
-                    var staticProgress = statisticscourseProgress.first()
-                    memberStep = staticProgress.attributes.stepsIds
-                    membersstatus = staticProgress.attributes.stepsStatus
-                    var pqattempts = staticProgress.attributes.pqAttempts
-                    var member = staticProgress.attributes.memberId
-                    console.log("MemberID: "+member+"member status: "+membersstatus)
+                    memberStep = statisticscourseProgress.models[0].attributes.stepsIds
+                    membersstatus = statisticscourseProgress.models[0].attributes.stepsStatus
+                    var pqattempts = statisticscourseProgress.models[0].attributes.pqAttempts
+                    var member = statisticscourseProgress.models[0].attributes.memberId
+                    var failarr = []
+                    var arr = 0
+
+                    var arrtotalerrors = []
                     for (var k = 0; k < memberStep.length; k++)
                     {
                         var count = 0
@@ -39,8 +41,10 @@ $(function() {
                                 count++
                             }
                         }
-                       failarr.push(count)
+                        arr =count + arr
+                        failarr.push(count)
                     }
+                    totalerrors.push(arr)
                     totalFailStatus.push(failarr)
                     var members = new App.Models.Member({
                         _id: member
@@ -50,7 +54,6 @@ $(function() {
                     });
                    memberName.push(members.toJSON().firstName + ' ' + members.toJSON().lastName)
                 }
-                console.log("MemberID: "+member+"member status: "+membersstatus)
                 for (var y = 0; y < memberStep.length; y++) {
                         var courseSteps = new App.Models.CourseStep()
                         courseSteps.id = memberStep[y];
@@ -59,13 +62,14 @@ $(function() {
                         })
                         stepid.push(courseSteps.attributes._id)
                         stepName.push(courseSteps.attributes.title)
-                    };
+                };
                  this.vars.stepId =  stepid;
                  this.vars.stepName =  stepName;
                  this.vars.member_Name =  memberName;
                  this.vars.member_sstatus = failarr;
                  this.vars.steps = memberStep;
                  this.vars.Totalfailstat = totalFailStatus;
+                 this.vars.Totalerrors = totalerrors;
                  this.$el.html(_.template(this.template,this.vars))
         }
 

@@ -1193,33 +1193,36 @@
     </script>
 
     <script type="text/html" id="template-CourseStatistics">
-            <table class="table table-striped">
-            <tr>
+        <table class="table table-striped">
+            <tr >
             <th></th>
                 <% for(var k = 0; k < Totalfailstat.length; k++) {%>
-                    <th> <%=member_Name[k]%></th>
+                    <th style ="color: #006400;"> <%=member_Name[k]%></th>
                 <%}%>
                 
             </tr>
             <tr>
-                <th colspan = ""><%=App.languageDict.attributes.Steps%></th>
+                <th><%=App.languageDict.attributes.Steps%></th>
                 <% for(var k = 0; k < Totalfailstat.length; k++) {%>
-                    <th>Errors</th>
+                    <th>Error</th>
                 <%}%>
-            </tr>  
-                <% for(var i = 0; i < stepName.length; i++) {%><tr>
+            </tr>
+              <% for(var i = 0; i < stepName.length; i++) {%><tr>
                         <%var a = i + 1%>
                            <td><a href ="#CourseStepStatistics/<%=stepId[i]%>"><b><%=a%></b></a></td>
-
-                        <% for(var j = 0; j < steps.length; j++) {%>
-                            <td><%=Totalfailstat[i][j]%></td>
+                       <% for(var j = 0; j < member_Name.length; j++) {%>
+                            <td><%=Totalfailstat[j][i]%></td>
                         <% } %>
-                    
                 <%}%>
 
             </tr>
-                
-            </table>
+            <tr>
+                <td><b>Total</b></td>
+                <% for(var i = 0; i < member_Name.length; i++) {%>
+                    <td><b><%=Totalerrors[i]%></b></td>
+                <%}%>
+            </tr>
+        </table>
     </script>
 
     <script type="text/html" id="template-CourseStepStatistics">
