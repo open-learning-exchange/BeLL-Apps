@@ -1939,7 +1939,7 @@
             <h3 class="search-result-h3 courseSearchResults_Bottom"><%=languageDict.attributes.Search_Result%></h3>
         </div>
         <br>
-        <button class="btn btn-primary " onclick = "selectAllSearchResult()" id="selectAllButton"><%=languageDict.attributes.Select_All%></button>
+        <!-- <button class="btn btn-primary " onclick = "selectAllSearchResult()" id="selectAllButton"><%=languageDict.attributes.Select_All%></button> -->
 
         <br/><br/>
         <table id="srch">
@@ -1976,27 +1976,33 @@
                 <%}%>
         </div>
     </script>
-    <script type="text/html" id="template-Search-box">
-        <% if(title != "CourseSearchBox") { %>
-        <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
-            <% } else if(name !="ResourceSearchBox"){ %>
-        <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>">
-            <% } %>
-
-            <%if(Tag != "CourseSearchBox") { %>
-            <label for="<%= _id %>">
-                <font class="search-result-title" ><%= title %></font>
-                -
-                <% %>
-                &nbsp;by&nbsp;
-                <%= author %>
-            </label></td><td><% %></td>
-        <% }else{ %>
-        <label for="<%= _id %>">
-            <font class="search-result-title" ><%= name %></font>
-        </label></td>
-        <% } %>
+    <script type="text/html" id="template-Search-boxes">
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                       <tr>
+                            <th><input type="checkbox" id="selectAllButton"/</th>
+                            <th>Title</th>
+                            <th>Autor</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <% for(var i = 0; i < data.length; i++){ var res = data[i].attributes;%>
+                            <tr>
+                                <td><center><input id="<%= res._id %>" type="checkbox" name="result" value="<%= res._id %>" rTitle="<%= res.title %>"></center></td>
+                                <td><center><%= res.title %></center></td>
+                                <td><center><%= res.author %></center></td>
+                                <td><center><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></center></td>
+                            </tr>
+                         <% }%>
+                     </tbody>
+                </table>
+            </div>
+        </div>
     </script>
+
     <script type="text/template" id="make-Quiz">
         <div id="quiz-body" class="courseEditStep">
             <br/>

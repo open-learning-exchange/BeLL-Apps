@@ -1013,8 +1013,9 @@ a.forgot-password-form-button:hover{
     color: #3498db;
 }
 a#search1 {
-    margin-top: -317px;
-    margin-left: 440px;
+    margin-left: 340px;
+    margin-top: -105px;
+    width: 150px;
 }
 a#Close {
     margin-right: 4px;
