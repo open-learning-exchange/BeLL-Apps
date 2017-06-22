@@ -821,7 +821,7 @@
   "pls_select_language":"براہ مہربانی زبان منتخب کریں",
   "title_msg_required":"فیلڈ کی ضرورت اور اعداد پر مشتمل نہیں ہے",
   "fill_config_first":"برائے مہربانی پہلے تشکیلات فارم بھریں",
-  "Communities_request":"برادریوں کی درخواستیں",
+  "Communities_request":"Communities List",
   "request_pending":"زیر التوا کی درخواست",
   "community_details":"کمیونٹی کی تفصیلات",
   "request_accepted":"رجسٹریشن کی درخواست منظور کی گئی ہے ۔",
@@ -930,5 +930,6 @@
   "Label_PullNation":"Pull Nation",
   "publisher":"Publisher",
   "Course_Progress_Statistics":"Course Progress Statistics",
-  "Download_Summary":"Download Summary"
+  "Download_Summary":"Download Summary",
+  "Select_Community_ByRegion":"Filter Community by Region"
 }

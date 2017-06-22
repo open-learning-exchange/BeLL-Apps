@@ -821,7 +821,7 @@
   "pls_select_language":"crwdns16218:0crwdne16218:0",
   "title_msg_required":"crwdns16219:0crwdne16219:0",
   "fill_config_first":"crwdns16220:0crwdne16220:0",
-  "Communities_request":"crwdns16221:0crwdne16221:0",
+  "Communities_request":"crwdns16363:0crwdne16363:0",
   "request_pending":"crwdns16222:0crwdne16222:0",
   "community_details":"crwdns16223:0crwdne16223:0",
   "request_accepted":"crwdns16224:0crwdne16224:0",
@@ -930,5 +930,6 @@
   "Label_PullNation":"crwdns16359:0crwdne16359:0",
   "publisher":"crwdns16360:0crwdne16360:0",
   "Course_Progress_Statistics":"crwdns16361:0crwdne16361:0",
-  "Download_Summary":"crwdns16362:0crwdne16362:0"
+  "Download_Summary":"crwdns16362:0crwdne16362:0",
+  "Select_Community_ByRegion":"crwdns16364:0crwdne16364:0"
 }

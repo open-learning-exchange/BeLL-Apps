@@ -821,7 +821,7 @@
   "pls_select_language":"Silakan pilih bahasa",
   "title_msg_required":"Wajib diisi dan tidak berisi nomor",
   "fill_config_first":"Silakan isi formulir konfigurasi terlebih dahulu",
-  "Communities_request":"Permintaan Komunitas",
+  "Communities_request":"Communities List",
   "request_pending":"Permintaan tertunda",
   "community_details":"Rincian Komunitas",
   "request_accepted":"Permintaan pendaftaran telah diterima.",
@@ -930,5 +930,6 @@
   "Label_PullNation":"Pull Nation",
   "publisher":"Publisher",
   "Course_Progress_Statistics":"Course Progress Statistics",
-  "Download_Summary":"Download Summary"
+  "Download_Summary":"Download Summary",
+  "Select_Community_ByRegion":"Filter Community by Region"
 }

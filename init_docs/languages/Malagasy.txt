@@ -821,7 +821,7 @@
   "pls_select_language":"Fidio ny fiteny azafady",
   "title_msg_required":"Toerana tsy maintsy fenoana fa tsy asiana isa",
   "fill_config_first":"Fenoy aloha ny fisin'ny kofigirasiona azafady",
-  "Communities_request":"Fangatahan'ny fiaraha-monina",
+  "Communities_request":"Communities List",
   "request_pending":"Fangatahana eo am-piandrasana",
   "community_details":"Antsipirian'ny fiaraha-monina",
   "request_accepted":"Fangatahana fidirana nekena.",
@@ -930,5 +930,6 @@
   "Label_PullNation":"Pull Nation",
   "publisher":"Publisher",
   "Course_Progress_Statistics":"Course Progress Statistics",
-  "Download_Summary":"Download Summary"
+  "Download_Summary":"Download Summary",
+  "Select_Community_ByRegion":"Filter Community by Region"
 }

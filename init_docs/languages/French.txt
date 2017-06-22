@@ -821,7 +821,7 @@
   "pls_select_language":"Veuillez sélectionner la langue",
   "title_msg_required":"Champs obligatoire et ne contient pas de chiffres",
   "fill_config_first":"Veuillez d'abord remplir le formulaire de configurations",
-  "Communities_request":"Demandes de communautés",
+  "Communities_request":"Communities List",
   "request_pending":"Demande en attente",
   "community_details":"Détails de communauté",
   "request_accepted":"Demande d'inscription est acceptée.",
@@ -930,5 +930,6 @@
   "Label_PullNation":"Pull Nation",
   "publisher":"Publisher",
   "Course_Progress_Statistics":"Course Progress Statistics",
-  "Download_Summary":"Download Summary"
+  "Download_Summary":"Download Summary",
+  "Select_Community_ByRegion":"Filter Community by Region"
 }
