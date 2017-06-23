@@ -1976,35 +1976,35 @@
                 <%}%>
         </div>
     </script>
-    <script type="text/html" id="template-Search-box">
-    <table class ="table table-hover" style="width: 411px;" border="1px solid">
-    <thead><tr>
-
-        <th>Checkbox</th><th>Title</th><th>Action</th>
-        </tr>
-        <tr><%=title%></tr>
-    </thead>
-    </table>
-        <!-- <% if(title != "CourseSearchBox") { %>
-        <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
-            <% } else if(name !="ResourceSearchBox"){ %>
-        <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>">
-            <% } %>
-
-            <%if(Tag != "CourseSearchBox") { %>
-            <label for="<%= _id %>">
-                <font class="search-result-title" ><%= title %></font>
-                -
-                <% %>
-                &nbsp;by&nbsp;
-                <%= author %>
-            </label></td><td><% %></td>
-        <% }else{ %>
-        <label for="<%= _id %>">
-            <font class="search-result-title" ><%= name %></font>
-        </label></td>
-        <% } %> -->
+    <script type="text/html" id="template-Search-boxes">
+        <table style="width: 411px;" border="1px solid">
+           <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Autor</th>
+                <th>Action</th>
+            </tr>
+                <% if(title != "CourseSearchBox") { %>
+            <tr>
+                <td><center><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>"></center></td>
+                    <% } else if(name !="ResourceSearchBox"){ %>
+                <td><center><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>"></center></td>
+              <% } %>
+                <%if(Tag != "CourseSearchBox") { %>
+                        <label for="<%= _id %>">
+                            <td class="search-result-title"><center><%= title %></center></td>
+                            <td><center><%= author %></center></td>
+                        </label>
+                <% }else{ %>
+                     <label for="<%= _id %>">
+                        <td class="search-result-title" ><center><%= name %></center></td>
+                    </label>
+                <% } %>
+                <td><center><button id = "Add" class="btn btn-success" ><%= App.languageDict.attributes.Add_To_Level %></button></center></td>
+            </tr>
+        </table>
     </script>
+
     <script type="text/template" id="make-Quiz">
         <div id="quiz-body" class="courseEditStep">
             <br/>

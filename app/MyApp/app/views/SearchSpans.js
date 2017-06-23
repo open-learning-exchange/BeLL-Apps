@@ -19,7 +19,7 @@ $(function() {
             //$('#srch').append(modelView.el)
         },
         addAll: function() {
-            this.collection.each(this.addOne, this)
+            this.collection.each(this.addOne,this)
         },
 
         render: function() {

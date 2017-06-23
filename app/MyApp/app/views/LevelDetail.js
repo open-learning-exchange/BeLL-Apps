@@ -174,8 +174,8 @@ $(function() {
                     })
                     $('#invitationdiv').append('<div class="Search-Btns" style="display:block;"></div>')
                     $(".Search-Btns").append('<a id="previous-button" class="btn btn-success">'+App.languageDict.attributes.Previous+'</a>&nbsp;&nbsp;')
-                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
-                    $(".Search-Btns").append('<a id="Add" class="btn btn-success">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
+                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success" style=" margin-top: -551px; margin-left: 90px;">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
+                    //$(".Search-Btns").append('<a id="Add" class="btn btn-success">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
                     $(".Search-Btns").append('<a id="next-button" class="btn btn-success">'+App.languageDict.attributes.Next+'</a>')
                     $('#BacktoSearch').click(function(e){
                         that.GoBackToSearch()
