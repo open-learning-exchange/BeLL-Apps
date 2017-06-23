@@ -1977,7 +1977,15 @@
         </div>
     </script>
     <script type="text/html" id="template-Search-box">
-        <% if(title != "CourseSearchBox") { %>
+    <table class ="table table-hover" style="width: 411px;" border="1px solid">
+    <thead><tr>
+
+        <th>Checkbox</th><th>Title</th><th>Action</th>
+        </tr>
+        <tr><%=title%></tr>
+    </thead>
+    </table>
+        <!-- <% if(title != "CourseSearchBox") { %>
         <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
             <% } else if(name !="ResourceSearchBox"){ %>
         <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>">
@@ -1995,7 +2003,7 @@
         <label for="<%= _id %>">
             <font class="search-result-title" ><%= name %></font>
         </label></td>
-        <% } %>
+        <% } %> -->
     </script>
     <script type="text/template" id="make-Quiz">
         <div id="quiz-body" class="courseEditStep">

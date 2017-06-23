@@ -271,7 +271,7 @@ $(function() {
 
         NextButtonPressed: function(e) {
             App.startActivityIndicator()
-            this.courseresult.skip = this.courseresult.skip + 5;
+            this.courseresult.skip = this.courseresult.skip + 20;
             this.courseresult.fetch({
                 async: false
             })
@@ -285,11 +285,11 @@ $(function() {
                 SearchSpans.render()
                 $('#srch').html(SearchSpans.el)
                 $("#previous-button").show()
-                if (this.courseresult.length < 5) {
+                if (this.courseresult.length < 20) {
                     $("#next-button").hide();
                 }
             } else {
-                this.courseresult.skip = this.courseresult.skip - 5;
+                this.courseresult.skip = this.courseresult.skip - 20;
                 $("#next-button").hide();
             }
         },
@@ -387,7 +387,7 @@ $(function() {
             var i = 0
             var rtitle = this.model.get("resourceTitles")
             rid = this.model.get("resourceId")
-            levelId = this.model.get("id")
+            levelId = this.model.get("_id")
             revId = this.model.get("_rev")
             var stepResources = '</BR><table class="table table-striped">'
             if (this.model.get("resourceTitles")) {
