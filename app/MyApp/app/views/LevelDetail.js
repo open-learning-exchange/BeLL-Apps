@@ -87,6 +87,7 @@ $(function() {
             enablenext = 0;
         },
         SearchPopup: function(){
+            $('#invitationdiv').css({'width' : 'auto', 'height' : '60%', 'overflow' : 'auto', 'margin-left' : '25%'});
             $('#invitationdiv').fadeIn(1000)
             document.getElementById('cont').style.opacity = 0.1
             document.getElementById('nav').style.opacity = 0.1
@@ -172,10 +173,10 @@ $(function() {
                     $("#search1").click(function(e){
                         that.search()
                     })
-                    $('#invitationdiv').append('<div class="Search-Btns" style="display:block;"></div>')
+                    $('#invitationdiv').append('<div class="container- fluid Search-Btns" style="display:block;"></div>')
                     $(".Search-Btns").append('<a id="previous-button" class="btn btn-success">'+App.languageDict.attributes.Previous+'</a>&nbsp;&nbsp;')
-                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success" style=" margin-top: -551px; margin-left: 90px;">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
-                    //$(".Search-Btns").append('<a id="Add" class="btn btn-success">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
+                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
+                    $(".Search-Btns").append('<a id="Add" class="btn btn-success">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
                     $(".Search-Btns").append('<a id="next-button" class="btn btn-success">'+App.languageDict.attributes.Next+'</a>')
                     $('#BacktoSearch').click(function(e){
                         that.GoBackToSearch()
@@ -279,7 +280,7 @@ $(function() {
             var obj = this
             if (this.courseresult.length > 0) {
                 var SearchSpans = new App.Views.SearchSpans({
-                    collection: this.courseresult
+                    collection: this.courseresult,
                 })
                 SearchSpans.resourceids = obj.resourceids
                 SearchSpans.render()
@@ -562,7 +563,10 @@ $(function() {
             if (obj.addResource == true) {
                 if (this.courseresult.length > 0) {
                     var SearchSpans = new App.Views.SearchSpans({
-                        collection: this.courseresult
+                        collection: this.courseresult,
+                        attributes:{
+                            LevelID : levelId
+                        }
                     })
 
                     SearchSpans.resourceids = obj.resourceids
