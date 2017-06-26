@@ -1,6 +1,7 @@
 $(function () {
 
     App.Views.Configurations = Backbone.View.extend({
+         className:"addNation-form",
         //This view is used to render "Se Configurations" form and its bound with "Configurations" schema
 
         initialize: function () {
