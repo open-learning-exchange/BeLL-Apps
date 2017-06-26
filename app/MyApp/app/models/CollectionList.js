@@ -24,8 +24,14 @@ $(function() {
         schema: {
 
             CollectionName: 'Text',
-
-            Description: 'TextArea',
+            descriptionOutput: {
+                type: 'TextArea',
+                fieldAttrs: {id:'collection_description',class:'bbf-field redactor_textbox'}
+            },
+            description: {
+                type: 'TextArea',
+                fieldAttrs: {id:'markdown_collection_description',class:'bbf-field redactor_textbox'}
+            },
             NesttedUnder: {        //To make one collection nested under another.
                 title: 'Nested Under',
                 type: 'Select',

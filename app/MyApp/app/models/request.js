@@ -22,7 +22,14 @@ $(function() {
             status: 'Text',
             sendFrom: 'Text',
             sendFromName: 'Text',
-            request: 'TextArea',
+            descriptionOutput: {
+                type: 'TextArea',
+                fieldAttrs: {id:'request_description',class:'bbf-field redactor_textbox'}
+            },
+            description: {
+                type: 'TextArea',
+                fieldAttrs: {id:'markdown_request_description',class:'bbf-field redactor_textbox'}
+            },
             response: 'TextArea',
             type: 'Text',
             date: 'Text'

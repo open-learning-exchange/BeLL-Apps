@@ -112,7 +112,6 @@ $(function() {
                 revRow.render()
                 this.$el.append(revRow.el)
             }
-
         },
         render: function() {
             this.addAll()

@@ -109,7 +109,7 @@ $(function() {
             var that = this
             // Put the form's input into the model in memory
             this.form.commit()
-
+            this.model.unset("descriptionOutput", { silent: true })
             if ($.trim(this.model.get("title")).length == 0) {
                 alert(App.languageDict.attributes.MeetUp_Title_Missing)
             } else if (this.model.get("description").length == 0) {

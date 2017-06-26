@@ -48,6 +48,7 @@ $(function () {
                         //now.toLocaleString()
                 })
                 this.form.commit()
+                this.model.unset("commentOutput", { silent: true })
                 this.model.save()
                 this.form.setValue({
                     comment: ""
@@ -59,6 +60,8 @@ $(function () {
                     "comment": ""
                 })
                 this.render()
+                App.Router.markdownEditor("comment","report")
+                $('#report_comment').find('label').html(App.languageDict.attributes.Comment);
             }
         },
 
@@ -66,7 +69,9 @@ $(function () {
             var languageDictValue;
             var clanguage = getLanguage($.cookie('Member._id'));
             languageDictValue = getSpecificLanguage(clanguage);
-            $('#comments').append('<div id=tile><b>'+languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+languageDictValue.attributes.Comment+':</b>' + modl.toJSON().comment + '</div>')
+            $('#comments').append('<div id=tile><b>'+languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+languageDictValue.attributes.Comment+':</b><div id="markdown_comment_'+modl.toJSON()._id+'"><textarea name="'+modl.toJSON()._id+'">' + modl.toJSON().comment + '</textarea></div></div>')
+            App.Router.previewModeEditor(modl.toJSON()._id,'comment')
+            $("textarea[name='"+modl.toJSON()._id+"']").hide();
         },
 
         render: function () {

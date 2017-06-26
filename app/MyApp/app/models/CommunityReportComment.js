@@ -23,7 +23,14 @@ $(function() {
         schema: {
             CommunityReportId: 'Text',
             commentNumber: 'Text',
-            comment: 'TextArea',
+            commentOutput: {
+                type: 'TextArea',
+                fieldAttrs: {id:'report_comment',class:'bbf-field redactor_textbox'}
+            },
+            comment: {
+                type: 'TextArea',
+                fieldAttrs: {id:'markdown_report_comment',class:'bbf-field redactor_textbox'}
+            },
             memberLogin: 'Text',
             time: 'Text'
         }

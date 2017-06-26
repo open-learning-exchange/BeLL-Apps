@@ -373,22 +373,15 @@ h3 a{
     height:100%;
 }
 #f-formButton{
-    margin-left: 5%;
+    margin-left: 10%;
     margin-top: -12px;
-    margin-top:3%;
+    margin-top: 3%;
 }
 
 #f-formButton button{
     float:left;
     margin-left: 1px;
     width: 33%;
-}
-
-textarea[name="comment"]
-{
-    border-radius: 20px;
-    height: 100%;
-    width: 87%;
 }
 .quizOptions input
 {height: 22px;

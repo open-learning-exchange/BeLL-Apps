@@ -38,12 +38,11 @@ $(function() {
             this.form.fields['stepMethod'].$el.hide()
             this.form.fields['stepGoals'].$el.hide()
             this.form.fields['passingPercentage'].$el.append('<div id = "slider-range-min"></div>')
-
             // give the form a submit button
             var button = '';
             if(this.edit)
                 button += ('<a class="btn btn-success" id="retrunBack"> ' + App.languageDict.attributes.Back + ' </button>')
-            button += ('<a class="btn btn-success" id="formButton">' + App.languageDict.attributes.Save + '</button>')
+                button += ('<a class="btn btn-success" id="formButton">' + App.languageDict.attributes.Save + '</button>')
             this.$el.append(button)
         },
 
@@ -86,7 +85,7 @@ $(function() {
                                         success:function(){
                                             last_member = allcrs.last()
                                             if(last_member.get('id') == m.get('id')){
-                                                location.reload()
+                                               location.reload()
                                             }
                                         }
                                     })
@@ -127,7 +126,9 @@ $(function() {
             })
             // Put the form's input into the model in memory
             this.form.commit()
+            
             // Send the updated model to the server
+            this.model.unset("descriptionOutput", { silent: true })
             if(this.model.get("title") == undefined || $.trim(this.model.get("title"))  == "") {
                 alert(App.languageDict.attributes.Title_Error)
             }

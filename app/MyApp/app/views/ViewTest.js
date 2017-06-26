@@ -24,6 +24,8 @@ $(function() {
             },
             "click #nextPressed": function(e) {
                 this.renderQuestion();
+                App.Router.previewModeEditor(this.Questionlist[this.index],'question')
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
             }
         },
 
@@ -47,6 +49,7 @@ $(function() {
                 });
                 this.vars = coursedetail.toJSON();
                 this.vars.languageDict=App.languageDict;
+
                 var singleline = coursedetail.get("Statement")
                 this.vars.singleLineQuestionTitle = singleline
                 this.$el.append(this.template(this.vars));

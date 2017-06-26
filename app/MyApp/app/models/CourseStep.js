@@ -21,11 +21,15 @@ $(function() {
                 type: 'Text'
             },
             stepMethod: 'Text',
+            descriptionOutput: {
+                type: 'TextArea',
+                fieldAttrs: {id:'step_description',class:'bbf-field redactor_textbox'}
+            },
             description: {
-                type: 'TextArea'
+                type: 'TextArea',
+                fieldAttrs: {id:'markdown_step_description',class:'bbf-field redactor_textbox'}
             },
             stepGoals: 'TextArea',
-
             step: 'Text',
             totalMarks: {
                 type: 'Text'

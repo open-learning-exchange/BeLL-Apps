@@ -62,8 +62,9 @@ $(function() {
         render: function() {
             this.$el.append('<br/><br/><div class="form-field" ><input name="PageUrl" id="PageUrl" type="text"></div>')
             this.$el.append('<div class="form-field" style="margin-left:23px;"><input name="priority" value="urgent" id="priority" type="checkbox"><label for="priority">'+App.languageDict.attributes.Urgent+'</label></div>')
-            this.$el.append('<div class="form-field" style="margin-top: -19px;margin-left: 115px;"> <input type="radio" name="category" value="Bug">&nbsp '+App.languageDict.attributes.Bug+' &nbsp&nbsp&nbsp<input type="radio" name="category" value="Question">&nbsp '+App.languageDict.attributes.Question+' &nbsp&nbsp&nbsp<input type="radio" name="category" value="Suggestion">&nbsp '+App.languageDict.attributes.Suggestion+' &nbsp&nbsp&nbsp</div><br/><br/>')
-            this.$el.append('<div class="form-field" style="margin-left:23px;"><textarea †rows="7" type="text" name="comment" placeholder="" id="comment"></textarea></div>')
+            this.$el.append('<div class="form-field" style="margin-top: -19px;margin-left: 115px;"> <input type="radio" name="category" value="Bug">&nbsp '+App.languageDict.attributes.Bug+' &nbsp&nbsp&nbsp<input type="radio" name="category" value="Question">&nbsp '+App.languageDict.attributes.Question+' &nbsp&nbsp&nbsp<input type="radio" name="category" value="Suggestion">&nbsp '+App.languageDict.attributes.Suggestion+' &nbsp&nbsp&nbsp</div><br/>')
+            this.$el.append('<div class="bbf-field redactor_textbox" id="markdown_feedback_description"><div class="bbf-editor"><textarea type="text" name="description" placeholder="" id="comment"></textarea></div></div>')
+            this.$el.append('<div class="bbf-field redactor_textbox" id="feedback_description"></br><div class="bbf-editor"><textarea type="text" name="descriptionOutput" placeholder=""></textarea></div></div>')
             this.$el.append('<div class="form-field"><input name="Resolved" id="Resolved" type="text"></div>')
             this.$el.append('<div class="form-field"><input name="memberLogin" id="memberLogin" type="text"></div>')
             this.$el.append('<div class="form-field"><input name="time" id="time" type="text"></div>')
@@ -74,11 +75,11 @@ $(function() {
             var $button;
             if(App.languageDict.get("directionOfLang").toLowerCase() == "right")
             {
-                $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button></div>');
+                $button = $('<div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button></div>');
             }
             else
             {
-                $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button></div>')
+                $button = $('<div id="f-formButton"><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View+'</button><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button></div>')
             }
 
             this.$el.append($button);

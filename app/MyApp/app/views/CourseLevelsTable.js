@@ -76,6 +76,17 @@ $(function () {
             temp.render()
             $('div.takeTestDiv').html('')
             $(wrapper).find('div.takeTestDiv').html(temp.el)
+            App.Router.previewModeEditor(JSONsteps.questionslist[0],"answer")
+            $("textarea[name='"+JSONsteps.questionslist[0]+"']").hide();
+            var questionlist = new App.Models.CourseQuestion({
+                _id: JSONsteps.questionslist[0]
+            })
+            questionlist.fetch({
+                async: false
+            });
+            if(questionlist.attributes.Type == "Comment/Essay Box"){
+                App.Router.markdownEditor("description","essay")
+            }
         },
             
         initialize: function () {
@@ -189,12 +200,17 @@ $(function () {
                     ui.item.children("h3").triggerHandler("focusout");
                 }
             });
+            for (var i = 0; i < model.attributes.stepsIds.length; i++) {
+                App.Router.previewModeEditor(model.attributes.stepsIds[i],"steptest")
+                $("textarea[name='"+model.attributes.stepsIds[i]+"']").hide();
+            }
         },
 
         render: function () {
             if (this.collection.length < 1) {
                 this.$el.append('<p style="font-weight:900;">'+App.languageDict.attributes.Error_UserCourse_Details+'</p>')
             } else {
+                
                 this.setAllResults();
             }
         }
