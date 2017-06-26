@@ -1465,7 +1465,7 @@
         <div class ="multipleCourse">
             <form>
                 <label for="cpName"><b><%= languageDict.attributes.Career_Path_Name %></b></label>
-                <input type="text" id="careerPath" placeholder="Career Path Name" style="padding: 2px; margin-top: 8px;">
+                <input type="text" id="careerPath" placeholder="Career Path Name" style="padding: 2px; margin-top: 8px;" required>
                 <label for="LCourse"><b><%= languageDict.attributes.List_of_Courses %></b></label>
                 <select id="LCourse">
                     <%for(var i =0; i<Course_Length;i++){%>
@@ -1473,7 +1473,9 @@
                     <%}%>
                 </select>
                 <label for="LCareer"><b><%= languageDict.attributes.Required_Course_Career_Path %></b></label>
+
                 <select id="LCareer">
+
                     <% for (var j =0; j<careerlength;j++){%>
                         <option value ='<%=CareerList[j]%>'><%=CareerList[j]%></option>
                     <%}%>
@@ -1486,9 +1488,9 @@
             <table class="btable btable-striped">
                 <tbody>
                     <tr>
-                        <th>Career Lists</th>
+                        <th><%=languageDict.attributes.Career_Path_Name%></th>
                         <th><%=languageDict.attributes.Courses_List%></th>
-                        <th>Career List</th>
+                        <th><%= languageDict.attributes.Career_List %></th>
                         <th><%= languageDict.attributes.Actions %></th>
                     </tr>
                     <%for (var i=0; i < careerList.length; i++) {%>

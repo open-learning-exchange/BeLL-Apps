@@ -9,10 +9,11 @@ $(function() {
              this.renderTable($('#searchText').val().toLowerCase())
             },
             "click #buttonCareer": function(){
-                alert('Hello')
             },
             "click #AddCareerPath": function() {
-               this.saveCareerPath();
+                var a1 = $("#careerPath").val()
+                if(a1 != "")
+                    this.saveCareerPath();
             },
             "click #CancelCoursePath": function(e) {
             },
@@ -40,7 +41,6 @@ $(function() {
                 $('#careerPath').val(courseCareer.attributes.CoursePathName);
                 $('#UpdateCareerPath').css('display','');
                 $('#UpdateCareerPath').attr('data-id',currentId);
-                console.log($('#UpdateCareerPath').attr('data-id'))
             },
             "click #UpdateCareerPath": function(e) {
                 this.saveCareerPath($('#UpdateCareerPath').attr('data-id'));
@@ -63,17 +63,16 @@ $(function() {
                     $(".btable").append("<tr><td>"+career.models[0].attributes.CoursePathName+"</td><td><ul><li>"+career.models[0].attributes.Courses+"</ul></li></td><td></td></tr>")
                     App.stopActivityIndicator()
                 },
-
                 error: function() {
                     App.stopActivityIndicator()
                 }
             })
-            console.log(career)
-
         },
+
         saveCareerPath: function(previousId){
             var selectedCourseId = []
             var selectedCourseName = []
+            var selectedCareerIds = []
             if(previousId){
                 var courseCareer = new App.Models.CoursecareerPath({
                     _id : previousId
@@ -81,11 +80,15 @@ $(function() {
                 courseCareer.fetch({
                     async: false
                 });
-                console.log(courseCareer)
                 $('#LCourse option:selected').each(function(){
                     if ($(this).length) {
                         selectedCourseId.push($(this).val());
                         selectedCourseName.push($(this).text());
+                    }
+                });
+                $('#LCareer option:selected').each(function(){
+                    if ($(this).length) {
+                        selectedCareerIds.push($(this).val());
                     }
                 });
                 var courseCareerTitle = $('#careerPath').val()
@@ -93,7 +96,11 @@ $(function() {
                 courseCareer.set('Courses',selectedCourseName);
                 courseCareer.set('CourseIds',selectedCourseId);
                 courseCareer.set('MemberID',$.cookie('Member._id'));
+                courseCareer.set('requiredCareerPathIds',selectedCareerIds);
                 courseCareer.save(null, {
+                    success: function(response){
+                    location.reload();
+                    },
                     error: function() {
                         console.log("Not Saved")
                     }
@@ -106,29 +113,27 @@ $(function() {
                     selectedCourseName.push($(this).text());
                 }
             });
+             $('#LCareer option:selected').each(function(){
+                    if ($(this).length) {
+                        selectedCareerIds.push($(this).val());
+                    }
+                });
             var courseCareerTitle = $('#careerPath').val()
             var savecoursecareer = new App.Models.CoursecareerPath()
             savecoursecareer.set('CoursePathName',courseCareerTitle);
             savecoursecareer.set('Courses',selectedCourseName);
             savecoursecareer.set('CourseIds',selectedCourseId);
             savecoursecareer.set('MemberID',$.cookie('Member._id'));
+            savecoursecareer.set('requiredCareerPathIds',selectedCareerIds);
             savecoursecareer.save(null, {
-                error: function() {
+                success: function(response){
+                    location.reload();
+                },
+                error: function(status) {
+                    console.log(status)
                     console.log("Not Saved")
                 }
             })
-             var selectedCareerIds = []
-            $('#LCareer option:selected').each(function(){
-                    if ($(this).length) {
-                        selectedCareerIds.push($(this).val());
-                    }
-                });
-            savecoursecareer.set('requiredCareerPathIds',selectedCareerIds);
-                savecoursecareer.save(null, {
-                    error: function() {
-                        console.log("Not Saved")
-                    }
-                });
             }
         },
 
@@ -136,17 +141,21 @@ $(function() {
         render: function() {
             var arrcourses = []
             var arrCourseIds = []
-            for(var i = 0; i <this.collection.models.length-1; i++){
-                var courseslist = this.collection.models[i].attributes.CourseTitle
-                var courseId = this.collection.models[i].attributes._id
-                arrcourses.push(courseslist)
-                arrCourseIds.push(courseId)
+            for(var i = 0; i <this.collection.models.length; i++){
+                if(this.collection.models[i].id != '_design/bell'){
+                    var courseslist = this.collection.models[i].attributes.CourseTitle
+                    var courseId = this.collection.models[i].attributes._id
+                    arrcourses.push(courseslist)
+                    arrCourseIds.push(courseId)
+                }
+                
             }
             var courseCareers = new App.Collections.CourseCareerPath()
             courseCareers.memberId = $.cookie('Member._id');
             courseCareers.fetch({
                 async:false
             });
+            
             this.vars.careerList = [];
             for(var i = 0; i < (courseCareers.length); i++) {
                 if(courseCareers.models[i].attributes._id !== "_design/bell"){
@@ -159,12 +168,14 @@ $(function() {
             ////PushRequired ID
             this.vars.CareerList = [];
             this.vars.careerListIds = [];
-            for(var j = 1; j< courseCareers.length; j++){
+            for(var j = 0; j< courseCareers.length; j++){
+                if(courseCareers.models[j].attributes._id != '_design/bell'){
                     this.vars.CareerList.push(courseCareers.models[j].attributes.CoursePathName);
                     this.vars.careerListIds.push(courseCareers.models[j].attributes._id);
-
+                    this.vars.careerlength = j + 1
+                }
+               
             }
-            this.vars.careerlength =courseCareers.length-2
             this.$el.html(_.template(this.template,this.vars))
         },
     })

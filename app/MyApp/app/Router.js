@@ -6808,15 +6808,15 @@ $(function() {
                 uncheckAllText: App.languageDict.attributes.unCheckAll,
                 selectedText: '# '+App.languageDict.attributes.Selected
             });
-            $('#LCourse').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
+            $('#LCareer').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data=App.languageDict.attributes.Filter;
             $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
             $('#LCareer').attr("multiple", true);
             $('#LCareer').multiselect("uncheckAll");
             ///
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang) 
-
         },
+        
         manageCourseCareer: function(cname,cId){
             var courseCareerPath = new App.Models.CoursecareerPath({
                 _id : cId
