@@ -1572,6 +1572,7 @@ $(function() {
             $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
             $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
             $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
+            $('.bbf-form').find('.field-descriptionOutput').find('label').html(App.languageDict.attributes.Description);
             $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
             $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
             $('.bbf-form').find('.field-subjectLevel').find('label').html(App.languageDict.attributes.Subject_Level);
@@ -2596,6 +2597,33 @@ $(function() {
             App.$el.append(link);
             link.click();
         },
+        textEditor: function(viewTextarea,hiddenTextarea){
+            marked.setOptions({
+                smartLists: true
+            });
+            var rem = new reMarked(),
+                $red = viewTextarea,
+                red = null,
+                $mdn = hiddenTextarea;
+            $red.redactor({
+                buttons: ['html', '|', 'formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                keyupCallback: showMd,
+                execCommandCallback: showMd,
+            });
+            red = $red.data('redactor');
+            $mdn.on("keyup", function() {
+                var html = marked(this.value),
+                    clean = red.stripTags(html);
+
+                red.$editor.html(html);
+                red.syncCode();
+            });
+            function showMd() {
+                var html = red.getCode();
+                $mdn.val(rem.render(html));
+            }
+            showMd();
+        },
         ManageCourse: function(courseId) {
             var that = this
             levels = new App.Collections.CourseLevels()
@@ -2621,7 +2649,8 @@ $(function() {
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
-                $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
+                $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);                
+                $('.bbf-form').find('.field-descriptionOutput').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
                 $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
                 $('.bbf-form').find('.field-subjectLevel').find('label').html(App.languageDict.attributes.Subject_Level);
@@ -2684,9 +2713,6 @@ $(function() {
 
                         // Step Form
                         totalLevels = levels.models.length;
-                        
-                        
-                        
                         var Cstep = new App.Models.CourseStep()
                         Cstep.set({
                             courseId: courseId
@@ -2814,6 +2840,7 @@ $(function() {
             })
             CourseDetailsView.courseLeader = memberModelArr
             CourseDetailsView.render()
+
             var courseStepsView = new App.Views.CourseStepsView({
                 collection: ccSteps
             })
@@ -3075,6 +3102,29 @@ $(function() {
                         });
                     });
                     $('.courseEditStep').append(levelDetails.el)
+                    marked.setOptions({
+                        smartLists: true
+                    });
+                    var remL = new reMarked(),
+                        $redL = $("#markdownStepDescription"),
+                        redL = null,
+                        $mdnL = $("#LevelDescription");
+                    $redL.redactor({
+                        keyupCallback: showMdL,
+                        execCommandCallback: showMdL
+                    });
+                    redL = $redL.data('redactor');
+                    var html = marked($mdnL.val());
+                        //clean = red.stripTags(html);
+                    redL.$editor.html(html);
+                    redL.syncCode();
+                    function showMdL() {
+                        setTimeout(function() {
+                            var html = redL.getCode();
+                            $mdnL.val(remL.render(html));    
+                        }, 1000);
+                    }
+
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')

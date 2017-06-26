@@ -17,6 +17,32 @@ $(function () {
             }
         },
 
+        markInit: function () {
+            marked.setOptions({
+                smartLists: true
+            });
+            var rem = new reMarked(),
+                $red = $("li#courseDescription > div textarea[name='descriptionOutput']"),
+                red = null,
+                $mdn = $("li#markdownText > div textarea[name='description']");
+            $red.redactor({
+                keyupCallback: showMd,
+                execCommandCallback: showMd,
+            });
+            red = $red.data('redactor');
+            var html = marked($mdn.val());
+                //clean = red.stripTags(html);
+            red.$editor.html(html);
+            red.syncCode();
+
+            function showMd() {
+                setTimeout(function() {
+                    var html = red.getCode();
+                    $mdn.val(rem.render(html));    
+                }, 1000);
+            }
+        },
+
         CourseSchedule: function () {
             var form = new App.Views.CourseScheduleForm()
             form.courseId = this.model.id
@@ -176,6 +202,7 @@ $(function () {
                         $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(courseForm.model.get("courseLeader"));
                     }
                     courseForm.form.fields['members'].$el.hide()
+                    courseForm.form.fields['description'].$el.hide()
                     if (courseForm.model.get("_id") == undefined) {
                         courseForm.form.fields['Day'].$el.hide()
                     }
@@ -205,6 +232,7 @@ $(function () {
                 },
                 async: false
             });
+            courseForm.markInit();
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
         },
@@ -239,7 +267,7 @@ $(function () {
                     previousLeader=[];
                 }
             }
-
+            this.model.unset("descriptionOutput", { silent: true })
             this.model.set("name", this.model.get("CourseTitle"))
             // Send the updated model to the server
             if (this.model.get("_id") == undefined) {

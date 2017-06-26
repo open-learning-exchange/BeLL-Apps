@@ -22,6 +22,31 @@ $(function() {
             });
         },
 
+        markInit: function () {
+            marked.setOptions({
+                smartLists: true
+            });
+            var remL = new reMarked(),
+                $redL = this.$el.find("li#stepDescription > div textarea[name='descriptionOutput']"),
+                redL = null,
+                $mdnL = this.$el.find("li#markdownStepText > div textarea[name='description']");
+            $redL.redactor({
+                keyupCallback: showMdL,
+                execCommandCallback: showMdL
+            });
+            redL = $redL.data('redactor');
+            var html = marked($mdnL.val());
+                //clean = red.stripTags(html);
+            redL.$editor.html(html);
+            redL.syncCode();
+            function showMdL() {
+                setTimeout(function() {
+                    var html = redL.getCode();
+                    $mdnL.val(remL.render(html));    
+                }, 1000);
+            }
+        },
+
         render: function() {
             // members is required for the form's members field
             var levelForm = this
@@ -37,6 +62,7 @@ $(function() {
             this.form.fields['totalMarks'].$el.hide()
             this.form.fields['stepMethod'].$el.hide()
             this.form.fields['stepGoals'].$el.hide()
+            this.form.fields['description'].$el.hide()
             this.form.fields['passingPercentage'].$el.append('<div id = "slider-range-min"></div>')
 
             // give the form a submit button
@@ -45,6 +71,7 @@ $(function() {
                 button += ('<a class="btn btn-success" id="retrunBack"> ' + App.languageDict.attributes.Back + ' </button>')
             button += ('<a class="btn btn-success" id="formButton">' + App.languageDict.attributes.Save + '</button>')
             this.$el.append(button)
+            this.markInit();
         },
 
         setFormFromEnterKey: function(event) {
@@ -86,7 +113,7 @@ $(function() {
                                         success:function(){
                                             last_member = allcrs.last()
                                             if(last_member.get('id') == m.get('id')){
-                                                location.reload()
+                                               location.reload()
                                             }
                                         }
                                     })
@@ -127,7 +154,10 @@ $(function() {
             })
             // Put the form's input into the model in memory
             this.form.commit()
+            
             // Send the updated model to the server
+            this.model.unset("descriptionOutput", { silent: true })
+            console.log(this.model)
             if(this.model.get("title") == undefined || $.trim(this.model.get("title"))  == "") {
                 alert(App.languageDict.attributes.Title_Error)
             }

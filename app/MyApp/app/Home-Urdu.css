@@ -1225,4 +1225,9 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 }
 #accept div input[name=accept]{
     margin-top: -45px;
+    margin-right: 231px;
+    margin-top: -65px;
+}
+.redactor_color_none {
+    display: none !important;
 }

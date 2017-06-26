@@ -189,12 +189,27 @@ $(function () {
                     ui.item.children("h3").triggerHandler("focusout");
                 }
             });
+
+            $('.level-section-data textarea').each(function() {
+                $red = $(this);
+                $red.redactor({
+                    toolbar:false
+                });
+                red = $red.data('redactor');
+                var html = marked($red.val()),
+                clean = red.stripTags(html);
+                red.$editor.html(html);
+                red.$editor.attr('contenteditable', false);
+                red.syncCode();
+
+            })
         },
 
         render: function () {
             if (this.collection.length < 1) {
                 this.$el.append('<p style="font-weight:900;">'+App.languageDict.attributes.Error_UserCourse_Details+'</p>')
             } else {
+                
                 this.setAllResults();
             }
         }

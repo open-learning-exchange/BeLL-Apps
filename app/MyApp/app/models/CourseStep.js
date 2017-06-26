@@ -21,8 +21,13 @@ $(function() {
                 type: 'Text'
             },
             stepMethod: 'Text',
+            descriptionOutput: {
+                type: 'TextArea',
+                fieldAttrs: {id:'stepDescription'}
+            },
             description: {
-                type: 'TextArea'
+                type: 'TextArea',
+                fieldAttrs: {id:'markdownStepText'}
             },
             stepGoals: 'TextArea',
 

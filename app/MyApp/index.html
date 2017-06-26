@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.css"/>
 
     <link rel="stylesheet" href="vendor/jqPlot/jquery.jqplot.css"/>
+    <link rel="stylesheet" href="vendor/redactor/style.css"/>
+    <link rel="stylesheet" href="vendor/redactor/redactor.css"/>
 
     <!--
       DEPENDENCIES
@@ -83,7 +85,9 @@
     <script src="vendor/jqPlot/jquery.flot.axislabels.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jshash-2.2/md5-min.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jszip.min.js"></script> <!-- app/vendor.js -->
-
+    <script src="vendor/redactor/marked.js"></script> <!-- app/vendor.js -->
+    <script src="vendor/redactor/reMarked.js"></script> <!-- app/vendor.js -->
+    <script src="vendor/redactor/redactor.js"></script> <!-- app/vendor.js -->
 
     <!-- html-templates -->
     <link rel="text" href="app/templates/templates.txt"/>
@@ -1465,8 +1469,8 @@
                     </td>
                 </tr>
                 <tr class="level-section-data">
-                    <td colspan="3">
-                        <%=description%>
+                    <td colspan="3" >
+                         <textarea><%=description%></textarea> 
                     </td>
                 </tr>
 
