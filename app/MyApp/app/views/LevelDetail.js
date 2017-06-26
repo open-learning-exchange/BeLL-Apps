@@ -276,6 +276,7 @@ $(function() {
             this.courseresult.fetch({
                 async: false
             })
+            console.log(this.courseresult)
             App.stopActivityIndicator()
             var obj = this
             if (this.courseresult.length > 0) {

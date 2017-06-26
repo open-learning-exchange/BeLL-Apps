@@ -5,7 +5,7 @@ $(function() {
         template: $("#template-Search-boxes").html(),
         vars: {},
         events: {
-            "click #selectAllButton": function(e) {
+            "click #selectAllButton": function() {
                 var isChecked = $('#selectAllButton').prop('checked');
                 if(isChecked){
                      $("input[name='result']").each(function() {
@@ -15,6 +15,11 @@ $(function() {
                     $("input[name='result']").each(function() {
                         $(this).prop('checked', false);
                     })
+                }
+            },
+            "click #addIndividualResource": function(e){
+                if(e.currentTarget.value){
+                    this.AddResources()
                 }
             }
         },
@@ -36,7 +41,6 @@ $(function() {
             //$('#srch').append(modelView.el)
         },
         addAll: function() {
-            console.log(this.collection);
             var data = [];
             if(this.collection.length > 0 ){
                 for(var i = 0 ;i < this.collection.length; i++){
@@ -50,7 +54,54 @@ $(function() {
         render: function() {
             levelID = this.attributes.LevelID;
             this.addAll()
-        }
+        },
+
+        AddResources: function(){
+            var cstep = new App.Models.CourseStep({
+                "_id": levelID
+            })
+            cstep.fetch({
+                async: false,
+                success: function(response){
+                }
+            })
+            var oldIds = cstep.get("resourceId")
+            var oldTitles = cstep.get("resourceTitles")
+            $("input[name='result']").each(function() {
+                if ($(this).is(":checked") == true) {
+                    var rId = $(this).val();
+                    if (oldIds.indexOf(rId) == -1) {
+                        rtitle.push($(this).attr('rTitle'))
+                        rids.push(rId)
+                    }
+                }
+            });
+            if(rids != "" && rtitle != ""){
+                cstep.set("resourceId", oldIds.concat(rids))
+                cstep.set("resourceTitles", oldTitles.concat(rtitle))
+                cstep.save(null, {
+                    success: function(responseModel, responseRev) {
+                        cstep.set("_rev", responseRev.rev)
+                        alert(App.languageDict.attributes.Resource_Updated)
+                        Backbone.history.navigate('level/view/' + responseRev.id + '/' + responseRev.rev, {
+                            trigger: true
+                        })
+                        $("#cont").css('opacity', "")
+                        $("#nav").css('opacity', "")
+                        $("#invitationdiv").hide()
+                    }
+                })
+                rids = []
+                rtitle = []
+            } else {
+                Backbone.history.navigate('level/view/' + cstep.get("id") + '/' + cstep.get("rev"), {
+                    trigger: true
+                })
+                $("#cont").css('opacity', "")
+                $("#nav").css('opacity', "")
+                $("#invitationdiv").hide()
+            }
+        },
 
     })
 
