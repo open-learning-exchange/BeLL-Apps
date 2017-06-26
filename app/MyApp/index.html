@@ -2092,21 +2092,23 @@
             </div>
         </div>
     </script>
-
-     <script type="text/html" id="template-CourseStepQuestionRow">
-        <td><%= Statement %>
+<script type="text/html" id="template-CourseStepQuestionRow">
+        <td><b><%= Statement %></b>
              <% if ( Type == "Multiple Choice") {  %>
                   <table>
             <tbody>
             <% for (var i=0; i < Options.length; i++){ %>
             <tr>
                 <td align="center"><input type="hidden" name="' + <%= Statement %><%= Options[0] %> + '"></td>
-                <td> <ul><li><%= Options[i] %></li></ul></td>
+                <%if(CorrectAnswer[i] == Options[i]){%>
+                    <td> <ul><li><b><%= Options[i] %></b><img src="img\tick.jpg" style = "width: 15px;margin-left: 11px;"></li></ul></td>
+                <%}else { %>
+                    <td> <ul><li><%= Options[i] %></li></ul></td>
+                <%}%>
             </tr>
             <% }%>
             </tbody>
         </table>
-       
         <%} %>
         </td>
         <td><%= Marks%></td>
