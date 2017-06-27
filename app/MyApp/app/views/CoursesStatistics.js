@@ -18,7 +18,7 @@ $(function() {
             var stepid = []
             var totalerrors = []
             var totalFailStatus = []
-            var you = []
+
                for(var i = 0; i <this.model.attributes.members.length; i++){
                     var statisticscourseProgress = new App.Collections.membercourseprogresses()
                     statisticscourseProgress.memberId = this.model.attributes.members[i];
@@ -53,8 +53,7 @@ $(function() {
                     members.fetch({
                         async: false
                     });
-                   memberName.push(members.toJSON().firstName + ' ' + members.toJSON().lastName)
-
+                    memberName.push(members.toJSON().firstName + ' ' + members.toJSON().lastName)
                 }
                 for (var y = 0; y < memberStep.length; y++) {
                         var courseSteps = new App.Models.CourseStep()
@@ -83,8 +82,5 @@ $(function() {
                 this.vars.TotalmemberSteperror = totalMemberstepError
                 this.$el.html(_.template(this.template,this.vars))
         }
-
-
     })
-
 })
