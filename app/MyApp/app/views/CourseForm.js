@@ -40,17 +40,18 @@ $(function () {
                 execCommandCallback: showMd,
             });
             red = $red.data('redactor');
-            var html = marked($mdn.val());
-                //clean = red.stripTags(html);
-            red.$editor.html(html);
-            red.syncCode();
+            $mdn.on("keyup", function() {
+                var html = marked(this.value),
+                    clean = red.stripTags(html);
 
+                red.$editor.html(html);
+                red.syncCode();
+            });
             function showMd() {
-                setTimeout(function() {
-                    var html = red.getCode();
-                    $mdn.val(rem.render(html));    
-                }, 1000);
+                var html = red.getCode();
+                $mdn.val(rem.render(html));
             }
+            showMd();
         },
 
         CourseSchedule: function () {
