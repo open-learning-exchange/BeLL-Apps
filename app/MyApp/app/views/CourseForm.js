@@ -14,6 +14,14 @@ $(function () {
             "click #coursescheduleButton": "CourseSchedule",
             "click #cancel": function () {
                 window.history.back()
+            },
+            "click #previewMarkdown": function () {
+                $("#markdownText").show();
+                $("#courseDescription").hide();
+            },
+            "click #previewMode": function () {
+                $("#markdownText").hide();
+                $("#courseDescription").show();
             }
         },
 
@@ -26,6 +34,8 @@ $(function () {
                 red = null,
                 $mdn = $("li#markdownText > div textarea[name='description']");
             $red.redactor({
+                buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                minHeight: 200,
                 keyupCallback: showMd,
                 execCommandCallback: showMd,
             });
@@ -232,6 +242,10 @@ $(function () {
                 },
                 async: false
             });
+            $("#courseDescription").prepend('<a id="previewMarkdown" style="float:right;">Markdown</a>');
+            $("#markdownText").prepend('<a id="previewMode" style=" float:right;">Rich Text</a>');
+           
+            console.log(courseForm)
             courseForm.markInit();
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
