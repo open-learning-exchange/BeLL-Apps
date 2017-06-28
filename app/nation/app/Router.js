@@ -3972,7 +3972,7 @@ $(function() {
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
+                url: 'http://' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
                 type: 'GET',
                 dataType: 'jsonp',
                 async: false,
@@ -4008,7 +4008,8 @@ $(function() {
 	            }
 	            listCommunity += "<div id='list-of-Communities'></div>"
                 App.$el.children('.body').html('<div id="communityDiv">');
-                $('#communityDiv').append(SelectRegion);
+                 if(getRegion !="")
+                    $('#communityDiv').append(SelectRegion);
 	            $('#communityDiv').append(listCommunity);
                 if($.cookie('selectCommunity'))
                     $('#selectCommunity option[value="'+$.cookie('selectCommunity')+'"').attr("selected",'selected');
