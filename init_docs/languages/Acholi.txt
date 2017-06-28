@@ -323,7 +323,7 @@
   "Select_All":"crwdns15738:0crwdne15738:0",
   "Previous":"crwdns15739:0crwdne15739:0",
   "Add_To_Level":"crwdns15740:0crwdne15740:0",
-  "Back_To_Course":"crwdns15741:0crwdne15741:0",
+  "Back_To_Manage_Course":"crwdns16365:0crwdne16365:0",
   "Create_Test":"crwdns16261:0crwdne16261:0",
   "Edit_Test":"crwdns16262:0crwdne16262:0",
   "Instructions":"crwdns15744:0crwdne15744:0",

@@ -323,7 +323,7 @@
   "Select_All":"सभी चुनें",
   "Previous":"पिछला",
   "Add_To_Level":"स्तर के लिए जोड़ें",
-  "Back_To_Course":"वापस पाठ्यक्रम के लिए",
+  "Back_To_Manage_Course":"Back To Manage Course",
   "Create_Test":"परीक्षण बनाएँ",
   "Edit_Test":"परीक्षा को संपादित करें",
   "Instructions":"निर्देश",
