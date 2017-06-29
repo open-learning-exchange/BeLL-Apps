@@ -328,11 +328,11 @@ textarea[name="comment"]
     margin-bottom: -1%;
     width: 883px;
 }
-#courseform [name="description"]{
+/*#courseform [name="description"]{
     height: 120px;
     width: 456px;
 }
-
+*/
 #courseform .bbf-field.field-foregroundColor{
     margin-left: 147px;
     margin-top: -56px;
