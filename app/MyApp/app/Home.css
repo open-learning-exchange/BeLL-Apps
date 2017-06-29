@@ -1022,12 +1022,6 @@ a#Close {
     float: right;
     margin-top: 5px;
 }
-.bbf-editor input {
-    width: 270px;
-}
-.bbf-editor select[name=selectLanguage]{
-    width:284px;
-}
 form > fieldset > ul > li.bbf-field.field-selectLanguage {
     list-style-type: none;
     margin-left: 304px;
