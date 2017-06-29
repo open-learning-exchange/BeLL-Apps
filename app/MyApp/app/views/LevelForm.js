@@ -6,7 +6,7 @@ $(function() {
             "click #formButton": "setForm",
             "submit form": "setFormFromEnterKey",
             "click #retrunBack": function (e) {
-                history.back()
+                location.reload();
             }
         },
 
@@ -122,6 +122,7 @@ $(function() {
                     Backbone.history.navigate('level/view/' + id + '/' + rid, {
                         trigger: true
                     })
+                    location.reload()
                 }
             })
             // Put the form's input into the model in memory

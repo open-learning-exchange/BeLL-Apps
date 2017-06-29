@@ -3034,10 +3034,46 @@ $(function() {
                     levelDetails.render();
                     App.$el.children('.body').html('<div class="courseEditStep" style ="margin-right:20px; margin-left:20px"></div>');
                     $('.courseEditStep').append('<h3>'  +App.languageDict.attributes.Step +levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
-                    $('.courseEditStep').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
-                    $('.courseEditStep').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Manage_Course+" </a>&nbsp;&nbsp;")
-                    $('.courseEditStep').append("</BR></BR><B>"+App.languageDict.attributes.Description+"</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
-                    $('.courseEditStep').append("<button class='btn btn-success backToSearchButton' onclick='document.location.href=\"#savedesc/" + lid + "\"'>"+App.languageDict.attributes.Save+"</button></BR></BR>")
+                    $('.courseEditStep').append('<a class="btn btn-success" id="editcurrentStep">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
+                    $('.courseEditStep').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Course+" </a><div id ='editStep'></div>&nbsp;&nbsp;")
+                    var lForm = new App.Views.LevelForm({
+                        model: levelInfo
+                    })
+                    $("#editStep").append('<div class="courseSearchResults_Bottom"></div>');
+                     levelInfo.set({
+                        "_id": lid
+                    })
+                    levelInfo.once('sync', function() {
+                        lForm.edit = true
+                        lForm.ques1 = levelInfo.get("questionslist")
+                        lForm.res = levelInfo.get("resourceId")
+                        lForm.rest = levelInfo.get("resourceTitles")
+                        lForm.previousStep = levelInfo.get("step")
+                        lForm.render();
+                        $('.courseSearchResults_Bottom').append(lForm.el)
+                        $("input[name='step']").attr("disabled", true);
+                        $("input[name='passingPercentage']").attr("readonly",true);
+                        $("textarea[name='description']").attr("readonly",true);
+                        $("input[name='title']").attr("readonly",true);
+                        $("#formButton").hide();
+                        $("#retrunBack").hide();
+                    })
+                    $("#editcurrentStep").click(function() {
+                        $(this).hide();
+                        $("textarea[name='description']").attr("readonly",false);
+                        $("input[name='title']").attr("readonly",false);
+                        $("#formButton").show();
+                        $("#retrunBack").show();
+                        $( "#slider-range-min" ).slider({
+                            range: "min",
+                            value: 37,
+                            min: 1,
+                            max: 100,
+                            slide: function( event, ui ) {
+                                $('input:[name="passingPercentage"]' ).val( ui.value );
+                            }
+                        });
+                    });
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questionslist") == null) {
