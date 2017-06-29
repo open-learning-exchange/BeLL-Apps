@@ -323,7 +323,7 @@
   "Select_All":"اختر الكل",
   "Previous":"سابق",
   "Add_To_Level":"إضافة إلى مستوى",
-  "Back_To_Course":"العودة إلى الدورة التدريبية",
+  "Back_To_Manage_Course":"Back To Manage Course",
   "Create_Test":"Create Test",
   "Edit_Test":"Edit Test",
   "Instructions":"تعليمات",

@@ -323,7 +323,7 @@
   "Select_All":"Misafidy an'izy rehetra",
   "Previous":"Mankany aloha",
   "Add_To_Level":"Ampidirina ny mari-pahalalana",
-  "Back_To_Course":"Miverina amin' ny lesona rehetra teo aloha",
+  "Back_To_Manage_Course":"Back To Manage Course",
   "Create_Test":"Mamorona fitsapam-Pahaizana",
   "Edit_Test":"Fanovana fitsapam-pahaizana",
   "Instructions":"Torolalana",
