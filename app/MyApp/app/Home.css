@@ -1,6 +1,7 @@
 /*This stylesheet is supposed to applied on page for LTR languages like English, Spanish etc*/
 .body {
     direction: ltr;
+    margin-bottom: 30px;
 }
 div#parentLibrary{
     margin-left: 20px;
