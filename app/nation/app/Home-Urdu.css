@@ -1274,10 +1274,6 @@ textarea[name="comment"]
     text-align:center; 
     margin: 10px 0 15px;
 }
-#accept div input[name=accept]{
-    margin-top: -43px;
-    margin-right: auto;
-}
 li.bbf-field.field-selectLanguage {
     list-style-type: none;
     margin-right: 1px;
@@ -1292,5 +1288,5 @@ li.bbf-field.field-selectLanguage {
 }
 #accept div input[name=accept]{
     margin-top: -46px;
-    margin-right: -20px;
+    margin-right: -15px;
 }

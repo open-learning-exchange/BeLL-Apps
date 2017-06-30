@@ -22,7 +22,7 @@ module.exports = function () {
         this.waitForText('Set Configurations', 10);
         this.seeInCurrentUrl('#configuration/add');
         this.wait(1);
-        var fields = ['//*[@name="name"]', "code", "region", "nationName", "nationUrl", "notes"];
+        var fields = ['//*[@name="name"]', "code", "nationName", "nationUrl", "notes"];
         for (let fn in fields) {
           this.fillField(fields[fn], 'ole');
         }
