@@ -1,6 +1,7 @@
 /*This stylesheet is supposed to applied on page for RTL languages like Arabic, Urdu etc*/
 .body {
     direction: rtl;
+    margin-bottom: 30px;
 }
 div#parentLibrary{
     margin-left: 20px;

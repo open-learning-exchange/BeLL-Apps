@@ -3044,9 +3044,9 @@ $(function() {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                     } else {
                         $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>')
-                        $('.courseEditStep').append('<a class="btn btn-primary" style="margin-left: 1100px" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<a class="btn btn-primary backToSearchButton" style="margin-right: 1%" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a><br>')
                     }
-                    $('.body').append('<div id="viewTest" style = "margin-right:20px; margin-left:20px"></div>');
+                    $('.body').append('<div id="viewTest" style = "padding-top:3%; margin-right:20px; margin-left:20px"></div>');
 
                 }
             });
