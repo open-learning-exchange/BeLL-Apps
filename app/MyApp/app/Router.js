@@ -3040,7 +3040,6 @@ $(function() {
                     var lForm = new App.Views.LevelForm({
                         model: levelInfo
                     })
-                    $("#editStep").append('<div class="courseSearchResults_Bottom"></div>');
                      levelInfo.set({
                         "_id": lid
                     })
@@ -3051,7 +3050,7 @@ $(function() {
                         lForm.rest = levelInfo.get("resourceTitles")
                         lForm.previousStep = levelInfo.get("step")
                         lForm.render();
-                        $('.courseSearchResults_Bottom').append(lForm.el)
+                        $('#editStep').append(lForm.el)
                         $("input[name='step']").attr("disabled", true);
                         $("input[name='passingPercentage']").attr("readonly",true);
                         $("textarea[name='description']").attr("readonly",true);
