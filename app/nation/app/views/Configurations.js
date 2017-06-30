@@ -1,7 +1,7 @@
 $(function() {
     //This form/view is binded with Configuration model
     App.Views.Configurations = Backbone.View.extend({
-
+        className: "addNation-form",
         initialize: function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
@@ -51,7 +51,7 @@ $(function() {
             this.$el.find('.field-version label').text(languageDictValue.get("Version"));
             this.$el.find('.field-notes label').text(languageDictValue.get("Notes"));
             this.$el.find('.field-selectLanguage label').text(languageDictValue.get("Select_Language"));
-            this.$el.find('.form-field label').text(languageDictValue.get("Auto_Approve"));
+            this.$el.find('#accept label').text(languageDictValue.get("Auto_Approve"));
             this.$el.append('<a style="display: table;margin: 0 auto" class="btn btn-success" id="formButton">' + languageDictValue.get("Submit_Configurations") + '</a>');
         },
         setForm: function() {

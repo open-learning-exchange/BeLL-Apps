@@ -1024,6 +1024,11 @@ a#Close {
 }
 form > fieldset > ul > li.bbf-field.field-selectLanguage {
     list-style-type: none;
-    margin-left: 242px;
-    margin-top: -65px;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+#accept div input[name=accept]{
+    margin-top: -45px;
+    margin-left: -20px;
+    display: inline-block;
 }

@@ -831,7 +831,7 @@ $(function() {
             })
             conForm.render();
             App.$el.children('.body').html(conForm.el);
-            for(var i=8;i<$('.bbf-form').find('ul li').length;i++)
+            for(var i=9;i<$('.bbf-form').find('ul li').length;i++)
             {
                 $('.bbf-form').find('ul').find('li').eq(i).hide();
             }

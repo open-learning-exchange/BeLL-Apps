@@ -38,7 +38,7 @@ $(function () {
             clanguage= getNativeNameOfLang(clanguage);
             $('.field-selectLanguage').find('.bbf-editor').find('select').val(clanguage);
             this.$el.find('#defaultLang').text(clanguage);
-            this.$el.find('.field-name label').text(App.languageDict.get("Name"));
+            this.$el.find('.bff-form').append('.field-name label').text(App.languageDict.get("Name"));
             this.$el.find('.field-code label').text(App.languageDict.get("Code"));
             this.$el.find('.field-type label').text(App.languageDict.get("Type"));
             this.$el.find( ".field-type .bbf-editor select option" ).each(function( index ) {
@@ -46,14 +46,18 @@ $(function () {
                 $(this).text(App.languageDict.get(temp));
             });
             this.$el.find('.field-region label').text(App.languageDict.get("Region"));
+            this.$el.find('#regionField').css({'display': 'none'})
             this.$el.find('.field-nationName label').text(App.languageDict.get("Nation_Name"));
             this.$el.find('.field-nationUrl label').text(App.languageDict.get("Nation_Url"));
             this.$el.find('.field-version label').text(App.languageDict.get("Version"));
             this.$el.find('.field-notes label').text(App.languageDict.get("Notes"));
             this.$el.find('.field-selectLanguage label').text(App.languageDict.get("Select_Language"));
-            this.$el.append('<a style="margin-left:31px;" class="btn btn-success" id="formButton">' + App.languageDict.get("Submit_Configurations") + '</a>');
+            this.$el.find('#accept label').text(App.languageDict.get("Auto_Approve"));
+            this.$el.append('<a style="display: table;margin: 0 auto;" class="btn btn-success" id="formButton">' + App.languageDict.get("Submit_Configurations") + '</a>');
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-
+            this.$el.find('.form-field').css({'width': '282px'})
+            this.$el.find('.bbf-editor').find('input').css({'width': '270px'})
+            this.$el.find('.bbf-editor').find('select').css({'width': '274px'})
         },
         setForm:function() {
             var memberLoginForm = this;
@@ -100,6 +104,7 @@ $(function () {
             con.set('code', Config.get('code'));
             //con.set('type',Config.get('type'));
             con.set('notes',Config.get('notes'));
+            con.set('accept', Config.get('accept')); // accept = true means automatic approval
             //con.set('region', Config.get('region'));
             if(Config.get('version') != "") {
                 con.set('version', Config.get('version'));

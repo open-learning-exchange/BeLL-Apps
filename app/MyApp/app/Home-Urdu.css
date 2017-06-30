@@ -1221,6 +1221,8 @@ a.forgot-password-form-button:hover{
 }
 form > fieldset > ul > li.bbf-field.field-selectLanguage {
     list-style-type: none;
-    margin-right: 231px;
-    margin-top: -65px;
+}
+#accept div input[name=accept]{
+    margin-top: -45px;
+    display: inline-block;
 }

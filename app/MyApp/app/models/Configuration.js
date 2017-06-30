@@ -37,7 +37,7 @@ $(function() {
             },
             region: { // Saves region name in which community/nation exists
                 type:'Text',
-                fieldAttrs : {class: "form-field"}
+                fieldAttrs : {id: "regionField", class: "form-field"}
             },
             nationName: { // Saves couch/futon's admin/userName of nation to which community is registered
                 type: 'Text',
@@ -60,6 +60,10 @@ $(function() {
             selectLanguage: { // This attribute is being used to select BeLL-Apps language(After easy-install it is only used for nation, for community there is another way to select language)
                 type: 'Select',
                 options:[]
+            },
+            accept: {
+                type: 'Checkbox',
+                fieldAttrs : {id: "accept", class: "form-field" }
             },
             //Sponsoring Organization
             sponsorName: { // Saves name of sponsoring organization
