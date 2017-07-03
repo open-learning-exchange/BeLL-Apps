@@ -260,7 +260,7 @@ $(function() {
         SurveysForMembers: function() {
             var SurveysView = new App.Views.SurveyTableForMembers();
             SurveysView.render();
-            App.$el.children('.body').html('<div id="surveyTable"></div>');
+            App.$el.children('.body').html('<div id="surveyTable" style="margin-right:20px; margin-left:20px;"></div>');
             $('#surveyTable').append('<h3>' + App.languageDict.get('Surveys') + '</h3>');
             $('#surveyTable').append(SurveysView.el);
         },
