@@ -3938,7 +3938,7 @@ $(function() {
                     console.log(status);
                 }
             });
-            return jsonModels.concat(jsonModels1);
+            return jsonModels;
 
         },
 
