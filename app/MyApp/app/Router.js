@@ -571,7 +571,7 @@ $(function() {
                 // creditsTableView.render();
 
 
-                App.$el.children('.body').html('<div id="creditsTable"></div>');
+                App.$el.children('.body').html('<div id="creditsTable" style = "margin-left: 20px;margin-right: 20px;"></div>');
                 var course = new App.Models.Course({
                     _id: courseId
                 });
