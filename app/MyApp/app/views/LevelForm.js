@@ -22,31 +22,6 @@ $(function() {
             });
         },
 
-        markInit: function () {
-            marked.setOptions({
-                smartLists: true
-            });
-            var remL = new reMarked(),
-                $redL = this.$el.find("li#stepDescription > div textarea[name='descriptionOutput']"),
-                redL = null,
-                $mdnL = this.$el.find("li#markdownStepText > div textarea[name='description']");
-            $redL.redactor({
-                keyupCallback: showMdL,
-                execCommandCallback: showMdL
-            });
-            redL = $redL.data('redactor');
-            var html = marked($mdnL.val());
-                //clean = red.stripTags(html);
-            redL.$editor.html(html);
-            redL.syncCode();
-            function showMdL() {
-                setTimeout(function() {
-                    var html = redL.getCode();
-                    $mdnL.val(remL.render(html));    
-                }, 1000);
-            }
-        },
-
         render: function() {
             // members is required for the form's members field
             var levelForm = this
@@ -64,14 +39,16 @@ $(function() {
             this.form.fields['stepGoals'].$el.hide()
             this.form.fields['description'].$el.hide()
             this.form.fields['passingPercentage'].$el.append('<div id = "slider-range-min"></div>')
-
+            this.form.fields['descriptionOutput'].$el.prepend('<a id="StepDescriptionLink" style="float:right; margin-right: 5%;">Markdown</a>');
+            this.form.fields['description'].$el.prepend('<a id="markdownStepDescriptionLink" style=" float:right; margin-right: 5%;">Rich Text</a>');
             // give the form a submit button
             var button = '';
+               $("#StepDescription").prepend('<a id="StepDescriptionLink" style="float:right; margin-right: 5%;">Markdown</a>');
+                        $("#markdownStepDescription").prepend('<a id="markdownStepDescriptionLink" style=" float:right; margin-right: 5%;">Rich Text</a>');
             if(this.edit)
                 button += ('<a class="btn btn-success" id="retrunBack"> ' + App.languageDict.attributes.Back + ' </button>')
             button += ('<a class="btn btn-success" id="formButton">' + App.languageDict.attributes.Save + '</button>')
             this.$el.append(button)
-            this.markInit();
         },
 
         setFormFromEnterKey: function(event) {

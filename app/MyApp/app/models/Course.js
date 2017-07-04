@@ -27,11 +27,11 @@ $(function() {
             },
             descriptionOutput: {
                 type: 'TextArea',
-                fieldAttrs: {id:'courseDescription',class:'bbf-field redactor_textbox'}
+                fieldAttrs: {id:'CourseDescription',class:'bbf-field redactor_textbox'}
             },
             description: {
                 type: 'TextArea',
-                fieldAttrs: {id:'markdownText',class:'bbf-field redactor_textbox'}
+                fieldAttrs: {id:'markdownCourseDescription',class:'bbf-field redactor_textbox'}
             },
             method: 'Text',
             gradeLevel: { //Defines that given course is designed to be taught for which level of education.

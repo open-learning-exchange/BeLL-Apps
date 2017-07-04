@@ -1399,7 +1399,62 @@ $(function() {
                 $('#_attachments').css('margin-left','170px');
             }
         },
+        markdownEditor: function(field,type) {
+            marked.setOptions({
+                smartLists: true
+            });
+            $("textarea[name='"+field+"Output']").css('width', '500px');
+            var remL = new reMarked(),
+                $redL = $("#"+type+field+" textarea[name='descriptionOutput']"),
+                redL = null,
+                $mdnL = $("#markdown"+type+field+" textarea[name='description']");
+            $redL.redactor({
+                buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                minHeight: 180,
+                keyupCallback: showMdL,
+                execCommandCallback: showMdL
+            });
+            redL = $redL.data('redactor');
+            var html = marked($mdnL.val());
+                //clean = red.stripTags(html);
+            redL.$editor.html(html);
+            redL.syncCode();
+            $mdnL.on("keyup", function() {
+                var html = marked(this.value),
+                    clean = redL.stripTags(html);
+                redL.$editor.html(html);
+                redL.syncCode();
+            });
+            function showMdL() {
+                setTimeout(function() {
+                    var html = redL.getCode();
+                    $mdnL.val(remL.render(html));
+                }, 1000);
+            }
 
+            $( '#'+type+field+'Link' ).click(function() {
+                 $( "#markdown"+type+field ).show();
+                 $( '#'+type+field ).hide();
+            });
+            $( "#markdown"+type+field+'Link' ).click(function() {
+                $( "#markdown"+type+field ).hide();
+                 $( '#'+type+field ).show();
+            });
+        },
+        previewModeEditor: function (textareaId) {
+            textareaId.each(function() {
+                $red = $(this);
+                $red.redactor({
+                    toolbar:false
+                });
+                red = $red.data('redactor');
+                var html = marked($red.val()),
+                clean = red.stripTags(html);
+                red.$editor.html(html);
+                red.$editor.attr('contenteditable', false);
+                red.syncCode();
+            })
+        },
         modelForm: function(className, label, modelId, reroute) { // 'Course', 'Course', courseId, 'courses'
             var url_page = $.url().data.attr.fragment;
             var url_split = url_page.split('/');
@@ -1468,6 +1523,7 @@ $(function() {
                 })
                 // Set up the form
                 modelForm.render();
+                App.Router.markdownEditor("Description","Course")
                 $('.bbf-form .field-courseLeader .bbf-editor select').attr('multiple','multiple');
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
@@ -2614,7 +2670,6 @@ $(function() {
             $mdn.on("keyup", function() {
                 var html = marked(this.value),
                     clean = red.stripTags(html);
-
                 red.$editor.html(html);
                 red.syncCode();
             });
@@ -2645,6 +2700,7 @@ $(function() {
                 $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
                 modelForm.render();
+                App.Router.markdownEditor("Description","Course")
                 $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
@@ -2729,6 +2785,8 @@ $(function() {
                         lForm.render()
                         $('.courseSearchResults_Bottom').append(lForm.el)
                         lForm.sliders();
+                        $(".redactor_textbox").css( 'float' , '');
+                        App.Router.markdownEditor("Description","Step")
                         $("input[name='step']").attr("disabled", true);
                         $("input[name='passingPercentage']").attr("readonly",true);
                         $("input[name='passingPercentage']").val(10)

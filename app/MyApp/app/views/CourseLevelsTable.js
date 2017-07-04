@@ -189,20 +189,8 @@ $(function () {
                     ui.item.children("h3").triggerHandler("focusout");
                 }
             });
-
-            $('.level-section-data textarea').each(function() {
-                $red = $(this);
-                $red.redactor({
-                    toolbar:false
-                });
-                red = $red.data('redactor');
-                var html = marked($red.val()),
-                clean = red.stripTags(html);
-                red.$editor.html(html);
-                red.$editor.attr('contenteditable', false);
-                red.syncCode();
-
-            })
+            App.Router.previewModeEditor($('.level-section-data textarea'))
+            
         },
 
         render: function () {

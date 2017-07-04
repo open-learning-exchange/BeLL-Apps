@@ -14,46 +14,7 @@ $(function () {
             "click #coursescheduleButton": "CourseSchedule",
             "click #cancel": function () {
                 window.history.back()
-            },
-            "click #previewMarkdown": function () {
-                $("#markdownText").show();
-                $("#courseDescription").hide();
-            },
-            "click #previewMode": function () {
-                $("#markdownText").hide();
-                $("#courseDescription").show();
             }
-        },
-
-        markInit: function () {
-            marked.setOptions({
-                smartLists: true
-            });
-            $("textarea[name='descriptionOutput']").css('width', '500px');
-            var rem = new reMarked(),
-                $red = $("li#courseDescription > div textarea[name='descriptionOutput']"),
-                red = null,
-                $mdn = $("li#markdownText > div textarea[name='description']");
-            $red.redactor({
-                buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
-                minHeight: 180,
-                keyupCallback: showMd,
-                execCommandCallback: showMd,
-            });
-
-            red = $red.data('redactor');
-            $mdn.on("keyup", function() {
-                var html = marked(this.value),
-                    clean = red.stripTags(html);
-
-                red.$editor.html(html);
-                red.syncCode();
-            });
-            function showMd() {
-                var html = red.getCode();
-                $mdn.val(rem.render(html));
-            }
-            showMd();
         },
 
         CourseSchedule: function () {
@@ -245,11 +206,9 @@ $(function () {
                 },
                 async: false
             });
-            $("#courseDescription").prepend('<a id="previewMarkdown" style="float:right; margin-right: 5%;">Markdown</a>');
-            $("#markdownText").prepend('<a id="previewMode" style=" float:right; margin-right: 5%;">Rich Text</a>');
+            $("#CourseDescription").prepend('<a id="CourseDescriptionLink" style="float:right; margin-right: 5%;">Markdown</a>');
+            $("#markdownCourseDescription").prepend('<a id="markdownCourseDescriptionLink" style=" float:right; margin-right: 5%;">Rich Text</a>');
             $(".redactor_textbox").css( 'float' , '');
-            console.log(courseForm)
-            courseForm.markInit();
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
         },

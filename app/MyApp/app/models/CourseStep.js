@@ -23,11 +23,11 @@ $(function() {
             stepMethod: 'Text',
             descriptionOutput: {
                 type: 'TextArea',
-                fieldAttrs: {id:'stepDescription'}
+                fieldAttrs: {id:'StepDescription',class:'bbf-field redactor_textbox'}
             },
             description: {
                 type: 'TextArea',
-                fieldAttrs: {id:'markdownStepText'}
+                fieldAttrs: {id:'markdownStepDescription',class:'bbf-field redactor_textbox'}
             },
             stepGoals: 'TextArea',
 
