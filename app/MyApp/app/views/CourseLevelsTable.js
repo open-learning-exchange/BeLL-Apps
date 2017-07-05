@@ -76,6 +76,7 @@ $(function () {
             temp.render()
             $('div.takeTestDiv').html('')
             $(wrapper).find('div.takeTestDiv').html(temp.el)
+            App.Router.markdownEditor("Description","Test")
         },
             
         initialize: function () {

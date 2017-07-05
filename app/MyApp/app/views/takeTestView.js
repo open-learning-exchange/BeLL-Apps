@@ -31,12 +31,15 @@ $(function() {
             },
             "click #nextPressed": function() {
                 this.nextquestion("next");
+                App.Router.markdownEditor("Description","Test")
             },
             "click #resetButton":function(e){
                 this.resetanswer();
+                App.Router.markdownEditor("Description","Test")
             },
             "click #previousPressed": function(e){
                 this.nextquestion("previous");
+                App.Router.markdownEditor("Description","Test")
             }
         },
 

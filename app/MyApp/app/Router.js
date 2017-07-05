@@ -2855,6 +2855,7 @@ $(function() {
                 }})
                 App.$el.children('.body').html(answerview.el);
                 answerview.render();
+                App.Router.previewModeEditor($(".givenAnswer textarea"))
                 var directionOfLang = App.languageDict.get('directionOfLang');
                 applyCorrectStylingSheet(directionOfLang)
         },
@@ -2898,14 +2899,15 @@ $(function() {
             })
             CourseDetailsView.courseLeader = memberModelArr
             CourseDetailsView.render()
-
             var courseStepsView = new App.Views.CourseStepsView({
                 collection: ccSteps
             })
             courseStepsView.render()
             $('.courseEditStep').append(CourseDetailsView.el)
+            App.Router.previewModeEditor($("#viewCourseDescription"))
             $('.courseEditStep').append('<div id="courseSteps-heading"><h5>'+App.languageDict.attributes.Course_Steps+'</h5></div>')
             $('.courseEditStep').append(courseStepsView.el)
+            App.Router.previewModeEditor($(".stepViewDetail textarea" ))
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
             });
@@ -3160,29 +3162,8 @@ $(function() {
                         });
                     });
                     $('.courseEditStep').append(levelDetails.el)
-                    marked.setOptions({
-                        smartLists: true
-                    });
-                    var remL = new reMarked(),
-                        $redL = $("#markdownStepDescription"),
-                        redL = null,
-                        $mdnL = $("#LevelDescription");
-                    $redL.redactor({
-                        keyupCallback: showMdL,
-                        execCommandCallback: showMdL
-                    });
-                    redL = $redL.data('redactor');
-                    var html = marked($mdnL.val());
-                        //clean = red.stripTags(html);
-                    redL.$editor.html(html);
-                    redL.syncCode();
-                    function showMdL() {
-                        setTimeout(function() {
-                            var html = redL.getCode();
-                            $mdnL.val(remL.render(html));    
-                        }, 1000);
-                    }
-
+                    $('#markdownStepDescription').hide();
+                    App.Router.markdownEditor('Description','Step')
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
@@ -3226,7 +3207,7 @@ $(function() {
             var that = this
             level.fetch({
                 success: function() {
-                    level.set("description", $('#LevelDescription').val())
+                    level.set("description", $('#markdownStepDescription textarea[name="description"]').val())
                     var that = this
                     level.save()
                     level.on('sync', function() {

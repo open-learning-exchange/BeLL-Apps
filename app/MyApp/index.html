@@ -1551,8 +1551,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <textarea id="commentEssay"><%=answer[0]%></textarea>
+                        <td id="markdownTestDescription" class="redactor_textbox " style="display:none; width:5%">
+                            <a id='markdownTestDescriptionLink' style='float:right;'><%= languageDict.attributes.Rich_Text %></a>
+                            <textarea name="description" id="commentEssay"><%=answer[0]%></textarea>
+                        </td>
+                        <td id="TestDescription" class="redactor_textbox " style=" width:5%">
+                            <a id='TestDescriptionLink' style=' float:right;'><%= languageDict.attributes.Markdown %></a><br/>
+                            <textarea name="descriptionOutput" id="commentEssay"></textarea>
                         </td>
                     </tr>
                 </table>
@@ -1757,7 +1762,7 @@
                         </tr>
                         <tr>
                             <td><%=App.languageDict.attributes.Given_Answer %></td>
-                            <td><%=answerlist[i].Answer%></td>
+                            <td class="givenAnswer"><textarea><%=answerlist[i].Answer%></textarea></td>
                         </tr>
                         <% if(!learner) { %>
                             <tr>
