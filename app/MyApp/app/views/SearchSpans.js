@@ -18,7 +18,7 @@ $(function() {
                 }
             },
             "click #addIndividualResource": function(e){
-                if(e.currentTarget.value){
+                if(e.currentTarget.value != ""){
                     this.AddResources()
                 }
             }

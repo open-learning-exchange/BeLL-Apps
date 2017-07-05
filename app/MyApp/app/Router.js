@@ -1925,6 +1925,7 @@ $(function() {
             search.addResource = false
             search.render();
             App.$el.children('.body').html(search.el);
+            $('#textSearch').hide()
             $("#multiselect-collections-search").multiselect().multiselectfilter();
             $('#multiselect-collections-search').multiselect({
                 header: App.languageDict.attributes.Select_An_option,
