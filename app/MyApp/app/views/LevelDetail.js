@@ -4,8 +4,7 @@ $(function() {
     var levelId = "";
     var revId = "";
     App.Views.LevelDetail = Backbone.View.extend({
-    template: $('#template-Search').html(),
-
+        template: $("#template-Search").html(),
         vars: {},
         courseresult: null,
         resultArray: null,
@@ -86,8 +85,9 @@ $(function() {
             this.resultArray = []
             enablenext = 0;
         },
+
         SearchPopup: function(){
-            $('#invitationdiv').css({'width' : 'auto', 'height' : '60%', 'overflow' : 'auto', 'margin-left' : '25%'});
+            $('#invitationdiv').css({'width' : '50%', 'height' : '60%', 'overflow' : 'auto', 'margin-left' : '25%' });
             $('#invitationdiv').fadeIn(1000)
             document.getElementById('cont').style.opacity = 0.1
             document.getElementById('nav').style.opacity = 0.1
@@ -110,20 +110,21 @@ $(function() {
                     rtitle.length = 0
                     rids.length = 0
                     var inviteForm = new App.Views.Search()
-                    inviteForm.resourceids = levelInfo.get("resourceId")
-                    inviteForm.addResource = true
+                    //inviteForm.resourceids = levelInfo.get("resourceId")
+                    //inviteForm.addResource = true
                     inviteForm.render()
                     $('#invitationdiv').html('&nbsp')
-                    $('#invitationdiv').append('<a id="Close" class="btn btn-danger destroy"><i class="icon-remove icon-white"></i></a>')
+                    $('#invitationdiv').append('<a id="Close" class="btn btn-danger destroy">'+App.languageDict.attributes.Close+'</a>')
                     $("#Close").click(function(e){
-                         Backbone.history.navigate('level/view/' + levelId + '/' + revId, {
-                            trigger: true
+                         Backbone.history.loadUrl('level/view/' + levelId + '/' + revId, {
+                            return: false
                         })
                         $("#cont").css('opacity', "")
                         $("#nav").css('opacity', "")
                         $("#invitationdiv").hide()
                     })
                     $('#invitationdiv').append(inviteForm.el)
+                    $('#searchText').hide()
                     $("#multiselect-collections-search").multiselect().multiselectfilter();
                     $("#multiselect-collections-search").multiselect({
                         checkAllText: App.languageDict.attributes.checkAll,
@@ -155,6 +156,7 @@ $(function() {
                     });
                     $('button#searchR.btn.btn-info').hide()
                     $("#srch").hide()
+                    $('#searchR').hide()
                     $(".search-bottom-nav").hide()
                     $(".search-result-header").hide()
                     $("#selectAllButton").hide()
@@ -172,11 +174,15 @@ $(function() {
                     $('#invitationdiv').append('<a id="search1" class="btn btn btn-info">'+App.languageDict.attributes.Search+'</a>')
                     $("#search1").click(function(e){
                         that.search()
+                        if(that.courseresult.length == 0){
+                            that.GoBackToSearch()
+                            $("#Add").hide()
+                        }
                     })
-                    $('#invitationdiv').append('<div class="container- fluid Search-Btns" style="display:block;"></div>')
+                    $('#invitationdiv').append('<div class="container- fluid Search-Btns" style="display:block; padding-top: 5%; padding-bottom: 10%;"></div>')
                     $(".Search-Btns").append('<a id="previous-button" class="btn btn-success">'+App.languageDict.attributes.Previous+'</a>&nbsp;&nbsp;')
-                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
-                    $(".Search-Btns").append('<a id="Add" class="btn btn-success">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
+                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success" style = "margin-left: 28%; margin-top: -30px;">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
+                    $(".Search-Btns").append('<a id="Add" class="btn btn-success" style = "margin-top: -30px;">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
                     $(".Search-Btns").append('<a id="next-button" class="btn btn-success">'+App.languageDict.attributes.Next+'</a>')
                     $('#BacktoSearch').click(function(e){
                         that.GoBackToSearch()
@@ -191,7 +197,16 @@ $(function() {
                         that.NextButtonPressed()
                     })
                     $(".Search-Btns").hide()
-                    }
+                    $('#textSearch').keypress(function(e){
+                        if(e.keyCode == 13){
+                            that.search()
+                            if(that.courseresult.length == 0){
+                                $("#invitationdiv").append("<table style='margin-top: -145px;text-align: center;'><tr><td style='width: 630px;'><h6>"+App.languageDict.attributes.No_Resource_Found+"</h6></td></tr></table>")
+                                $("#Add").hide()
+                            }
+                        }
+                    })
+                }
             })
             $("#Close").show()
         },
@@ -321,7 +336,7 @@ $(function() {
         },
 
         search:function(e){
-            searchText = $("#searchText").val()
+            searchText = $("#textSearch").val()
             var collectionFilter = new Array()
             var subjectFilter = new Array()
             var levelFilter = new Array()
@@ -331,43 +346,46 @@ $(function() {
             subjectFilter = $("#multiselect-subject-search").val()
             levelFilter = $("#multiselect-levels-search").val()
             mediumFilter = $('#multiselect-medium-search').val()
+            languageFilter = $('#search-language').val()
             $("input[name='star']").each(function() {
                 if ($(this).is(":checked")) {
                     ratingFilter.push($(this).val());
                 }
             })
-            if (searchText != "" || (collectionFilter) || (subjectFilter) || (levelFilter) || (mediumFilter) || (ratingFilter && ratingFilter.length > 0)) {
+            if (searchText != "" || (collectionFilter) || (subjectFilter) || (levelFilter) || (mediumFilter) || (languageFilter) || (ratingFilter && ratingFilter.length > 0)) {
 
                 this.collectionFilter = collectionFilter
                 this.levelFilter = levelFilter
                 this.subjectFilter = subjectFilter
                 this.ratingFilter = ratingFilter
                 this.mediumFilter = mediumFilter
+                this.languageFilter = languageFilter
                 this.addResource = true
                 App.$el.children('.body').html(search.el)
                 this.render()
                 $("#searchText2").val(searchText)
                 $("#srch").show()
                 $(".row").hide()
-                $(".search-bottom-nav").show()
-                $(".search-result-header").show()
+                $('.courseSearchResults_Bottom').hide()
+                $(".search-bottom-nav").hide()
+                $(".search-result-header").hide()
                 $("#selectAllButton").show()
                 $("#previous-button").hide()
                 $(".Search-Btns").show()
             }
+            $('#next-button').hide()
             $('#previous_button').hide()
-            $('#searchText').focus();
-            $("#searchText").val(searchText)
-
-
+            $('#textSearch').focus();
+            $("#textSearch").val(searchText)
         },
+
         add: function(model) {
             //Single Author Should not be displayed multiple times on The Screen
 
         },
-
         render: function() {
             $("a#search1.btn.btn.btn-info").hide()
+            $("#textSearch").hide()
             var obj = this
             var collections = App.collectionslist
             this.vars.tags = collections.toJSON();

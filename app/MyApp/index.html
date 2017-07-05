@@ -1196,11 +1196,9 @@
             <table class="table table-striped">
             <tr>
                 <th colspan = ""><%=App.languageDict.attributes.Members%></th>
-                <th></th>
-                <th colspan = "50v"><center><%=App.languageDict.attributes.Steps%></center></th>
+                <th colspan = "25"><%=App.languageDict.attributes.Steps%></th>
             </tr>
             <tr>
-                <th></th>
                 <th></th>
                     <% for(var i = 0; i < stepName.length; i++) {%>
                         <%var a = i + 1%>
@@ -1210,22 +1208,12 @@
             </tr>
             <% for(var k = 0; k < Totalfailstat.length; k++) {%>
                 <tr>
-                    <td style ="color: #006400;"><b><%=member_Name[k]%></b></td>
-                    <td style="color: red;"><b><%=Totalerrors[k]%></b></td>
-                   <% for(var j = 0; j < member_sstatus.length; j++) {%>
-                            <td class = "attemptError"><%=Totalfailstat[k][j]%></td>
+                    <td><%=member_Name[k]%></td>
+                    <% for(var j = 0; j < steps.length; j++) {%>
+                            <td><%=Totalfailstat[k][j]%></td>
                     <% } %>
                 </tr>
             <% } %>
-             <tr>
-                <td><b>Total Errors</b></td>
-                <td></td>
-                <% for(var i = 0; i < stepName.length; i++) {%>
-                    <td style="color: red;"><b><%=TotalmemberSteperror[i]%></b></td>
-                <%}%>
-            </tr>
-
-
             </table>
     </script>
 
@@ -1697,7 +1685,7 @@
     </script>
 
     <script type="text/template" id="template-courseAnswerReview">
-        <div class="multipleAnswerReview" style = "margin-left: 20px;margin-right: 20px;padding-top: 20px;">
+        <div class="multipleAnswerReview">
             <% if(!learner) { %>
                 <h3 ><%=App.languageDict.attributes.Answer_Review_Section %></h3>
             <% } %>
@@ -1864,6 +1852,7 @@
                 <div class="col-lg-5" style = "margin-right:20px; margin-left:20px">
                     <div class="form-course search-Box">
                         <label style='font-size:16px'><b><%= languageDict.attributes.Title %></b></label><br><input class="form-control" type="text" placeholder="" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
+                        <input class="form-control" type="text" placeholder="" id="textSearch" style="height:24px;margin-top:1%;width:347px"></input>
                     </div>
 
                     <div class="checkbox-subject" id="SubjectCheckboxes">
@@ -1990,12 +1979,13 @@
     </script>
     <script type="text/html" id="template-Search-boxes">
         <div class="container-fluid">
+        <h6><%=languageDict.attributes.Search_Result%></h6>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" style="width:660px">
                     <thead>
                        <tr>
-                            <th><input type="checkbox" id="selectAllButton"/</th>
-                            <th>Title</th>
+                            <th><input type="checkbox" id="selectAllButton"</th>
+                            <th style ="width:400px;">Title</th>
                             <th>Autor</th>
                             <th>Action</th>
                         </tr>
@@ -2003,10 +1993,10 @@
                     <tbody>
                          <% for(var i = 0; i < data.length; i++){ var res = data[i].attributes;%>
                             <tr>
-                                <td><center><input id="<%= res._id %>" type="checkbox" name="result" value="<%= res._id %>" rTitle="<%= res.title %>"></center></td>
-                                <td><center><%= res.title %></center></td>
-                                <td><center><%= res.author %></center></td>
-                                <td><center><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></center></td>
+                                <td><input id="<%= res._id %>" type="checkbox" name="result" value="<%= res._id %>" rTitle="<%= res.title %>"></td>
+                                <td><%= res.title %></td>
+                                <td><%= res.author %></td>
+                                <td><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></td>
                             </tr>
                          <% }%>
                      </tbody>
