@@ -8,7 +8,7 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('Test For Course', (I, addquestion_po) => {
+Scenario('Test for creating Course, Step and questions', (I, addquestion_po) => {
     var courses = '//*[@href="#courses"]';
     var addcourses = '//*[@id="addCourseButton"]';
     var check = '//*[@value="Daily"]';
@@ -42,7 +42,9 @@ Scenario('Test For Course', (I, addquestion_po) => {
     I.fillField('CourseTitle', "Science");
     I.fillField('languageOfInstruction', "English");
     I.fillField('memberLimit', "5");
-    I.fillField('description', "This is all about topic science");
+    I.executeScript(function() {
+       $("li#courseDescription > div textarea[name='description']").text("<strong><h2>Science</h2></strong><div><strong>           Science </strong>in a broad sense existed before the modern era and in many historical civilizations.");
+    });
     I.fillField('method', "Science");
     I.selectOption('gradeLevel','10');
     I.selectOption('subjectLevel','Expert');
@@ -54,10 +56,13 @@ Scenario('Test For Course', (I, addquestion_po) => {
     I.click('Continue');
     I.wait(2);
     I.seeInPopup('Course successfully created.');
-    I.acceptPopup();
     I.wait(2);
+    I.acceptPopup();
+    I.wait(6);
     I.fillField('title', "Science Step");
-    I.fillField('div.courseSearchResults_Bottom textarea[name=description]', 'This is all about topic science');
+    I.executeScript(function() {
+        $("li#stepDescription > div textarea[name='description']").text("<strong><h2>Science</h2></strong><div><strong>           Science </strong>in a broad sense existed before the modern era and in many historical civilizations.");
+    });
     I.executeScript(function() {
         $("[name=passingPercentage]").val(45);
     });

@@ -25,8 +25,11 @@ $(function() {
                 type: 'Select',
                 options: null
             },
-            description: 'TextArea',
             method: 'Text',
+            description: {
+                type: 'TextArea',
+                fieldAttrs: {id:'courseDescription'}
+            },
             gradeLevel: { //Defines that given course is designed to be taught for which level of education.
                 type: 'Select',
                 options: ['Pre-K', 'K', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'College', 'Post-Grad']

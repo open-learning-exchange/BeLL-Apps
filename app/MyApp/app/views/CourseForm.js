@@ -194,7 +194,7 @@ $(function () {
                     // give the form a submit button
                     var $sbutton = $('<a class="course btn btn-success" id="sformButton">'+App.languageDict.attributes.Continue+'</button>')
                     var $ubutton = $('<a class="course btn btn-success" style="" id="uformButton">'+App.languageDict.attributes.Update+'</button>')
-                    var $button = $('<a style="margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + courseForm.model.get("_id") + '/' + courseForm.model.get("name") + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a><a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + courseForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
+                    var $button = $('<a style="margin-top: -100px;" role="button" id="ProgressButton" class="btn" href="#course/report/' + courseForm.model.get("_id") + '/' +  encodeURIComponent(courseForm.model.get("name")) + '"> <i class="icon-signal"></i> '+App.languageDict.attributes.Progress+'</a>'+'<a style="margin-top: -100px;"class="btn btn-success" id="inviteMemberButton">'+App.languageDict.attributes.Invite_Member+'</button><a style="margin-top: -100px;"class="btn btn-success" id="" href="#course/members/' + courseForm.model.get("_id") + '">'+App.languageDict.attributes.Members+'</a>')
                     if (courseForm.model.get("_id") != undefined) {
                         courseForm.$el.prepend($button)
                         courseForm.$el.append($ubutton)
@@ -224,6 +224,9 @@ $(function () {
             })
             // Put the form's input into the model in memory
             this.form.commit();
+            var encodedString = $( "li#courseDescription > div textarea[name='description']" ).html();
+            var decodedText = $("<p/>").html(encodedString).text();
+            this.model.set("description", decodedText);
             var previousLeader = [];
             if(this.form.model.id) //if form's model has an "ID" attribute then we are editing existing course model.
             {
@@ -239,7 +242,6 @@ $(function () {
                     previousLeader=[];
                 }
             }
-
             this.model.set("name", this.model.get("CourseTitle"))
             // Send the updated model to the server
             if (this.model.get("_id") == undefined) {

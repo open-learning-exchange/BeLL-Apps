@@ -126,6 +126,9 @@ $(function() {
             })
             // Put the form's input into the model in memory
             this.form.commit()
+            var encodedString = $( "li#stepDescription > div textarea[name='description']" ).html();
+            var decodedText = $("<p/>").html(encodedString).text();
+            this.model.set("description",decodedText)
             // Send the updated model to the server
             if(this.model.get("title") == undefined || $.trim(this.model.get("title"))  == "") {
                 alert(App.languageDict.attributes.Title_Error)

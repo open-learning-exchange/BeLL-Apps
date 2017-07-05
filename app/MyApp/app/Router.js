@@ -1468,6 +1468,13 @@ $(function() {
                 })
                 // Set up the form
                 modelForm.render();
+                new EasyEditor($("li#courseDescription > div textarea[name='description']" ), {
+                    css: ({
+                        minHeight: '150px',
+                        maxHeight: '500px'
+                    }),
+                    buttons: ['bold', 'italic', 'link', 'h2', 'h3', 'h4', 'alignleft', 'aligncenter', 'alignright', 'quote', 'x']
+                });
                 $('.bbf-form .field-courseLeader .bbf-editor select').attr('multiple','multiple');
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
@@ -2617,6 +2624,13 @@ $(function() {
                 $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
                 modelForm.render();
+                new EasyEditor($( "li#courseDescription > div textarea[name='description']" ) , {
+                    css: ({
+                        minHeight: '150px',
+                        maxHeight: '500px'
+                    }),
+                    buttons: ['bold', 'italic', 'link', 'h2', 'h3', 'h4', 'alignleft', 'aligncenter', 'alignright', 'quote', 'x']
+                });
                 $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
@@ -2703,6 +2717,13 @@ $(function() {
                         lForm.render()
                         $('.courseSearchResults_Bottom').append(lForm.el)
                         lForm.sliders();
+                        new EasyEditor($("li#stepDescription > div textarea[name='description']" ), {
+                            css: ({
+                                minHeight: '150px',
+                                maxHeight: '500px'
+                            }),
+                            buttons: ['bold', 'italic', 'link', 'h2', 'h3', 'h4', 'alignleft', 'aligncenter', 'alignright', 'quote', 'x']
+                        });
                         $("input[name='step']").attr("disabled", true);
                         $("input[name='passingPercentage']").attr("readonly",true);
                         $("input[name='passingPercentage']").val(10)
@@ -3038,6 +3059,13 @@ $(function() {
                     $('.courseEditStep').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
                     $('.courseEditStep').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Manage_Course+" </a>&nbsp;&nbsp;")
                     $('.courseEditStep').append("</BR></BR><B>"+App.languageDict.attributes.Description+"</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
+                    new EasyEditor("#LevelDescription", {
+                        css: ({
+                            minHeight: '150px',
+                            maxHeight: '500px'
+                        }),
+                        buttons: ['bold', 'italic', 'link', 'h2', 'h3', 'h4', 'alignleft', 'aligncenter', 'alignright', 'quote', 'x']
+                    });
                     $('.courseEditStep').append("<button class='btn btn-success backToSearchButton' onclick='document.location.href=\"#savedesc/" + lid + "\"'>"+App.languageDict.attributes.Save+"</button></BR></BR>")
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
