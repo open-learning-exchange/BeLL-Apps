@@ -379,10 +379,6 @@ $(function() {
             $("#textSearch").val(searchText)
         },
 
-        add: function(model) {
-            //Single Author Should not be displayed multiple times on The Screen
-
-        },
         render: function() {
             $("a#search1.btn.btn.btn-info").hide()
             $("#textSearch").hide()
@@ -606,7 +602,6 @@ $(function() {
                 $('#srch').html('<h4>'+App.languageDict.attributes.Search_Result+'<a class="backToSearchButton" class="btn btn-info" onclick="backtoSearchView()">'+App.languageDict.attributes.Back_to_Search+'</a></h4>')
                 $('#srch').append(SearchResult.el)
             }
-
         },
 
         isEmpty: function(map) {
