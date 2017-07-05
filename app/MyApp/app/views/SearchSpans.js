@@ -54,7 +54,6 @@ $(function() {
         render: function() {
             levelID = this.attributes.LevelID;
             this.addAll()
-            console.log(this.attributes.LevelID)
         },
 
         AddResources: function(){
