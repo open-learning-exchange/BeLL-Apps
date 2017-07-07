@@ -418,7 +418,7 @@ $(function() {
             var lang = getLanguage($.cookie('Member._id'))
             languageDictValue = getSpecificLanguage(lang);
             var creditsView = new App.Views.CreditsLeaderView();
-            App.$el.children('.body').html('<div id="creditsMainTable"></div>');
+            App.$el.children('.body').html('<div id="creditsMainTable" style="margin-left:20px; margin-right:20px;"></div>');
             $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
             creditsView.addHeading();
             var count=0;
