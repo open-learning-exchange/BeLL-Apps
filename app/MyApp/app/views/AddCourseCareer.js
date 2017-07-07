@@ -18,9 +18,8 @@ $(function() {
             "click #CancelCoursePath": function(e) {
             },
             "click #Delete": function(e) {
-                var a = $(e.target).attr('data-id')
                 var career = new App.Models.CoursecareerPath({
-                    _id: a
+                    _id:  $(e.target).attr('data-id')
                 })
                 career.fetch({
                     async: false
@@ -44,7 +43,7 @@ $(function() {
             },
             "click #UpdateCareerPath": function(e) {
                 this.saveCareerPath($('#UpdateCareerPath').attr('data-id'));
-            },
+            }
         },
 
         renderTable: function(searchText) {
@@ -104,33 +103,33 @@ $(function() {
                 })
                 location.reload();
             } else {
-            $('#LCourse option:selected').each(function(){ 
-                if ($(this).length) {
-                    selectedCourseId.push($(this).val());
-                    selectedCourseName.push($(this).text());
-                }
-            });
-             $('#LCareer option:selected').each(function(){
+                $('#LCourse option:selected').each(function(){ 
                     if ($(this).length) {
-                        selectedCareerIds.push($(this).val());
+                        selectedCourseId.push($(this).val());
+                        selectedCourseName.push($(this).text());
                     }
                 });
-            var courseCareerTitle = $('#careerPath').val()
-            var savecoursecareer = new App.Models.CoursecareerPath()
-            savecoursecareer.set('CoursePathName',courseCareerTitle);
-            savecoursecareer.set('Courses',selectedCourseName);
-            savecoursecareer.set('CourseIds',selectedCourseId);
-            savecoursecareer.set('MemberID',$.cookie('Member._id'));
-            savecoursecareer.set('requiredCareerPathIds',selectedCareerIds);
-            savecoursecareer.save(null, {
-                success: function(response){
-                    location.reload();
-                },
-                error: function(status) {
-                    console.log(status)
-                    console.log("Not Saved")
-                }
-            })
+                 $('#LCareer option:selected').each(function(){
+                        if ($(this).length) {
+                            selectedCareerIds.push($(this).val());
+                        }
+                    });
+                var courseCareerTitle = $('#careerPath').val()
+                var savecoursecareer = new App.Models.CoursecareerPath()
+                savecoursecareer.set('CoursePathName',courseCareerTitle);
+                savecoursecareer.set('Courses',selectedCourseName);
+                savecoursecareer.set('CourseIds',selectedCourseId);
+                savecoursecareer.set('MemberID',$.cookie('Member._id'));
+                savecoursecareer.set('requiredCareerPathIds',selectedCareerIds);
+                savecoursecareer.save(null, {
+                    success: function(response){
+                        location.reload();
+                    },
+                    error: function(status) {
+                        console.log(status)
+                        console.log("Not Saved")
+                    }
+                })
             }
         },
 
@@ -173,7 +172,7 @@ $(function() {
                 }
             }
             this.$el.html(_.template(this.template,this.vars))
-        },
+        }
     })
 
 })
