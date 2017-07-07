@@ -3171,8 +3171,7 @@ $(function() {
                         });
                     });
                     $('.courseEditStep').append(levelDetails.el)
-                    $('#markdownStepDescription').hide();
-                    App.Router.markdownEditor('Description','Step')
+                    App.Router.markdownEditor('description','step')
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')

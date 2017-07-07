@@ -129,7 +129,6 @@ $(function() {
             
             // Send the updated model to the server
             this.model.unset("descriptionOutput", { silent: true })
-            console.log(this.model)
             if(this.model.get("title") == undefined || $.trim(this.model.get("title"))  == "") {
                 alert(App.languageDict.attributes.Title_Error)
             }
