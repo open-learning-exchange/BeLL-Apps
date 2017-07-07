@@ -54,10 +54,10 @@ $(function () {
             this.$el.find('.field-selectLanguage label').text(App.languageDict.get("Select_Language"));
             this.$el.find('#accept label').text(App.languageDict.get("Auto_Approve"));
             this.$el.append('<a style="display: table;margin: 0 auto;" class="btn btn-success" id="formButton">' + App.languageDict.get("Submit_Configurations") + '</a>');
+            this.$el.find('.form-field').css({'width': '282px'});
+            this.$el.find('.bbf-editor').find('input').css({'width': '270px'});
+            this.$el.find('.bbf-editor').find('select').css({'width': '274px'});
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
-            this.$el.find('.form-field').css({'width': '282px'})
-            this.$el.find('.bbf-editor').find('input').css({'width': '270px'})
-            this.$el.find('.bbf-editor').find('select').css({'width': '274px'})
         },
         setForm:function() {
             var memberLoginForm = this;
