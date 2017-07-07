@@ -1463,6 +1463,11 @@ $(function() {
                 red.syncCode();
             })
         },
+        markdownDestory: function (field,type) {
+           $mdnL = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+           mdnL = $mdnL.data('redactor');
+           mdnL.destroy();
+        },
         modelForm: function(className, label, modelId, reroute) { // 'Course', 'Course', courseId, 'courses'
             var url_page = $.url().data.attr.fragment;
             var url_split = url_page.split('/');
@@ -3153,9 +3158,12 @@ $(function() {
                         $("input[name='title']").attr("readonly",true);
                         $("#formButton").hide();
                         $("#retrunBack").hide();
+                        App.Router.previewModeEditor($("#markdown_step_description textarea"))
                     })
                     $("#editcurrentStep").click(function() {
                         $(this).hide();
+                        App.Router.markdownDestory("description","step")
+                        App.Router.markdownEditor("description","step")
                         $("textarea[name='description']").attr("readonly",false);
                         $("input[name='title']").attr("readonly",false);
                         $("#formButton").show();
@@ -3171,7 +3179,6 @@ $(function() {
                         });
                     });
                     $('.courseEditStep').append(levelDetails.el)
-                    App.Router.markdownEditor('description','step')
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
@@ -3180,7 +3187,6 @@ $(function() {
                         $('.courseEditStep').append('<a class="btn btn-primary backToSearchButton" style="margin-right: 1%" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a><br>')
                     }
                     $('.body').append('<div id="viewTest" style = "padding-top:3%; margin-right:20px; margin-left:20px"></div>');
-
                 }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
