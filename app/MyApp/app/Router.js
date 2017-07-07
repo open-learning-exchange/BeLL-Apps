@@ -2853,7 +2853,7 @@ $(function() {
             var courseMembers = new App.Views.CourseMembers()
             courseMembers.courseId = cId;
             App.$el.children('.body').empty();
-            App.$el.children('.body').append('<div class="courseEditStep"></div>');
+            App.$el.children('.body').append('<div class="courseEditStep" style= "margin-right:20px; margin-left:20px;"></div>');
             courseMembers.render();
             $('.courseEditStep').append(courseMembers.el);
             var directionOfLang = App.languageDict.get('directionOfLang');
