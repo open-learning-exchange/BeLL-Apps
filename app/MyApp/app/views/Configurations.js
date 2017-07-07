@@ -45,8 +45,6 @@ $(function () {
                 var temp = $(this).text();
                 $(this).text(App.languageDict.get(temp));
             });
-            this.$el.find('.field-region label').text(App.languageDict.get("Region"));
-            this.$el.find('#regionField').css({'display': 'none'})
             this.$el.find('.field-nationName label').text(App.languageDict.get("Nation_Name"));
             this.$el.find('.field-nationUrl label').text(App.languageDict.get("Nation_Url"));
             this.$el.find('.field-version label').text(App.languageDict.get("Version"));
