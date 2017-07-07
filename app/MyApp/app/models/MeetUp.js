@@ -20,7 +20,14 @@ $(function() {
 
         schema: {
             title: 'Text',
-            description: 'TextArea',
+            descriptionOutput: {
+                type: 'TextArea',
+                fieldAttrs: {id:'MeetupDescription',class:'bbf-field redactor_textbox'}
+            },
+            description: {
+                type: 'TextArea',
+                fieldAttrs: {id:'markdownMeetupDescription',class:'bbf-field redactor_textbox'}
+            },
             startDate: 'Text',
             endDate: 'Text',
             recurring: {

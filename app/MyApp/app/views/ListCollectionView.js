@@ -91,6 +91,10 @@ $(function() {
                 model: inviteForm.model
             })
             this.$el.append(this.form.render().el)
+            this.form.fields['descriptionOutput'].$el.find('label').html(App.languageDict.attributes.Description);
+            this.form.fields['description'].$el.hide()
+            this.form.fields['descriptionOutput'].$el.prepend('<a id="CollectionDescriptionLink" style="float:right; margin-right: 5%;">'+App.languageDict.attributes.Markdown+'</a>');
+            this.form.fields['description'].$el.prepend('<a id="markdownCollectionDescriptionLink" style=" float:right; margin-right: 5%;">'+App.languageDict.attributes.Rich_Text+'</a>');
             var $button = $('<a class="btn btn-success" id="formButton">'+App.languageDict.attributes.Save+'</button>')
             this.$el.append($button)
             this.$el.append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
@@ -109,6 +113,7 @@ $(function() {
 
             // Put the form's input into the model in memory
             this.form.commit()
+            this.model.unset("descriptionOutput", { silent: true })
             var newTitle = this.model.get("CollectionName")
             newTitle = $.trim(newTitle);
             var titleMatch = false

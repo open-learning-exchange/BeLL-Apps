@@ -176,7 +176,6 @@ $(function () {
                         $('.bbf-form').find('.field-courseLeader').find('.bbf-editor select').val(courseForm.model.get("courseLeader"));
                     }
                     courseForm.form.fields['members'].$el.hide()
-                    courseForm.form.fields['description'].$el.hide()
                     if (courseForm.model.get("_id") == undefined) {
                         courseForm.form.fields['Day'].$el.hide()
                     }
@@ -206,9 +205,6 @@ $(function () {
                 },
                 async: false
             });
-            $("#CourseDescription").prepend('<a id="CourseDescriptionLink" style="float:right; margin-right: 5%;">Markdown</a>');
-            $("#markdownCourseDescription").prepend('<a id="markdownCourseDescriptionLink" style=" float:right; margin-right: 5%;">Rich Text</a>');
-            $(".redactor_textbox").css( 'float' , '');
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
         },

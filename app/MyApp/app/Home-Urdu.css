@@ -1231,3 +1231,20 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 .redactor_color_none {
     display: none !important;
 }
+.redactor_textbox{
+    float:none !important;
+}
+.redactor_textbox .bbf-editor{
+    width:95%;
+}
+.redactor_textbox .redactor_box{
+    width:100%;
+    margin-bottom: 10px; 
+}
+.redactor_textbox textarea{
+    padding:1%;
+    width:98%;
+}
+.redactor_.redactor_editor{
+    color:black;
+}

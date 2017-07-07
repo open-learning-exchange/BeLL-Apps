@@ -108,15 +108,20 @@ $(function() {
             })
             na.render()
             App.$el.children('.body').append(na.el)
+            App.Router.markdownEditor("Description","Feedback","66")
+            $('#site-feedback').css({
+                height: '325px'
+            })
         },
         renderRequest: function(kind) {
             var view = new App.Views.RequestView()
             view.type = kind
             view.render()
             App.$el.children('.body').append(view.el);
+            App.Router.markdownEditor("Description","Request","130")
            // $('.body').removeClass('addResource');
             $('#site-request').animate({
-                height: '302px'
+                height: '335px'
             })
             document.getElementById('site-request').style.visibility = 'visible';
 

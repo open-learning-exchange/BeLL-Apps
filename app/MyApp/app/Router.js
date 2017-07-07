@@ -1399,21 +1399,30 @@ $(function() {
                 $('#_attachments').css('margin-left','170px');
             }
         },
-        markdownEditor: function(field,type) {
+        markdownEditor: function(field,type, height) {
+            console.log(field,type, height)
             marked.setOptions({
                 smartLists: true
             });
-            $("textarea[name='"+field+"Output']").css('width', '500px');
+            $("#"+type+"_"+field).prepend('<a id="'+type+"_"+field+'_link" style="float:right; margin-right: 5%;">'+App.languageDict.attributes.Markdown+'</a>');
+            $("#markdown_"+type+"_"+field).prepend('<a id="markdown_'+type+"_"+field+'_link" style=" float:right; margin-right: 5%;">'+App.languageDict.attributes.Rich_Text+' </a>');
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").css('width', '500px');
+            $( "#markdown_"+type+"_"+field ).hide();
             var remL = new reMarked(),
-                $redL = $("#"+type+field+" textarea[name='descriptionOutput']"),
+                $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']"),
                 redL = null,
-                $mdnL = $("#markdown"+type+field+" textarea[name='description']");
+                $mdnL = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            if(height == undefined){
+                height = 180
+            }
             $redL.redactor({
                 buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
-                minHeight: 180,
+                minHeight: height,
                 keyupCallback: showMdL,
                 execCommandCallback: showMdL
             });
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").parents('.redactor_box').find('.redactor_editor').css({'height': height});
+            $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").css({'height': height});
             redL = $redL.data('redactor');
             var html = marked($mdnL.val());
                 //clean = red.stripTags(html);
@@ -1431,14 +1440,13 @@ $(function() {
                     $mdnL.val(remL.render(html));
                 }, 1000);
             }
-
-            $( '#'+type+field+'Link' ).click(function() {
-                 $( "#markdown"+type+field ).show();
-                 $( '#'+type+field ).hide();
+            $( '#'+type+"_"+field+'_link' ).click(function() {
+                 $( "#markdown_"+type+"_"+field ).show();
+                 $( '#'+type+"_"+field ).hide();
             });
-            $( "#markdown"+type+field+'Link' ).click(function() {
-                $( "#markdown"+type+field ).hide();
-                 $( '#'+type+field ).show();
+            $( "#markdown_"+type+"_"+field+'_link' ).click(function() {
+                $( "#markdown_"+type+"_"+field ).hide();
+                 $( '#'+type+"_"+field ).show();
             });
         },
         previewModeEditor: function (textareaId) {
@@ -1523,7 +1531,8 @@ $(function() {
                 })
                 // Set up the form
                 modelForm.render();
-                App.Router.markdownEditor("Description","Course")
+                $('#course_description').find('label').html(App.languageDict.attributes.Description);
+                App.Router.markdownEditor("description","course")
                 $('.bbf-form .field-courseLeader .bbf-editor select').attr('multiple','multiple');
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
@@ -2700,13 +2709,13 @@ $(function() {
                 $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
                 modelForm.render();
-                App.Router.markdownEditor("Description","Course")
+                App.Router.markdownEditor("description","course")
+                $('#course_description').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
                 $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);                
-                $('.bbf-form').find('.field-descriptionOutput').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
                 $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
                 $('.bbf-form').find('.field-subjectLevel').find('label').html(App.languageDict.attributes.Subject_Level);
@@ -2785,8 +2794,7 @@ $(function() {
                         lForm.render()
                         $('.courseSearchResults_Bottom').append(lForm.el)
                         lForm.sliders();
-                        $(".redactor_textbox").css( 'float' , '');
-                        App.Router.markdownEditor("Description","Step")
+                        App.Router.markdownEditor("description","step")
                         $("input[name='step']").attr("disabled", true);
                         $("input[name='passingPercentage']").attr("readonly",true);
                         $("input[name='passingPercentage']").val(10)
@@ -2795,6 +2803,7 @@ $(function() {
                             $("input[name='step']").val(tl)
                         }
                         Backbone.Form.validators.errMessages.required = App.languageDict.attributes.Required_Text;
+                        $('#step_description').find('label').html(App.languageDict.attributes.Description);
                         $('.bbf-form .field-title label').html(App.languageDict.attributes.Title);
                         $('.bbf-form .field-stepMethod label').html(App.languageDict.attributes.Step_Method);
                         $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
@@ -3325,6 +3334,7 @@ $(function() {
             })
             meetupView.render()
             App.$el.children('.body').html(meetupView.el);
+            App.Router.previewModeEditor($("#meetupDescription"))
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
 
@@ -3346,6 +3356,7 @@ $(function() {
             })
             modelForm.render()
             App.$el.children('.body').html(modelForm.el)
+            App.Router.markdownEditor("Description","Meetup")
             $('.form .field-startTime input').timepicker({
                 'minTime': '8:00am',
                 'maxTime': '12:30am'
@@ -3368,6 +3379,7 @@ $(function() {
                 }
             });
             $('#MeetUpformButton').html(languageDictValue.attributes.Save);
+            $('#MeetupDescription').find('label').html(App.languageDict.attributes.Description);
             $('.form .field-title label').html(languageDictValue.attributes.Title);
             $('.form .field-description label').html(languageDictValue.attributes.Description);
             $('.form .field-startDate label').html(languageDictValue.attributes.Start_date);
@@ -5409,11 +5421,10 @@ $(function() {
                     var inviteForm = new App.Views.ListCollectionView({
                         model: collectionlist
                     })
-
                     inviteForm.render()
-
                     $('#invitationdiv').html('&nbsp')
                     $('#invitationdiv').append(inviteForm.el)
+                    App.Router.markdownEditor("Description","Collection")
                     collections.each(function(a) {
                         $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
                     })
@@ -5460,6 +5471,7 @@ $(function() {
                 inviteForm.render()
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
+                App.Router.markdownEditor("Description","Collection")
                 $("input[name='AddedBy']").val($.cookie("Member.login"));
                 var currentDate = new Date();
                 $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({

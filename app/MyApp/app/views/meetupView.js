@@ -85,7 +85,7 @@ $(function() {
 
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Title+'  </b></td><td>' + meetupInfo.title + ' | ' + meetupInfo.category + '</td></tr>')
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Category+' </b></td><td>' + meetupInfo.category + '</td></tr>')
-            this.$el.append('<tr><td><b>'+App.languageDict.attributes.Description+' </b></td><td>' + meetupInfo.description + '</td></tr>')
+            this.$el.append('<tr><td><b>'+App.languageDict.attributes.Description+' </b></td><td><textarea id="meetupDescription">' + meetupInfo.description + '</textarea></td></tr>')
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Location+' </b></td><td>' + meetupInfo.meetupLocation + '</td></tr>')
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Date+' </b></td><td>' + meetupInfo.startDate + ' --- ' + meetupInfo.endDate + '</td></tr>')
             this.$el.append('<tr><td><b>'+App.languageDict.attributes.Time+' </b></td><td>' + meetupInfo.startTime + ' --- ' + meetupInfo.endTime + '</td></tr>')

@@ -72,6 +72,9 @@ $(function() {
                 model: this.model
             })
             this.$el.append(this.form.render().el)
+            this.form.fields['descriptionOutput'].$el.prepend('<a id="MeetupDescriptionLink" style="float:right; margin-right: 5%;">'+App.languageDict.attributes.Markdown+'</a>');
+            this.form.fields['description'].$el.prepend('<a id="markdownMeetupDescriptionLink" style=" float:right; margin-right: 5%;">'+App.languageDict.attributes.Rich_Text+'</a>');
+            this.form.fields['description'].$el.hide()
             if (this.btnText != languageDictValue.attributes.Update)
                 this.form.fields['Day'].$el.hide();
 
@@ -109,7 +112,7 @@ $(function() {
             var that = this
             // Put the form's input into the model in memory
             this.form.commit()
-
+            this.model.unset("descriptionOutput", { silent: true })
             if ($.trim(this.model.get("title")).length == 0) {
                 alert(App.languageDict.attributes.MeetUp_Title_Missing)
             } else if (this.model.get("description").length == 0) {

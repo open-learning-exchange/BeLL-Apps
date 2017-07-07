@@ -37,17 +37,12 @@ $(function() {
             this.form.fields['totalMarks'].$el.hide()
             this.form.fields['stepMethod'].$el.hide()
             this.form.fields['stepGoals'].$el.hide()
-            this.form.fields['description'].$el.hide()
             this.form.fields['passingPercentage'].$el.append('<div id = "slider-range-min"></div>')
-            this.form.fields['descriptionOutput'].$el.prepend('<a id="StepDescriptionLink" style="float:right; margin-right: 5%;">Markdown</a>');
-            this.form.fields['description'].$el.prepend('<a id="markdownStepDescriptionLink" style=" float:right; margin-right: 5%;">Rich Text</a>');
             // give the form a submit button
             var button = '';
-               $("#StepDescription").prepend('<a id="StepDescriptionLink" style="float:right; margin-right: 5%;">Markdown</a>');
-                        $("#markdownStepDescription").prepend('<a id="markdownStepDescriptionLink" style=" float:right; margin-right: 5%;">Rich Text</a>');
             if(this.edit)
                 button += ('<a class="btn btn-success" id="retrunBack"> ' + App.languageDict.attributes.Back + ' </button>')
-            button += ('<a class="btn btn-success" id="formButton">' + App.languageDict.attributes.Save + '</button>')
+                button += ('<a class="btn btn-success" id="formButton">' + App.languageDict.attributes.Save + '</button>')
             this.$el.append(button)
         },
 

@@ -1049,5 +1049,7 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 .redactor_textbox textarea{
     padding:1%;
     width:98%;
-    height:180px;
+}
+.redactor_.redactor_editor{
+    color:black;
 }
