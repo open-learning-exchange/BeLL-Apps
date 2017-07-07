@@ -6962,7 +6962,7 @@ $(function() {
                 collection:courses
             });
             addcareer.render()
-            App.$el.children('.body').html('<div id="ManageCourseCareer"></div>');
+            App.$el.children('.body').html('<div id="ManageCourseCareer" style="margin-right:20px; margin-left:20px"></div>');
             $('#ManageCourseCareer').append('<a id="addCourseButton" class="btn btn-success" href="#course/add">'+App.languageDict.attributes.Add_Course+'</a>')
             $('#ManageCourseCareer').append('<a id="requestCourseButton" class="btn btn-success" style="margin: 13px;margin-left: 9px;" onclick=showRequestForm("Course")>'+App.languageDict.attributes.Request_Course+'</a>')
             if($.url().attr('fragment') == "courses") {
