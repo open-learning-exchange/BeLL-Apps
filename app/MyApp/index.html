@@ -1554,8 +1554,8 @@
                     <%for (var i=0; i < careerList.length; i++) {%>
                     <tr>
                         <td><%= careerList[i].CoursePathName %></td>
-                        <td><ul><li><%= careerList[i].Courses %></li></ul></td>
-                        <td><ul><li><%= careerList[i].requiredCareerPathIds%></li></ul></td>
+                        <td><%= careerList[i].Courses %></td>
+                        <td><%= careerList[i].requiredCareerPathIds%></td>
                         <td>
                             <a role="button" id="careerEdit" data-id = <%= careerList[i]._id %> class='course btn btn-success'><%=languageDict.attributes.EditLabel%></a>
                             <a role="button" data-id="<%= careerList[i]['_id'] %>" class='destroy btn btn-danger' id='Delete'><%=languageDict.attributes.DeleteLabel%></a>
