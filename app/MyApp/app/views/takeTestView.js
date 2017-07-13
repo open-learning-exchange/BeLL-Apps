@@ -31,15 +31,34 @@ $(function() {
             },
             "click #nextPressed": function() {
                 this.nextquestion("next");
-                App.Router.markdownEditor("Description","Test")
+                App.Router.previewModeEditor(this.Questionlist[this.index],"answer")
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
+                var questionlist = new App.Models.CourseQuestion({
+                    _id: this.Questionlist[this.index]
+                })
+                questionlist.fetch({
+                    async: false
+                });
+                if(questionlist.attributes.Type == "Comment/Essay Box"){
+                    App.Router.markdownEditor("description","essay")
+                }
             },
             "click #resetButton":function(e){
                 this.resetanswer();
-                App.Router.markdownEditor("Description","Test")
             },
             "click #previousPressed": function(e){
                 this.nextquestion("previous");
-                App.Router.markdownEditor("Description","Test")
+                App.Router.previewModeEditor(this.Questionlist[this.index],"answer")
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
+                var questionlist = new App.Models.CourseQuestion({
+                    _id: this.Questionlist[this.index]
+                })
+                questionlist.fetch({
+                    async: false
+                });
+                if(questionlist.attributes.Type == "Comment/Essay Box"){
+                    App.Router.markdownEditor("description","essay")
+                }
             }
         },
 

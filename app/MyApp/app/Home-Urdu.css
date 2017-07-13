@@ -1245,6 +1245,7 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
     padding:1%;
     width:98%;
 }
-.redactor_.redactor_editor{
-    color:black;
+.answersection table{
+    width: 100%;
 }
+

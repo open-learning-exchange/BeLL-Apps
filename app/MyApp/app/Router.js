@@ -1400,7 +1400,6 @@ $(function() {
             }
         },
         markdownEditor: function(field,type, height) {
-            console.log(field,type, height)
             marked.setOptions({
                 smartLists: true
             });
@@ -1449,24 +1448,19 @@ $(function() {
                  $( '#'+type+"_"+field ).show();
             });
         },
-        previewModeEditor: function (textareaId) {
-            textareaId.each(function() {
-                $red = $(this);
-                $red.redactor({
-                    toolbar:false
-                });
-                red = $red.data('redactor');
-                var html = marked($red.val()),
-                clean = red.stripTags(html);
-                red.$editor.html(html);
-                red.$editor.attr('contenteditable', false);
-                red.syncCode();
-            })
+        previewModeEditor: function (field,type) {
+            mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").val();
+            var html = marked(mdn);
+            $('<div id="'+type+'_'+field+'Preview">'+html+'</div>').insertBefore("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
         },
         markdownDestory: function (field,type) {
-           $mdnL = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
-           mdnL = $mdnL.data('redactor');
-           mdnL.destroy();
+            $('#'+type+'_'+field+'Preview').remove();
+        },
+        markdownEditQuestionDestory: function (field,type) {
+            mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            mdn= $mdn.data('redactor');
+            console.log(mdn)
+            mdn.destroy();
         },
         modelForm: function(className, label, modelId, reroute) { // 'Course', 'Course', courseId, 'courses'
             var url_page = $.url().data.attr.fragment;
@@ -2320,8 +2314,16 @@ $(function() {
                     $("input[name='questionRow']").hide();
                     App.$el.children('.body').html(test.el)
                     test.render();
+                    App.Router.markdownEditor("question_text","questiontype1")
+                    App.Router.markdownEditor("question_text","questiontype2")
+                    App.Router.markdownEditor("question_text","questiontype3")
+                    App.Router.markdownEditor("question_text","questiontype4")
                     if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) {
                         $('#parentDiv').append(CourseStepQuestionsTable.el);
+                        _.each(coursestepQuestions, function(item) {
+                            App.Router.previewModeEditor(item,'question')
+                            $("textarea[name='"+item+"']").hide();
+                        })
                     }
                     $("#Rearrange").remove();
                     $("#moveup").hide();
@@ -2869,7 +2871,20 @@ $(function() {
                 }})
                 App.$el.children('.body').html(answerview.el);
                 answerview.render();
-                App.Router.previewModeEditor($(".givenAnswer textarea"))
+                for (var i = 0; i < courseAnswer.length; i++) {
+                    var questionlist = new App.Models.CourseQuestion({
+                        _id: courseAnswer.models[i].attributes.QuestionID
+                    })
+                    questionlist.fetch({
+                        async: false
+                    });
+                    App.Router.previewModeEditor(questionlist.attributes._id,"question")
+                    $("textarea[name='"+questionlist.attributes._id+"']").hide();
+                    if(questionlist.attributes.Type == "Comment/Essay Box" || questionlist.attributes.Type == "Single Textbox"){
+                        App.Router.previewModeEditor(courseAnswer.models[i].attributes._id,"answer")
+                        $("textarea[name='"+courseAnswer.models[i].attributes._id+"']").hide();
+                    }
+                }
                 var directionOfLang = App.languageDict.get('directionOfLang');
                 applyCorrectStylingSheet(directionOfLang)
         },
@@ -2918,10 +2933,14 @@ $(function() {
             })
             courseStepsView.render()
             $('.courseEditStep').append(CourseDetailsView.el)
-            App.Router.previewModeEditor($("#viewCourseDescription"))
+            App.Router.previewModeEditor("description","course")
+            $("textarea[name='description']").hide();
             $('.courseEditStep').append('<div id="courseSteps-heading"><h5>'+App.languageDict.attributes.Course_Steps+'</h5></div>')
             $('.courseEditStep').append(courseStepsView.el)
-            App.Router.previewModeEditor($(".stepViewDetail textarea" ))
+            for (var i = 0; i < ccSteps.length; i++) {
+                App.Router.previewModeEditor(ccSteps.models[i].attributes._id,"step")
+                $("textarea[name='"+ccSteps.models[i].attributes._id+"']").hide();
+            }
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
             });
@@ -3158,12 +3177,16 @@ $(function() {
                         $("input[name='title']").attr("readonly",true);
                         $("#formButton").hide();
                         $("#retrunBack").hide();
-                        App.Router.previewModeEditor($("#markdown_step_description textarea"))
+                        $("#step_description").hide();
+                        $("#markdown_step_description textarea[name='description']").hide();
+                        App.Router.previewModeEditor("description","step")
                     })
                     $("#editcurrentStep").click(function() {
                         $(this).hide();
+                        $("#step_description").show();
+                        $("#markdown_step_description textarea[name='description']").show();
                         App.Router.markdownDestory("description","step")
-                        App.Router.markdownEditor("description","step")
+                        $('#step_description').find('label').html(App.languageDict.attributes.Description);
                         $("textarea[name='description']").attr("readonly",false);
                         $("input[name='title']").attr("readonly",false);
                         $("#formButton").show();
@@ -3177,6 +3200,8 @@ $(function() {
                                 $('input:[name="passingPercentage"]' ).val( ui.value );
                             }
                         });
+
+                        App.Router.markdownEditor("description","step")
                     });
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
@@ -3212,6 +3237,8 @@ $(function() {
             temp.render()
             $('div#viewTest').html('')
             $('div#viewTest').html(temp.el)
+            App.Router.previewModeEditor(JSONsteps.questionslist[0],'question')
+            $("textarea[name='"+JSONsteps.questionslist[0]+"']").hide();
         },
 
         saveDescprition: function(lid) {

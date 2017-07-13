@@ -1053,3 +1053,6 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 .redactor_.redactor_editor{
     color:black;
 }
+.answersection table{
+    width: 100%;
+}

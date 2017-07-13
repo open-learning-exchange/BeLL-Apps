@@ -98,6 +98,7 @@ $(function () {
                 });
                 this.vars.questionlists.push(questionlist.toJSON()) 
                 this.vars.answerlist = this.collection.toJSON();
+                console.log(this.vars.answerlist)
                 var attchmentURL = null;
                 var attachmentName = null;
                 //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button
