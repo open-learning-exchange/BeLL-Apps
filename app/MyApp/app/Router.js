@@ -1449,6 +1449,7 @@ $(function() {
             });
         },
         previewModeEditor: function (field,type) {
+            console.log(field,type)
             mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").val();
             var html = marked(mdn);
             $('<div id="'+type+'_'+field+'Preview">'+html+'</div>').insertBefore("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
@@ -1456,11 +1457,13 @@ $(function() {
         markdownDestory: function (field,type) {
             $('#'+type+'_'+field+'Preview').remove();
         },
-        markdownEditQuestionDestory: function (field,type) {
-            mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
-            mdn= $mdn.data('redactor');
-            console.log(mdn)
-            mdn.destroy();
+        markdownReInit: function (field,type) {
+            $mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']");
+            redL = $redL.data('redactor');
+            var html = marked($($mdn).val());
+            redL.$editor.html(html);
+            redL.syncCode();
         },
         modelForm: function(className, label, modelId, reroute) { // 'Course', 'Course', courseId, 'courses'
             var url_page = $.url().data.attr.fragment;
@@ -3366,7 +3369,8 @@ $(function() {
             })
             meetupView.render()
             App.$el.children('.body').html(meetupView.el);
-            App.Router.previewModeEditor($("#meetupDescription"))
+            App.Router.previewModeEditor("description","meetup");
+            $("textarea[name='description']").hide();
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
 
@@ -3388,7 +3392,7 @@ $(function() {
             })
             modelForm.render()
             App.$el.children('.body').html(modelForm.el)
-            App.Router.markdownEditor("Description","Meetup")
+            App.Router.markdownEditor("description","meetup","90")
             $('.form .field-startTime input').timepicker({
                 'minTime': '8:00am',
                 'maxTime': '12:30am'
@@ -3411,7 +3415,7 @@ $(function() {
                 }
             });
             $('#MeetUpformButton').html(languageDictValue.attributes.Save);
-            $('#MeetupDescription').find('label').html(App.languageDict.attributes.Description);
+            $('#meetup_description').find('label').html(App.languageDict.attributes.Description);
             $('.form .field-title label').html(languageDictValue.attributes.Title);
             $('.form .field-description label').html(languageDictValue.attributes.Description);
             $('.form .field-startDate label').html(languageDictValue.attributes.Start_date);
@@ -5056,6 +5060,10 @@ $(function() {
                     $('#feedbackResourceDiv').append('<a class="btn btn-primary"" href="' + url_togo + '"><i class="icon-plus"></i>'+App.languageDict.attributes.Add_your_feedback+'</a>')
                     $('#feedbackResourceDiv').append('<a class="btn btn-primary" style="margin:20px" href="#resources">'+App.languageDict.attributes.Back_to_Resources+'</a>')
                     $('#feedbackResourceDiv').append(feedbackTable.el)
+                    for (var i = 0; i < resourceFeedback.length; i++) {
+                        App.Router.previewModeEditor(resourceFeedback.models[i].attributes._id,"comment")
+                        $("textarea[name='"+resourceFeedback.models[i].attributes._id+"']").hide();
+                    }
                 })
                 resourceFeedback.fetch();
             })
@@ -5102,6 +5110,8 @@ $(function() {
                 feedbackForm.setUserRating($(this).attr("alt"))
             });
             $('#feedbackResoDiv').append(feedbackForm.el);
+            App.Router.markdownEditor("comment","feedback","100")
+            $('#feedback_comment').find('label').html(App.languageDict.attributes.Comment);
             $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.Comment);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
@@ -5456,7 +5466,7 @@ $(function() {
                     inviteForm.render()
                     $('#invitationdiv').html('&nbsp')
                     $('#invitationdiv').append(inviteForm.el)
-                    App.Router.markdownEditor("Description","Collection")
+                    App.Router.markdownEditor("description","collection","90")
                     collections.each(function(a) {
                         $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
                     })
@@ -5503,7 +5513,7 @@ $(function() {
                 inviteForm.render()
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
-                App.Router.markdownEditor("Description","Collection")
+                App.Router.markdownEditor("description","collection","90")
                 $("input[name='AddedBy']").val($.cookie("Member.login"));
                 var currentDate = new Date();
                 $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
@@ -5671,6 +5681,10 @@ $(function() {
                     feedul.render()
                     App.$el.children('.body').html('&nbsp')
                     App.$el.children('.body').append(feedul.el)
+                    for (var i = 0; i < feed.length; i++) {
+                        App.Router.previewModeEditor(feed.models[i].attributes._id,"feedback")
+                        $("textarea[name='"+feed.models[i].attributes._id+"']").hide();
+                    }
                 }
             })
         },

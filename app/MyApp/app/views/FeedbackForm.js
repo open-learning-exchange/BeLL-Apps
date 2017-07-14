@@ -62,6 +62,7 @@ $(function() {
                 this.form.commit();
                 var that = this;
 
+                this.model.unset("commentOutput", { silent: true })
                 var feedbackModel = that.model;
                 var member = new App.Models.Member();
                 member.set('_id', $.cookie('Member._id'));

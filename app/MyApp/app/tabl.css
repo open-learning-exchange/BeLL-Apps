@@ -383,13 +383,6 @@ h3 a{
     margin-left: 1px;
     width: 33%;
 }
-
-textarea[name="comment"]
-{
-    border-radius: 20px;
-    height: 100%;
-    width: 87%;
-}
 .quizOptions input
 {height: 22px;
     width: 32px;

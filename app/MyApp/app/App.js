@@ -107,8 +107,9 @@ $(function() {
                 model: mymodels
             })
             na.render()
+            $("#site-feedback").remove()
             App.$el.children('.body').append(na.el)
-            App.Router.markdownEditor("Description","Feedback","66")
+            App.Router.markdownEditor("description","feedback","70")
             $('#site-feedback').css({
                 height: '325px'
             })
@@ -118,7 +119,7 @@ $(function() {
             view.type = kind
             view.render()
             App.$el.children('.body').append(view.el);
-            App.Router.markdownEditor("Description","Request","130")
+            App.Router.markdownEditor("description","request","130")
            // $('.body').removeClass('addResource');
             $('#site-request').animate({
                 height: '335px'

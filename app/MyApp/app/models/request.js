@@ -24,11 +24,11 @@ $(function() {
             sendFromName: 'Text',
             descriptionOutput: {
                 type: 'TextArea',
-                fieldAttrs: {id:'RequestDescription',class:'bbf-field redactor_textbox'}
+                fieldAttrs: {id:'request_description',class:'bbf-field redactor_textbox'}
             },
             description: {
                 type: 'TextArea',
-                fieldAttrs: {id:'markdownRequestDescription',class:'bbf-field redactor_textbox'}
+                fieldAttrs: {id:'markdown_request_description',class:'bbf-field redactor_textbox'}
             },
             response: 'TextArea',
             type: 'Text',

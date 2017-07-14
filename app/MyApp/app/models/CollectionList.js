@@ -26,11 +26,11 @@ $(function() {
             CollectionName: 'Text',
             descriptionOutput: {
                 type: 'TextArea',
-                fieldAttrs: {id:'CollectionDescription',class:'bbf-field redactor_textbox'}
+                fieldAttrs: {id:'collection_description',class:'bbf-field redactor_textbox'}
             },
             description: {
                 type: 'TextArea',
-                fieldAttrs: {id:'markdownCollectionDescription',class:'bbf-field redactor_textbox'}
+                fieldAttrs: {id:'markdown_collection_description',class:'bbf-field redactor_textbox'}
             },
             NesttedUnder: {        //To make one collection nested under another.
                 title: 'Nested Under',

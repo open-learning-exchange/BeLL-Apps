@@ -102,13 +102,10 @@ $(function() {
             this.form.fields['senderId'].$el.hide()
             this.form.fields['status'].$el.hide()
             this.form.fields['response'].$el.hide()
-            this.form.fields['description'].$el.hide()
             this.form.fields['type'].$el.hide()
             this.form.fields['sendFrom'].$el.hide()
             this.form.fields['sendFromName'].$el.hide()
             this.form.fields['date'].$el.hide()
-            this.form.fields['descriptionOutput'].$el.prepend('<a id="RequestDescriptionLink" style="float:right; margin-right: 5%;">'+App.languageDict.attributes.Markdown+'</a>');
-            this.form.fields['description'].$el.prepend('<a id="markdownRequestDescriptionLink" style=" float:right; margin-right: 5%;">'+App.languageDict.attributes.Rich_Text+'</a>');
             var $button = $('<br/><div id="f-formButton"><button class="btn btn-hg btn-danger" id="CancelButton">'+App.languageDict.attributes.Cancel+'</button><button class="btn btn-hg btn-info" id="ViewAllButton">'+App.languageDict.attributes.View_All+'</button><button class="btn btn-hg btn-primary" id="formButton">'+App.languageDict.attributes.Submit+'</button></div>')
             this.$el.append($button);
 

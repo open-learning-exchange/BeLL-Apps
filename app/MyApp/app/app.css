@@ -288,13 +288,6 @@ textarea#question_text.surTextArea, textarea#answer_choices.surTextArea{
     margin-left: 1px;
     width: 33%;
 }
-
-textarea[name="comment"]
-{
-    border-radius: 20px;
-    height: 100%;
-    width: 87%;
-}
 .table-feedback{
     text-align:left;
     display: block;

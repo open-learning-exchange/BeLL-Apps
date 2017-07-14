@@ -56,12 +56,11 @@
             "click .edit_coursestep_question": function(event) {
                 var courseQuizEdit = new App.Views.TestView();
                 courseQuizEdit.questionModel = this.model;
-                courseQuizEdit.coursesavefunction(this.Id, true, this.model);/*
-                
-                App.Router.markdownEditQuestionDestory("question_text","questiontype1")
-                App.Router.markdownEditQuestionDestory("question_text","questiontype2")
-                App.Router.markdownEditQuestionDestory("question_text","questiontype3")
-                App.Router.markdownEditQuestionDestory("question_text","questiontype4")*/
+                courseQuizEdit.coursesavefunction(this.Id, true, this.model);
+                App.Router.markdownReInit("question_text","questiontype1")
+                App.Router.markdownReInit("question_text","questiontype2")
+                App.Router.markdownReInit("question_text","questiontype3")
+                App.Router.markdownReInit("question_text","questiontype4")
             }
         },
 
