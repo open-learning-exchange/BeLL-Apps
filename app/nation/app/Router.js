@@ -4375,6 +4375,11 @@ $(function() {
             $('.field-editorName label').html(App.languageDictValue.get('Editor_Name'));
             $('.field-editorEmail label').html(App.languageDictValue.get('Editor_Email'));
             $('.field-editorPhone label').html(App.languageDictValue.get('Editor_Phone'));
+            $('.field-editorName').find('input').css({'width':'230px'})
+            $('.field-editorEmail').find('input').css({'width':'230px'})
+            $('.field-editorPhone').find('input').css({'width':'230px'})
+            $('.field-Date').find('input').css({'width':'230px'})
+            $('.field-IssueNo').find('input').css({'width':'230px'})
             //hjghk
             $('.bbf-form .field-IssueNo input').attr("disabled", true)
             $('.bbf-form .field-Date input').attr("disabled", true)
