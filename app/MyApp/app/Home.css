@@ -1049,3 +1049,9 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 .answersection table{
     width: 100%;
 }
+#exit_Pressed{
+    float:right;
+}
+.answersection{
+    margin-bottom: 25px;
+}

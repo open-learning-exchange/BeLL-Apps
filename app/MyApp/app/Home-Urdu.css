@@ -1245,7 +1245,10 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
     padding:1%;
     width:98%;
 }
-.answersection table{
-    width: 100%;
+#exit_Pressed{
+    float:left;
+}
+.answersection{
+    margin-bottom: 25px;
 }
 
