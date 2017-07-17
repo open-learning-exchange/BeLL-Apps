@@ -1031,3 +1031,9 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 #accept div input[name=accept]{
     margin-top: -45px;
 }
+#exit_Pressed{
+    float:right;
+}
+.answersection{
+    margin-bottom: 25px;
+}

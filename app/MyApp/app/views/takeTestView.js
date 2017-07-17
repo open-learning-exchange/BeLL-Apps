@@ -23,7 +23,7 @@ $(function() {
         totalObtainMarks : 0,
         sstatus : null,
         events: {
-            "click #exitPressed": function(e) {
+            "click #exit_Pressed": function(e) {
                 $('div.takeTestDiv').html('')
             },
             "click #finishPressed": function(e) {
@@ -244,15 +244,16 @@ $(function() {
                 this.$el.append(this.template(this.vars));
                 //this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 this.$el.append('<div class="quizActions" ></div>')
-                this.$el.find('.quizActions').append('<div  style="margin-right: 303px; margin-bottom: -149px;" class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
+                this.$el.find('.quizActions').append('<div align ="center" class="centerBtns" style="margin-bottom: -40px;"></div>')
+                this.$el.find('.quizActions').append('<div class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
                 if(this.index !=0){
-                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="previousPressed" style="margin-bottom: -149px;">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
+                    this.$el.find('.centerBtns').append('<div class="btn btn-primary" id="previousPressed">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
                 }
-                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed" style="margin-bottom: -149px;" >'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
+                this.$el.find('.centerBtns').append('<div class="btn btn-info" id="finishPressed" style="font-weight: inherit;">'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
                 if((this.index + 1) != this.TotalCount){
-                    this.$el.find('.quizActions').append('<div style="margin-right: 303px; margin-bottom: -152px;" class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
+                    this.$el.find('.centerBtns').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
                 }
-                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exitPressed" style="margin-bottom: -149px;">'+App.languageDict.attributes.Btn_Cancel+'</div>')
+                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exit_Pressed">'+App.languageDict.attributes.Btn_Cancel+'</div>')
             } else {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
