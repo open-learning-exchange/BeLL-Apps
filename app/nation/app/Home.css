@@ -539,13 +539,6 @@ a{color:white;}
     margin-left: 1px;
     width: 33%;
 }
-
-textarea[name="comment"]
-{
-    border-radius: 20px;
-    height: 100%;
-    width: 87%;
-}
 #site-feedback .bbf-form{
     height: 72%;
 }
@@ -1114,13 +1107,6 @@ body{
     margin-left: 1px;
     width: 33%;
 }
-
-textarea[name="comment"]
-{
-    border-radius: 20px;
-    height: 100%;
-    width: 87%;
-}
 #site-feedback .bbf-form{
     height: 72%;
 }
@@ -1231,4 +1217,27 @@ li.bbf-field.field-selectLanguage {
 #accept div input[name=accept]{
     margin-top: -45px;
     margin-left: -25px;
+}
+.redactor_color_none {
+    display: none !important;
+}
+.redactor_textbox{
+    float:none !important;
+}
+.redactor_textbox .bbf-editor{
+    width:95%;
+}
+.redactor_textbox .redactor_box{
+    width:100%;
+    margin-bottom: 10px;
+}
+.redactor_textbox textarea{
+    padding:1%;
+    width:98%;
+}
+.redactor_.redactor_editor{
+    color:black;
+}
+.answersection table{
+    width: 100%;
 }

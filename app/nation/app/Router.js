@@ -3614,6 +3614,10 @@ $(function() {
             $('#see-all', feedul.$el).trigger("click");
             App.$el.children('.body').html('&nbsp')
             App.$el.children('.body').append(feedul.el)
+            for (var i = 0; i < fed.length; i++) {
+                App.Router.previewModeEditor(fed.models[i].attributes._id,"feedback")
+                $("textarea[name='"+fed.models[i].attributes._id+"']").hide();
+            }
             $("#previousButton").hide()
             $("#progress_img").hide()
         },
@@ -4632,6 +4636,74 @@ $(function() {
             var getResourcesView = new App.Views.PullNations();
             getResourcesView.render();
             App.$el.children('.body').append(getResourcesView.el)
+        },
+
+        markdownEditor: function(field,type, height) {
+            marked.setOptions({
+                smartLists: true
+            });
+            $("#"+type+"_"+field).prepend('<a id="'+type+"_"+field+'_link" style="float:right; margin-right: 5%;">'+App.languageDictValue.get("Markdown")+'</a>');
+            $("#markdown_"+type+"_"+field).prepend('<a id="markdown_'+type+"_"+field+'_link" style=" float:right; margin-right: 5%;">'+App.languageDictValue.get("Rich_Text")+'</a>');
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").css('width', '500px');
+            $( "#markdown_"+type+"_"+field ).hide();
+            var remL = new reMarked(),
+                $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']"),
+                redL = null,
+                $mdnL = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            if(height == undefined){
+                height = 180
+            }
+            $redL.redactor({
+                buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                minHeight: height,
+                keyupCallback: showMdL,
+                execCommandCallback: showMdL
+            });
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").parents('.redactor_box').find('.redactor_editor').css({'height': height});
+            $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").css({'height': height});
+            redL = $redL.data('redactor');
+            var html = marked($mdnL.val());
+                //clean = red.stripTags(html);
+            redL.$editor.html(html);
+            redL.syncCode();
+            $mdnL.on("keyup", function() {
+                var html = marked(this.value),
+                    clean = redL.stripTags(html);
+                redL.$editor.html(html);
+                redL.syncCode();
+            });
+            function showMdL() {
+                setTimeout(function() {
+                    var html = redL.getCode();
+                    $mdnL.val(remL.render(html));
+                }, 1000);
+            }
+            $( '#'+type+"_"+field+'_link' ).click(function() {
+                 $( "#markdown_"+type+"_"+field ).show();
+                 $( '#'+type+"_"+field ).hide();
+            });
+            $( "#markdown_"+type+"_"+field+'_link' ).click(function() {
+                $( "#markdown_"+type+"_"+field ).hide();
+                 $( '#'+type+"_"+field ).show();
+            });
+        },
+        previewModeEditor: function (field,type) {
+            mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").val();
+            var html = marked(mdn);
+            $('<div id="'+type+'_'+field+'Preview">'+html+'</div>').insertBefore("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+        },
+
+        markdownDestory: function (field,type) {
+            $('#'+type+'_'+field+'Preview').remove();
+        },
+
+        markdownReInit: function (field,type) {
+            $mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']");
+            redL = $redL.data('redactor');
+            var html = marked($($mdn).val());
+            redL.$editor.html(html);
+            redL.syncCode();
         }
     }))
 })

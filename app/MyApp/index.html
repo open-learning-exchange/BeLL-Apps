@@ -2224,7 +2224,7 @@
     <script type="text/html" id="template-RequestRow">
         <td><%=name%></td>
         <td><%=type%></td>
-        <td><%=description%></td>
+        <td id="markdown_request_<%=_id%>"><textarea name="<%=_id%>"><%=description%></textarea></td>
     </script>
 
     <script type="text/html" id="template-LogQuery">

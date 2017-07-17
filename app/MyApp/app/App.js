@@ -109,7 +109,7 @@ $(function() {
             na.render()
             $("#site-feedback").remove()
             App.$el.children('.body').append(na.el)
-            App.Router.markdownEditor("description","feedback","70")
+            App.Router.markdownEditor("description","feedback","50")
             $('#site-feedback').css({
                 height: '325px'
             })

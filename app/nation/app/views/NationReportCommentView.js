@@ -39,6 +39,7 @@ $(function() {
                     time:  day+' '+monthToday+' '+year+' '+time
                 })
                 this.form.commit()
+                this.model.unset("commentOutput", { silent: true })
                 this.model.save()
                 this.form.setValue({
                     comment: ""
@@ -50,11 +51,15 @@ $(function() {
                     "comment": ""
                 })
                 this.render()
+                App.Router.markdownEditor("comment","report","50")
+                $('#report_comment').find('label').html(App.languageDictValue.get('Comment'));
             }
         },
 
         addOne: function(modl) {
-            $('#comments').append('<div id=tile><b>'+App.languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+App.languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+App.languageDictValue.attributes.Comment+':</b>' + modl.toJSON().comment + '</div>')
+            $('#comments').append('<div id=tile><b>'+App.languageDictValue.attributes.Login+':</b>' + modl.toJSON().memberLogin + '<br/><b>'+App.languageDictValue.attributes.Time+':</b>' + modl.toJSON().time + '<br/><b>'+App.languageDictValue.attributes.Comment+':</b><div id="markdown_comment_'+modl.toJSON()._id+'"><textarea name="'+modl.toJSON()._id+'">' + modl.toJSON().comment + '</textarea></div></div>')
+            App.Router.previewModeEditor(modl.toJSON()._id,'comment')
+            $("textarea[name='"+modl.toJSON()._id+"']").hide();
         },
 
         render: function() {

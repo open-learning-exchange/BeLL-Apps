@@ -1449,7 +1449,6 @@ $(function() {
             });
         },
         previewModeEditor: function (field,type) {
-            console.log(field,type)
             mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").val();
             var html = marked(mdn);
             $('<div id="'+type+'_'+field+'Preview">'+html+'</div>').insertBefore("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
@@ -5783,6 +5782,12 @@ $(function() {
             })
             colView.render()
             App.$el.children('.body').append(colView.el);
+            for (var i = 0; i < col.length; i++) {
+                if(col.models[i].attributes._id != "_design/bell"){
+                    App.Router.previewModeEditor(col.models[i].attributes._id,"request")
+                    $("textarea[name='"+col.models[i].attributes._id+"']").hide();
+                }
+            }
             for(var i=1;i<=($('#requestsTable >tbody >tr').length)-1;i++)
             {
                 $('#requestsTable').find('tr').eq(i).find('td').eq(1).html( App.languageDict.get($('#requestsTable').find('tr').eq(i).find('td').eq(1).html()));

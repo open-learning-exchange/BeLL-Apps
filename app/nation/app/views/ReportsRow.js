@@ -37,6 +37,8 @@ $(function() {
                 })
                 viw.render()
                 $('#debug').append(viw.el);
+                App.Router.markdownEditor("comment","report","50")
+                $('#report_comment').find('label').html(App.languageDictValue.get('Comment'));
                 $('#comment-feedback .bbf-form .field-comment label').html(App.languageDictValue.get('Comment'));
                 if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
                 {
