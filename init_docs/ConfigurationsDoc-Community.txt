@@ -1,7 +1,7 @@
 {
     "code":"communitybell",
     "type":"community",
-    "version":"0.13.6",
+    "version":"0.13.7",
     "currentLanguage":"English",
     "register": "earthbell.ole.org:5989",
     "registerDev": "nbs.ole.org:5997"
