@@ -1031,3 +1031,6 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 #accept div input[name=accept]{
     margin-top: -45px;
 }
+#addIndividualResource{
+    width:110px;
+}
