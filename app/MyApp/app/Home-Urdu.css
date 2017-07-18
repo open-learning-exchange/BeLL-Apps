@@ -967,7 +967,7 @@ body{
     border-radius: 0px 0px 20px 20px;
     color: #FFFFFF;
     height: 0px;
-    margin-left: 20%;
+    margin-right: 20%;
     position: absolute;
     top: -1%;
     width: 60%;
@@ -979,7 +979,7 @@ body{
     height:100%;
 }
 #f-formButton{
-    margin-left: 10%;
+    margin-left: 5%;
     width: 80%;
 }
 

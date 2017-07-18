@@ -538,6 +538,7 @@ a{color:white;}
     float:left;
     margin-left: 1px;
     width: 33%;
+    font-size: 16px;
 }
 #site-feedback .bbf-form{
     height: 72%;
