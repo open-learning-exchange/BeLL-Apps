@@ -538,6 +538,7 @@ a{color:white;}
     float:left;
     margin-left: 1px;
     width: 33%;
+    font-size: 16px;
 }
 
 textarea[name="comment"]
