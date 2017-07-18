@@ -932,5 +932,7 @@
   "publisher":"Publisher",
   "Course_Progress_Statistics":"Course Progress Statistics",
   "Download_Summary":"Download Summary",
-  "Select_Community_ByRegion":"Filter Community by Region"
+  "Select_Community_ByRegion":"Filter Community by Region",
+  "Markdown":"Markdown",
+  "Rich_Text":"Rich Text"
 }

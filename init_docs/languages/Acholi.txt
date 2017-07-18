@@ -932,5 +932,7 @@
   "publisher":"crwdns16360:0crwdne16360:0",
   "Course_Progress_Statistics":"crwdns16361:0crwdne16361:0",
   "Download_Summary":"crwdns16362:0crwdne16362:0",
-  "Select_Community_ByRegion":"crwdns16364:0crwdne16364:0"
+  "Select_Community_ByRegion":"crwdns16364:0crwdne16364:0",
+  "Markdown":"crwdns16367:0crwdne16367:0",
+  "Rich_Text":"crwdns16368:0crwdne16368:0"
 }
