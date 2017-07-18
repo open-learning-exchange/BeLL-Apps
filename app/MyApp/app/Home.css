@@ -1023,8 +1023,6 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 }
 #accept div input[name=accept]{
     margin-top: -45px;
-    margin-left: 242px;
-    margin-top: -65px;
 }
 .redactor_color_none {
     display: none !important;
@@ -1054,4 +1052,7 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 }
 .answersection{
     margin-bottom: 25px;
+}
+#addIndividualResource{
+    width:110px;
 }

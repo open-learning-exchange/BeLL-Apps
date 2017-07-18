@@ -1985,12 +1985,13 @@
         <div class="container-fluid">
         <h6><%=languageDict.attributes.Search_Result%></h6>
             <div class="table-responsive">
-                <table class="table" style="width:660px">
+                <table class="table" style="width: 850px;">
                     <thead>
                        <tr>
                             <th><input type="checkbox" id="selectAllButton"</th>
-                            <th style ="width:400px;">Title</th>
-                            <th>Autor</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Publisher</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -2000,6 +2001,7 @@
                                 <td><input id="<%= res._id %>" type="checkbox" name="result" value="<%= res._id %>" rTitle="<%= res.title %>"></td>
                                 <td><%= res.title %></td>
                                 <td><%= res.author %></td>
+                                <td><%= res.Publisher %></td>
                                 <td><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></td>
                             </tr>
                          <% }%>

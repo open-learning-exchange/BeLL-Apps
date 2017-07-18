@@ -87,7 +87,7 @@ $(function() {
         },
 
         SearchPopup: function(){
-            $('#invitationdiv').css({'width' : '50%', 'height' : '60%', 'overflow' : 'auto', 'margin-left' : '25%' });
+            $('#invitationdiv').css({'width' : '65%', 'height' : '70%', 'overflow' : 'auto', 'margin-left' : '15%', 'border-radius' : '3px' });
             $('#invitationdiv').fadeIn(1000)
             document.getElementById('cont').style.opacity = 0.1
             document.getElementById('nav').style.opacity = 0.1
@@ -181,8 +181,8 @@ $(function() {
                     })
                     $('#invitationdiv').append('<div class="container- fluid Search-Btns" style="display:block; padding-top: 5%; padding-bottom: 10%;"></div>')
                     $(".Search-Btns").append('<a id="previous-button" class="btn btn-success">'+App.languageDict.attributes.Previous+'</a>&nbsp;&nbsp;')
-                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success" style = "margin-left: 28%; margin-top: -30px;">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
-                    $(".Search-Btns").append('<a id="Add" class="btn btn-success" style = "margin-top: -30px;">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
+                    $(".Search-Btns").append('<a id="BacktoSearch" class="btn btn-success" style = "margin-left: 28%; margin-top: 15px;">'+App.languageDict.attributes.Back_to_Search+'</a>&nbsp;&nbsp;')
+                    $(".Search-Btns").append('<a id="Add" class="btn btn-success" style = "margin-top: 15px;">'+App.languageDict.attributes.Add_To_Level+'</a>&nbsp;&nbsp;')
                     $(".Search-Btns").append('<a id="next-button" class="btn btn-success">'+App.languageDict.attributes.Next+'</a>')
                     $('#BacktoSearch').click(function(e){
                         that.GoBackToSearch()
@@ -201,7 +201,7 @@ $(function() {
                         if(e.keyCode == 13){
                             that.search()
                             if(that.courseresult.length == 0){
-                                $("#invitationdiv").append("<table style='margin-top: -145px;text-align: center;'><tr><td style='width: 630px;'><h6>"+App.languageDict.attributes.No_Resource_Found+"</h6></td></tr></table>")
+                                $("#invitationdiv").append("<table style='margin-top: -190px;text-align: center;'><tr><td style='width: 630px;'><h6>"+App.languageDict.attributes.No_Resource_Found+"</h6></td></tr></table>")
                                 $("#Add").hide()
                             }
                         }
