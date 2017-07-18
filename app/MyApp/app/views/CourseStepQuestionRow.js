@@ -71,7 +71,7 @@
         initialize: function(e) {
             this.model.on('destroy', this.remove, this)
         },
-        
+
         render: function() {
             var vars = this.model.toJSON();
             vars.languageDict=App.languageDict;
