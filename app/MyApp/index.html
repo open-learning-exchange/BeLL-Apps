@@ -1981,7 +1981,7 @@
         <div class="container-fluid">
         <h6><%=languageDict.attributes.Search_Result%></h6>
             <div class="table-responsive">
-                <table class="table" style="width: 780px;">
+                <table class="table" style="width: 850px;">
                     <thead>
                        <tr>
                             <th><input type="checkbox" id="selectAllButton"</th>
@@ -1998,7 +1998,7 @@
                                 <td><%= res.title %></td>
                                 <td><%= res.author %></td>
                                 <td><%= res.Publisher %></td>
-                                <td><button id = "addIndividualResource" class="btn btn-success"  style="width: 110px;" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></td>
+                                <td><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></td>
                             </tr>
                          <% }%>
                      </tbody>

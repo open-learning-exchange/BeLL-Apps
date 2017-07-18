@@ -87,7 +87,7 @@ $(function() {
         },
 
         SearchPopup: function(){
-            $('#invitationdiv').css({'width' : '66%', 'height' : '70%', 'overflow' : 'auto', 'margin-left' : '15%', 'border-radius' : '3px' });
+            $('#invitationdiv').css({'width' : '65%', 'height' : '70%', 'overflow' : 'auto', 'margin-left' : '15%', 'border-radius' : '3px' });
             $('#invitationdiv').fadeIn(1000)
             document.getElementById('cont').style.opacity = 0.1
             document.getElementById('nav').style.opacity = 0.1
