@@ -17,7 +17,7 @@ $(function() {
 			}, 1000);
 		},
 		render: function() {
-            var $button = $('<h6>' + App.languageDict.get('Config_Sync_With_Nation_Head') + '</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">' + App.languageDict.get('Log_Activity_Reports') + '<br><input type="checkbox" value="Reports" name="syncData">' + App.languageDict.get('Reports') + '<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">' + App.languageDict.get('Resources_Feedbacks') + '<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">' + App.languageDict.get('Application_Feedbacks') + '<br><input type="checkbox" value="MembersDb" name="syncData">' + App.languageDict.get('Members_Database') + '<br><input type="checkbox" value="Surveys" name="syncData">' + App.languageDict.get('Surveys') + '<br><input type="checkbox" value="CourseProgress" name="syncData">' + App.languageDict.get('Course_Member_Progress')+ '<br>');
+            var $button = $('<h6>' + App.languageDict.get('Config_Sync_With_Nation_Head') + '</h6><br><br><input type="checkbox" value="ActivityReports" name="syncData">' + App.languageDict.get('Log_Activity_Reports') + '<br><input type="checkbox" value="Reports" name="syncData">' + App.languageDict.get('Reports') + '<br><input type="checkbox" value="ResourcesFeedbacks" name="syncData">' + App.languageDict.get('Resources_Feedbacks') + '<br><input type="checkbox" value="ApplicationFeedbacks" name="syncData">' + App.languageDict.get('Application_Feedbacks') + '<br><input type="checkbox" value="MembersDb" name="syncData">' + App.languageDict.get('Members_Database') + '<br><input type="checkbox" value="Surveys" name="syncData">' + App.languageDict.get('Surveys') + '<br><input type="checkbox" value="CourseProgress" name="syncData">' + App.languageDict.get('Course_Member_Progress')+'<br><input type="checkbox" value="CourseAnswers" name="syncData">' + App.languageDict.get('Course_Answers')+ '<br>');
 			this.$el.append($button);
 			this.$el.append('<button class="btn btn-info" id="selectAll" style="width:110px">' + App.languageDict.get('Select_All') + '</button><button style="margin-left:10px; width:110px" class="btn btn-success" id="formButton" style="width:110px">' + App.languageDict.get('Send') + '</button>');
 			this.$el.append('<button class="btn btn-warning" id="cancelButton" style="width:110px;margin-left:10px">' + App.languageDict.get('Cancel') + '</button>');
@@ -68,6 +68,8 @@ $(function() {
 						context.syncSurveys();
 					} else if ($(this).val() == 'CourseProgress') {
 						context.syncCourseProgress();
+					} else if ($(this).val() == 'CourseAnswers') {
+						context.syncCourseAnswers();
 					}
 					if ($(this).val() == 'Application') {
 						context.checkAvailableUpdates()
@@ -407,6 +409,32 @@ $(function() {
 				}),
 				success: function(response) {
 					alert(App.languageDict.attributes.Member_Course_Progress_Replicated)
+					if (isActivityLogChecked == false) {
+						App.stopActivityIndicator();
+					}
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(App.languageDict.attributes.TryLater_Error)
+				}
+			})
+		},
+
+		//Replicate Course Answer Db from community to nation
+		syncCourseAnswers: function() {
+			$.ajax({
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				type: 'POST',
+				url: '/_replicate',
+				dataType: 'json',
+				data: JSON.stringify({
+					"source": "courseanswer",
+					"target": 'http://' + App.configuration.get('nationUrl') + '/courseanswer',
+				}),
+				success: function(response) {
+					alert(App.languageDict.attributes.Course_Answers_Replicated)
 					if (isActivityLogChecked == false) {
 						App.stopActivityIndicator();
 					}
