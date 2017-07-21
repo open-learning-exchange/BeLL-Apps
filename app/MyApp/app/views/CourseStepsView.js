@@ -14,9 +14,7 @@ $(function () {
 
         },
         addStep: function (model) {
-
-            this.$el.append('<tr><td></td><td><b>' + model.get('title') + '</b></br></br>' + model.get('description') + '</td></tr>')
-
+            this.$el.append('<tr><td></td><td id="markdown_step_'+model.get('_id')+'"><b>' + model.get('title') + '</b></br></br><textarea name="'+model.get('_id')+'">' + model.get('description') + '</textarea></td></tr>')
         }
 
     })

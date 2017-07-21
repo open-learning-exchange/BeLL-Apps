@@ -1,6 +1,11 @@
 /*This stylesheet is supposed to applied on page for RTL languages like Arabic, Urdu etc*/
 .body {
     direction: rtl;
+    margin-bottom: 30px;
+}
+div#parentLibrary{
+    margin-left: 20px;
+    margin-right: 20px;
 }
 #dashboard {
     height: 600px;
@@ -1205,15 +1210,42 @@ textarea[name="comment"]
 }
 .forgot-password-div{
     margin-top: 35px;
+    text-align: center;
 }
 a.forgot-password-form-button{
     color: #3498db;
     font-size: 16px;
-    text-align: center;
-    margin-left: 104px;
-    margin-top: 20px;
 }
 a.forgot-password-form-button:hover{
     cursor: pointer;
     color: #3498db;
 }
+form > fieldset > ul > li.bbf-field.field-selectLanguage {
+    list-style-type: none;
+}
+#accept div input[name=accept]{
+    margin-top: -45px;
+    margin-right: 231px;
+    margin-top: -65px;
+}
+.redactor_color_none {
+    display: none !important;
+}
+.redactor_textbox{
+    float:none !important;
+}
+.redactor_textbox .bbf-editor{
+    width:95%;
+}
+.redactor_textbox .redactor_box{
+    width:100%;
+    margin-bottom: 10px; 
+}
+.redactor_textbox textarea{
+    padding:1%;
+    width:98%;
+}
+.answersection table{
+    width: 100%;
+}
+

@@ -21,6 +21,8 @@
 <link rel="stylesheet" href="app/navStyle.css"/>
 <link rel="stylesheet" href="vendor/chosen.css"/>
 <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
+<link rel="stylesheet" href="vendor/redactor/style.css"/>
+<link rel="stylesheet" href="vendor/redactor/redactor.css"/>
 
 
 
@@ -51,6 +53,9 @@
 <script src="vendor/jquery-ui-1.10.3.custom.js"></script> <!-- app/vendor.js -->
 <script src="vendor/jquery-ui.multidatespicker.js"></script> <!-- app/vendor.js -->
 <script src="vendor/highcharts.js"></script> <!-- app/vendor.js -->
+<script src="vendor/redactor/marked.js"></script> <!-- app/vendor.js -->
+<script src="vendor/redactor/reMarked.js"></script> <!-- app/vendor.js -->
+<script src="vendor/redactor/redactor.js"></script> <!-- app/vendor.js -->
 
 
 <!-- -->
@@ -152,7 +157,7 @@
 <script src="app/views/CommunityRequestsTable.js"></script> <!-- app/views.js -->
 <script src="app/views/CommunityRequestRow.js"></script> <!-- app/views.js -->
 <script src="app/views/VipLinksView.js"></script> <!-- app/views.js -->
-
+<script src="app/views/PullNations.js"></script> <!-- app/views.js -->
 <script src="app/Router.js"></script>
 
 <script>
@@ -645,7 +650,7 @@
         <a href="#surveydetail/<%= _id %>" class="btn btn-warning">
             <%= languageDict.attributes.Details %>
         </a>
-        <a class='btn btn-info' onclick="App.Router.downloadCommunitySurveys('<%= SurveyNo %>', '<%= SurveyTitle %>')">
+        <a class='btn btn-info' onclick="App.Router.downloadCommunitySurveys('<%= SurveyNo %>', '<%= SurveyTitle %>','')">
             <%= languageDict.attributes.Download %>
         </a>
         <a class='btn btn-danger destroy'>
@@ -703,6 +708,7 @@
         <a class='resFeedBack btn btn-success edit_survey_question'>
             <i class='icon-eye-open icon-white'></i> <%= languageDict.attributes.EditLabel %>
         </a>
+        <a class='btn btn-info' onclick="App.Router.downloadCommunitySurveys('<%= surveyNo %>', '<%=surveyTitle %>','<%=_id %>')"> <%= languageDict.attributes.Download %><a>
         <a class='btn btn-danger destroy'>
             <i class='icon-remove icon-white'></i> <%= languageDict.attributes.Remove %>
         </a>
@@ -829,16 +835,17 @@
                 <div class ="dashboard-buttons"><a href ="#viplink"><button style="width:auto" class="btn-on-dashboard btn btn-primary"> <%= languageDict.attributes.viplinks %></button></a></div>
                 <div class="dashboard-buttons"><a><button style="width: auto" class="btn-on-dashboard btn btn-primary" onclick="showDatabases()"><%= languageDict.attributes.Databases %></button></a></div>
                 <div class="dashboard-buttons"><a href="../MyApp/index.html#updatewelcomevideo"><button style="width: auto" class="btn-on-dashboard btn btn-primary"><%= languageDict.attributes.Welcome_Video %></button></a></div>
+                <div class="dashboard-buttons"><a href="#pullNations"><button style="width: auto" class="btn-on-dashboard btn btn-primary"><%= languageDict.attributes.Label_PullNation %></button></a></div>
             </div>
         </div>
-        <!--	<table class="page-bottom-navtable">
-			<tr>
-			
-				<td><button class="btn btn-hg btn-primary">Badges</button></td>
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#newsfeed'">News Feed</button></td>
-				<td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='../personal/index.html#calendar'">Calender</button></td> 
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#mail'">Email(<%=mails%>)</button></td>
-				<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
+        <!--<table class="page-bottom-navtable">
+            <tr>
+
+                <td><button class="btn btn-hg btn-primary">Badges</button></td>
+                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#newsfeed'">News Feed</button></td>
+                <td><button class="btn btn-hg btn-primary"  onclick = "document.location.href='../personal/index.html#calendar'">Calender</button></td>
+                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='../personal/index.html#mail'">Email(<%=mails%>)</button></td>
+                <td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#search-bell'">Search Bell</button></td>-->
         <!-- <td></td> -->
         <!--<td><button class="btn btn-hg btn-primary1" onclick = "document.location.href='#logout'">Sign out</button></td>
     </tr>
@@ -1008,20 +1015,20 @@
 
 <script type="text/html" id="template-siteReviewRownoAdmin">
     <%  if(Resolved=="0"){%>
-    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
     <%}
     else {%>
-    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
     <%}%>
 </script>
 
 
 <script type="text/html" id="template-siteReviewRowAdmin">
     <%  if(Resolved=="0"){%>
-    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
     <%}
     else {%>
-    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+    <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
     <%}%>
 </script>
 <!-- Report template -->
@@ -1205,6 +1212,85 @@
             </td>
         </tr>
     </table>
+</script>
+<script type="text/template" id="template-GetResource">
+    <div id="parentLibrary" style="margin-top:20px;">
+        <div class="container-fluid">
+            <div class="form-group">
+                <label for="nationList"><%= languageDict.attributes.select_nation %></label>
+                <select id="nationList" class="form-control">
+                    <%= options %>
+                </select>
+            </div>
+        </div>
+        <div class="container" id="list_courses_resources" style="display:none;">
+          <p id="optionsList"><a title="Resources" class="alink" id="aResources"><%= languageDict.attributes.Resources %></a> | <a title="Courses" class="alink" id="aCourses"><%= languageDict.attributes.Courses %></a></p>
+          <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyList">
+                </tbody>
+              </table>
+          </div>
+        </div>
+        <div class="container">
+            <div class="modal fade" id="modalResources" role="dialog" aria-hidden="true" style="display: none; margin-top: 100px;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><%= languageDict.attributes.Resource_Detail %></h4>
+                        </div>
+                        <div class="modal-body">
+                            <dl class="dl-horizontal">
+                                <dt><%= languageDict.attributes.author %></dt><dd id="author"></dd>
+                                <dt><%= languageDict.attributes.year %></dt><dd id="year"></dd>
+                                <dt><%= languageDict.attributes.media %></dt><dd id="media"></dd>
+                                <dt><%= languageDict.attributes.language %></dt><dd id="language"></dd>
+                                <dt><%= languageDict.attributes.subject %></dt><dd id="subject"></dd>
+                                <dt><%= languageDict.attributes.level %></dt><dd id="level"></dd>
+                                <dt><%= languageDict.attributes.publisher %></dt><dd id="publisher"></dd>
+                                <dt><%= languageDict.attributes.link_to_license %></dt><dd id="linkToLicense"></dd>
+                                <dt><%= languageDict.attributes.resource_for %></dt><dd id="resourceFor"></dd>
+                                <dt><%= languageDict.attributes.resource_type %></dt><dd id="resourceType"></dd>
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><%= languageDict.attributes.Close %></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modalCourses" role="dialog" aria-hidden="true" style="display: none; margin-top: 100px;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><%= languageDict.attributes.Course_Details %></h4>
+                        </div>
+                        <div class="modal-body">
+                            <dl class="dl-horizontal">
+                                <dt><%= languageDict.attributes.Name %></dt><dd id="name"></dd>
+                                <dt><%= languageDict.attributes.Subject_Level %></dt><dd id="subjectLevel"></dd>
+                                <dt><%= languageDict.attributes.Grade_Level %></dt><dd id="gradeLevel"></dd>
+                                <dt><%= languageDict.attributes.Description %></dt><dd id="description"></dd>
+                                <dt><%= languageDict.attributes.Schedule %></dt><dd id="schedule"></dd>
+                                <dt><%= languageDict.attributes.Location %></dt><dd id="location"></dd>
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><%= languageDict.attributes.Close %></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </script>
 
 <!-- End Of templates -->

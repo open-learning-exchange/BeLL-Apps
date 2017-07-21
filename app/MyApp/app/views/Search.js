@@ -77,7 +77,6 @@ $(function() {
             }
         },
         render: function() {
-
             var obj = this
             var collections = App.collectionslist
             this.vars.tags = collections.toJSON();

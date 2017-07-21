@@ -300,39 +300,106 @@ $(function() {
 
             if(this.model.get('registrationRequest') == 'pending' || this.isChanged(this.model ,configDoc )){
 
-                this.model.set('registrationRequest', 'pending');
-                App.stopActivityIndicator();
-
-            that.model.save(null, {
-                success: function (model, response) {
-                    var docIds = [];
-                    var id = that.model.get('id');
-                    docIds.push(id);
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        type: 'POST',
-                        url: '/_replicate',
-                        dataType: 'json',
-                        data: JSON.stringify({
-                            "source": "configurations",
-                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                            'doc_ids': docIds
-                        }),
-                        async: false,
-                        success: function (response) {
-                            App.stopActivityIndicator();
-                            alert(App.languageDict.get('Successfully_Registered'));
-                            window.location.href = '#dashboard';
-                        },
-                        error: function(status) {
-                            console.log(status);
-                            alert(App.languageDict.attributes.UnableToReplicate);
-                            App.stopActivityIndicator();
+            App.stopActivityIndicator();
+            $.ajax({
+                type: 'GET',
+                url: 'http://' + nationUrl + '/configurations/_all_docs?include_docs=true',
+                dataType: 'jsonp',
+                async: false,
+                success: function (response) {
+                    if(response.rows.length > 0){
+                        var accept = response.rows[0].doc.accept;
+                        if(accept == undefined || accept == false){
+                            that.model.set('registrationRequest', 'pending');
+                            that.model.save(null, {
+                                success: function (model, response) {
+                                    var docIds = [];
+                                    var id = that.model.get('id');
+                                    docIds.push(id);
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "configurations",
+                                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                            'doc_ids': docIds
+                                        }),
+                                        async: false,
+                                        success: function (response) {
+                                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                                alert(App.languageDict.attributes.UnableToReplicate);
+                                            }else{
+                                                var members = new App.Models.Member({
+                                                    "_id": $.cookie('Member._id')
+                                                });
+                                                members.fetch({
+                                                    async: false,
+                                                    success: function(data){
+                                                        if(data){
+                                                            members.set('community',newCode);
+                                                            if(members.save()){
+                                                                App.stopActivityIndicator();
+                                                                alert(App.languageDict.get('Successfully_Registered'));
+                                                                window.location.href = '#dashboard';
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                            App.stopActivityIndicator();
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            that.model.set('registrationRequest', 'accepted');
+                            that.model.save(null, {
+                                success: function (model, response) {
+                                    var docIds = [];
+                                    var id = that.model.get('id');
+                                    docIds.push(id);
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "configurations",
+                                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                            'doc_ids': docIds
+                                        }),
+                                        async: false,
+                                        success: function (response) {
+                                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                                alert(App.languageDict.attributes.UnableToReplicate);
+                                            }else{
+                                                App.stopActivityIndicator();
+                                                alert(App.languageDict.get('request_accepted'));
+                                                window.location.href = '#dashboard';
+                                            }
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                            App.stopActivityIndicator();
+                                        }
+                                    });
+                                }
+                            });
                         }
-                    });
+                    }
                 }
             });
             } else{

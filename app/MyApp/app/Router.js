@@ -260,7 +260,7 @@ $(function() {
         SurveysForMembers: function() {
             var SurveysView = new App.Views.SurveyTableForMembers();
             SurveysView.render();
-            App.$el.children('.body').html('<div id="surveyTable"></div>');
+            App.$el.children('.body').html('<div id="surveyTable" style="margin-right:20px; margin-left:20px;"></div>');
             $('#surveyTable').append('<h3>' + App.languageDict.get('Surveys') + '</h3>');
             $('#surveyTable').append(SurveysView.el);
         },
@@ -543,7 +543,7 @@ $(function() {
                 creditsTableView.courseId=courseId;
                 creditsTableView.memberId=memberId;
                 creditsTableView.render();
-                App.$el.children('.body').html('<div id="creditsTable"></div>');
+                App.$el.children('.body').html('<div id="creditsTable" style = "margin-right:20px; margin-left:20px;"></div>');
                 var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
                 var name, id;
                 learnerCollection.each(
@@ -571,7 +571,7 @@ $(function() {
                 // creditsTableView.render();
 
 
-                App.$el.children('.body').html('<div id="creditsTable"></div>');
+                App.$el.children('.body').html('<div id="creditsTable" style = "margin-left: 20px;margin-right: 20px;"></div>');
                 var course = new App.Models.Course({
                     _id: courseId
                 });
@@ -1222,7 +1222,7 @@ $(function() {
             wordsOfLibraryTable.push(App.languageDict.attributes.My_Library);
             wordsOfLibraryTable.push(App.languageDict.attributes.My_Courses_Progress);
             wordsOfLibraryTable.push(App.languageDict.attributes.My_Meetups);
-            wordsOfLibraryTable.push(App.languageDict.attributes.My_Tutors);
+            wordsOfLibraryTable.push(App.languageDict.attributes.My_Teams);
             var classToAppend=new Array();
             classToAppend.push('shelf');
             classToAppend.push('badges');
@@ -1399,7 +1399,71 @@ $(function() {
                 $('#_attachments').css('margin-left','170px');
             }
         },
-
+        markdownEditor: function(field,type, height) {
+            marked.setOptions({
+                smartLists: true
+            });
+            $("#"+type+"_"+field).prepend('<a id="'+type+"_"+field+'_link" style="float:right; margin-right: 5%;">'+App.languageDict.attributes.Markdown+'</a>');
+            $("#markdown_"+type+"_"+field).prepend('<a id="markdown_'+type+"_"+field+'_link" style=" float:right; margin-right: 5%;">'+App.languageDict.attributes.Rich_Text+' </a>');
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").css('width', '500px');
+            $( "#markdown_"+type+"_"+field ).hide();
+            var remL = new reMarked(),
+                $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']"),
+                redL = null,
+                $mdnL = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            if(height == undefined){
+                height = 180
+            }
+            $redL.redactor({
+                buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                minHeight: height,
+                keyupCallback: showMdL,
+                execCommandCallback: showMdL
+            });
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").parents('.redactor_box').find('.redactor_editor').css({'height': height});
+            $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").css({'height': height});
+            redL = $redL.data('redactor');
+            var html = marked($mdnL.val());
+                //clean = red.stripTags(html);
+            redL.$editor.html(html);
+            redL.syncCode();
+            $mdnL.on("keyup", function() {
+                var html = marked(this.value),
+                    clean = redL.stripTags(html);
+                redL.$editor.html(html);
+                redL.syncCode();
+            });
+            function showMdL() {
+                setTimeout(function() {
+                    var html = redL.getCode();
+                    $mdnL.val(remL.render(html));
+                }, 1000);
+            }
+            $( '#'+type+"_"+field+'_link' ).click(function() {
+                 $( "#markdown_"+type+"_"+field ).show();
+                 $( '#'+type+"_"+field ).hide();
+            });
+            $( "#markdown_"+type+"_"+field+'_link' ).click(function() {
+                $( "#markdown_"+type+"_"+field ).hide();
+                 $( '#'+type+"_"+field ).show();
+            });
+        },
+        previewModeEditor: function (field,type) {
+            mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").val();
+            var html = marked(mdn);
+            $('<div id="'+type+'_'+field+'Preview">'+html+'</div>').insertBefore("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+        },
+        markdownDestory: function (field,type) {
+            $('#'+type+'_'+field+'Preview').remove();
+        },
+        markdownReInit: function (field,type) {
+            $mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']");
+            redL = $redL.data('redactor');
+            var html = marked($($mdn).val());
+            redL.$editor.html(html);
+            redL.syncCode();
+        },
         modelForm: function(className, label, modelId, reroute) { // 'Course', 'Course', courseId, 'courses'
             var url_page = $.url().data.attr.fragment;
             var url_split = url_page.split('/');
@@ -1432,7 +1496,7 @@ $(function() {
             var modelForm = new App.Views[className + 'Form']({
                 model: model
             })
-            App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+            App.$el.children('.body').html('<div id="AddCourseMainDiv" style = "margin-right:20px; margin-left:20px"></div>');
             // Bind form to the DOM
             if (modelId && url_split[1]=="view") {
                 model.id = modelId
@@ -1468,6 +1532,8 @@ $(function() {
                 })
                 // Set up the form
                 modelForm.render();
+                $('#course_description').find('label').html(App.languageDict.attributes.Description);
+                App.Router.markdownEditor("description","course")
                 $('.bbf-form .field-courseLeader .bbf-editor select').attr('multiple','multiple');
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
@@ -1572,6 +1638,7 @@ $(function() {
             $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
             $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
             $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
+            $('.bbf-form').find('.field-descriptionOutput').find('label').html(App.languageDict.attributes.Description);
             $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
             $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
             $('.bbf-form').find('.field-subjectLevel').find('label').html(App.languageDict.attributes.Subject_Level);
@@ -1925,6 +1992,7 @@ $(function() {
             search.addResource = false
             search.render();
             App.$el.children('.body').html(search.el);
+            $('#textSearch').hide()
             $("#multiselect-collections-search").multiselect().multiselectfilter();
             $('#multiselect-collections-search').multiselect({
                 header: App.languageDict.attributes.Select_An_option,
@@ -2248,8 +2316,16 @@ $(function() {
                     $("input[name='questionRow']").hide();
                     App.$el.children('.body').html(test.el)
                     test.render();
+                    App.Router.markdownEditor("question_text","questiontype1")
+                    App.Router.markdownEditor("question_text","questiontype2")
+                    App.Router.markdownEditor("question_text","questiontype3")
+                    App.Router.markdownEditor("question_text","questiontype4")
                     if (coursestepQuestions != null && coursestepQuestions != '' && coursestepQuestions !=[] ) {
                         $('#parentDiv').append(CourseStepQuestionsTable.el);
+                        _.each(coursestepQuestions, function(item) {
+                            App.Router.previewModeEditor(item,'question')
+                            $("textarea[name='"+item+"']").hide();
+                        })
                     }
                     $("#Rearrange").remove();
                     $("#moveup").hide();
@@ -2363,6 +2439,8 @@ $(function() {
             if (course.get('courseLeader') != undefined && course.get('courseLeader').indexOf($.cookie('Member._id'))!=-1 || roles.indexOf("Manager") != -1) {
                 $('.courseSearchResults_Bottom h2').append('<button id="manageOnCourseProgress" class="btn btn-success"  onclick = "document.location.href=\'#course/manage/' + cId + '\'">'+App.languageDict.attributes.Manage+'</button>')
                 $('.courseSearchResults_Bottom').append('<a id="CourseStatistics" class="btn btn-inverse"  href=\'#CourseStatistics/' + cId + '\'">'+App.languageDict.attributes.Course_Progress_Statistics+'</a>')
+                $('.courseSearchResults_Bottom h2').append("<a class='btn btn-info' style='margin-left: 10px;' onclick=App.Router.downloadCourseCSV('" + cId + "')>" +App.languageDict.attributes.Download+"</a>")
+                $('.courseSearchResults_Bottom h2').append("<a class='btn btn-info' style='margin-left: 10px;' onclick=App.Router.downloadSummariesCourseCSV('" + cId + "')>" +App.languageDict.attributes.Download_Summary+"</a>")
             }
             $('.courseSearchResults_Bottom').append('<p id="graph2title"style="text-align:center">'+App.languageDict.attributes.Individual_Member_Course_Progress+'</p>')
             App.$el.children('.body').append('<div id="detailView"><div id="graph2" class="flotHeight"></div><div id="choices" class="choice"></div></div><div id="birdEye"><div id="graph1" class="flotHeight"></div></div>')
@@ -2387,6 +2465,238 @@ $(function() {
             applyCorrectStylingSheet(directionOfLang);
         },
 
+        downloadSummariesCourseCSV: function(courseId) {
+            var jsonObjectsData = [];
+            var course = new App.Models.Course({
+                _id: courseId
+            });
+            course.fetch({
+                async:false
+            });
+            var allResults = new App.Collections.StepResultsbyCourse()
+            allResults.courseId = courseId
+            allResults.fetch({
+                async: false
+            })
+            for (var i = 0; i < allResults.length; i++) {
+                student = new App.Models.Member({
+                    _id: allResults.models[i].attributes.memberId
+                })
+                student.fetch({
+                    async: false
+                })
+                var sstatus = allResults.models[i].attributes.stepsStatus
+                var sp = allResults.models[i].attributes.stepsResult
+                var ssids = allResults.models[i].attributes.stepsIds
+                var pqattempts = allResults.models[i].attributes.pqAttempts
+                for (var j = 0; j < ssids.length; j++) {
+                    var courseSteps = new App.Models.CourseStep()
+                    courseSteps.id = ssids[j];
+                    courseSteps.fetch({
+                        async: false
+                    })
+                    var count = 0
+                    for(var l = 0; l <= pqattempts[j]; l++){
+                        console.log( pqattempts[j])
+                       if (sstatus[j][l] === "1")
+                        {
+                            count++
+                        }
+                    }
+                    var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "Attempt":"","PassCount":""};
+                    JSONObj.MemberId =  allResults.models[i].attributes.memberId
+                    JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
+                    JSONObj.StepNo = courseSteps.attributes.step
+                    JSONObj.StepName = courseSteps.attributes.title
+                    JSONObj.Attempt =  pqattempts[j]
+                    JSONObj.PassCount =  count
+                    jsonObjectsData.push(JSONObj)
+                    console.log(jsonObjectsData);
+                }
+            }
+            if(jsonObjectsData.length > 0) {
+                this.JSONToCSVConvertor(jsonObjectsData, course.attributes.CourseTitle);
+            } else {
+                alert(App.languageDict.attributes.Unable_To_Download_Data);
+            }
+        },
+
+        downloadCourseCSV: function(courseId) {
+            var that = this;
+            var jsonObjectsData = [];
+            var course = new App.Models.Course({
+                _id: courseId
+            });
+            course.fetch({
+                async:false
+            });
+            var allResults = new App.Collections.StepResultsbyCourse()
+            allResults.courseId = courseId
+            allResults.fetch({
+                async: false
+            })
+
+            for (var i = 0; i < allResults.length; i++) {
+                student = new App.Models.Member({
+                    _id: allResults.models[i].attributes.memberId
+                })
+                student.fetch({
+                    async: false
+                })
+
+                var sstatus = allResults.models[i].attributes.stepsStatus
+                var sp = allResults.models[i].attributes.stepsResult
+                var ssids = allResults.models[i].attributes.stepsIds
+                var pqattempts = allResults.models[i].attributes.pqAttempts
+
+                memberProgressRecord = allResults.first();
+                var ssids = memberProgressRecord.get('stepsIds')
+                for (var j = 0; j < ssids.length; j++) {
+                    var courseSteps = new App.Models.CourseStep()
+                    courseSteps.id = ssids[j];
+                    courseSteps.fetch({
+                        async: false
+                    })
+                    var stepQuestionIds = courseSteps.attributes.questionslist
+                    if(stepQuestionIds != null) {
+                        for (var k = 0; k < stepQuestionIds.length; k++) {
+                            var questionlist = new App.Models.CourseQuestion({
+                                _id: stepQuestionIds[k]
+                            })
+                            questionlist.fetch({
+                                async: false
+                            });
+                            var courseAnswer = new App.Collections.CourseAnswer()
+                            courseAnswer.StepID = courseSteps.attributes._id
+                            courseAnswer.MemberID =  allResults.models[i].attributes.memberId
+                            courseAnswer.pqattempts = pqattempts[j]
+                            courseAnswer.QuestionID = stepQuestionIds[k]
+                            courseAnswer.fetch({
+                                async: false
+                            })
+                            if(courseAnswer.first() != undefined && courseAnswer.pqattempts > 0 ){
+                                var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
+                                JSONObj.MemberId =  allResults.models[i].attributes.memberId
+                                JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
+                                JSONObj.StepNo = courseSteps.attributes.step
+                                JSONObj.StepName = courseSteps.attributes.title
+                                JSONObj.QuestionID = questionlist.attributes._id
+                                JSONObj.Question = questionlist.attributes.Statement
+                                JSONObj.Attempt =  pqattempts[j]
+                                JSONObj.TotalMarks =  questionlist.attributes.Marks
+                                if(courseSteps.attributes.stepType == "Subjective"){
+                                    if(questionlist.attributes.Type == "Multiple Choice"){
+                                        if(courseAnswer.first().get('AttemptMarks') != null){
+                                            JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
+                                        } else {
+                                            JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                        }
+                                    } else{
+                                        if(courseAnswer.first().get('ObtainMarks') != undefined){
+                                            JSONObj.ObtainMarks =  courseAnswer.first().get('ObtainMarks')
+                                        } else {
+                                            JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                        }
+                                    }
+                                } else {
+                                    if(courseAnswer.first().get('AttemptMarks') != null){
+                                        JSONObj.ObtainMarks =  courseAnswer.first().get('AttemptMarks')
+                                    } else {
+                                        JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
+                                    }
+                                }
+                                JSONObj.Answer = courseAnswer.first().get('Answer')
+                                jsonObjectsData.push(JSONObj)
+                            }
+                        }
+                    }
+                }
+            }
+            if(jsonObjectsData.length > 0) {
+                that.JSONToCSVConvertor(jsonObjectsData, course.attributes.CourseTitle);
+            } else {
+                alert(App.languageDict.attributes.Unable_To_Download_Data);
+            }
+        },
+
+        JSONToCSVConvertor: function (JSONData, ReportTitle) {
+            //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+            var CSV = '';
+            //Set Report title in first row or line
+            //CSV += label + '\r\n\n';
+            //This will generate the Label/Header
+            var row = "";
+            //This loop will extract the label from 1st index of on array
+            for (var index in arrData[0]) {
+                //Now convert each value to string and comma-seprated
+                row += index + ',';
+            }
+            row = row.slice(0, -1);
+            //append Label row with line break
+            CSV += row + '\r\n';
+            //1st loop is to extract each row
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+                //2nd loop will extract each column and convert it in string comma-seprated
+                for (var index in arrData[i]) {
+                    row += '"' + arrData[i][index] + '",';
+                }
+                row.slice(0, row.length - 1);
+                //add a line break after each row
+                CSV += row + '\r\n';
+            }
+            if (CSV == '') {
+                alert("Invalid data");
+                return;
+            }
+            //Generate a file name
+            var fileName = "";
+            //this will remove the blank-spaces from the title and replace it with an underscore
+            fileName += ReportTitle.toString().replace(/ /g,"_");
+            //Initialize file format you want csv or xls
+            var uri = 'data:text/csv;charset=utf-8,' + CSV;
+            uri = encodeURI(uri);
+            // Now the little tricky part.
+            // you can use either>> window.open(uri);
+            // but this will not work in some browsers
+            // or you will not get the correct file extension
+            //this trick will generate a temp <a /> tag
+            var link = document.createElement("a");
+            link.href = uri;
+            //set the visibility hidden so it will not effect on your web-layout
+            link.style = "visibility:hidden";
+            link.download = fileName + ".csv";
+            //this part will append the anchor tag and remove it after automatic click
+            App.$el.append(link);
+            link.click();
+        },
+        textEditor: function(viewTextarea,hiddenTextarea){
+            marked.setOptions({
+                smartLists: true
+            });
+            var rem = new reMarked(),
+                $red = viewTextarea,
+                red = null,
+                $mdn = hiddenTextarea;
+            $red.redactor({
+                buttons: ['html', '|', 'formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                keyupCallback: showMd,
+                execCommandCallback: showMd,
+            });
+            red = $red.data('redactor');
+            $mdn.on("keyup", function() {
+                var html = marked(this.value),
+                    clean = red.stripTags(html);
+                red.$editor.html(html);
+                red.syncCode();
+            });
+            function showMd() {
+                var html = red.getCode();
+                $mdn.val(rem.render(html));
+            }
+            showMd();
+        },
         ManageCourse: function(courseId) {
             var that = this
             levels = new App.Collections.CourseLevels()
@@ -2403,16 +2713,18 @@ $(function() {
                         trigger: true
                     })
                 })
-                App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
+                App.$el.children('.body').html('<div id="AddCourseMainDiv" style = "margin-right:20px; margin-left:20px"></div>');
                 $('#AddCourseMainDiv').append('<br/><h3>'+App.languageDict.attributes.Course_Manage+'</h3>');
                 $('#AddCourseMainDiv').append(modelForm.el);
                 // Set up the form
                 modelForm.render();
+                App.Router.markdownEditor("description","course")
+                $('#course_description').find('label').html(App.languageDict.attributes.Description);
                 $('.bbf-form').find('.field-CourseTitle').find('label').html(App.languageDict.attributes.Course_Title);
                 $('.bbf-form').find('.field-languageOfInstruction').find('label').html(App.languageDict.attributes.Language_Of_Instruction);
                 $('.bbf-form').find('.field-memberLimit').find('label').html(App.languageDict.attributes.Member_Limit);
                 $('.bbf-form').find('.field-courseLeader').find('label').html(App.languageDict.attributes.Course_Leader);
-                $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);
+                $('.bbf-form').find('.field-description').find('label').html(App.languageDict.attributes.Description);                
                 $('.bbf-form').find('.field-method').find('label').html(App.languageDict.attributes.Method);
                 $('.bbf-form').find('.field-gradeLevel').find('label').html(App.languageDict.attributes.Grade_Level);
                 $('.bbf-form').find('.field-subjectLevel').find('label').html(App.languageDict.attributes.Subject_Level);
@@ -2475,9 +2787,6 @@ $(function() {
 
                         // Step Form
                         totalLevels = levels.models.length;
-                        
-                        
-                        
                         var Cstep = new App.Models.CourseStep()
                         Cstep.set({
                             courseId: courseId
@@ -2494,6 +2803,7 @@ $(function() {
                         lForm.render()
                         $('.courseSearchResults_Bottom').append(lForm.el)
                         lForm.sliders();
+                        App.Router.markdownEditor("description","step")
                         $("input[name='step']").attr("disabled", true);
                         $("input[name='passingPercentage']").attr("readonly",true);
                         $("input[name='passingPercentage']").val(10)
@@ -2502,6 +2812,7 @@ $(function() {
                             $("input[name='step']").val(tl)
                         }
                         Backbone.Form.validators.errMessages.required = App.languageDict.attributes.Required_Text;
+                        $('#step_description').find('label').html(App.languageDict.attributes.Description);
                         $('.bbf-form .field-title label').html(App.languageDict.attributes.Title);
                         $('.bbf-form .field-stepMethod label').html(App.languageDict.attributes.Step_Method);
                         $('.bbf-form .field-description label').html(App.languageDict.attributes.Description);
@@ -2562,6 +2873,20 @@ $(function() {
                 }})
                 App.$el.children('.body').html(answerview.el);
                 answerview.render();
+                for (var i = 0; i < courseAnswer.length; i++) {
+                    var questionlist = new App.Models.CourseQuestion({
+                        _id: courseAnswer.models[i].attributes.QuestionID
+                    })
+                    questionlist.fetch({
+                        async: false
+                    });
+                    App.Router.previewModeEditor(questionlist.attributes._id,"question")
+                    $("textarea[name='"+questionlist.attributes._id+"']").hide();
+                    if(questionlist.attributes.Type == "Comment/Essay Box" || questionlist.attributes.Type == "Single Textbox"){
+                        App.Router.previewModeEditor(courseAnswer.models[i].attributes._id,"answer")
+                        $("textarea[name='"+courseAnswer.models[i].attributes._id+"']").hide();
+                    }
+                }
                 var directionOfLang = App.languageDict.get('directionOfLang');
                 applyCorrectStylingSheet(directionOfLang)
         },
@@ -2582,8 +2907,8 @@ $(function() {
             } else {
                 button += '<br/><br/>'
             }
-            App.$el.children('.body').html('<div class="courseEditStep"></div>')
-            $('.courseEditStep').append('<div id="courseName-heading"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
+            App.$el.children('.body').html('<div class="courseEditStep" style = "margin-right:20px; margin-left:20px;"></div>')
+            $('.courseEditStep').append('<div id="courseName-heading" style = "margin-right:20px; margin-left:20px;"><h3>'+App.languageDict.attributes.Course_Details+' | ' + courseName + '</h3></div>')
             $('.courseEditStep').append(button)
             var memberModelArr = [];
             for(var i = 0; i < courseLeader.length; i++)
@@ -2610,8 +2935,14 @@ $(function() {
             })
             courseStepsView.render()
             $('.courseEditStep').append(CourseDetailsView.el)
+            App.Router.previewModeEditor("description","course")
+            $("textarea[name='description']").hide();
             $('.courseEditStep').append('<div id="courseSteps-heading"><h5>'+App.languageDict.attributes.Course_Steps+'</h5></div>')
             $('.courseEditStep').append(courseStepsView.el)
+            for (var i = 0; i < ccSteps.length; i++) {
+                App.Router.previewModeEditor(ccSteps.models[i].attributes._id,"step")
+                $("textarea[name='"+ccSteps.models[i].attributes._id+"']").hide();
+            }
             $('#admissionButton').on('click', function(e) {
                 $(document).trigger('Notification:submitButtonClicked')
             });
@@ -2824,23 +3155,65 @@ $(function() {
                         model: levelInfo
                     })
                     levelDetails.render();
-                    App.$el.children('.body').html('<div class="courseEditStep"></div>');
+                    App.$el.children('.body').html('<div class="courseEditStep" style ="margin-right:20px; margin-left:20px"></div>');
                     $('.courseEditStep').append('<h3>'  +App.languageDict.attributes.Step +levelInfo.get("step") + ' | ' + levelInfo.get("title") + '</h3>')
-                    $('.courseEditStep').append('<a class="btn btn-success" href=\'#level/add/' + levelInfo.get("courseId") + '/' + lid + '/-1\'">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
-                    $('.courseEditStep').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Course+" </a>&nbsp;&nbsp;")
-                    $('.courseEditStep').append("</BR></BR><B>"+App.languageDict.attributes.Description+"</B></BR><TextArea id='LevelDescription' rows='5' cols='100' style='width:98%;'>" + levelInfo.get("description") + "</TextArea></BR>")
-                    $('.courseEditStep').append("<button class='btn btn-success backToSearchButton' onclick='document.location.href=\"#savedesc/" + lid + "\"'>"+App.languageDict.attributes.Save+"</button></BR></BR>")
-                    $('.courseEditStep').append('<B>'+App.languageDict.attributes.Resources+'</B>&nbsp;&nbsp;<a class="btn btn-success"  style="" href=\'#search-bell/' + lid + '/' + rid + '\'">'+App.languageDict.attributes.Add+'</a>')
+                    $('.courseEditStep').append('<a class="btn btn-success" id="editcurrentStep">'+App.languageDict.attributes.Edit_Step+'</a>&nbsp;&nbsp;')
+                    $('.courseEditStep').append("<a class='btn btn-success' href='#course/manage/" + levelInfo.get('courseId') + "'>"+App.languageDict.attributes.Back_To_Course+" </a><div id ='editStep'></div>&nbsp;&nbsp;")
+                    var lForm = new App.Views.LevelForm({
+                        model: levelInfo
+                    })
+                     levelInfo.set({
+                        "_id": lid
+                    })
+                    levelInfo.once('sync', function() {
+                        lForm.edit = true
+                        lForm.ques1 = levelInfo.get("questionslist")
+                        lForm.res = levelInfo.get("resourceId")
+                        lForm.rest = levelInfo.get("resourceTitles")
+                        lForm.previousStep = levelInfo.get("step")
+                        lForm.render();
+                        $('#editStep').append(lForm.el)
+                        $("input[name='step']").attr("disabled", true);
+                        $("input[name='passingPercentage']").attr("readonly",true);
+                        $("textarea[name='description']").attr("readonly",true);
+                        $("input[name='title']").attr("readonly",true);
+                        $("#formButton").hide();
+                        $("#retrunBack").hide();
+                        $("#step_description").hide();
+                        $("#markdown_step_description textarea[name='description']").hide();
+                        App.Router.previewModeEditor("description","step")
+                    })
+                    $("#editcurrentStep").click(function() {
+                        $(this).hide();
+                        $("#step_description").show();
+                        $("#markdown_step_description textarea[name='description']").show();
+                        App.Router.markdownDestory("description","step")
+                        $('#step_description').find('label').html(App.languageDict.attributes.Description);
+                        $("textarea[name='description']").attr("readonly",false);
+                        $("input[name='title']").attr("readonly",false);
+                        $("#formButton").show();
+                        $("#retrunBack").show();
+                        $( "#slider-range-min" ).slider({
+                            range: "min",
+                            value: 37,
+                            min: 1,
+                            max: 100,
+                            slide: function( event, ui ) {
+                                $('input:[name="passingPercentage"]' ).val( ui.value );
+                            }
+                        });
+
+                        App.Router.markdownEditor("description","step")
+                    });
                     $('.courseEditStep').append(levelDetails.el)
                     $('.courseEditStep').append('</BR>')
                     if (levelInfo.get("questionslist") == null) {
                         $('.courseEditStep').append('<a class="btn btn-success backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Create_Test+'</a>&nbsp;&nbsp;')
                     } else {
                         $('.courseEditStep').append('<B>' + levelInfo.get("title") + ' - '+App.languageDict.attributes.Test+'</B><a class="btn btn-primary backToSearchButton"   href=\'#create-test/' + levelInfo.get("_id") + '/' + levelInfo.get("_rev") + '/' + levelInfo.get("title") + '\'">'+App.languageDict.attributes.Edit_Test+'</a>')
-                        $('.courseEditStep').append('<a class="btn btn-primary" style="margin-left: 1100px" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a>&nbsp;&nbsp;')
+                        $('.courseEditStep').append('<a class="btn btn-primary backToSearchButton" style="margin-right: 1%" id="viewTest"  onclick=App.Router.ViewTest("' + lid + '","' + rid + '")>'+App.languageDict.attributes.View_Test+'</a><br>')
                     }
-                    $('.body').append('<div id="viewTest"></div>');
-
+                    $('.body').append('<div id="viewTest" style = "padding-top:3%; margin-right:20px; margin-left:20px"></div>');
                 }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
@@ -2866,6 +3239,8 @@ $(function() {
             temp.render()
             $('div#viewTest').html('')
             $('div#viewTest').html(temp.el)
+            App.Router.previewModeEditor(JSONsteps.questionslist[0],'question')
+            $("textarea[name='"+JSONsteps.questionslist[0]+"']").hide();
         },
 
         saveDescprition: function(lid) {
@@ -2875,7 +3250,7 @@ $(function() {
             var that = this
             level.fetch({
                 success: function() {
-                    level.set("description", $('#LevelDescription').val())
+                    level.set("description", $('#markdownStepDescription textarea[name="description"]').val())
                     var that = this
                     level.save()
                     level.on('sync', function() {
@@ -2993,6 +3368,8 @@ $(function() {
             })
             meetupView.render()
             App.$el.children('.body').html(meetupView.el);
+            App.Router.previewModeEditor("description","meetup");
+            $("textarea[name='description']").hide();
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         },
 
@@ -3014,6 +3391,7 @@ $(function() {
             })
             modelForm.render()
             App.$el.children('.body').html(modelForm.el)
+            App.Router.markdownEditor("description","meetup","90")
             $('.form .field-startTime input').timepicker({
                 'minTime': '8:00am',
                 'maxTime': '12:30am'
@@ -3036,6 +3414,7 @@ $(function() {
                 }
             });
             $('#MeetUpformButton').html(languageDictValue.attributes.Save);
+            $('#meetup_description').find('label').html(App.languageDict.attributes.Description);
             $('.form .field-title label').html(languageDictValue.attributes.Title);
             $('.form .field-description label').html(languageDictValue.attributes.Description);
             $('.form .field-startDate label').html(languageDictValue.attributes.Start_date);
@@ -3163,7 +3542,7 @@ $(function() {
             resourcesTableView.render()
             App.$el.children('.body').html('')
             if (roles.indexOf("Manager") > -1) {
-                App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
+                App.$el.children('.body').append('<p id="firstHeadingOfReports" style="margin-top:10px; margin-left: 23px;"><a id="fHonRep" class="btn btn-success" href="#reports/add">'+App.languageDict.attributes.Add_a_New_Report+'</a>' +
                     '<a id="sHonRep" style="margin-left:20px" class="btn btn-success" href="#logreports">'+App.languageDict.attributes.Activity_Report+'</a>' +
                     '<a style="margin-left:20px" class="btn btn-success" href="#trendreport">'+App.languageDict.attributes.Trend+' '+App.languageDict.attributes.Activity_Report+'</a></p>')
             } else {
@@ -3184,8 +3563,8 @@ $(function() {
             } else {
                 temp = temp + ' ' +App.languageDict.attributes.Nation+' '+App.languageDict.attributes.Bell;
             }
-            App.$el.children('.body').append('<h4 id="secondHeadingOfReports"><span style="color:gray;">' + temp + '</span> | '+App.languageDict.attributes.Reports+'</h4>')
-            var tableDiv="<div id='reportTable'></div>";
+            App.$el.children('.body').append('<h4 id="secondHeadingOfReports"><span style="color:gray; margin-right:20px;margin-left:20px;">' + temp + '</span> | '+App.languageDict.attributes.Reports+'</h4>')
+            var tableDiv="<div id='reportTable' style = 'margin-right:20px;margin-left:20px;'></div>";
             App.$el.children('.body').append(tableDiv);
             $('#reportTable').append(resourcesTableView.el);
             if(directionOfLang.toLowerCase()==="right"){
@@ -4674,12 +5053,16 @@ $(function() {
                 })
                 resourceFeedback.on('sync', function() {
                     feedbackTable.render();
-                    App.$el.children('.body').html('<div id="feedbackResourceDiv"></div>');
+                    App.$el.children('.body').html('<div id="feedbackResourceDiv" style = "margin-right:20px; margin-left:20px"></div>');
                     $('#feedbackResourceDiv').append('<h3>'+App.languageDict.attributes.Feedback_For+' "' + resource.get('title') + '"</h3>')
                     var url_togo = "#resource/feedback/add/" + resourceId + "/" + resource.get('title')
                     $('#feedbackResourceDiv').append('<a class="btn btn-primary"" href="' + url_togo + '"><i class="icon-plus"></i>'+App.languageDict.attributes.Add_your_feedback+'</a>')
                     $('#feedbackResourceDiv').append('<a class="btn btn-primary" style="margin:20px" href="#resources">'+App.languageDict.attributes.Back_to_Resources+'</a>')
                     $('#feedbackResourceDiv').append(feedbackTable.el)
+                    for (var i = 0; i < resourceFeedback.length; i++) {
+                        App.Router.previewModeEditor(resourceFeedback.models[i].attributes._id,"comment")
+                        $("textarea[name='"+resourceFeedback.models[i].attributes._id+"']").hide();
+                    }
                 })
                 resourceFeedback.fetch();
             })
@@ -4717,7 +5100,7 @@ $(function() {
             feedbackForm.rtitle = resInfo.get('title')
             var user_rating
             feedbackForm.render()
-            App.$el.children('.body').html('<div id="feedbackResoDiv"></div>');
+            App.$el.children('.body').html('<div id="feedbackResoDiv" style = "margin-right:20px; margin-left:20px"></div>');
             $('#feedbackResoDiv').append('<h4 style="color:gray">'+App.languageDict.attributes.Add_Feedback_For+' '+'<span style="color:black;"> ' + resInfo.get('title') + '</span></h4>')
             $('#feedbackResoDiv').append('<p style="font-size:15px;">&nbsp;&nbsp;<span style="font-size:50px;">.</span>'+App.languageDict.attributes.Rating+'</p>')
             $('#feedbackResoDiv').append('<div id="star" data-score="0"></div>')
@@ -4726,6 +5109,8 @@ $(function() {
                 feedbackForm.setUserRating($(this).attr("alt"))
             });
             $('#feedbackResoDiv').append(feedbackForm.el);
+            App.Router.markdownEditor("comment","feedback","100")
+            $('#feedback_comment').find('label').html(App.languageDict.attributes.Comment);
             $('.bbf-form').find('.field-comment').find('label').html(App.languageDict.attributes.Comment);
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang);
@@ -5077,11 +5462,10 @@ $(function() {
                     var inviteForm = new App.Views.ListCollectionView({
                         model: collectionlist
                     })
-
                     inviteForm.render()
-
                     $('#invitationdiv').html('&nbsp')
                     $('#invitationdiv').append(inviteForm.el)
+                    App.Router.markdownEditor("description","collection","90")
                     collections.each(function(a) {
                         $('#invitationForm .bbf-form .field-NesttedUnder select').append('<option value="' + a.get('_id') + '" class="MajorCategory">' + a.get('CollectionName') + '</option>')
                     })
@@ -5128,6 +5512,7 @@ $(function() {
                 inviteForm.render()
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
+                App.Router.markdownEditor("description","collection","90")
                 $("input[name='AddedBy']").val($.cookie("Member.login"));
                 var currentDate = new Date();
                 $('#invitationForm .bbf-form .field-AddedDate input', this.el).datepicker({
@@ -5295,6 +5680,10 @@ $(function() {
                     feedul.render()
                     App.$el.children('.body').html('&nbsp')
                     App.$el.children('.body').append(feedul.el)
+                    for (var i = 0; i < feed.length; i++) {
+                        App.Router.previewModeEditor(feed.models[i].attributes._id,"feedback")
+                        $("textarea[name='"+feed.models[i].attributes._id+"']").hide();
+                    }
                 }
             })
         },
@@ -5393,6 +5782,12 @@ $(function() {
             })
             colView.render()
             App.$el.children('.body').append(colView.el);
+            for (var i = 0; i < col.length; i++) {
+                if(col.models[i].attributes._id != "_design/bell"){
+                    App.Router.previewModeEditor(col.models[i].attributes._id,"request")
+                    $("textarea[name='"+col.models[i].attributes._id+"']").hide();
+                }
+            }
             for(var i=1;i<=($('#requestsTable >tbody >tr').length)-1;i++)
             {
                 $('#requestsTable').find('tr').eq(i).find('td').eq(1).html( App.languageDict.get($('#requestsTable').find('tr').eq(i).find('td').eq(1).html()));

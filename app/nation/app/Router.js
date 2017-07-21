@@ -33,7 +33,8 @@ $(function() {
             'communityDetails/:commDocId/:requestStatus': "communityDetails",
             "communityreport/:syncDate/:name/:code(/:endDate)": "communityReport", // //issue#50:Add Last Activities Sync Date to Activity Report On Nation For Individual Communities
             //Issue#80:Add Report button on the Communities page at nation
-            'viplink': "VipLinks"
+            'viplink': "VipLinks",
+            'pullNations': 'pullNations'
         },
 
         initialize: function() {
@@ -596,7 +597,9 @@ $(function() {
             return year + '/' + month + '/' + day;
         },
         Configuration: function() {
-
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            var languageDictValue=App.Router.loadLanguageDocs(lang);
             var configCollection = new App.Collections.Configurations();
             configCollection.fetch({
                 async: false
@@ -605,16 +608,13 @@ $(function() {
             var configForm = new App.Views.Configurations({
                 model: configModel
             });
-            App.$el.children('.body').html('<div id="configTable"></div>');
+            App.$el.children('.body').html('<div id="configTable" class ="addNation-form" ></div>');
             configForm.render();
             $('#configTable').append(configForm.el);
-            var loginOfMem = $.cookie('Member.login');
-            var lang = App.Router.getLanguage(loginOfMem);
-            var languageDictValue=App.Router.loadLanguageDocs(lang);
             if(languageDictValue.get('directionOfLang').toLowerCase()==="right"){
-                $('#configTable').css({"direction":"rtl",
-                    "margin-right": "2%"});
-                $('#configTable div div h3').css('margin-right','0%');
+                $('#configTable').css({"direction":"rtl"});
+            } else {
+                $('#configTable').css({"direction":"ltr"});
             }
 
         },
@@ -2893,6 +2893,7 @@ $(function() {
             App.$el.children('.body').html('<div class="directionsAndFloat" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('Survey_Number') + ' '+ surveyModel.get('SurveyNo') + '</h6> <button id = "addQuestion" class="btn btn-success" style="float:left;margin-left:20px;margin-bottom:10px;">Add Question</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="selectCriteria(\'' + surveyId + '\')">Send by criteria</button><button class="btn btn-info" style="float:left;margin-left:20px" onclick="communitiesList(\'' + surveyId + '\')">Send to bell members</button></div> <div id="dialog" style="display: none"> <span class="subtitle">Select a Question</span> <br /> <select id="add_new_question" class="surTextArea"> <option value="1" selected="selected">Multiple Choice (Single Answer)</option> <option value="5">Rating Scale</option> <option value="6">Single Textbox</option> <option value="8">Comment/Essay Box</option> </select><div id="1"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="6"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="8"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <input type="checkbox" value="1" name="required" id="required_question"> <label id="require-surCheckBox" >Require Answer to Question.</label><br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div> </div><div id="5"> <span class="subtitle2">Question Text</span> <br /> <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> <span class="subtitle2">Answer Choices (each choice on a separate line)</span> <br /> <textarea cols="50" rows="5" id="answer_choices" name="answer_choices" class="surTextArea"></textarea> <br /> <span class="subtitle2">Column Choices</span> <br /><label id="select-ratings" >Select the number of ratings:</label> <br><select onchange="display(this.value);" name="rating_count" class="surTextArea" id="select_rating"><option value="2">2 ratings</option><option value="3">3 ratings</option><option value="4" selected="">4 ratings</option><option value="5">5 ratings</option><option value="6">6 ratings</option><option value="7">7 ratings</option><option value="8">8 ratings</option><option value="9">9 ratings</option></select><br><span id="rating1" name="rating1"><b>Label:</b> <input type="text" name="rating1_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="1" size="3" name="rating1_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating2" name="rating2"><b>Label:</b> <input type="text" name="rating2_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="2" size="3" name="rating2_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating3" name="rating3"><b>Label:</b> <input type="text" name="rating3_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="3" size="3" name="rating3_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span id="rating4" name="rating4"><b>Label:</b> <input type="text" name="rating4_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="4" size="3" name="rating4_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating5" name="rating5"><b>Label:</b> <input type="text" name="rating5_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="5" size="3" name="rating5_weight" class="textBoxesOnSurvey" disabled="true"><br></span><span style="display:none;" id="rating6" name="rating6"><b>Label:</b> <input type="text" name="rating6_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="6" size="3" name="rating6_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating7" name="rating7"><b>Label:</b> <input type="text" name="rating7_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="7" size="3" name="rating7_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating8" name="rating8"><b>Label:</b> <input type="text" name="rating8_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="8" size="3" name="rating8_weight" class="textBoxesOnSurvey" disabled="true"><br></span> <span style="display:none;" id="rating9" name="rating9"><b>Label:</b> <input type="text" name="rating9_label" class="textBoxesOnSurvey ratingLabels"> <b>Weight:</b> <input type="text" value="9" size="3" name="rating9_weight" class="textBoxesOnSurvey" disabled="true"><br></span><script> function display(val) { if (val == "2") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = "none"; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "3") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = "none"; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "4") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = "none"; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "5") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = "none"; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "6") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = "none"; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "7") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = "none"; document.getElementById("rating9").style.display = "none"; } else if (val == "8") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = "none"; } else if (val == "9") { document.getElementById("rating1").style.display = ""; document.getElementById("rating2").style.display = ""; document.getElementById("rating3").style.display = ""; document.getElementById("rating4").style.display = ""; document.getElementById("rating5").style.display = ""; document.getElementById("rating6").style.display = ""; document.getElementById("rating7").style.display = ""; document.getElementById("rating8").style.display = ""; document.getElementById("rating9").style.display = ""; } } </script> <span class="subtitle2">&nbsp;</span> <br /><span class="subtitle2">&nbsp;</span> <br /> <input type="checkbox" value="1" name="required" id="required_question"><label id="require-surCheckBox" >Require Answer to Question.</label> <br /> <div align="center"> <br /> <input type="submit" value="Save Question" class="default_btn saveQuestionButton saveSurQuestion"> </div></div></div>')
             $('#addQuestion').text(App.languageDictValue.get('Add_Question'));
             $('#sendSurveyBtn').text(App.languageDictValue.get('Send_to_communities'));
+            $('.directionsAndFloat').append("<a class='btn btn-info' style='margin-left: 10px;' onclick=App.Router.downloadCommunitySurveys('" + surveyModel.get('SurveyNo') + "," + surveyModel.get('SurveyTitle') + "','')>" +App.languageDictValue.attributes.Download+"</a>")
             $(function () {
                 var originalContent;
                 $("#dialog").dialog({
@@ -3237,7 +3238,7 @@ $(function() {
             });
         },
 
-        downloadCommunitySurveys: function (surveyNo, surTitle) {
+        downloadCommunitySurveys: function (surveyNo, surTitle, questionId) {
             var that = this;
             $.ajax({
                 url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
@@ -3275,40 +3276,43 @@ $(function() {
                                 async: false
                             });
                             var answerModels = answersColl.models;
+                            console.log(answerModels.attributes)
                             var answersArray = [];
                             for(var k = 0 ; k < answerModels.length ; k++) {
                                 answersArray.push(answerModels[k].attributes);
                             }
                             for(var x = 0 ; x < answersArray.length ; x++) {
-                                if(answersArray[x].Answer.length > 0) {
-                                    if(answersArray[x].Type == 'Rating Scale') {
-                                        for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
+                                if(questionId == '' || (questionId && ( surveyResModels[j].questions[x] == questionId))){
+                                    if(answersArray[x].Answer.length > 0) {
+                                        if(answersArray[x].Type == 'Rating Scale') {
+                                            for(var y = 0 ; y < answersArray[x].Options.length ; y++) {
+                                                var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "Language":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
+                                                JSONObj.Community = commName;
+                                                JSONObj.Gender = gender;
+                                                JSONObj.BirthYear = birthYear;
+                                                JSONObj.Language = memberLanguage;
+                                                JSONObj.QType = answersArray[x].Type;
+                                                JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
+                                                JSONObj.Options = answersArray[x].Ratings;
+                                                if(answersArray[x].Answer[y] != undefined) {
+                                                    JSONObj.Answer = answersArray[x].Answer[y];
+                                                }
+                                                jsonObjectsData.push(JSONObj)
+                                            }
+                                        } else {
                                             var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "Language":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
                                             JSONObj.Community = commName;
                                             JSONObj.Gender = gender;
                                             JSONObj.BirthYear = birthYear;
                                             JSONObj.Language = memberLanguage;
                                             JSONObj.QType = answersArray[x].Type;
-                                            JSONObj.QStatement = answersArray[x].Statement + '--' + answersArray[x].Options[y];
-                                            JSONObj.Options = answersArray[x].Ratings;
-                                            if(answersArray[x].Answer[y] != undefined) {
-                                                JSONObj.Answer = answersArray[x].Answer[y];
+                                            JSONObj.QStatement = answersArray[x].Statement;
+                                            if(answersArray[x].Options){
+                                                JSONObj.Options = answersArray[x].Options;
                                             }
+                                            JSONObj.Answer = answersArray[x].Answer;
                                             jsonObjectsData.push(JSONObj)
                                         }
-                                    } else {
-                                        var JSONObj = {"Community":"", "Gender":"", "BirthYear":"", "Language":"", "QType":"", "QStatement":"", "Options":[], "Answer":[]};
-                                        JSONObj.Community = commName;
-                                        JSONObj.Gender = gender;
-                                        JSONObj.BirthYear = birthYear;
-                                        JSONObj.Language = memberLanguage;
-                                        JSONObj.QType = answersArray[x].Type;
-                                        JSONObj.QStatement = answersArray[x].Statement;
-                                        if(answersArray[x].Options){
-                                            JSONObj.Options = answersArray[x].Options;
-                                        }
-                                        JSONObj.Answer = answersArray[x].Answer;
-                                        jsonObjectsData.push(JSONObj)
                                     }
                                 }
                             }
@@ -3610,6 +3614,10 @@ $(function() {
             $('#see-all', feedul.$el).trigger("click");
             App.$el.children('.body').html('&nbsp')
             App.$el.children('.body').append(feedul.el)
+            for (var i = 0; i < fed.length; i++) {
+                App.Router.previewModeEditor(fed.models[i].attributes._id,"feedback")
+                $("textarea[name='"+fed.models[i].attributes._id+"']").hide();
+            }
             $("#previousButton").hide()
             $("#progress_img").hide()
         },
@@ -3877,11 +3885,16 @@ $(function() {
                 window.location.href = "../MyApp/index.html#login";
             }
         },
-
         getPendingRequests: function() {
             var jsonModels = [];
+            if($.cookie('selectCommunity')){
+                url = '/communityregistrationrequests/_design/bell/_view/getCommunityByRegion?include_docs=true&key="'+$.cookie('selectCommunity')+'"'
+            }
+            else {
+                url ='/communityregistrationrequests/_design/bell/_view/getAllCommunities?_include_docs=true'
+            }
             $.ajax({
-                url: '/communityregistrationrequests/_design/bell/_view/getAllCommunities?_include_docs=true',
+                url: url,
                 type: 'GET',
                 dataType: 'json',
                 async: false,
@@ -3898,6 +3911,40 @@ $(function() {
             });
             return jsonModels;
         },
+        getUniqueRegion: function() {
+            var jsonModels = [];
+            var jsonModels1 = [];
+            $.ajax({
+                url: '/communityregistrationrequests/_design/bell/_view/getCommunityByUniqueRegion?group=true',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (json) {
+                    for(var i = 0 ; i < json.rows.length ; i++) {
+                            jsonModels.push(json.rows[i].value);
+                    }
+                    $.ajax({
+                        url: '/community/_design/bell/_view/getCommunityByUniqueRegion?group=true',
+                        type: 'GET',
+                        dataType: 'json',
+                        async: false,
+                        success: function (json) {
+                            for(var i = 0 ; i < json.rows.length ; i++) {
+                                    jsonModels1.push(json.rows[i].value);
+                                }
+                        },
+                        error: function (status) {
+                            console.log(status);
+                        }
+                    });
+                },
+                error: function (status) {
+                    console.log(status);
+                }
+            });
+            return jsonModels.concat(jsonModels1);
+
+        },
 
         ListCommunitiesRequest: function(startDate){
             var that = this;
@@ -3907,11 +3954,17 @@ $(function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
-            var Communities = new App.Collections.Community();
+            var Communities = new App.Collections.Community({status : 'NoPending'});
+            if($.cookie('selectCommunity')){
+                var Communities = new App.Collections.Community({ 
+                    selectCommunity: $.cookie('selectCommunity')
+                });
+            }else{
+                var Communities = new App.Collections.Community();
+            }
             Communities.fetch({
-                    async: false
-                }
-            );
+                async: false
+            });
             CommunityTable = new App.Views.CommunityRequestsTable({
                 collection: Communities,
                 startDate: startDate,
@@ -3923,7 +3976,7 @@ $(function() {
             var temp = $.url().data.attr.host.split(".")
             var nationName = temp[0];
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
+                url: 'http://' + nationUrl + '/activitylog/_design/bell/_view/getDocumentByDate?sorted=true&limit=1',
                 type: 'GET',
                 dataType: 'jsonp',
                 async: false,
@@ -3931,7 +3984,7 @@ $(function() {
 		    urlFrag = $.url().data.attr.fragment.split('/');
 		    if(urlFrag[1]) {
 		        selDate = urlFrag[1].split('-');
-			setDt = new Date(selDate[0], selDate[1]-1, 01, 00, 00, 00);
+                setDt = new Date(selDate[0], selDate[1]-1, 01, 00, 00, 00);
 		    } else {
 		        setDt = new Date();
 		    }
@@ -3944,14 +3997,33 @@ $(function() {
                         firstDt = new Date();
 	            }
 	            today = new Date();
+                var getRegion = that.getUniqueRegion();
+                if(getRegion !=""){
+                   var getSelectRegion = '<option value="">'+App.languageDictValue.get('Select_Community_ByRegion')+'</option>';
+                        for(var i=0; i<getRegion.length; i++){
+                            getSelectRegion += '<option value="'+getRegion[i]+'">'+getRegion[i]+'</option>';
+                        }
+                         SelectRegion = '<select id="selectCommunity">'+getSelectRegion+'</select>';
+                }
 	            var listCommunity ="<h3>"+App.languageDictValue.get('Communities_request')+"</h3>";
+
 	            if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
 	                listCommunity += '<input class="date-picker"/><style>.ui-datepicker-calendar{display: none;}.date-picker{width:300px;float:right;}</style>';
 	            }
 	            listCommunity += "<div id='list-of-Communities'></div>"
-                    App.$el.children('.body').html('<div id="communityDiv"></div>');
+                App.$el.children('.body').html('<div id="communityDiv">');
+                 if(getRegion !="")
+                    $('#communityDiv').append(SelectRegion);
 	            $('#communityDiv').append(listCommunity);
-                    
+                if($.cookie('selectCommunity'))
+                    $('#selectCommunity option[value="'+$.cookie('selectCommunity')+'"').attr("selected",'selected');
+                $('#selectCommunity').change(function(){
+                    $.cookie('selectCommunity',$(this).val(), '');
+                    if($.cookie('selectCommunity'))
+                        $('#selectCommunity option[value="'+$.cookie('selectCommunity')+'"').attr("selected","selected");
+                    location.reload();
+                });
+                for (var it in $.cookie()) $.removeCookie(it);
 	            if(firstDt.getFullYear() != today.getFullYear() || firstDt.getMonth() != today.getMonth()) {
 	                $('input.date-picker').datepicker({
                             minDate: firstDt,
@@ -4490,6 +4562,7 @@ $(function() {
             var nationUrl = $.url().data.attr.authority;
             var nationPort = nationUrl.split(':')[1];
             var docIDs=[];
+            var accepted_docIDs=[];
             $.ajax({
                 url: 'http://' + centralNationUrl + '/communityregistrationrequests/_design/bell/_view/getCommunityByNationUrl?_include_docs=true&key="' + nationPort + '"',
                 type: 'GET',
@@ -4499,11 +4572,32 @@ $(function() {
                     var jsonModels = json.rows;
                     for(var i = 0 ; i < jsonModels.length ; i++) {
                         var community = jsonModels[i].value;
-                        if(community.registrationRequest=="pending"){
-                            docIDs.push(community._id);
-                        }
+                        docIDs.push(community._id);
                     }
+
                     $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                            "target": 'community',
+                            'doc_ids': docIDs
+                        }),
+                        async: false,
+                        success: function (response) {
+                            console.log('Successfully replicated all accepted requests to community.')
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
+
+                   $.ajax({
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json; charset=utf-8'
@@ -4529,6 +4623,87 @@ $(function() {
                     console.log(status);
                 }
             });
+        },
+
+        pullNations: function(){
+            var loginOfMem = $.cookie('Member.login');
+            var lang = App.Router.getLanguage(loginOfMem);
+            App.languageDictValue=App.Router.loadLanguageDocs(lang);
+            App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
+
+            App.$el.children('.body').html('');
+            var language = languageDict = App.languageDictValue;
+            var getResourcesView = new App.Views.PullNations();
+            getResourcesView.render();
+            App.$el.children('.body').append(getResourcesView.el)
+        },
+
+        markdownEditor: function(field,type, height) {
+            marked.setOptions({
+                smartLists: true
+            });
+            $("#"+type+"_"+field).prepend('<a id="'+type+"_"+field+'_link" style="float:right; margin-right: 5%;">'+App.languageDictValue.get("Markdown")+'</a>');
+            $("#markdown_"+type+"_"+field).prepend('<a id="markdown_'+type+"_"+field+'_link" style=" float:right; margin-right: 5%;">'+App.languageDictValue.get("Rich_Text")+'</a>');
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").css('width', '500px');
+            $( "#markdown_"+type+"_"+field ).hide();
+            var remL = new reMarked(),
+                $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']"),
+                redL = null,
+                $mdnL = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            if(height == undefined){
+                height = 180
+            }
+            $redL.redactor({
+                buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                minHeight: height,
+                keyupCallback: showMdL,
+                execCommandCallback: showMdL
+            });
+            $("#"+type+"_"+field+" textarea[name='"+field+"Output']").parents('.redactor_box').find('.redactor_editor').css({'height': height});
+            $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").css({'height': height});
+            redL = $redL.data('redactor');
+            var html = marked($mdnL.val());
+                //clean = red.stripTags(html);
+            redL.$editor.html(html);
+            redL.syncCode();
+            $mdnL.on("keyup", function() {
+                var html = marked(this.value),
+                    clean = redL.stripTags(html);
+                redL.$editor.html(html);
+                redL.syncCode();
+            });
+            function showMdL() {
+                setTimeout(function() {
+                    var html = redL.getCode();
+                    $mdnL.val(remL.render(html));
+                }, 1000);
+            }
+            $( '#'+type+"_"+field+'_link' ).click(function() {
+                 $( "#markdown_"+type+"_"+field ).show();
+                 $( '#'+type+"_"+field ).hide();
+            });
+            $( "#markdown_"+type+"_"+field+'_link' ).click(function() {
+                $( "#markdown_"+type+"_"+field ).hide();
+                 $( '#'+type+"_"+field ).show();
+            });
+        },
+        previewModeEditor: function (field,type) {
+            mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']").val();
+            var html = marked(mdn);
+            $('<div id="'+type+'_'+field+'Preview">'+html+'</div>').insertBefore("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+        },
+
+        markdownDestory: function (field,type) {
+            $('#'+type+'_'+field+'Preview').remove();
+        },
+
+        markdownReInit: function (field,type) {
+            $mdn = $("#markdown_"+type+"_"+field+" textarea[name='"+field+"']");
+            $redL = $("#"+type+"_"+field+" textarea[name='"+field+"Output']");
+            redL = $redL.data('redactor');
+            var html = marked($($mdn).val());
+            redL.$editor.html(html);
+            redL.syncCode();
         }
     }))
 })

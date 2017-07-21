@@ -1,7 +1,13 @@
 /*This stylesheet is supposed to applied on page for LTR languages like English, Spanish etc*/
 .body {
     direction: ltr;
+    margin-bottom: 30px;
 }
+div#parentLibrary{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+/*
 /*input::-moz-focus-inner {
     border: 0;
     padding: 0;
@@ -548,7 +554,7 @@ padding-top: 5px;
 }
 #next_button
 {
-    width:45%;
+    width:35%;
     float: right;
 
 }
@@ -563,7 +569,7 @@ padding-top: 5px;
 }
 #previous_button
 {
-    width:45%;
+    width:35%;
 }
 .search-bottom-nav-table {
     width: 100%;
@@ -735,13 +741,6 @@ float:right;
 margin-left: 1px;
 width: 33%;
 }
-
- textarea[name="comment"]
- {
-  border-radius: 20px;
-    height: 100%;
-    width: 87%;
- }
 #site-feedback .bbf-form{
 height: 72%;
 }
@@ -997,15 +996,56 @@ margin-top: 20px;
 }
 .forgot-password-div{
     margin-top: 35px;
+    text-align: center;
 }
 a.forgot-password-form-button{
     color: #3498db;
     font-size: 16px;
-    text-align: center;
-    margin-left: 104px;
-    margin-top: 20px;
 }
 a.forgot-password-form-button:hover{
     cursor: pointer;
     color: #3498db;
+}
+a#search1 {
+    margin-left: 340px;
+    margin-top: -105px;
+    width: 150px;
+}
+a#Close {
+    margin-right: 4px;
+    float: right;
+    margin-top: 5px;
+}
+form > fieldset > ul > li.bbf-field.field-selectLanguage {
+    list-style-type: none;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+#accept div input[name=accept]{
+    margin-top: -45px;
+    margin-left: 242px;
+    margin-top: -65px;
+}
+.redactor_color_none {
+    display: none !important;
+}
+.redactor_textbox{
+    float:none !important;
+}
+.redactor_textbox .bbf-editor{
+    width:95%;
+}
+.redactor_textbox .redactor_box{
+    width:100%;
+    margin-bottom: 10px; 
+}
+.redactor_textbox textarea{
+    padding:1%;
+    width:98%;
+}
+.redactor_.redactor_editor{
+    color:black;
+}
+.answersection table{
+    width: 100%;
 }

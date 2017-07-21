@@ -28,7 +28,7 @@ class SauceLabsSession extends Helper {
       let browser = client.helpers['WebDriverIO'].browser;
       //console.log(browser);
       for (let k in client.loginCookies) {
-        console.log(client.loginCookies[k]);
+        // console.log(client.loginCookies[k]);
         yield browser.setCookie({ name: client.loginCookies[k].name, value: client.loginCookies[k].value });
       }
     })

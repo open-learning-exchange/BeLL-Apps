@@ -20,6 +20,13 @@ ddoc.views = {
             }
         }
     },
+    GetCourseStepByCourseID: {
+        map: function(doc) {
+            if (doc && doc.courseId) {
+                emit(doc.courseId, doc._id);
+            }
+        }
+    }
 }
 
 module.exports = ddoc;

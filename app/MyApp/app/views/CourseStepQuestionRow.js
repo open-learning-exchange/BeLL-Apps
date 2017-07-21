@@ -57,8 +57,11 @@
                 var courseQuizEdit = new App.Views.TestView();
                 courseQuizEdit.questionModel = this.model;
                 courseQuizEdit.coursesavefunction(this.Id, true, this.model);
+                App.Router.markdownReInit("question_text","questiontype1")
+                App.Router.markdownReInit("question_text","questiontype2")
+                App.Router.markdownReInit("question_text","questiontype3")
+                App.Router.markdownReInit("question_text","questiontype4")
             }
-
         },
 
         vars: {},
@@ -73,6 +76,7 @@
             var vars = this.model.toJSON();
             vars.languageDict=App.languageDict;
             this.$el.append(this.template(vars));
+
         },
     })
 })

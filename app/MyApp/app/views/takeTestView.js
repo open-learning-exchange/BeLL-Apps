@@ -31,12 +31,34 @@ $(function() {
             },
             "click #nextPressed": function() {
                 this.nextquestion("next");
+                App.Router.previewModeEditor(this.Questionlist[this.index],"answer")
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
+                var questionlist = new App.Models.CourseQuestion({
+                    _id: this.Questionlist[this.index]
+                })
+                questionlist.fetch({
+                    async: false
+                });
+                if(questionlist.attributes.Type == "Comment/Essay Box"){
+                    App.Router.markdownEditor("description","essay")
+                }
             },
             "click #resetButton":function(e){
                 this.resetanswer();
             },
             "click #previousPressed": function(e){
                 this.nextquestion("previous");
+                App.Router.previewModeEditor(this.Questionlist[this.index],"answer")
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
+                var questionlist = new App.Models.CourseQuestion({
+                    _id: this.Questionlist[this.index]
+                })
+                questionlist.fetch({
+                    async: false
+                });
+                if(questionlist.attributes.Type == "Comment/Essay Box"){
+                    App.Router.markdownEditor("description","essay")
+                }
             }
         },
 
@@ -44,8 +66,8 @@ $(function() {
             if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
                 $("input[type='text'][name='singleLineAnswer']").val("")
                 delete this.Givenanswers[$("input[name=question_id]").val()]
-            }else if($("input[type='text'][name='commentEssay']").val() != undefined ){
-                $("input[type='text'][name='commentEssay']").val("")
+            }else if($("#commentEssay").val() != undefined ){
+                $("#commentEssay").val("")
                 delete this.Givenanswers[$("input[name=question_id]").val()]
             }else if($("input[type='hidden'][name='_attachment']").val() != undefined){
                 $("input[type='hidden'][name='_attachment']").val("")
@@ -66,9 +88,9 @@ $(function() {
                     this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));   
                 }
                 this.renderQuestion(e);
-            } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
-                if($("input[type='text'][name='commentEssay']").val() !=""){
-                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+            } else if ($("#commentEssay").val() != undefined ) {
+                if($("#commentEssay").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("#commentEssay").val()));
                 }
                 this.renderQuestion(e);
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
@@ -162,12 +184,13 @@ $(function() {
                 } else { 
                     this.sstatus = "0"
                 }
-            }
-            if (anslist != this.TotalCount){
-                this.sstatus = -1
-            }
-            else {
-                this.sstatus = null
+            }else{
+                if (anslist != this.TotalCount){
+                    this.sstatus = -1
+                }
+                else {
+                    this.sstatus = null
+                }
             }
         },
 
@@ -181,15 +204,18 @@ $(function() {
             this.stepindex = this.options.stepIndex
             this.Givenanswers = []
             var pqattempt = this.myModel.get('pqAttempts')
-            var courseAnswer = new App.Collections.CourseAnswer()
-            courseAnswer.StepID = this.stepId
-            courseAnswer.MemberID = $.cookie('Member._id')
-            courseAnswer.pqattempts = pqattempt[this.stepindex]
-            courseAnswer.fetch({
-                async: false
-            })
-            for (var i = 0; i < courseAnswer.length; i++) {
-                this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
+            var sStatus = this.myModel.get('stepsStatus')
+            if( sStatus[this.stepindex][pqattempt[this.stepindex]] == null || sStatus[this.stepindex][pqattempt[this.stepindex]] == -1){
+                var courseAnswer = new App.Collections.CourseAnswer()
+                courseAnswer.StepID = this.stepId
+                courseAnswer.MemberID = $.cookie('Member._id')
+                courseAnswer.pqattempts = pqattempt[this.stepindex]
+                courseAnswer.fetch({
+                    async: false
+                })
+                for (var i = 0; i < courseAnswer.length; i++) {
+                    this.Givenanswers[courseAnswer.models[i].attributes.QuestionID] = courseAnswer.models[i].attributes.Answer
+                }
             }
 
         },
@@ -240,15 +266,15 @@ $(function() {
                 this.$el.append(this.template(this.vars));
                 //this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 this.$el.append('<div class="quizActions" ></div>')
-                this.$el.find('.quizActions').append('<div  style="margin-right: 303px;" class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
+                this.$el.find('.quizActions').append('<div  style="margin-right: 303px; margin-bottom: -149px;" class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
                 if(this.index !=0){
-                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="previousPressed">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
+                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="previousPressed" style="margin-bottom: -149px;">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
                 }
-                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
+                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed" style="margin-bottom: -149px;" >'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
                 if((this.index + 1) != this.TotalCount){
-                    this.$el.find('.quizActions').append('<div style="margin-right: 303px;" class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
+                    this.$el.find('.quizActions').append('<div style="margin-right: 303px; margin-bottom: -152px;" class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
                 }
-                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Btn_Cancel+'</div>')
+                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exitPressed" style="margin-bottom: -149px;">'+App.languageDict.attributes.Btn_Cancel+'</div>')
             } else {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')

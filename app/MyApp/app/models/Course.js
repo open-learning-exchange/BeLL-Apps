@@ -25,7 +25,14 @@ $(function() {
                 type: 'Select',
                 options: null
             },
-            description: 'TextArea',
+            descriptionOutput: {
+                type: 'TextArea',
+                fieldAttrs: {id:'course_description',class:'bbf-field redactor_textbox'}
+            },
+            description: {
+                type: 'TextArea',
+                fieldAttrs: {id:'markdown_course_description',class:'bbf-field redactor_textbox'}
+            },
             method: 'Text',
             gradeLevel: { //Defines that given course is designed to be taught for which level of education.
                 type: 'Select',
