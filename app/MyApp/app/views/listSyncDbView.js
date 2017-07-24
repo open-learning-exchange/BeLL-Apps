@@ -69,7 +69,6 @@ $(function() {
 					} else if ($(this).val() == 'CourseProgress') {
 						context.syncCourseProgress();
 					} else if ($(this).val() == 'CourseAnswers') {
-						console.log($(this).val() == 'CourseAnswers')
 						context.syncCourseAnswers();
 					}
 					if ($(this).val() == 'Application') {
