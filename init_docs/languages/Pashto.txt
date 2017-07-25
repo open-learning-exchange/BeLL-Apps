@@ -934,5 +934,7 @@
   "Download_Summary":"Download Summary",
   "Select_Community_ByRegion":"Filter Community by Region",
   "Markdown":"Markdown",
-  "Rich_Text":"Rich Text"
+  "Rich_Text":"Rich Text",
+  "Course_Answers":"Course Answers",
+  "Course_Answers_Replicated":"Course Answers Replicated"
 }

@@ -934,5 +934,7 @@
   "Download_Summary":"crwdns16362:0crwdne16362:0",
   "Select_Community_ByRegion":"crwdns16364:0crwdne16364:0",
   "Markdown":"crwdns16367:0crwdne16367:0",
-  "Rich_Text":"crwdns16368:0crwdne16368:0"
+  "Rich_Text":"crwdns16368:0crwdne16368:0",
+  "Course_Answers":"crwdns16369:0crwdne16369:0",
+  "Course_Answers_Replicated":"crwdns16370:0crwdne16370:0"
 }
