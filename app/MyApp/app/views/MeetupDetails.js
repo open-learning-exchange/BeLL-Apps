@@ -57,7 +57,7 @@ $(function() {
 
             this.$el.append('<tr><td><b>'+languageDictValue.attributes.Title+'  </b></td><td>' + vars.title + ' | ' + vars.category + '</td></tr>')
             this.$el.append('<tr><td><b>'+languageDictValue.attributes.Category+'  </b></td><td>' + vars.category + '</td></tr>')
-            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Description+' </b></td><td>' + vars.description + '</td></tr>')
+            this.$el.append('<tr><td><b>'+languageDictValue.attributes.Description+' </b></td><td id="markdown_meetupdashboard_description"><textarea name="description">' + vars.description + '</textarea></td></tr>')
             this.$el.append('<tr><td><b>'+languageDictValue.attributes.Location+' </b></td><td>' + vars.meetupLocation + '</td></tr>')
             this.$el.append('<tr><td><b>'+languageDictValue.attributes.Date+' </b></td><td>' + vars.startDate + ' --- ' + vars.endDate + '</td></tr>')
             this.$el.append('<tr><td><b>'+languageDictValue.attributes.Time+' </b></td><td>' + vars.startTime + ' --- ' + vars.endTime + '</td></tr>')

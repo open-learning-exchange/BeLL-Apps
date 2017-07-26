@@ -55,7 +55,7 @@ $(function () {
             console.log('Information of Leader');
             this.$el.append('<tr><td>'+App.languageDict.attributes.Name+' : </td><td>' + courseInfo.name + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Levels+' : </td><td>' + courseInfo.subjectLevel + '</td></tr>')
-            this.$el.append('<tr><td>'+App.languageDict.attributes.Description+' : </td><td>' + courseInfo.description + '</td></tr>')
+            this.$el.append('<tr><td>'+App.languageDict.attributes.Description+' : </td><td id="markdown_coursedetail_description"><textarea name="description">' + courseInfo.description + '</textarea></td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Name+' : </td><td>' + leaderNames + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Email+' : </td><td>' + leaderEmails + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Phone_Number+': </td><td>' + leaderPhones + '</td></tr>')
