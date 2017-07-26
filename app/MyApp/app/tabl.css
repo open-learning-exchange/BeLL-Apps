@@ -539,7 +539,6 @@ h3 a{
 
 .courseInfo-header
 {
-    width: 940px;
     color:white;
-    margin:0px auto;
+    margin-left:20px;
 }
