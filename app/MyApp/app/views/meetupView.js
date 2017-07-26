@@ -32,7 +32,7 @@ $(function() {
             inviteModel.senderId = $.cookie('Member._id')
             inviteModel.type = this.model.get("kind")
             inviteModel.title = this.model.get("title")
-            inviteModel.description = this.model.get("description")
+            inviteModel.description = marked(this.model.get("description"))
             var inviteForm = new App.Views.MeetupInvitation({
                 model: inviteModel
             })
