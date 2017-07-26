@@ -2381,8 +2381,7 @@ $(function() {
             })
             viewCourseInfo.leader = memberModelArr
             viewCourseInfo.render()
-            App.$el.children('.body').html("&nbsp")
-            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;&nbsp;&nbsp;&nbsp<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a>&nbsp;&nbsp;</div>')
+            App.$el.children('.body').append('<div class="courseInfo-header"><a href="#usercourse/details/' + courseId + '/' + courseModel.get('name') + '"><button type="button" class="btn btn-info" id="back">'+App.languageDict.attributes.Back+'</button></a>&nbsp;<a href="#course/resign/' + courseId + '"><button id="resignCourse" class="btn resignBtn btn-danger" value="0">'+App.languageDict.attributes.Resign+'</button></a></div><div><h4 style="padding-top: 10px; margin-left: 20px;">'+App.languageDict.attributes.Course_Information+'</h4></div>')
             App.$el.children('.body').append(viewCourseInfo.el);
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
         },

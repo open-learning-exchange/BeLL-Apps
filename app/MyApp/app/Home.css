@@ -1056,3 +1056,7 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 #addIndividualResource{
     width:110px;
 }
+.courseInfo{
+    width:97%;
+    margin-left:20px;
+}

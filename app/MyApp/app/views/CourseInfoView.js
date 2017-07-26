@@ -6,9 +6,8 @@ $(function () {
         authorName: null,
         tagName: "table",
 
-        className: "courseInfo-table",
+        className: "table table-hover table-striped courseInfo",
         initialize: function () {
-            this.$el.html('<th colspan="20">'+App.languageDict.attributes.Course_Information+'</th>')
         },
 
         add: function (model) {
