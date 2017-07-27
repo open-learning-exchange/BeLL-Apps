@@ -1532,8 +1532,10 @@ $(function() {
                 })
                 // Set up the form
                 modelForm.render();
-                $('#course_description').find('label').html(App.languageDict.attributes.Description);
-                App.Router.markdownEditor("description","course")
+                if(url_page=="course/add"){
+                    $('#course_description').find('label').html(App.languageDict.attributes.Description);
+                    App.Router.markdownEditor("description","course")
+                }
                 $('.bbf-form .field-courseLeader .bbf-editor select').attr('multiple','multiple');
                 $('.form .field-startDate input').datepicker({
                     todayHighlight: true
