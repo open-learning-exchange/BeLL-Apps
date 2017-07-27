@@ -1505,7 +1505,7 @@ $(function() {
                 })
                 nameOfLabel=label;
                 App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
-                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
+                $('#AddCourseMainDiv').append('<h3 style="margin-left:22px;">'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
             }
             else if (modelId) {
                 model.id = modelId
@@ -1514,12 +1514,12 @@ $(function() {
                 })
                 nameOfLabel="Edit_"+label;
                 App.$el.children('.body').html('<div id="AddCourseMainDiv"></div>');
-                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
+                $('#AddCourseMainDiv').append('<h3 style="margin-left:22px;">'+languageDictValue.get(nameOfLabel) + ' | ' + model.get('firstName') + '  ' + model.get('lastName') + '</h3>')
 
 
             } else {
                 nameOfLabel="Add_"+label;
-                $('#AddCourseMainDiv').append('<h3>'+languageDictValue.get(nameOfLabel)+'</h3>')
+                $('#AddCourseMainDiv').append('<h3 style="margin-left:22px;">'+languageDictValue.get(nameOfLabel)+'</h3>')
             }
             $('#AddCourseMainDiv').append(modelForm.el)
             // Bind form events for when Course is ready
