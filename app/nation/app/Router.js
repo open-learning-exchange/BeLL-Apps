@@ -3913,7 +3913,6 @@ $(function() {
         },
         getUniqueRegion: function() {
             var jsonModels = [];
-            var jsonModels1 = [];
             $.ajax({
                 url: '/communityregistrationrequests/_design/bell/_view/getCommunityByUniqueRegion?group=true',
                 type: 'GET',
@@ -3923,27 +3922,12 @@ $(function() {
                     for(var i = 0 ; i < json.rows.length ; i++) {
                             jsonModels.push(json.rows[i].value);
                     }
-                    $.ajax({
-                        url: '/community/_design/bell/_view/getCommunityByUniqueRegion?group=true',
-                        type: 'GET',
-                        dataType: 'json',
-                        async: false,
-                        success: function (json) {
-                            for(var i = 0 ; i < json.rows.length ; i++) {
-                                    jsonModels1.push(json.rows[i].value);
-                                }
-                        },
-                        error: function (status) {
-                            console.log(status);
-                        }
-                    });
                 },
                 error: function (status) {
                     console.log(status);
                 }
             });
-            return jsonModels.concat(jsonModels1);
-
+            return jsonModels;
         },
 
         ListCommunitiesRequest: function(startDate){
