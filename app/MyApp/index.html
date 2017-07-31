@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="app/app.css"/>
     <link rel="stylesheet" href="app/fullcalendar.css"/>
     <link rel="stylesheet" href="app/flat-ui.css"/>
-    <link rel="stylesheet" href="app/morris.css"/>
     <link rel="stylesheet" href="app/jqueryui.css"/>
     <link rel="stylesheet" href="app/Home-Urdu.css" type="text/css" disabled="disabled">
     <link rel="stylesheet" href="app/Home.css"/>
@@ -19,7 +18,7 @@
     <link rel="stylesheet" href="app/style.css"/>
 
     <link rel="stylesheet" href="vendor/jquery.timepicker.css"/>
-    <link rel="stylesheet" href="vendor/jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" href="vendor/jquery/jquery-ui.css"/>
     <link rel="stylesheet" href="vendor/backbone-ui.css"/>
 
 
@@ -35,9 +34,7 @@
     -->
 
     <script src="vendor/Spin.js"></script> <!-- app/vendor.js -->
-    <script src="vendor/jquery-1.7.2.js"></script> <!-- app/vendor.js -->
-    <script src="vendor/jquery-ui.js"></script> <!-- app/vendor.js -->
-    <script src="vendor/jquery-ui.custom.min.js"></script> <!-- app/vendor.js -->
+    <script src="vendor/jquery/jquery-1.12.4.js"></script> <!-- app/vendor.js -->
     <script src="vendor/fullcalendar.min.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jquery.timepicker.js"></script> <!-- app/vendor.js -->
     <script src="vendor/Spin.js"></script> <!-- app/vendor.js -->
@@ -51,7 +48,6 @@
     <script src="vendor/jquery.form.js"></script> <!-- app/vendor.js -->
     <script src="vendor/sha1.js"></script> <!-- app/vendor.js -->
     <script src="vendor/moment.min.js"></script> <!-- app/vendor.js -->
-    <script src="vendor/jquery.couch.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jquery.cookie.js"></script> <!-- app/vendor.js -->
     <script src="vendor/backbone.couchdb.js"></script> <!-- app/vendor.js -->
     <script src="vendor/html-encode.js"></script> <!-- app/vendor.js -->
@@ -59,8 +55,7 @@
     <script src="vendor/bootstrap/js/bootstrap.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jquery.raty.js"></script> <!-- app/vendor.js -->
     <script src="vendor/raphael.js"></script> <!-- app/vendor.js -->
-    <script src="vendor/morris.js"></script> <!-- app/vendor.js -->
-    <script src="vendor/jquery-ui-1.10.3.custom.js"></script> <!-- app/vendor.js -->
+    <script src="vendor/jquery/jquery-ui.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jquery-ui.multidatespicker.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jquery.popupoverlay.js"></script> <!-- app/vendor.js -->
     <script src="vendor/moment.min.js"></script> <!-- app/vendor.js -->
@@ -1444,7 +1439,7 @@
     </script>
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
-        <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
+        <div style="width:95%; margin-left: 15px"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
         <%if(questionlist != null) {%>
             <%for(var i = 0; i< questionlist.length; i++){%>
                 <% questionlist = []%>
