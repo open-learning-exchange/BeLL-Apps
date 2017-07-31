@@ -249,13 +249,21 @@ $(function() {
                     validOptionValues.push(result);
                 }
             });        
-                var valid_answer=[];
-            $( "input[type=checkbox]").each(function() {
-                if($(this).is(':checked') == true){
-                    var correct=$(this).parent('div').find('input[name="mytext[]"]').val();
-                    valid_answer.push(correct);
-                } 
-            });
+            var valid_answer=[];
+            if($('input[name="mytext[]"]').val()!== "" && $("input[type=checkbox]").is(':checked') !== true){
+               alert(App.languageDict.attributes.Please_provide_atleast_one_correct_answer);
+               return false;
+            }else if($('input[name="mytext[]"]').val() === "" && $("input[type=checkbox]").is(':checked') !== true){
+                alert(App.languageDict.attributes.You_choose_the_option_without_correct_answer);
+            }else{
+                $( "input[type=checkbox]").each(function() {
+                    if($(this).is(':checked') == true){
+                        var correct=$(this).parent('div').find('input[name="mytext[]"]').val();
+                        valid_answer.push(correct);
+                    }
+                });
+            }
+
             if(input_marks > 0){
                 if(qStatement.toString() != '') {
                     if(validOptionValues != [] && validOptionValues.length > 1) {
