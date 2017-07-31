@@ -1252,3 +1252,8 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 #addIndividualResource{
     width:110px;
 }
+.DropDownOptn{
+    float: left;
+    margin-left: 20px;
+    position: relative;
+}

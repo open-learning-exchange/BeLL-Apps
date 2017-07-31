@@ -2978,10 +2978,33 @@ $(function() {
         CourseMembers: function(cId) {
             var courseMembers = new App.Views.CourseMembers()
             courseMembers.courseId = cId;
-            App.$el.children('.body').empty();
+            App.$el.children('.body').html('<div class="DropDownOptn"></div>')
             App.$el.children('.body').append('<div class="courseEditStep"></div>');
             courseMembers.render();
-            $('.courseEditStep').append(courseMembers.el);
+            var CoursecommunityList = "";
+            if(App.configuration.get('type') == 'nation'){
+                $.ajax({
+                    url: '/community/_design/bell/_view/getCommunityByCode',
+                    type: 'GET',
+                    dataType: "jsonp",
+                    async: false,
+                    success: function(json){
+                        CoursecommunityList = '<option value="">'+App.languageDict.attributes.All+'</option>';
+                        CoursecommunityList += '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
+                        $.each(json.rows, function(rec, index) {
+                            CoursecommunityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
+                        })
+                        CoursecommunityList = '<select id="CommunitySelect">'+CoursecommunityList+'</select>';
+                        $('.DropDownOptn').append(CoursecommunityList);
+                    }
+                });
+            }
+            $('#CommunitySelect').change(function(){
+               var selectedvalue =  $('#CommunitySelect').val();
+               var courseMembers = new App.Views.CourseMembers()
+               courseMembers.courseId = cId;
+               courseMembers.randerTable(selectedvalue);
+            });
             var directionOfLang = App.languageDict.get('directionOfLang');
             if(directionOfLang.toLowerCase()==="right") {
                 $('.courseEditStep').find('h3').css('margin-right','5%');
