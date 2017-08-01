@@ -2538,7 +2538,11 @@ $(function() {
             allResults.fetch({
                 async: false
             })
-
+            var config = new App.Collections.Configurations()
+            config.fetch({
+                async: false,
+            })
+            var typeofBell = config.first().attributes.type;
             for (var i = 0; i < allResults.length; i++) {
                 student = new App.Models.Member({
                     _id: allResults.models[i].attributes.memberId
@@ -2578,13 +2582,24 @@ $(function() {
                                 async: false
                             })
                             if(courseAnswer.first() != undefined && courseAnswer.pqattempts > 0 ){
-                                var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
-                                JSONObj.MemberId =  allResults.models[i].attributes.memberId
-                                JSONObj.MemberName =  student.toJSON().firstName + ' ' + student.toJSON().lastName
+                                if (typeofBell === "nation") {
+                                    var JSONObj = {"Community/Nation":"","MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
+                                } else {
+                                    var JSONObj = {"MemberId":"","MemberName":"","StepNo":"","StepName":"", "QuestionID":"","Question":"", "Answer":[], "TotalMarks":"",  "ObtainMarks":"", "Attempt":""};
+                                }
+                                if (typeofBell === "nation") {
+                                    JSONObj["Community/Nation"] = student.toJSON().community
+                                }
+                                JSONObj.MemberId = allResults.models[i].attributes.memberId
+                                JSONObj.MemberName = student.toJSON().firstName + ' ' + student.toJSON().lastName
                                 JSONObj.StepNo = courseSteps.attributes.step
                                 JSONObj.StepName = courseSteps.attributes.title
                                 JSONObj.QuestionID = questionlist.attributes._id
-                                JSONObj.Question = questionlist.attributes.Statement
+                                var html = marked(questionlist.attributes.Statement);
+                                var div = document.createElement("div");
+                                div.innerHTML = html
+                                JSONObj.Question = div.textContent || div.innerText || "";
+                                JSONObj.Question = JSONObj.Question.replace(/\"/g, "'")
                                 JSONObj.Attempt =  pqattempts[j]
                                 JSONObj.TotalMarks =  questionlist.attributes.Marks
                                 if(courseSteps.attributes.stepType == "Subjective"){
@@ -2608,7 +2623,23 @@ $(function() {
                                         JSONObj.ObtainMarks = App.languageDict.attributes.UnReviewed
                                     }
                                 }
-                                JSONObj.Answer = courseAnswer.first().get('Answer')
+                                if(questionlist.attributes.Type == "Comment/Essay Box") {
+                                    if(Array.isArray(courseAnswer.first().get('Answer'))){
+                                        var html1 = marked(courseAnswer.first().get('Answer')[0]);
+                                        var div1 = document.createElement("div");
+                                        div1.innerHTML = html1
+                                        JSONObj.Answer = div1.textContent || div1.innerText || "";
+                                        JSONObj.Answer = JSONObj.Answer.replace(/\"/g, "'")
+                                    }else {
+                                        var html2 = marked(courseAnswer.first().get('Answer'));
+                                        var div2 = document.createElement("div");
+                                        div2.innerHTML = html2;
+                                        JSONObj.Answer = div2.textContent || div2.innerText || "";
+                                        JSONObj.Answer = JSONObj.Answer.replace(/\"/g, "'")
+                                    }
+                                } else {
+                                    JSONObj.Answer = courseAnswer.first().get('Answer')
+                                }
                                 jsonObjectsData.push(JSONObj)
                             }
                         }
