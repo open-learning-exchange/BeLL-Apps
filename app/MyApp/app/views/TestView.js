@@ -95,18 +95,24 @@ $(function() {
             $('#1').find('#question_text').val(questionModel.get('Statement'));
             $('#1').find('.inputmarks').val(questionModel.get('Marks'));
             $('#1').find('#correct_answer').val(questionModel.get('CorrectAnswer'));
+            var correct_answer = questionModel.get('CorrectAnswer');
             var question_answer_choices = questionModel.get('Options');
             var ansarry = [];
             $('.input_fields_wrap').empty();
             for( i = 2; i < question_answer_choices.length; i++ ) { 
                 $('.add_field').trigger('click');   
             }
-             $('input[name="mytext[]"]').each(function(index) {
-             $(this).val(question_answer_choices[index]);   
-        });
+             $('input[name="check"]').each(function(index) {
+                var ans = question_answer_choices[index];
+                if(correct_answer.indexOf(ans) != -1){
+                    this.checked = true;
+                }
+            });
+            $('input[name="mytext[]"]').each(function(index) {
+                $(this).val(question_answer_choices[index]);
+            });
             ansarry.push(this.res);
     },
-        
         editSingleTextBoxQuestion: function(questionModel) {
             $("#add_new_question").val("6").trigger('change');
             $('#6').find('#question_text').val(questionModel.get('Statement'));
