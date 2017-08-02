@@ -245,10 +245,10 @@ $(function() {
             });        
             var valid_answer=[];
             if($('input[name="mytext[]"]').val()!== "" && $("input[type=checkbox]").is(':checked') !== true){
-               alert(App.languageDict.attributes.Please_Tick_Correct_Answer_or_Answers);
+               alert(App.languageDict.attributes.Please_Provide_Correct_Answer_or_Answers);
                return false;
             }else if($('input[name="mytext[]"]').val() === "" && $("input[type=checkbox]").is(':checked') !== true){
-                alert(App.languageDict.attributes.Please_Fill_Options_and_Tick_Correct_Answer_or_Answers);
+                alert(App.languageDict.attributes.Please_Fill_Options_and_Provide_Correct_Answer_or_Answers);
             }else{
                 $( "input[type=checkbox]").each(function() {
                     if($(this).is(':checked') == true){
