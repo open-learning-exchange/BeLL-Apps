@@ -16,7 +16,7 @@ $(function() {
         },
 
         comparator: function(model) {
-            return model.get("step")
+            return parseInt(model.get("step"), 10)
         }
 
     })
