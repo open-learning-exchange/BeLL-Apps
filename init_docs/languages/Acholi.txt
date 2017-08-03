@@ -936,5 +936,7 @@
   "Markdown":"crwdns16367:0crwdne16367:0",
   "Rich_Text":"crwdns16368:0crwdne16368:0",
   "Course_Answers":"crwdns16369:0crwdne16369:0",
-  "Course_Answers_Replicated":"crwdns16370:0crwdne16370:0"
+  "Course_Answers_Replicated":"crwdns16370:0crwdne16370:0",
+  "Please_provide_atleast_one_correct_answer":"crwdns16371:0crwdne16371:0",
+  "You_choose_the_option_without_correct_answer":"crwdns16372:0crwdne16372:0"
 }
