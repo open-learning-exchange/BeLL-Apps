@@ -350,6 +350,9 @@ $(function() {
             }
         },
         getConfigurations: function() {
+            if(typeof App.Collections.Configurations === 'undefined' || App.Collections.Configurations === null) {
+                return undefined
+            }
             var config = new App.Collections.Configurations()
             config.fetch({
                 async: false
