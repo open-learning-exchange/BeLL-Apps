@@ -155,6 +155,11 @@ $(function() {
             var model = this
             
             function fileExt(fileName) {
+                var extMatch = fileName.match(/\.[a-z0-9]+$/i);
+                // If the extension isn't in a format of only letters and numbers after the dot, assume it's a text file
+                if(extMatch === null) {
+                    return 'txt';
+                }
                 return fileName.match(/\.[a-z0-9]+$/i)[0].slice(1);
             }
             
@@ -166,11 +171,17 @@ $(function() {
             var preProcessZip = function(zip) {
                 return function(fileName) {
                     return new Promise(function(resolve,reject) {
-                        zip.file(fileName).async('base64').then(function success(data) {
-                            resolve({name:fileName,data:data});
-                        },function error(e) {
+                        // When file was not read error block wasn't called from async so added try...catch block
+                        try {
+                            zip.file(fileName).async('base64').then(function success(data) {
+                                resolve({name:fileName,data:data});
+                            },function error(e) {
+                                reject(e);
+                            });
+                        } catch(e) {
+                            console.log(fileName + ' has caused error.');
                             reject(e);
-                        });
+                        }
                     });
                 };
             };
@@ -193,7 +204,9 @@ $(function() {
                             var fileNames = [];
                             // Add file names to array for mapping
                             for(var path in data.files) {
-                                fileNames.push(path);
+                                if(!data.files[path].dir && path.indexOf('DS_Store') === -1) {
+                                    fileNames.push(path);
+                                }
                             }
                             // Since files are loaded async, use Promise all to ensure all data from the files are loaded before attempting upload
                             Promise.all(fileNames.map(preProcessZip(zip))).then(function(filesArray) {
@@ -214,6 +227,11 @@ $(function() {
                                         App.stopActivityIndicator()
                                     }
                                 });
+                            // If one file fails, everything fails so adding error function
+                            },function(error) {
+                                console.log(error);
+                                alert(App.languageDict.attributes.Error);
+                                App.stopActivityIndicator();
                             });
                             
                         });
