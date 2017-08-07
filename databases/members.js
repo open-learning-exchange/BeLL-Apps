@@ -100,6 +100,13 @@ ddoc.views = {
             }
         }
     },
+    FilterByCommunity: {
+        map: function(doc) {
+            if (doc._id && doc.community) {
+                emit(doc._id, doc.community)
+            }
+        }
+    },
     allMembers: {
         map: function(doc) {
             if (doc && doc.kind == 'Member') {

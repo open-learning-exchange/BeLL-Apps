@@ -4,7 +4,10 @@ $(function() {
 
 
         url: function() {
-            var url = App.Server + '/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + this.memberId + '","' + this.courseId + '"]&include_docs=true'
+            if(this.memberId && this.courseId)
+                var url = App.Server + '/membercourseprogress/_design/bell/_view/GetMemberCourseResult?key=["' + this.memberId + '","' + this.courseId + '"]&include_docs=true'
+            else if(this.courseId)
+                var url = App.Server + '/membercourseprogress/_design/bell/_view/GetMemberByCourseID?key="'+ this.courseId +'"&include_docs=true'
             return url
         },
 
