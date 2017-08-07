@@ -27,7 +27,8 @@ ddoc.views = {
       }
     }
   },
-  GetMemberByCourseID: {
+
+   GetMemberByCourseID: {
     map: function(doc) {
       if (doc.courseId) {
         emit(doc.courseId, doc.memberId)
