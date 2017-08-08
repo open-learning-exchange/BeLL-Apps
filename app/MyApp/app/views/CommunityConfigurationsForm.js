@@ -385,6 +385,76 @@ $(function() {
                                             if(response.docs_written == 0 || response.docs_written == undefined){
                                                 alert(App.languageDict.attributes.UnableToReplicate);
                                             }else{
+                                                $.ajax({
+                                                    type: 'GET',
+                                                    url: 'http://' + nationUrl + '/publications/_all_docs?include_docs=true',
+                                                    dataType: 'jsonp',
+                                                    async: false,
+                                                    success: function (response) {
+                                                        for(i=0; i<response.rows.length; i++){
+                                                            if(response.rows[i].doc._id != "_design/bell"){
+                                                                if(response.rows[i].doc.autoPublication == true){
+                                                                    var publicationsId = response.rows[i].doc._id
+                                                                    $.ajax({
+                                                                        type: 'GET',
+                                                                        url: App.Server + '/configurations/_all_docs?include_docs=true',
+                                                                        dataType: 'jsonp',
+                                                                        async: false,
+                                                                        success: function(response) {
+                                                                            var sendPub = new Array()
+                                                                            var cName = []
+                                                                            for(i = 0;i<response.rows.length; i++){
+                                                                                var communityName = response.rows[i].doc.name;
+                                                                                console.log(communityName)
+                                                                            }
+                                                                            cName.push(communityName)
+                                                                            sendPub.push({
+                                                                                communityUrl: response.rows[0].doc.sponsorUrl,
+                                                                                communityName: response.rows[0].doc.name,
+                                                                                publicationId: publicationsId,
+                                                                                Viewed: false
+                                                                            })
+                                                                            $.couch.db("publicationdistribution").bulkSave({
+                                                                                "docs": sendPub
+                                                                            }, {
+                                                                                success: function(data) {
+                                                                                },
+                                                                                error: function(status) {
+                                                                                    console.log(status);
+                                                                                },
+                                                                                async: false
+                                                                            });
+                                                                        },
+                                                                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                            alert(App.languageDict.attributes.TryLater_Error)
+                                                                        }
+                                                                    })
+                                                                    $.ajax({
+                                                                        headers: {
+                                                                            'Accept': 'application/json',
+                                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                                        },
+                                                                        type: 'POST',
+                                                                        url: '/_replicate',
+                                                                        dataType: 'json',
+                                                                        data: JSON.stringify({
+                                                                            "source":"publicationdistribution",
+                                                                            "target":'http://' + App.configuration.get('nationUrl') + '/publicationdistribution',
+                                                                        }),
+                                                                        success: function(response) {
+                                                                            if (isActivityLogChecked == false) {
+                                                                                App.stopActivityIndicator();
+                                                                            }
+                                                                        },
+                                                                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                            alert(App.languageDict.attributes.TryLater_Error)
+                                                                        }
+                                                                    })
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                })
                                                 App.stopActivityIndicator();
                                                 alert(App.languageDict.get('request_accepted'));
                                                 window.location.href = '#dashboard';

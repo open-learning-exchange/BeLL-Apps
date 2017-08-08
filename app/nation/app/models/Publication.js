@@ -30,6 +30,9 @@ $(function() {
                 type: 'Select',
                 options: []
 
+            },
+            autoPublication: {
+                type:'Checkbox'
             }
         }
 
