@@ -3058,7 +3058,7 @@ $(function() {
             App.$el.children('.body').html('<div class="DropDownOptn"></div>')
             App.$el.children('.body').append('<div class="courseEditStep"></div>');
             courseMembers.render();
-	    $('.courseEditStep').append(courseMembers.el);
+            $('.courseEditStep').append(courseMembers.el);
             var CoursecommunityList = "";
             if(App.configuration.get('type') == 'nation'){
                 $.ajax({
