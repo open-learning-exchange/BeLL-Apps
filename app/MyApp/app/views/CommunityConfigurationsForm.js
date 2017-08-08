@@ -385,6 +385,42 @@ $(function() {
                                             if(response.docs_written == 0 || response.docs_written == undefined){
                                                 alert(App.languageDict.attributes.UnableToReplicate);
                                             }else{
+                                                $.ajax({
+                                                    type: 'GET',
+                                                    url: 'http://' + nationUrl + '/publications/_all_docs?include_docs=true',
+                                                    dataType: 'jsonp',
+                                                    async: false,
+                                                    success: function (response) {
+                                                        console.log(response)
+                                                        for(i=0; i<response.rows.length; i++){
+                                                            if(response.rows[i].doc._id != "_design/bell"){
+                                                                if(response.rows[i].doc.autoPublication == true){
+                                                                    $.ajax({
+                                                                        headers: {
+                                                                            'Accept': 'application/json',
+                                                                            'Content-Type': 'application/json; charset=utf-8'
+                                                                        },
+                                                                        type: 'POST',
+                                                                        url: '/_replicate',
+                                                                        dataType: 'json',
+                                                                        data: JSON.stringify({
+                                                                            "source":'http://' + App.configuration.get('nationUrl') + '/publications',
+                                                                            "target":"publications",
+                                                                        }),
+                                                                        success: function(response) {
+                                                                            if (isActivityLogChecked == false) {
+                                                                                App.stopActivityIndicator();
+                                                                            }
+                                                                        },
+                                                                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                            alert(App.languageDict.attributes.TryLater_Error)
+                                                                        }
+                                                                    })
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                })
                                                 App.stopActivityIndicator();
                                                 alert(App.languageDict.get('request_accepted'));
                                                 window.location.href = '#dashboard';
