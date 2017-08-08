@@ -3,15 +3,17 @@ $(function () {
     App.Views.CourseMembers = Backbone.View.extend({
         vars: {},
         initialize: function () {},
-
         removeMember:function(e){
             var memberId = e.currentTarget.value
+            console.log(memberId)
             var that = this
             var courseModel = new App.Models.Course({
                 _id: this.courseId
             })
             courseModel.fetch({
                 success:function(result){
+                    console.log("this Courser" + result)
+                    return false
                     var members = result.get('members')
                     members.splice(members.indexOf(memberId),1)
                     result.set('members',members)
@@ -44,6 +46,7 @@ $(function () {
             memberProgress.fetch({
                 async: false,
                 success: function(res){
+                    console.log(res)
                     member_list = []
                     if(res.length > 0){
                         for(var i = 0; i < res.length; i++){
@@ -93,7 +96,7 @@ $(function () {
                                 })
                                 var roles = loggedIn.get("roles")
                                 if( courseModel.get('courseLeader') && courseModel.get('courseLeader').indexOf($.cookie('Member._id'))>-1 || roles.indexOf('Manager')>-1) {
-                                    var memId=mems.get('_id')+','+this.courseId;
+                                    var memId=mems.get('_id')+','+res.models[i].attributes.courseId;
                                     viewtext+='<td><button class="btn btn-danger removeMember" value="' + mems.get('_id') + '" onclick=removeMemberFromCourse(\"' +  memId + '")>'+App.languageDict.attributes.Remove+'</button></td>'
                                 }
                                 viewtext+='</tr>'
