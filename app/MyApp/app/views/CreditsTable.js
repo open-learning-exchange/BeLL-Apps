@@ -19,7 +19,7 @@ $(function () {
 
         addAll: function() {
             var that = this;
-            courseProgress = new App.Collections.membercourseprogresses()
+            var courseProgress = new App.Collections.membercourseprogresses()
             courseProgress.memberId = this.memberId;
             courseProgress.courseId = this.courseId;
             courseProgress.fetch({

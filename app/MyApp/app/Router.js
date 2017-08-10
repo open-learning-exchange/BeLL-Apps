@@ -420,24 +420,73 @@ $(function() {
             var creditsView = new App.Views.CreditsLeaderView();
             App.$el.children('.body').html('<div id="creditsMainTable"></div>');
             $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            var CoursecommunityList = "";
+            if(App.configuration.get('type') == 'nation'){
+                $.ajax({
+                    url: '/community/_design/bell/_view/getCommunityByCode',
+                    type: 'GET',
+                    dataType: "jsonp",
+                    async: false,
+                    success: function(json){
+                        CoursecommunityList = '<option value="">'+App.languageDict.attributes.All+'</option>';
+                        CoursecommunityList += '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
+                        $.each(json.rows, function(rec, index) {
+                            CoursecommunityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
+                        })
+                        CoursecommunityList = '<select id="CommunitySelect">'+CoursecommunityList+'</select>';
+                        $('.DropDownOptn').append(CoursecommunityList);
+                    }
+                });
+            }
+            $('#creditsMainTable').append(CoursecommunityList);
+            $('#CommunitySelect').change(function(){
+                var selectedvalue =  $('#CommunitySelect').val();
+                creditsView.addHeading();
+                var count=0;
+                var c1 = new App.Collections.membercourseprogresses();
+                c1.fetch({
+                    async:false,
+                    success: function (courseDocs) {
+                        if(courseDocs.length>0){
+                            var mem_list1=[]
+                            var course_list1=[]
+                            for(var i=0;i<courseDocs.length;i++) {
+                                if(courseDocs.models[i].id != '_design/bell') {
+                                    mem_list1.push({"courseId": courseDocs.models[i].attributes.courseId, "MemberId" : courseDocs.models[i].attributes.memberId})
+                                }
+                            }
+                            if(mem_list1.length > 0){
+                                for(var i = 0 ; i < mem_list1.length; i++){
+                                    creditsView.courseId= mem_list1[i].courseId;
+                                    creditsView.mem_list1 = mem_list1[i];
+                                }
+                                //console.log(creditsView.courseId)
+                                creditsView.randerTable(selectedvalue);
+                            }
+                        }
+                    }
+                });
+            });
             creditsView.addHeading();
             var count=0;
-            var courses = new App.Collections.Courses();
+            var courses = new App.Collections.membercourseprogresses();
             courses.fetch({
                 async:false,
                 success: function (courseDocs) {
                     if(courseDocs.length>0){
+                        var mem_list=[]
+                        var course_list=[]
                         for(var i=0;i<courseDocs.length;i++) {
-                            if(courseDocs.models[i].get('_id') != '_design/bell') {
-                                var doc = courseDocs.models[i];
-                                var learnerIds = getCountOfLearners(doc.get('_id'), true);
-                                console.log(learnerIds);
-                                if(learnerIds.length>0){
-                                    creditsView.courseId=doc.get('_id');
-                                    creditsView.learnerIds = learnerIds;
-                                    creditsView.render();
-                                }
+                            if(courseDocs.models[i].id != '_design/bell') {
+                                mem_list.push({"courseId": courseDocs.models[i].attributes.courseId, "MemberId" : courseDocs.models[i].attributes.memberId})
                             }
+                        }
+                        if(mem_list.length > 0){
+                            for(var i = 0 ; i < mem_list.length; i++){
+                                creditsView.courseId= mem_list[i].courseId;
+                                creditsView.mem_list = mem_list;
+                            }
+                            creditsView.render();
                         }
                     }
                 }
@@ -522,7 +571,7 @@ $(function() {
             {
                 if(learnerCollection.length > 0)
                 {
-                    memberId = learnerCollection.models[0].get("_id");
+                    memberId = learnerCollection[0].get("_id");
                 }
             }
             if(!memberId)
@@ -546,19 +595,18 @@ $(function() {
                 App.$el.children('.body').html('<div id="creditsTable" style = "margin-right:20px; margin-left:20px;"></div>');
                 var select = $("<select id='learnerSelector' onchange='getName($(this).val())'>");
                 var name, id;
-                learnerCollection.each(
-                    function(member) {
-                        var learnerName;
-                        if(member.get('firstName') ) {
-                            name = member.get('firstName')+ " " +member.get('lastName')
-                            id = member.get('_id')
+                for(var i = 0; i < learnerCollection.length; i++){
+                    var learnerName;
+                    if(learnerCollection[i].get('firstName') ) {
+                            name = learnerCollection[i].get('firstName')+ " " +learnerCollection[i].get('lastName')
+                            id = learnerCollection[i].get('_id')
 
                         }
                         if(name ){
                             select.append("<option value="+id +"/"+courseId+">" +name+"</option>");
                         }
+                }
 
-                    });
                 if(courseId && memberId){
                     select.val(memberId + '/' + courseId)
                 }
@@ -703,20 +751,26 @@ $(function() {
         },
 
         getLearnersList: function(courseId) {
-            var learnerIds = getCountOfAllLearnersOrIds(courseId, true);
-            var learnerModelIdes = ''
-            _.each(learnerIds, function(item) {
-                learnerModelIdes += '"' + item + '",';
-            })
-            if (learnerModelIdes != ''){
-                learnerModelIdes = learnerModelIdes.substring(0, learnerModelIdes.length - 1);
-            }
-            var membersColl = new App.Collections.Members();
-            membersColl.keys = encodeURI(learnerModelIdes)
-            membersColl.fetch({
-                async: false
-            });
-            return membersColl;
+             var mcp = new App.Collections.membercourseprogresses()
+             mcp.courseId = courseId
+             mcp.fetch({async:false});
+             if(mcp.length > 0){
+                var mem_list = []
+                for(var i=0;i<mcp.length;i++){
+                    mem_list.push(mcp.models[i].attributes.memberId)
+                }
+                if(mem_list.length > 0){
+                        var newmem_list = []
+                        for(var i = 0; i < mem_list.length; i++){
+                            var mem = new App.Models.Member({
+                                _id: mem_list[i]
+                            })
+                            mem.fetch({async:false})
+                            newmem_list.push(mem)
+                        }
+                        return newmem_list
+               }
+           }
         },
 
         showLearnersListForCredits: function (courseId) {
@@ -2391,17 +2445,8 @@ $(function() {
         },
 
         CourseStatistics: function (cId){
-            var course = new App.Models.Course();
-            course.id = cId
-            course.fetch({
-                async: false
-            })
-            var coursestatisticview = new App.Views.CoursesStatistics({
-                  model:course,
-                  attributes:{
-                    courseid:  cId
-                  }
-                 });
+            var coursestatisticview = new App.Views.CoursesStatistics();
+            coursestatisticview.courseId = cId;
             coursestatisticview.render()
             App.$el.children('.body').html('<div id="couarsestat"></div>');
             $('#couarsestat').append('<div><h2>'+App.languageDict.attributes.Course_Progress_Statistics+'</h2></div>')
