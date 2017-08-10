@@ -16,29 +16,28 @@ $(function () {
         render: function () {
             var that = this;
             var unsortedData = []; var jsonArr = [];
-            var courseModel = new App.Models.Course({
-                _id: this.courseId
-            })
-            courseModel.fetch({
-                async: false
-            });
-            for (var m = 0; m < that.learnerIds.length; m++) {
-                var memberId = that.learnerIds[m];
+            for (var m = 0; m < that.mem_list.length; m++) {
+                 var courseModel = new App.Models.Course({
+                    _id: that.mem_list[m].courseId
+                })
+                courseModel.fetch({
+                    async: false
+                });
+                var memberId = that.mem_list[m].MemberId;
                 var member = new App.Models.Member({
                     "_id": memberId
                 })
                 member.fetch({
                     async: false
                 })
+                console.log(member)
                 var MemberCourseProgress = new App.Collections.membercourseprogresses();
                 var stepsStatuses; var indexOfStepId = []; var stepIds = [];
                 var memberName = member.get('firstName') + " " + member.get('lastName')
                 MemberCourseProgress.courseId = that.courseId;
                 MemberCourseProgress.memberId = memberId;
-                console.log(memberId);
                 MemberCourseProgress.fetch({
                     success: function (progressDoc) {
-                        console.log(progressDoc);
                         if (progressDoc.models.length > 0) {
                             stepsStatuses = progressDoc.models[0].get('stepsStatus');
                             stepsAttempt = progressDoc.models[0].get('pqAttempts');
