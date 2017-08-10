@@ -938,5 +938,6 @@
   "Course_Answers":"Course Answers",
   "Course_Answers_Replicated":"Course Answers Replicated",
   "Please_provide_atleast_one_correct_answer":"Please provide atleast one correct answer",
-  "You_choose_the_option_without_correct_answer":"You choose the option without correct answer"
+  "You_choose_the_option_without_correct_answer":"You choose the option without correct answer",
+  "Auto_Publication":"Auto Publication"
 }
