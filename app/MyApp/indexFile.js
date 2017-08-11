@@ -1881,8 +1881,7 @@ function showRequestForm(modl) {
 
 function showSearchView() {
     $('#not-found').hide()
-    App.Router.SearchBell(grpId, levelrevId, 0);
-
+    location.reload();
 }
 
 function selectAllSearchResult() {
