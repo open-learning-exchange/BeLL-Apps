@@ -1992,7 +1992,9 @@
                             <th>Title</th>
                             <th>Author</th>
                             <th>Publisher</th>
-                            <th>Action</th>
+                            <%if(level_id != undefined) {%>
+                                <th>Action</th>
+                            <% } %>
                         </tr>
                     </thead>
                     <tbody>
@@ -2002,7 +2004,9 @@
                                 <td><%= res.title %></td>
                                 <td><%= res.author %></td>
                                 <td><%= res.Publisher %></td>
-                                <td><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></td>
+                                <%if(level_id != undefined) {%>
+                                    <td><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></td>
+                                <% } %>
                             </tr>
                          <% }%>
                      </tbody>

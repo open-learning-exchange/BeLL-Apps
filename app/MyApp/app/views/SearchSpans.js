@@ -52,7 +52,11 @@ $(function() {
         },
 
         render: function() {
-            levelID = this.attributes.LevelID;
+            if(this.attributes != undefined)
+                {
+                    levelID = this.attributes.LevelID;
+                }
+            this.vars.level_id = this.attributes
             this.addAll()
         },
 
