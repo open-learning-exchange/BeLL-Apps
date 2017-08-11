@@ -2400,17 +2400,8 @@ $(function() {
         },
 
         CourseStatistics: function (cId){
-            var course = new App.Models.Course();
-            course.id = cId
-            course.fetch({
-                async: false
-            })
-            var coursestatisticview = new App.Views.CoursesStatistics({
-                  model:course,
-                  attributes:{
-                    courseid:  cId
-                  }
-                 });
+            var coursestatisticview = new App.Views.CoursesStatistics();
+            coursestatisticview.courseId = cId;
             coursestatisticview.render()
             App.$el.children('.body').html('<div id="couarsestat"></div>');
             $('#couarsestat').append('<div><h2>'+App.languageDict.attributes.Course_Progress_Statistics+'</h2></div>')
