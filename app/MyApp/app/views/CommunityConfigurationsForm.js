@@ -397,8 +397,8 @@ $(function() {
                                                                     var publicationsId = response.rows[i].doc._id
                                                                     $.ajax({
                                                                         type: 'GET',
-                                                                        url: App.Server + '/configurations/_all_docs?include_docs=true',
-                                                                        dataType: 'jsonp',
+                                                                        url:  '/configurations/_all_docs?include_docs=true',
+                                                                        dataType: 'json',
                                                                         async: false,
                                                                         success: function(response) {
                                                                             var sendPub = new Array()
