@@ -420,13 +420,59 @@ $(function() {
             var creditsView = new App.Views.CreditsLeaderView();
             App.$el.children('.body').html('<div id="creditsMainTable"></div>');
             $('#creditsMainTable').append('<h3>' + 'Course Credits' + '</h3>');
+            var CoursecommunityList = "";
+            if(App.configuration.get('type') == 'nation'){
+                $.ajax({
+                    url: '/community/_design/bell/_view/getCommunityByCode',
+                    type: 'GET',
+                    dataType: "jsonp",
+                    async: false,
+                    success: function(json){
+                        CoursecommunityList = '<option value="">'+App.languageDict.attributes.All+'</option>';
+                        CoursecommunityList += '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
+                        $.each(json.rows, function(rec, index) {
+                            CoursecommunityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
+                        })
+                        CoursecommunityList = '<select id="CommunitySelect">'+CoursecommunityList+'</select>';
+                        $('.DropDownOptn').append(CoursecommunityList);
+                    }
+                });
+            }
+            $('#creditsMainTable').append(CoursecommunityList);
+            $('#CommunitySelect').change(function(){
+                var selectedvalue =  $('#CommunitySelect').val();
+                creditsView.addHeading();
+                var count=0;
+                var c1 = new App.Collections.membercourseprogresses();
+                c1.fetch({
+                    async:false,
+                    success: function (courseDocs) {
+                        if(courseDocs.length>0){
+                            var mem_list1=[]
+                            var course_list1=[]
+                            for(var i=0;i<courseDocs.length;i++) {
+                                if(courseDocs.models[i].id != '_design/bell') {
+                                    mem_list1.push({"courseId": courseDocs.models[i].attributes.courseId, "MemberId" : courseDocs.models[i].attributes.memberId})
+                                }
+                            }
+                            if(mem_list1.length > 0){
+                                for(var i = 0 ; i < mem_list1.length; i++){
+                                    creditsView.courseId= mem_list1[i].courseId;
+                                    creditsView.mem_list1 = mem_list1[i];
+                                }
+                                //console.log(creditsView.courseId)
+                                creditsView.randerTable(selectedvalue);
+                            }
+                        }
+                    }
+                });
+            });
             creditsView.addHeading();
             var count=0;
             var courses = new App.Collections.membercourseprogresses();
             courses.fetch({
                 async:false,
                 success: function (courseDocs) {
-                    console.log(courseDocs)
                     if(courseDocs.length>0){
                         var mem_list=[]
                         var course_list=[]
@@ -435,7 +481,6 @@ $(function() {
                                 mem_list.push({"courseId": courseDocs.models[i].attributes.courseId, "MemberId" : courseDocs.models[i].attributes.memberId})
                             }
                         }
-                        console.log(mem_list)
                         if(mem_list.length > 0){
                             for(var i = 0 ; i < mem_list.length; i++){
                                 creditsView.courseId= mem_list[i].courseId;
