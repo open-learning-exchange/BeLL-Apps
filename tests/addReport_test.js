@@ -47,8 +47,8 @@ Scenario('test AddReport', (I) => {
 	var selectDt = '//*[@id="dateSelect"]';
 	var genRep = '//*[@id="submit"]';
 	var comment = '//div/table/tbody/tr[2]/td[6]/button[@id="commentButton"]';
-	var commentText: '//textarea[@name="commentOutput"]',
-    var subBtn = '//*[@id="submitFormButton"]';
+	var commentText: '//textarea[@name="commentOutput"]';
+        var subBtn = '//*[@id="submitFormButton"]';
 	var clBtn ='//*[@id="cancelFormButton"]';
 	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
 	I.waitForVisible(navBar);
@@ -89,7 +89,7 @@ Scenario('test AddReport', (I) => {
 	I.waitForVisible(comment);
 	I.waitForEnabled(comment);
 	I.click(comment);
-	I.fillField(this.commentText, "This is a comment to Trend Report");
+	I.fillField(commentText, "This is a comment to Trend Report");
 	I.click(subBtn);
 	I.wait(2);
 	I.waitForVisible(clBtn);
