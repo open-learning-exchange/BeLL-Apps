@@ -94,12 +94,7 @@ $(function() {
                 rids = []
                 rtitle = []
             } else {
-                Backbone.history.navigate('level/view/' + cstep.get("id") + '/' + cstep.get("rev"), {
-                    trigger: true
-                })
-                $("#cont").css('opacity', "")
-                $("#nav").css('opacity', "")
-                $("#invitationdiv").hide()
+                alert(App.languageDict.attributes.Prompt_Reource_first)
             }
         },
 
