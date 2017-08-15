@@ -13,7 +13,7 @@ module.exports = {
     feedbackList: '//*[@id="ViewAllButton"]',
     feedbackWindow: '//*[@id="site-feedback"]',
     submitButton: '//*[@id="formButton"]',
-    feedbackText: '//*[@id="comment"]',
+    feedbackText: '//textarea[@name="descriptionOutput"]',
     feedbackPriority: '//*[@id="priority"]',
 
     open_feedback() {
