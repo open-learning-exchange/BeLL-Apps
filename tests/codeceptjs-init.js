@@ -1,6 +1,7 @@
 
 var co = require('co');
 var cookie = require('cookie');
+var test_data = require('./SampleData');
 console.log("Cleaning up couchdb.")
 module.exports = function (done) {
     var auth = {}
@@ -12,9 +13,9 @@ module.exports = function (done) {
     // async instructions
     // call done() to continue execution
     // otherwise call done('error description')
-
+    test_data.createDummyCourses('http://127.0.0.1:5981');
     var fn = co.wrap(function* (val) {
-        nano.auth(username, userpass, function (err, body, headers) {
+       nano.auth(username, userpass, function (err, body, headers) {
             if (err) {
                 console.log("Could not log in:");
                 return callback(err);
