@@ -5,15 +5,12 @@ $(function () {
         initialize: function () {},
         removeMember:function(e){
             var memberId = e.currentTarget.value
-            console.log(memberId)
             var that = this
             var courseModel = new App.Models.Course({
                 _id: this.courseId
             })
             courseModel.fetch({
                 success:function(result){
-                    console.log("this Courser" + result)
-                    return false
                     var members = result.get('members')
                     members.splice(members.indexOf(memberId),1)
                     result.set('members',members)
