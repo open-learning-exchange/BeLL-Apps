@@ -3001,10 +3001,14 @@ $(function() {
                 });
             }
             $('#CommunitySelect').change(function(){
-               var selectedvalue =  $('#CommunitySelect').val();
-               var courseMembers = new App.Views.CourseMembers()
-               courseMembers.courseId = cId;
-               courseMembers.randerTable(selectedvalue);
+		    var selectedvalue =  $('#CommunitySelect').val();
+		    var courseMembers = new App.Views.CourseMembers()
+		    courseMembers.courseId = cId;
+		    courseMembers.randerTable(selectedvalue);
+		    if(selectedvalue == "" || selectedvalue == undefined){
+			courseMembers.render();    
+		    }
+		
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             if(directionOfLang.toLowerCase()==="right") {
