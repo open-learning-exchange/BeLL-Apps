@@ -334,6 +334,23 @@ $(function() {
                                             if(response.docs_written == 0 || response.docs_written == undefined){
                                                 alert(App.languageDict.attributes.UnableToReplicate);
                                             }else{
+                                                $.ajax({
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                    },
+                                                    type: 'POST',
+                                                    url: '/_replicate',
+                                                    dataType: 'json',
+                                                    data: JSON.stringify({
+                                                        "source": "configurations",
+                                                        "target": 'http://' + nationUrl + '/communityregistrationrequests',
+                                                        'doc_ids': docIds
+                                                    }),
+                                                    async: false,
+                                                    success: function (response) {
+                                                    }
+                                                });
                                                 var members = new App.Models.Member({
                                                     "_id": $.cookie('Member._id')
                                                 });
@@ -385,6 +402,23 @@ $(function() {
                                             if(response.docs_written == 0 || response.docs_written == undefined){
                                                 alert(App.languageDict.attributes.UnableToReplicate);
                                             }else{
+                                                $.ajax({
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                    },
+                                                    type: 'POST',
+                                                    url: '/_replicate',
+                                                    dataType: 'json',
+                                                    data: JSON.stringify({
+                                                        "source": "configurations",
+                                                        "target": 'http://' + nationUrl + '/community',
+                                                        'doc_ids': docIds
+                                                    }),
+                                                    async: false,
+                                                        success: function (response) {
+                                                        }
+                                                });
                                                 $.ajax({
                                                     type: 'GET',
                                                     url: 'http://' + nationUrl + '/publications/_all_docs?include_docs=true',
