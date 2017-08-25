@@ -273,7 +273,7 @@ $(function() {
                 rids = []
                 rtitle = []
             } else {
-                alert(App.languageDict.attributes.Prompt_Reource_first)
+                alert(App.languageDict.attributes.Prompt_Resources_first)
             }
         },
 
