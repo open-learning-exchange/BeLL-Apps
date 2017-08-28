@@ -164,6 +164,9 @@ $(function() {
                 saveanswer.set('MemberID',memberId);
                 saveanswer.set('StepID',this.stepId);
                 saveanswer.save(null, {
+                    success:function(){
+                        console.log("saved")
+                    },
                     error: function() {
                         console.log("Not Saved")
                     }
@@ -317,12 +320,12 @@ $(function() {
 
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
+                        location.reload()
                     },
                     error: function() {
                         console.log("Not Saved")
                     }
                 });
-                location.reload();
             }
         },
 
