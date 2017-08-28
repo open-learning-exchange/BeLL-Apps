@@ -16,7 +16,7 @@ $(function() {
         totalMarks: 0,
         preresult: null,
         attributes: {'method': 'post'},
-        mymodel: null,
+        myModel: null,
         partialMark : null,
         preview : null,
         totalMarks : null,
@@ -164,6 +164,9 @@ $(function() {
                 saveanswer.set('MemberID',memberId);
                 saveanswer.set('StepID',this.stepId);
                 saveanswer.save(null, {
+                    success:function(){
+                        console.log("saved")
+                    },
                     error: function() {
                         console.log("Not Saved")
                     }
@@ -281,6 +284,7 @@ $(function() {
                 var sp = this.myModel.get('stepsResult')
                 var stepid = this.myModel.get('stepsIds')
                 var pqattemptss = this.myModel.get('pqAttempts')
+                console.log(pqattemptss)
                 var flagAttempts = false;
                 flagAttempts = true;
 
@@ -317,6 +321,8 @@ $(function() {
 
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
+                        console.log(res)
+                        console.log(revInfo)
                     },
                     error: function() {
                         console.log("Not Saved")

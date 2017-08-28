@@ -1526,7 +1526,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" value="<%=answer%>" name="singleLineAnswer" style="margin-bottom: -45px;">
+                            <input type="text" value="<%=answer%>" name="singleLineAnswer">
                         </td>
                     </tr>
                 </table>
@@ -1571,7 +1571,7 @@
                      <input type="hidden" name="_attachment" id="attachmentId" value="">
                      <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
                      <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
-                     <input class='btn btn-primary' style="font-size: 15px; margin-bottom: -45px;" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
+                     <input class='btn btn-primary' style="font-size: 15px;" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
                      <% if (answer[0] != null && answer[0] != "") { %>
                         <a id="downloadAttac" class="btn btn-primary" href="/assignmentpaper/<%=answer[0]%>/<%=attachmentName%>"  target="_blank" ><%=App.languageDict.attributes.Download %></a>
                      <% } %>
