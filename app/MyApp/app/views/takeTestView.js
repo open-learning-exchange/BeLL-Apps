@@ -237,7 +237,6 @@ $(function() {
                 coursedetail.fetch({
                     async: false
                 });
-                console.log(coursedetail)
                 this.vars = coursedetail.toJSON();
                 this.vars.answer = this.Givenanswers[this.Questionlist[this.index]]
                 if (this.vars.answer == undefined){
