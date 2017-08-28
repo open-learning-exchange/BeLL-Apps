@@ -237,6 +237,7 @@ $(function() {
                 coursedetail.fetch({
                     async: false
                 });
+                console.log(coursedetail)
                 this.vars = coursedetail.toJSON();
                 this.vars.answer = this.Givenanswers[this.Questionlist[this.index]]
                 if (this.vars.answer == undefined){
@@ -284,7 +285,6 @@ $(function() {
                 var sp = this.myModel.get('stepsResult')
                 var stepid = this.myModel.get('stepsIds')
                 var pqattemptss = this.myModel.get('pqAttempts')
-                console.log(pqattemptss)
                 var flagAttempts = false;
                 flagAttempts = true;
 
@@ -321,14 +321,13 @@ $(function() {
 
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
-                        console.log(res)
-                        console.log(revInfo)
+                        console.log('saved')
+                        location.reload()
                     },
                     error: function() {
                         console.log("Not Saved")
                     }
                 });
-                location.reload();
             }
         },
 
