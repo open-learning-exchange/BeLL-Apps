@@ -51,7 +51,6 @@ $(function() {
         "click #a": function (id) {
             alert(id)
         }
-
         },
 
         vars: {},

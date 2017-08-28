@@ -4251,6 +4251,25 @@ $(function() {
             App.stopActivityIndicator()
 
         },
+
+        AutoPublication: function(status,pubId) {
+            var publicationObject = new App.Models.Publication({
+                _id: pubId
+            })
+            publicationObject.fetch({
+                async: false
+            })
+            publicationObject.set("autoPublication",status);
+            publicationObject.save(null, {
+                success: function(model, response){
+                    location.reload();
+                },
+                error: function() {
+                    console.log("Not Saved")
+                }
+            });
+        },
+
         PublicationDetails: function(publicationId) {
 
             var publicationObject = new App.Models.Publication({
@@ -4265,7 +4284,12 @@ $(function() {
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html('<div id="parentDiv"></div>');
-            $('#parentDiv').append('<div style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
+            $('#parentDiv').append('<div id="parentChildDiv" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
+            if( publicationObject.attributes.autoPublication == false){
+                $('#parentChildDiv').append(" <a role='button' id='auto_publication' style='margin-left: 15px;' class='btn btn-primary auto_publication'>"+App.languageDictValue.get('Auto_Publication')+"</a>");
+            }else{
+                $('#parentChildDiv').append(" <a role='button' style='margin-left: 15px;' id='resign_publication' class='btn btn-danger '>"+App.languageDictValue.get('Resign_Publication')+"</a>");
+            }
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {
                 $('#parentDiv div').find('h6').css({"float":"right"});
@@ -4311,6 +4335,12 @@ $(function() {
             publicationcourseTable.Id = publicationId
             publicationcourseTable.render()
             $('#parentDiv').append(publicationcourseTable.el)
+            $("#auto_publication").click(function(){
+                App.Router.AutoPublication(true,publicationId);
+            });
+            $("#resign_publication").click(function(){
+                App.Router.AutoPublication(false,publicationId);
+            });
             App.Router.applyCorrectStylingSheet(App.languageDictValue.get('directionOfLang'));
         },
 
