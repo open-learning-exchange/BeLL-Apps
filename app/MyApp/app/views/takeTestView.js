@@ -320,7 +320,6 @@ $(function() {
 
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
-                        console.log('saved')
                         location.reload()
                     },
                     error: function() {
