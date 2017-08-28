@@ -1120,15 +1120,32 @@
 
         </select>
     </td>
-    <td>
-        <a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
-            <%= languageDict.attributes.Details%>
-        </a>
-    </td>
-    <td>
-        <a class='btn btn-danger destroy'>
-            <%= languageDict.attributes.DeleteLabel%>
-        </a>
+    <td style="width:160px;">
+        <div>
+            <span>
+                <a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
+                    <%= languageDict.attributes.Details%>
+                </a>
+            </span>
+            <span style="margin-left:-1px;">
+                <a class='btn btn-danger destroy'>
+                    <%= languageDict.attributes.DeleteLabel%>
+                </a>
+            </span>
+        </div>
+        <%if(autoPublication == false){%>
+            <div style="margin-top: 2px;">
+                <a  role='button'  onclick="App.Router.AutoPublication(true, '<%= _id %>' )" class="btn btn-primary auto_publication">
+                    <%= languageDict.attributes.Enable_Auto_Sync%>
+                </a>
+            </div>
+        <%}else{%>
+            <div style="margin-top: 2px; ">
+                <a  role='button'  onclick="App.Router.AutoPublication(false, '<%= _id %>' )"class="btn btn-danger resign_publication">
+                    <%= languageDict.attributes.Disable_Auto_Sync%>
+                </a>
+            </div>
+        <%}%>
     </td>
 </script>
 

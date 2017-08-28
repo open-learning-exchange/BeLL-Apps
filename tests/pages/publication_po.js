@@ -14,7 +14,7 @@ module.exports = {
     addIssue: '//*[@href="#publication/add"]',
     saveIssue: '//*[@name="save"]',
     cancelIssue: '//*[@id="cancel"]',
-    deleteIssueBtns: '//*[@id="parentDiv"]/table/tbody/tr/td/*[@class="btn btn-danger destroy"]',
+    deleteIssueBtns: '//*[@id="parentDiv"]/table/tbody/tr/td/div/span/*[@class="btn btn-danger destroy"]',
     editorName: '//*[@name="editorName"]',
     editorEmail: '//*[@name="editorEmail"]',
     editorPhone: '//*[@name="editorPhone"]',
