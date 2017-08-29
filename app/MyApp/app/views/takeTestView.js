@@ -16,7 +16,7 @@ $(function() {
         totalMarks: 0,
         preresult: null,
         attributes: {'method': 'post'},
-        myModel: null,
+        mymodel: null,
         partialMark : null,
         preview : null,
         totalMarks : null,
