@@ -1,7 +1,7 @@
 /// <reference path="./steps.d.ts" />
 Feature('Login');
 
-Scenario('test bad login', function* (I) {
+Scenario('Test for Bad Login', function* (I) {
     //// Bad username
     I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
     I.waitForVisible('//*[@name="login"]');
@@ -25,12 +25,12 @@ Scenario('test bad login', function* (I) {
     I.seeInCurrentUrl('#dashboard');
 });
 
-Scenario('test successful login', (I) => {
+Scenario('Test for Successful Login', (I) => {
     I.login('admin', 'password');
     I.seeInCurrentUrl('#dashboard');
 });
 
-Scenario('test second successful login', (I) => {
+Scenario('Test Second Successful Login', (I) => {
     I.login('admin', 'password');
     I.seeInCurrentUrl('#dashboard');
 });

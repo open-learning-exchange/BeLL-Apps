@@ -6,7 +6,7 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('Test add surveys', (I, survey_po, survey_dialog) => {
+Scenario('Test for Add Surveys', (I, survey_po, survey_dialog) => {
     var ratingLabels = ["Rating 1", "Rating 2", "Rating 3", "Rating 4", "Rating 5"];
     var d = new Date();
     var n = d.getTime();
@@ -28,7 +28,7 @@ Scenario('Test add surveys', (I, survey_po, survey_dialog) => {
     survey_po.send_survey_to_bell();
 });
 
-Scenario('Answer Survey', (I, survey_po) => {
+Scenario('Test for Answer Survey', (I, survey_po) => {
     var membersurveys = '//*[@id="surveysForMember"]';
     var testSurvey = '//td[contains(.,"Test Survey")]/../td/a';
     var singleLineText = '//td[contains(@id,"Single Textbox")]/input';
@@ -58,7 +58,7 @@ Scenario('Answer Survey', (I, survey_po) => {
     I.see("Submitted");
 });
 
-Scenario('Test delete survey', (I, survey_po) => {
+Scenario('Test for Delete Survey', (I, survey_po) => {
     survey_po.go_to_surveys();
     survey_po.delete_first_survey();
 });

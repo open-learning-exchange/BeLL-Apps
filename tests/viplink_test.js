@@ -1,11 +1,11 @@
 
-Feature('CreateVipLink');
+Feature('VipLink');
 
 Before((I) => {
     I.login('admin', 'password');
 });
 
-Scenario('test CreateVipLink', (I) => {
+Scenario('Test for Create VipLink', (I) => {
 	var managerLink = '//*[@id="NationManagerLink"]';
 	var vpPage = '//*[@href="#viplink"]';
 	var crLink = '//div/button[@class="create btn btn-success"]';
@@ -32,7 +32,7 @@ Scenario('test CreateVipLink', (I) => {
 	I.wait(3)
 });
 
-Scenario('test second DeleteVipLink', (I) => {
+Scenario('Test for Delete VipLink', (I) => {
 	var managerLink = '//*[@id="NationManagerLink"]';
 	var vpPage = '//*[@href="#viplink"]';
 	var del ='//*[@class="parentDiv"]/table/tbody/tr[2]/td[5]/button[2]';
