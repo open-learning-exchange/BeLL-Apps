@@ -1242,3 +1242,6 @@ li.bbf-field.field-selectLanguage {
 .answersection table{
     width: 100%;
 }
+#auto_sync div input[name=autoPublication]{
+    margin-top: -50px;
+}

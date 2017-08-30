@@ -1120,7 +1120,7 @@
 
         </select>
     </td>
-    <td style="width:160px;">
+    <td style="width:165px;">
         <div>
             <span>
                 <a href="#publicationdetail/<%= _id %>" class="btn btn-warning">
@@ -1135,7 +1135,7 @@
         </div>
         <%if(autoPublication == false){%>
             <div style="margin-top: 2px;">
-                <a  role='button'  onclick="App.Router.AutoPublication(true, '<%= _id %>' )" class="btn btn-primary auto_publication">
+                <a  role='button'  onclick="App.Router.AutoPublication(true, '<%= _id %>' )" class="btn btn-success auto_publication">
                     <%= languageDict.attributes.Enable_Auto_Sync%>
                 </a>
             </div>
@@ -1219,7 +1219,7 @@
         <tr>
         <tr>
             <td>
-                <div class="save btn btn-success" name="save">
+                <div class="save btn btn-success" name="save" style="margin-left:34px;">
                     <%= languageDict.attributes.Save %>
                 </div>
                 <a class="btn btn-danger" id="cancel"><%= languageDict.attributes.Cancel %></a>
