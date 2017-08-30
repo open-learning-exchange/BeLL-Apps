@@ -32,7 +32,8 @@ $(function() {
 
             },
             autoPublication: {
-                type:'Checkbox'
+                type: 'Checkbox',
+                fieldAttrs : {id: "auto_sync"}
             }
         }
 

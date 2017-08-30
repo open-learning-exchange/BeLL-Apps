@@ -4284,9 +4284,9 @@ $(function() {
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html('<div id="parentDiv"></div>');
-            $('#parentDiv').append('<div id="parentChildDiv" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="float:left;margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
+            $('#parentDiv').append('<div id="parentChildDiv" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
             if( publicationObject.attributes.autoPublication == false){
-                $('#parentChildDiv').append(" <a role='button' id='auto_publication' style='margin-left: 15px;' class='btn btn-primary auto_publication'>"+App.languageDictValue.get('Enable_Auto_Sync')+"</a>");
+                $('#parentChildDiv').append(" <a role='button' id='auto_publication' style='margin-left: 15px;' class='btn btn-success auto_publication'>"+App.languageDictValue.get('Enable_Auto_Sync')+"</a>");
             }else{
                 $('#parentChildDiv').append(" <a role='button' style='margin-left: 15px;' id='resign_publication' class='btn btn-danger '>"+App.languageDictValue.get('Disable_Auto_Sync')+"</a>");
             }
@@ -4403,6 +4403,7 @@ $(function() {
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {
                 $('.fields form').css({"direction":"rtl","float":"right"});
+                $('#auto_sync').css({"direction":"rtl","float":"right"});
             }
             $('.field-Date label').html(App.languageDictValue.get('Date'));
             $('.field-IssueNo label').html(App.languageDictValue.get('IssueNumber'));
