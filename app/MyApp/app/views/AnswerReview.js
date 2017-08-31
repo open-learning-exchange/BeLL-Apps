@@ -82,6 +82,8 @@ $(function () {
         render: function () {
             this.Score = 0;
             this.vars.questionlists = []; 
+            this.vars.attachmentName = "";
+            this.vars.attchmentURL = ""; 
             if (this.attributes.membersid === $.cookie('Member._id')) {
                 this.vars.learner = true;
             }
@@ -98,32 +100,22 @@ $(function () {
                 });
                 this.vars.questionlists.push(questionlist.toJSON()) 
                 this.vars.answerlist = this.collection.toJSON();
-                console.log(this.vars.answerlist)
+               console.log(this.vars.questionlists)
                 var attchmentURL = null;
-                var attachmentName = null;
+                //var attachmentName = [];
                 //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button
                 var memberAssignmentPaper = new App.Models.AssignmentPaper({
                     _id: this.vars.answerlist[i].Answer
                 })
-                memberAssignmentPaper.fetch({
-                    async: false,
-                    success: function (json) { 
-                        var existingModels = json;
-                        attchmentURL = '/assignmentpaper/' + existingModels.attributes._id + '/';
-                        if (typeof existingModels.get('_attachments') !== 'undefined') {
-                            attchmentURL = attchmentURL + _.keys(existingModels.get('_attachments'))
-                            attachmentName = _.keys(existingModels.get('_attachments'))
-                        }
-                        console.log("attachment name : " +attachmentName)
-                    }
-                });
-                if (attachmentName!= null) {
-                    this.vars.attchmentURL = attchmentURL ;
-                    this.vars.attachmentName = attachmentName;
-                } else {
-                    this.vars.attchmentURL = null ;
-                    this.vars.attachmentName = null;
-                }   
+                memberAssignmentPaper.fetch({async:false});
+                console.log(memberAssignmentPaper);
+                if(typeof memberAssignmentPaper.get('_attachments') !== 'undefined'){
+                    this.vars.attachmentName = _.keys(memberAssignmentPaper.get('_attachments'));
+                    this.vars.attachmentURL = '/assignmentpaper/' + memberAssignmentPaper.attributes._id + '/' + _.keys(memberAssignmentPaper.get('_attachments'));
+                    this.vars.questionlists[i]["Attachment"] = {"Name" : this.vars.attachmentName[0],"URL" : this.vars.attachmentURL}
+                }else{
+                    this.vars.questionlists[i]["Attachment"] = {"Name" : "","URL" : ""}
+                }
                 this.vars.languageDict=App.languageDict;
                 this.$el.html(this.template(this.vars));
                 $('.slider-range-min').each(function(index,item){
