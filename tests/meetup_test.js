@@ -108,7 +108,7 @@ Scenario('Test for Cancel Meetup', (I, meetup_po) => {
     meetup_po.cancel_meetup();
 });
 
-Scenario('Test for Delete Deetup', (I, meetup_po) => {
+Scenario('Test for Delete Meetup', (I, meetup_po) => {
     meetup_po.go_to_meetups();
     meetup_po.delete_meetup("Test Single Day Meetup");
     meetup_po.delete_meetup("Multiple Day Meetup");

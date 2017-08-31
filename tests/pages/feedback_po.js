@@ -13,7 +13,7 @@ module.exports = {
     feedbackList: '//*[@id="ViewAllButton"]',
     feedbackWindow: '//*[@id="site-feedback"]',
     submitButton: '//*[@id="formButton"]',
-    feedbackText: '//*[@id="comment"]',
+    //feedbackText: "//*[@id='markdown_feedback_description]/div/textarea[@id='comment']",
     feedbackPriority: '//*[@id="priority"]',
 
     open_feedback() {
@@ -31,7 +31,8 @@ module.exports = {
         }
         I.waitForVisible(typeLocator);
         I.click(typeLocator);
-        I.fillField(this.feedbackText, text);
+        var test = "//*[@id='markdown_feedback_description]/div/textarea[@id='comment']/input[@value="+text+"]"
+        I.fillField(test);
 
     },
 
