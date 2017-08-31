@@ -38,6 +38,8 @@ $(function () {
                 ratingView.render()
                 $('#externalDiv').append(ratingView.el)
                 $('#externalDiv').show()
+                App.Router.markdownEditor("comment","feedback","100")
+                $('#feedback_comment').find('label').html(App.languageDict.attributes.Comment);
             }
         },
 
