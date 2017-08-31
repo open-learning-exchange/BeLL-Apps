@@ -436,12 +436,6 @@ $(function() {
                                                                         async: false,
                                                                         success: function(response) {
                                                                             var sendPub = new Array()
-                                                                            var cName = []
-                                                                            for(i = 0;i<response.rows.length; i++){
-                                                                                var communityName = response.rows[i].doc.name;
-                                                                                console.log(communityName)
-                                                                            }
-                                                                            cName.push(communityName)
                                                                             sendPub.push({
                                                                                 communityUrl: response.rows[0].doc.sponsorUrl,
                                                                                 communityName: response.rows[0].doc.name,
