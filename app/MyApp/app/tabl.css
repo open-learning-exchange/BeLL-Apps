@@ -449,7 +449,7 @@ h3 a{
 
 #externalDiv fieldset{
     border:none;
-    font-weight: 900;
+    font-weight: normal;
 }
 #externalDiv > form {
     margin-bottom: 48px;
