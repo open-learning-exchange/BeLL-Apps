@@ -116,6 +116,30 @@ $(function () {
                 }else{
                     this.vars.questionlists[i]["Attachment"] = {"Name" : "","URL" : ""}
                 }
+                console.log(this.vars.questionlists)
+                // var that = this
+                // memberAssignmentPaper.fetch({
+                //     async: false,
+                //     success: function (json) { 
+                //         console.log(json)
+                //         var existingModels = json;
+                //         attchmentURL = '/assignmentpaper/' + existingModels.attributes._id + '/';
+                //         if (typeof existingModels.get('_attachments') !== 'undefined') {
+                //             attchmentURL = attchmentURL + _.keys(existingModels.get('_attachments'))
+                //             attachmentName = _.keys(existingModels.get('_attachments'))
+                //         }
+                //             if (attachmentName!= null) {
+                //                 that.vars.attchmentURL = attchmentURL ;
+                //                 that.vars.attachmentName.push(attachmentName);
+                //             console.log(that.vars.attachmentName)
+                //             } else {
+                //                 that.vars.attchmentURL = null ;
+                //                 that.vars.attachmentName = null;
+                //         }
+                //     }
+                // });
+                //this.vars.attachmentName.push = [{"a","b"}]
+                
                 this.vars.languageDict=App.languageDict;
                 this.$el.html(this.template(this.vars));
                 $('.slider-range-min').each(function(index,item){
