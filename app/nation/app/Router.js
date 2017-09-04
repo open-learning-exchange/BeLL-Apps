@@ -4691,7 +4691,7 @@ $(function() {
                 height = 180
             }
             $redL.redactor({
-                buttons: ['formatting', '|', 'bold', 'italic', 'deleted', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
+                buttons: ['formatting', '|', 'bold', 'italic', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'table', 'link', '|', 'alignment', '|', 'horizontalrule'],
                 minHeight: height,
                 keyupCallback: showMdL,
                 execCommandCallback: showMdL
