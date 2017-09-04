@@ -29,7 +29,7 @@ $(function() {
             $("#site-feedback").remove()
             App.$el.children('.body').append('<br/>')
             App.$el.children('.body').append(na.el)
-            App.Router.markdownEditor("description","feedback","50")
+            App.Router.markdownEditor("description","comment","50")
             $('#site-feedback').css({
                 height: '325px'
             })

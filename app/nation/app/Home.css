@@ -1083,10 +1083,10 @@ body{
     border-radius: 0 0 20px 20px;
     color: #FFFFFF;
     height: 0;
-    margin-left: 15%;
+    margin-left: 20%;
     padding-left: 0;
-    position: fixed;
-    top: 51px;
+    position: absolute;
+    top: -50px;
     visibility: hidden;
     width: 60%;
     z-index: 10;
