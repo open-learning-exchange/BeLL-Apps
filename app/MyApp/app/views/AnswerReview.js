@@ -47,6 +47,8 @@ $(function () {
                 async:false
             })
             memberProgressRecord = memberProgress.first();
+            var memberR = memberProgressRecord.get('memberId')
+            var communityName =[];
             var sstatus = memberProgressRecord.get('stepsStatus')
             var sp = memberProgressRecord.get('stepsResult')
             var ssids = memberProgressRecord.get('stepsIds')
@@ -70,6 +72,55 @@ $(function () {
             sp[this.index][pqattempts[this.index]] = totalObtainMarks.toString()
             memberProgressRecord.set('stepsResult', sp)
             memberProgressRecord.save(null, {
+                success: function(res){
+                    $.ajax({
+                        url: '/community/_all_docs?include_docs=true',
+                        type: 'GET',
+                        dataType: "json",
+                        async: false,
+                        success:function(res){
+                            if(res.total_rows > 0){
+
+                                for (var i = 0; i < res.total_rows; i++){
+                                    if(res.rows[i].doc.type == 'community'){
+                                        communityName.push(res.rows[i].doc.name)
+                                    }
+                                }
+                                if (communityName.length > 0){
+                                    for (var i = 0; i < communityName.length; i++){
+                                            var member = new App.Models.Member()
+                                            member.id = memberR
+                                            attributea: {
+                                                member.community = communityName[i]
+                                            }
+                                            member.fetch({
+                                                async:false
+                                            })
+                                    }
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": " membercourseprogress",
+                                            "target": 'http://' + communityName + ':' + App.password + '@' + communityurl + ':5984/ membercourseprogress'
+                                        }),
+                                        success:function(res){
+                                            console.log("success")
+                                        },
+                                        error:function(status){
+                                            console.log(status)
+                                        }
+                                    });
+                                }
+                            }
+                    }
+                    });
+                },
                 error: function() {
                     console.log("Not Saved");
                 }
@@ -100,7 +151,6 @@ $(function () {
                 });
                 this.vars.questionlists.push(questionlist.toJSON()) 
                 this.vars.answerlist = this.collection.toJSON();
-               console.log(this.vars.questionlists)
                 var attchmentURL = null;
                 //var attachmentName = [];
                 //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button
@@ -108,7 +158,6 @@ $(function () {
                     _id: this.vars.answerlist[i].Answer
                 })
                 memberAssignmentPaper.fetch({async:false});
-                console.log(memberAssignmentPaper);
                 if(typeof memberAssignmentPaper.get('_attachments') !== 'undefined'){
                     this.vars.attachmentName = _.keys(memberAssignmentPaper.get('_attachments'));
                     this.vars.attachmentURL = '/assignmentpaper/' + memberAssignmentPaper.attributes._id + '/' + _.keys(memberAssignmentPaper.get('_attachments'));
@@ -116,30 +165,6 @@ $(function () {
                 }else{
                     this.vars.questionlists[i]["Attachment"] = {"Name" : "","URL" : ""}
                 }
-                console.log(this.vars.questionlists)
-                // var that = this
-                // memberAssignmentPaper.fetch({
-                //     async: false,
-                //     success: function (json) { 
-                //         console.log(json)
-                //         var existingModels = json;
-                //         attchmentURL = '/assignmentpaper/' + existingModels.attributes._id + '/';
-                //         if (typeof existingModels.get('_attachments') !== 'undefined') {
-                //             attchmentURL = attchmentURL + _.keys(existingModels.get('_attachments'))
-                //             attachmentName = _.keys(existingModels.get('_attachments'))
-                //         }
-                //             if (attachmentName!= null) {
-                //                 that.vars.attchmentURL = attchmentURL ;
-                //                 that.vars.attachmentName.push(attachmentName);
-                //             console.log(that.vars.attachmentName)
-                //             } else {
-                //                 that.vars.attchmentURL = null ;
-                //                 that.vars.attachmentName = null;
-                //         }
-                //     }
-                // });
-                //this.vars.attachmentName.push = [{"a","b"}]
-                
                 this.vars.languageDict=App.languageDict;
                 this.$el.html(this.template(this.vars));
                 $('.slider-range-min').each(function(index,item){
