@@ -427,7 +427,7 @@ $(function() {
                                                     success: function (response) {
                                                         for(i=0; i<response.rows.length; i++){
                                                             if(response.rows[i].doc._id != "_design/bell"){
-                                                                if(response.rows[i].doc.autoPublication != undefined || response.rows[i].doc.autoPublication == true){
+                                                                if(response.rows[i].doc.autoPublication == true){
                                                                     var publicationsId = response.rows[i].doc._id
                                                                     $.ajax({
                                                                         type: 'GET',
