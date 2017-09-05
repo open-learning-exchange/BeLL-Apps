@@ -13,7 +13,7 @@ module.exports = {
     feedbackList: '//*[@id="ViewAllButton"]',
     feedbackWindow: '//*[@id="site-feedback"]',
     submitButton: '//*[@id="formButton"]',
-    //feedbackText: "//*[@id='markdown_feedback_description]/div/textarea[@id='comment']",
+    feedbackText: '//*[@id="comment"]',
     feedbackPriority: '//*[@id="priority"]',
 
     open_feedback() {
@@ -31,8 +31,10 @@ module.exports = {
         }
         I.waitForVisible(typeLocator);
         I.click(typeLocator);
-        var test = "//*[@id='markdown_feedback_description]/div/textarea[@id='comment']/input[@value="+text+"]"
-        I.fillField(test);
+        var feedbackdesc = '//*[@id="feedback_description_link"]';
+        I.waitForVisible(feedbackdesc);
+        I.click(feedbackdesc);
+        I.fillField(this.feedbackText, text);
 
     },
 
@@ -53,6 +55,8 @@ module.exports = {
     view_feedback_list() {
         I.click(this.feedbackList);
         I.seeInCurrentUrl('#siteFeedback');
+        I.wait(2);
+        I.click("Feedback");
     }
 
 }

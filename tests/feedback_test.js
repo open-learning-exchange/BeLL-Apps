@@ -28,3 +28,8 @@ Scenario('Test for Cancel Feedback', (I, feedback_po) => {
     feedback_po.open_feedback();
     feedback_po.close_feedback();
 });
+
+Scenario('Test for View Feedback', (I, feedback_po) => {
+    feedback_po.open_feedback();
+    feedback_po.view_feedback_list();
+});
