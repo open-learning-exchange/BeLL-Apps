@@ -41,7 +41,7 @@ function increaseLimits() {
 }
 
 var n_members = 5 ; //Number of Iteration to run for members 
-var n_courses = 25 ; //Number of Iteration to run for courses 
+var n_courses = 5 ; //Number of Iteration to run for courses 
 var defaultMember = [];
 var default_NewMember = []; //Contains only MemberID
 var defaultCourses = []; //Contains only CourseID and MemberList
@@ -170,22 +170,38 @@ function createDummyCourses() {
 							return random_course_id;
 						}
 						
-						for(var i = 0; i < dummyData.length; i++){
-							var course_id = randomCourses();
-							defaultCoursestep.push({
-								"courseId": course_id,
-								"description": "This is course step "+ (parseInt(i)+1),
-								"kind": "Course Step",
-								"passingPercentage": "30",
-								//"questionslist": "",
-								"resourceId": "",
-								"resourceTitles": "",
-								"step": "1",
-								"stepGoals": "Knowledge",
-								"stepMethod": "Theory",
-								"title": "Course Step "+ (parseInt(i)+1),
-								"totalMarks": "100"
-							});
+						for(var i = 0; i < 2; i++){
+						var course_id = randomCourses();
+							if(i == 0){
+								defaultCoursestep.push({
+									"courseId": course_id,
+									"description": "This is course step "+ (parseInt(i)+1),
+									"kind": "Course Step",
+									"passingPercentage": "30",
+									"resourceId": "",
+									"resourceTitles": "",
+									"step": "1",
+									"stepGoals": "Knowledge",
+									"stepMethod": "Theory",
+									"title": "Course Step "+ (parseInt(i)+1),
+									"totalMarks": "100"
+								});
+							}else{
+								defaultCoursestep.push({
+										"courseId": course_id,
+										"description": "This is course step having empty questions ",
+										"kind": "Course Step",
+										"passingPercentage": "30",
+										"resourceId": "",
+										"resourceTitles": "",
+										"step": "1",
+										"stepGoals": "Knowledge",
+										"stepMethod": "Theory",
+										"title": "Course Step ",
+										"totalMarks": "100"
+								});
+							}
+							
 						}
 						var coursestep = nano.db.use('coursestep');
 						coursestep.bulk({"docs":defaultCoursestep}, function(err, res) {
