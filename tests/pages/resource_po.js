@@ -15,7 +15,7 @@ module.exports = {
     cancelResourceBtn: '//*[@id="cancel"]',
     requestResourceBtn: '//*[@id="requestResource"]',
     requestWindow: '//*[@id="site-request"]',
-    requestMessage: '//*[@name="request"]',
+    //requestMessage: '//*[@name="request"]',
     requestSubmit: '//*[@id="formButton"]',
     requestCancel: '//*[@id="CancelButton"]',
     requestViewAll: '//*[@id="ViewAllButton"]',
@@ -69,6 +69,7 @@ module.exports = {
         I.wait(7);
         I.waitForVisible(this.libraryLink);
         I.click(this.libraryLink);
+        I.wait(3)
         I.waitForVisible(this.addResourceBtn);
         I.see("Resources");
         I.see("Collections ");
@@ -95,7 +96,10 @@ module.exports = {
         I.waitForVisible(this.requestResourceBtn);
         I.click(this.requestResourceBtn);
         I.waitForVisible(this.requestWindow);
-        I.fillField(this.requestMessage, message);
+        I.executeScript(function() {
+            $('.redactor_ ').html("I want a certain test resource!")
+        });
+        //I.fillField(this.requestMessage, message);
         if (doSubmit) {
             I.click(this.requestSubmit);
             I.wait(1);
@@ -213,13 +217,17 @@ module.exports = {
         I.waitForVisible(this.addCollections);
     },
 
-    add_collection(name, desc, parent) {
+    add_collection(name, parent) {
         I.waitForVisible(this.addCollections);
         I.wait(3);
         I.click(this.addCollections);
         I.waitForVisible(this.addCollectionWindow);
         I.fillField(this.collectionName, name);
-        I.fillField(this.collectionDesc, desc);
+        // I.fillField(this.collectionDesc, desc);
+        I.executeScript(function() {
+            $('.redactor_ ').html("This is a test collection created by resource_test.js")
+        });
+        I.wait(3)
         if (parent != null) {
             I.selectOption(this.parentCollection, parent);
         }
@@ -249,7 +257,7 @@ module.exports = {
         I.seeInCurrentUrl('#collection');
     },
 
-    edit_collection(name, newName, newDesc, newParent) {
+    edit_collection(name, newName, newParent) {
         let editCollection = '//*[@id="collectionTable"]/tbody//*[text()="' + name + '"]/../../td/button';
 
         I.waitForVisible(editCollection);
@@ -257,7 +265,11 @@ module.exports = {
         I.click(editCollection);
         I.waitForVisible(this.addCollectionWindow);
         I.fillField(this.collectionName, newName);
-        I.fillField(this.collectionDesc, newDesc);
+        // I.fillField(this.collectionDesc, newDesc);
+        I.executeScript(function() {
+            $('.redactor_ ').html("Should be gone", "Should be gone")
+        });
+        I.wait(3)
         if (newParent) {
             I.selectOption(this.parentCollection, newParent);
         }

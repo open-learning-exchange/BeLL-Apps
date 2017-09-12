@@ -5592,6 +5592,7 @@ $(function() {
                     model: collectionlist
                 })
                 inviteForm.render()
+                $('#invitationdiv').css({'height': '76%'})
                 $('#invitationdiv').html('&nbsp')
                 $('#invitationdiv').append(inviteForm.el)
                 App.Router.markdownEditor("description","collection","90")
