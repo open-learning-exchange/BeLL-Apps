@@ -942,9 +942,11 @@
     "Auto_Publication":"Auto Publication",
     "Enable_Auto_Sync":"Enable Auto Sync",
     "Disable_Auto_Sync":"Disable Auto Sync",
+<<<<<<< HEAD
     "Courses_Replicated": "Courses Replicated",
     "Course_Answers_Replicated":"Course Answers Replicated",
     "Answer_Assignment_paper":"Assignment Answers Database",
     "Assignment_Database_replicate":"Assignment Paper database successfully replicated",
-    "Assignment_Name":"Assignment Name"
+    "Assignment_Name":"Assignment Name",
+    "Pub_Synced_Again": "Sync Publication Again"
 }
