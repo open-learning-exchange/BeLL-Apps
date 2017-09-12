@@ -9,8 +9,7 @@
                 // carry the publication in a variable global to this (PublicationTable) view for use in event handling
                 this.collectionInfo[model._id]= model; //[model.resources,model.courses,model.IssueNo]
                 if (isAlreadySynced) {
-                    this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><a name="' +model._id +
-                        '" class="synPublication btn btn-info">'+App.languageDict.attributes.Sync_Publication+'</a></td></tr>');
+                    this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><label>'+App.languageDict.attributes.Synced_Success+'</label></td></tr>');
                 } else {
                     this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><a name="' +model._id +
                         '" class="synPublication btn btn-info">'+App.languageDict.attributes.Sync_Publication+'</a><label>&nbsp&nbsp'+App.languageDict.attributes.Not_Synced+'</label></td></tr>');
@@ -467,6 +466,7 @@
                                                                                                 success: function(response){
                                                                                                     alert(App.languageDict.attributes.Pubs_Replicated_Success)
                                                                                                     App.stopActivityIndicator();
+                                                                                                    that.render()
                                                                                                 },
                                                                                                 async: false
                                                                                             });
