@@ -9,7 +9,7 @@
                 // carry the publication in a variable global to this (PublicationTable) view for use in event handling
                 this.collectionInfo[model._id]= model; //[model.resources,model.courses,model.IssueNo]
                 if (isAlreadySynced) {
-                    this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><label>'+App.languageDict.attributes.Synced_Success+'</label></td></tr>');
+                    this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><label>'+App.languageDict.attributes.Pub_Synced_Success+'</label></td></tr>');
                 } else {
                     this.$el.append('<tr id="' + publicationDistribID + '"><td>' + model.IssueNo+ '</td><td><a name="' +model._id +
                         '" class="synPublication btn btn-info">'+App.languageDict.attributes.Sync_Publication+'</a><label>&nbsp&nbsp'+App.languageDict.attributes.Not_Synced+'</label></td></tr>');
