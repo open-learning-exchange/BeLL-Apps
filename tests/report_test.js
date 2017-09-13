@@ -129,6 +129,8 @@ Scenario('Test for Delete Report', (I) => {
 	I.wait(2);
 	I.seeInPopup("Are you sure you want to delete this report?");
 	I.acceptPopup();
-	I.wait(5);
+	I.wait(1);
+	I.seeInPopup("Successfully deleted report.");
+	I.acceptPopup();
 	I.seeInCurrentUrl('#reports');
 	}); 
