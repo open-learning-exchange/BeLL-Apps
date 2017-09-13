@@ -4593,7 +4593,7 @@ $(function() {
                             "target": 'community',
                             'doc_ids': docIDs
                         }),
-                        async: true,
+                        async: false,
                         success: function (response) {
                             console.log('Successfully replicated all accepted requests to community.')
                         },
@@ -4615,7 +4615,7 @@ $(function() {
                             "target": 'communityregistrationrequests',
                             'doc_ids': docIDs
                         }),
-                        async: true,
+                        async: false,
                         success: function (response) {
                             console.log('Successfully replicated all pending requests.')
                         },
