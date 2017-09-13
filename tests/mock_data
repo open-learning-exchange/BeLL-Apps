@@ -1,4 +1,4 @@
-var sys = require('sys')
+var util = require('util')
 var fs = require('fs')
 var exec = require('child_process').exec;
 var program = require('commander');
@@ -23,7 +23,7 @@ function increaseLimits() {
     })
 }
 
-var n_courses = 1 ; //Number of Iteration to run for courses 
+var n_courses = 2 ; //Number of Iteration to run for courses 
 var defaultCourses = []; //Contains only CourseID and MemberList
 var defaultCoursestep = []; 
 var defaultCoursequestion = [];
@@ -86,7 +86,7 @@ function createDummyCourses() {
                 return random_course_id;
             }
             
-            for(var i = 0; i < 2; i++){
+            for(var i = 0; i < 1; i++){
                     var course_id = randomCourses();
                         defaultCoursestep.push({
                             "courseId": course_id,
