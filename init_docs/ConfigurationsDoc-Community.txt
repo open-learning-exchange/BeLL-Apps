@@ -3,7 +3,7 @@
     "type":"community",
     "version":"0.13.16",
     "currentLanguage":"English",
-    "register": "nbs.ole.org:5997",
+    "register": "earthbell.ole.org:5989",
     "registerDev": "nbs.ole.org:5997"
 }
 
