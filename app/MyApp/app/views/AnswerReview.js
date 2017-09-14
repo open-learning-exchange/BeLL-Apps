@@ -101,6 +101,7 @@ $(function () {
                 this.vars.questionlists.push(questionlist.toJSON()) 
                 this.vars.answerlist = this.collection.toJSON();
                 var attchmentURL = null;
+                //var attachmentName = [];
                 //If step has attachment paper then fetch that attachment paper so that it can be downloaded by "Download" button
                 var memberAssignmentPaper = new App.Models.AssignmentPaper({
                     _id: this.vars.answerlist[i].Answer
