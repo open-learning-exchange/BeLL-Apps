@@ -8,8 +8,6 @@ $(function() {
             if (_.has(this, 'id')) {
                 var url = (_.has(this.toJSON(), '_rev')) ? App.Server + '/members/' + this.id + '?rev=' + this.get('_rev') // For UPDATE and DELETE
                     : App.Server + '/members/' + this.id // For READ
-            } else if (this.community){
-                var url = App.Server + '/members/_design/bell/_view/MembersByCommunity?include_docs=true&key="'+ this.community +'"'
             }else {
                 var url = App.Server + '/members' // for CREATE
             }
