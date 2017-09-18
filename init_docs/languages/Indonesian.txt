@@ -532,7 +532,7 @@
   "Removed_From_Collection":"Berhasil dihapus dari koleksi.",
   "Resource_Deleted_success":"Sumber daya telah berhasil dihapus.",
   "Resource_RemovedFrom_Shelf_Success":"Sumber daya telah berhasil dihapus dari rak.",
-  "Prompt_Reource_first":"Silakan pilih sumber daya terlebih dahulu.",
+  "Prompt_Resources_first":"Silakan pilih sumber daya terlebih dahulu.",
   "Resources_Added_Success":"Sumber daya anda telah berhasil ditambahkan.",
   "Fetch_Collections_Error":"Tidak dapat meminta koleksi.",
   "FeedBack_Sent_success":"Umpan balik telah berhasil dikirim.",

@@ -532,7 +532,7 @@
   "Removed_From_Collection":"Quitó con éxito de la colección.",
   "Resource_Deleted_success":"Recurso eliminado con éxito.",
   "Resource_RemovedFrom_Shelf_Success":"Quitó con éxito el recurso del estante.",
-  "Prompt_Reource_first":"Seleccione primero los recursos.",
+  "Prompt_Resources_first":"Seleccione primero los recursos.",
   "Resources_Added_Success":"Sus recursos se añadieron con éxito.",
   "Fetch_Collections_Error":"No se pueden obtener colecciones.",
   "FeedBack_Sent_success":"Retroalimentación enviada con éxito.",

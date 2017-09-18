@@ -532,7 +532,7 @@
   "Removed_From_Collection":"Removed successfully from collection.",
   "Resource_Deleted_success":"Ebyerighako byabirilhusibwamo",
   "Resource_RemovedFrom_Shelf_Success":"Resource successfully removed from shelf.",
-  "Prompt_Reource_first":"Thuka erisombolha omuli ebyerighako",
+  "Prompt_Resources_first":"Please select resources first.",
   "Resources_Added_Success":"Your resources have been added successfully.",
   "Fetch_Collections_Error":"Kikalire eribana ebyerighako",
   "FeedBack_Sent_success":"Ebikasubawamo byabirithumwa ",
