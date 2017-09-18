@@ -1,0 +1,240 @@
+var util = require('util')
+var fs = require('fs')
+var exec = require('child_process').exec;
+var program = require('commander');
+var databases = []
+program
+    .version('0.0.2')
+    .parse(process.argv);
+if (!program.args[0]) return console.log('No CouchDB URL provided. Quiting now.')
+var couchUrl = program.args[0]
+var nano = require('nano')(couchUrl)
+
+function start() {
+    increaseLimits()
+}
+
+// Increase Limits so couchapp push works correctly
+function increaseLimits() {
+    exec('sudo launchctl limit maxfiles 150056 150056', function doneWithLaunchCtl() {
+        exec('sudo ulimit -n 150056', function doneWithUlimit() {
+            return createDummyCourses()
+        })
+    })
+}
+
+var n_courses = 2 ; //Number of Iteration to run for courses 
+var defaultCourses = []; //Contains only CourseID and MemberList
+var defaultCoursestep = []; 
+var defaultCoursequestion = [];
+var defaultResources = [];
+
+function createDummyCourses() {
+    var courses = nano.db.use('courses');
+    var coursestep = nano.db.use('coursestep');
+    var coursequestion = nano.db.use('coursequestion');
+
+    for(course = 0; course < n_courses; course++){
+        course_number = course + 1;
+        var subjectLevel;
+        if (course <=3){
+            subjectLevel = "Amateur";
+        }else if(course>=4 && course<=8){
+            subjectLevel = "Mid";
+        }else{
+            subjectLevel = "Beginner";
+        }
+        defaultCourses.push({
+            "CourseTitle": "Course " +course_number,
+            "Day": "0",
+            "backgroundColor": "",
+            "courseLeader": "",
+            "description": "This is Course " +course_number+" .",
+            "endDate": "12/12/2017",
+            "endTime": "17:00",
+            "foregroundColor": "",
+            "gradeLevel": "1",
+            "kind": "Course",
+            "languageOfInstruction": "English",
+            "location": "Alberta",
+            "memberLimit": "20",
+            "members": [],
+            "method": "Theory and Practical",
+            "name": "Course " +course_number,
+            "startDate": "01/01/2017",
+            "startTime": "10:00",
+            "subjectLevel": subjectLevel
+        });
+    }
+    
+    //insert into courses
+    courses.bulk({"docs":defaultCourses}, function(err, res) {
+        if (err)
+            return console.log(err);
+        else {
+            course_id = [];
+            console.log(res.length);
+            for(var i=0;i<res.length;i++){
+                course_id.push(res[i].id);
+            }
+            for(var i = 0; i < 1; i++){
+                        defaultCoursestep.push({
+                            "courseId": course_id[i],
+                            "description": "This is course step "+ (parseInt(i)+1),
+                            "kind": "Course Step",
+                            "passingPercentage": "30",
+                            "resourceTitles":[],
+                            "resourceId":[],
+                            "questionslist":[],
+                            "step": i+1,
+                            "stepGoals": "Knowledge",
+                            "stepMethod": "Theory",
+                            "title": "Course Step "+ (parseInt(i)+1),
+                            "totalMarks": "100"
+                        });  
+            }
+            for(var i = 0; i < 1; i++){
+                    defaultResources.push({
+                           "kind": "Resource",
+                           "status": "accepted",
+                           "title": "a",
+                           "author": "a",
+                           "Publisher": "",
+                           "language": "Arabic",
+                           "Year": "a",
+                           "linkToLicense": "",
+                           "subject": [
+                               "Agriculture",
+                               "Arts",
+                               "Business and Finance",
+                               "Environment",
+                               "Food and Nutrition",
+                               "Geography",
+                               "Health and Medicine",
+                               "History",
+                               "Human Development",
+                               "Languages",
+                               "Law",
+                               "Learning",
+                               "Literature",
+                               "Math",
+                               "Music",
+                               "Politics and Government",
+                               "Reference",
+                               "Religion",
+                               "Science",
+                               "Social Sciences",
+                               "Sports",
+                               "Technology"
+                           ],
+                           "Level": [
+                               "Early Education",
+                               "Lower Primary",
+                               "Upper Primary",
+                               "Lower Secondary",
+                               "Upper Secondary",
+                               "Undergraduate",
+                               "Graduate",
+                               "Professional"
+                           ],
+                           "Tag": null,
+                           "Medium": "Text",
+                           "openWith": "Just download",
+                           "resourceFor": "Default",
+                           "resourceType": "Textbook",
+                           "uploadDate": "2017-09-12T18:15:00.000Z",
+                           "averageRating": "",
+                           "articleDate": "2017-09-12T18:15:00.000Z",
+                           "addedBy": "admin",
+                           "openUrl": "",
+                           "openWhichFile": "",
+                           "sum": 0,
+                           "timesRated": 0
+                    });
+            }
+            var resources = nano.db.use('resources');
+                resources.bulk({"docs":defaultResources},  function(err, body) {
+                    if (err){
+                        return console.log(err);
+                    }else{
+                       defaultCoursestep[0].resourceId.push(body[0].id);
+                       //insert into coursestep
+                       coursestep.insert({"docs":defaultCoursestep[0]},function(err,res){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                defaultCoursestep[0]._id = res.id;
+                                defaultCoursestep[0]._rev = res.rev;
+                                //insert into coursequestion
+                                defaultCoursequestion.push({
+                                    "CorrectAnswer":  [
+                                                           "Charles Babbages",
+                                                      ],
+                                    "Options": [
+                                                   "Sachin Maharjan",
+                                                   "Rupesh Manandhar",
+                                                   "Charles Babbage",
+                                                   "Stefan Unchester"
+                                                ],
+                                    "Statement": "What is father of computer" +" ?",
+                                    "Type": "Multiple Choice",
+                                    "courseId": course_id,
+                                    "kind": "coursequestion",
+                                    "stepId" : defaultCoursestep[0]._id,
+                                    "Marks" : 10
+                                });
+                                defaultCoursequestion.push({
+                                        "Statement": "What is programming language"+" ?",
+                                        "Type": "Comment/Essay Box",
+                                        "courseId": course_id,
+                                        "kind": "coursequestion",
+                                        "stepId" : defaultCoursestep[0]._id,
+                                        "Marks" : 10
+                                });
+
+                                defaultCoursequestion.push({
+                                    "Statement": "Attach Summer Project" +".",
+                                    "Type": "Attachment",
+                                    "courseId": course_id,
+                                    "kind": "coursequestion",
+                                    "stepId" : defaultCoursestep[0]._id,
+                                    "Marks" : 10
+                                });
+
+                                defaultCoursequestion.push({
+                                    "Statement": "Full form of IDE" +".",
+                                    "Type": "Single Textbox",
+                                    "courseId": course_id,
+                                    "kind": "coursequestion",
+                                    "stepId" : defaultCoursestep[0]._id,
+                                    "Marks" : 10
+                                });
+                                
+                                coursequestion.bulk({"docs":defaultCoursequestion}, function(err, res) {
+                                    if (err)
+                                        return console.log(err);
+                                    else {
+                                        //need to update questionlist in coursestep
+                                        for(var i = 0; i < defaultCoursequestion.length; i++){
+                                            defaultCoursestep[0].questionslist.push(res[i].id)
+                                        }
+                                        //update coursestep[0]
+                                        coursestep.insert(defaultCoursestep[0],  function(err, res) {
+                                            if (err)
+                                                return console.log(err);
+                                            else
+                                                done();
+                                        });
+                                    }
+                                });
+                            }
+                       });
+                    }
+            });
+        }
+    });
+}
+function done(){
+    console.log("done");
+}
+start()
