@@ -532,7 +532,7 @@
   "Removed_From_Collection":"کامیابی سے مجموعہ میں سے ہٹا دیا ہے",
   "Resource_Deleted_success":"ریسورس کو کامیابی کے ساتھ حزف کر دیا ہے.",
   "Resource_RemovedFrom_Shelf_Success":"ریسورس کو کامیابی کے ساتھ شیلف میں سے حزف کر دیا ہے",
-  "Prompt_Reource_first":"Please select resources first.",
+  "Prompt_Resources_first":"Please select resources first.",
   "Resources_Added_Success":"آپ کے ریسورسز کو کامیابی سے شامل کر لیا ہے",
   "Fetch_Collections_Error":"Unable to get collections.",
   "FeedBack_Sent_success":"آپ کی رائے کو کامیابی سے بھیج دیا ہے",
