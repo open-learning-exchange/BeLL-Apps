@@ -532,7 +532,7 @@
   "Removed_From_Collection":"تم الحذف من المجموعة بنجاح",
   "Resource_Deleted_success":"تم حذف المجلد بنجاح",
   "Resource_RemovedFrom_Shelf_Success":"تم حذف المعلومات من الألبوم بنجاح",
-  "Prompt_Reource_first":"الرجاء اختيار المجلد أولاً.",
+  "Prompt_Resources_first":"الرجاء اختيار المجلد أولاً.",
   "Resources_Added_Success":"تمت إضافة المعلومات بنجاح",
   "Fetch_Collections_Error":"غير قادر على اختيار المجلد",
   "FeedBack_Sent_success":"تم إرسال الملاحظات بنجاح",
