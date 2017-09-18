@@ -532,7 +532,7 @@
   "Removed_From_Collection":"Nesorina tanteraka avy amin'ny fitambarany",
   "Resource_Deleted_success":"Voafafa tanteraka ny loharanon-kevitra",
   "Resource_RemovedFrom_Shelf_Success":"loharano voafafa tao amin'ny etazera",
-  "Prompt_Reource_first":"Azafady safidio aloha ny boky sy lesona.",
+  "Prompt_Resources_first":"Azafady safidio aloha ny boky sy lesona.",
   "Resources_Added_Success":"Tontosa soamantsara ny fanapiana ny loharanon-kevitra",
   "Fetch_Collections_Error":"Tsy afaka mahazo vondrona boky na lesona.",
   "FeedBack_Sent_success":"Tafita ny fandefasana ny soson-kevitra na ny fanamarihana",
