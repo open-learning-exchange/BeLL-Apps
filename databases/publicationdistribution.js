@@ -13,6 +13,13 @@ ddoc.views = {
     }
   },
   //***********************
+   getNationPublications: {
+    map: function(doc) {
+      if (doc.nationName)
+        emit([doc.nationName, doc.Viewed], true);
+    }
+  },
+  //***********************
   pubdistributionById: {
     map: function(doc) {
       if (doc._id) {

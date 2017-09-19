@@ -159,6 +159,8 @@
 <script src="app/views/VipLinksView.js"></script> <!-- app/views.js -->
 <script src="app/views/PullNations.js"></script> <!-- app/views.js -->
 <script src="app/Router.js"></script>
+<script src="app/views/listNationView.js"></script> <!-- app/views.js -->
+
 
 <script>
     var limitofRecords = 5;
@@ -193,7 +195,9 @@
     function SelectCommunity(pId){
         App.Router.SelectCommunities(pId)
     }
-
+    function SelectNation(pId){
+        App.Router.SelectNations(pId)
+    }
     function selectCriteria(surveyId){
         document.location.href = "#criteriaList/" + surveyId;
     }

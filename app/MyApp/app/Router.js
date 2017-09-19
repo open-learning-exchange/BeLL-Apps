@@ -88,6 +88,7 @@ $(function() {
             'CompileAppManifest': 'CompileAppManifest',
             'communityManage': 'communityManage',
             'publications/:community': 'Publications',
+            'nationpublications/:community': 'NationPublications',
             'surveys/:community': 'Surveys',
             'openSurvey/:surveyId/:isSubmitted/:memberId': 'OpenSurvey',
             'memberSurveys': 'SurveysForMembers',
@@ -148,6 +149,13 @@ $(function() {
         },
         Publications: function(publicationIdes) {
             var PublicationsView = new App.Views.PublicationTable();
+            PublicationsView.render();
+            App.$el.children('.body').html('<div id="requestsTable"></div>');
+            $('#requestsTable').append('<h3>'+App.languageDict.get('Publications')+'</h3>');
+            $('#requestsTable').append(PublicationsView.el);
+        },
+        NationPublications: function(publicationIdes) {
+            var PublicationsView = new App.Views.NationPublicationTable();
             PublicationsView.render();
             App.$el.children('.body').html('<div id="requestsTable"></div>');
             $('#requestsTable').append('<h3>'+App.languageDict.get('Publications')+'</h3>');
@@ -971,6 +979,7 @@ $(function() {
         },
 
         getNationVersion: function (dashboard) {
+            console.log(dashboard)
             var that = this;
             var configuration = App.configuration
             var nationName = configuration.get("nationName")
@@ -1158,34 +1167,36 @@ $(function() {
                                                                         newSurveysCount++;
                                                                     }
                                                                 }
-                                                            }
-                                                            if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
-                                                                new_publications_count = newPublicationsCount;
-                                                                if (newSurveysCount > 0) {
-                                                                    new_surveys_count = newSurveysCount;
-                                                                    dashboard.updateVariables(nation_version, new_publications_count, new_surveys_count);
-                                                                    $("#newSurvey").click(function () {
-                                                                        document.location.href = "#surveys/for-" + currentBellName;
+                                                            } 
+                                                            if(App.configuration.get('type')!='nation'){
+                                                                if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
+                                                                    new_publications_count = newPublicationsCount;
+                                                                    if (newSurveysCount > 0) {
+                                                                        new_surveys_count = newSurveysCount;
+                                                                        dashboard.updateVariables(nation_version, new_publications_count, new_surveys_count);
+                                                                        $("#newSurvey").click(function () {
+                                                                            document.location.href = "#surveys/for-" + currentBellName;
+                                                                        });
+                                                                        $('#newSurvey').show();
+                                                                    } else {
+                                                                        dashboard.updateVariables(nation_version, new_publications_count, 0);
+                                                                    }
+                                                                    $("#newPublication").click(function () {
+                                                                        document.location.href = "#publications/for-" + currentBellName;
                                                                     });
-                                                                    $('#newSurvey').show();
+                                                                    //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                                                                    $('#newPublication').show();
                                                                 } else {
-                                                                    dashboard.updateVariables(nation_version, new_publications_count, 0);
-                                                                }
-                                                                $("#newPublication").click(function () {
-                                                                    document.location.href = "#publications/for-" + currentBellName;
-                                                                });
-                                                                //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
-                                                                $('#newPublication').show();
-                                                            } else {
-                                                                if (newSurveysCount > 0 && ($.inArray('Manager', roles) != -1)) {
-                                                                    new_surveys_count = newSurveysCount;
-                                                                    dashboard.updateVariables(nation_version, 0, new_surveys_count);
-                                                                    $("#newSurvey").click(function () {
-                                                                        document.location.href = "#surveys/for-" + currentBellName;
-                                                                    });
-                                                                    $('#newSurvey').show();
-                                                                } else {
-                                                                    dashboard.updateVariables(nation_version, 0, 0);
+                                                                    if (newSurveysCount > 0 && ($.inArray('Manager', roles) != -1)) {
+                                                                        new_surveys_count = newSurveysCount;
+                                                                        dashboard.updateVariables(nation_version, 0, new_surveys_count);
+                                                                        $("#newSurvey").click(function () {
+                                                                            document.location.href = "#surveys/for-" + currentBellName;
+                                                                        });
+                                                                        $('#newSurvey').show();
+                                                                    } else {
+                                                                        dashboard.updateVariables(nation_version, 0, 0);
+                                                                    }
                                                                 }
                                                             }
                                                         },
@@ -1194,16 +1205,18 @@ $(function() {
                                                         }
                                                     });
                                                 } else {
-                                                    if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
-                                                        new_publications_count = newPublicationsCount;
-                                                        dashboard.updateVariables(nation_version, new_publications_count, 0);
-                                                        $("#newPublication").click(function () {
-                                                            document.location.href = "#publications/for-" + currentBellName;
-                                                        });
-                                                        $('#newPublication').show();
-                                                    }
-                                                    else {
-                                                        dashboard.updateVariables(nation_version, 0, 0);
+                                                    if(App.configuration.get('type')!='nation'){
+                                                        if (newPublicationsCount > 0 && ($.inArray('Manager', roles) != -1)) {
+                                                            new_publications_count = newPublicationsCount;
+                                                            dashboard.updateVariables(nation_version, new_publications_count, 0);
+                                                            $("#newPublication").click(function () {
+                                                                document.location.href = "#publications/for-" + currentBellName;
+                                                            });
+                                                            $('#newPublication').show();
+                                                        }
+                                                        else {
+                                                            dashboard.updateVariables(nation_version, 0, 0);
+                                                        }
                                                     }
                                                 }
                                             },
@@ -1243,7 +1256,134 @@ $(function() {
                 timeout: 4000
             });
         },
+        getNationPublication: function (dashboard) {
+            var centralNationUrl = getCentralNationUrl();
+            var newPublicationsCount = 0;
+            $.ajax({
+                url:'http://' + centralNationUrl + '/publicationdistribution/_design/bell/_view/getNationPublications?include_docs=true&key=["' + App.configuration.get('nationName') + '",' + false + ']',
+                type: 'GET',
+                dataType: 'jsonp',
+                async: false,
+                success: function (json) {
+                    var publicationDistribDocsFromNation = [],
+                        tempKeys = [];
+                    _.each(json.rows, function (row) {
+                        publicationDistribDocsFromNation.push(row.doc);
+                        tempKeys.push(row.doc.publicationId);
+                    });
+                    // fetch all publications from local/community server to see how many of the publications from nation are new ones
+                    var publicationCollection = new App.Collections.Publication();
+                    var tempUrl = App.Server + '/publications/_design/bell/_view/allPublication?include_docs=true';
+                    publicationCollection.setUrl(tempUrl);
+                    publicationCollection.fetch({
+                        success: function () {
+                            var alreadySyncedPublications = publicationCollection.models;
+                            for (var i in publicationDistribDocsFromNation) {
+                                // if this publication doc exists in the list of docs fetched from nation then ignore it from new publications
+                                // count
+                                var index = alreadySyncedPublications.map(function (element) {
+                                    return element.get('_id');
+                                }).indexOf(publicationDistribDocsFromNation[i].publicationId);
+                                if (index > -1) {//code here
+                                  /*  var pubId = publicationDistribDocsFromNation[i].publicationId;
 
+                                    var nationUrl = 'http://' + publicationDistribDocsFromNation[i].createrNationName + ':' + App.password + '@' + publicationDistribDocsFromNation[i].createrNationUrl  +
+                                        '/publications/' + pubId;
+                                    $.ajax({
+                                        url: nationUrl,
+                                        type: 'GET',
+                                        dataType: 'jsonp',
+                                        success: function (publicationDoc) {
+                                            if(publicationDoc.downloadedByNation && publicationDoc.downloadedByNation != undefined) {
+                                                if(publicationDoc.downloadedByNation.indexOf(currentBellName) == -1) {
+                                                    publicationDoc.downloadedByNation.push(currentBellName);
+                                                    console.log(publicationDoc.downloadedByNation)
+                                                    var courseModel = new App.Models.Publication({
+                                                        _id: publicationDoc._id
+                                                    })
+                                                    courseModel.fetch({
+                                                        success: function (model) {
+                                                            model.destroy();
+                                                            $.couch.db("temppublication").create({
+                                                                success: function (data) {
+                                                                    $.couch.db("temppublication").saveDoc(publicationDoc, {
+                                                                        success: function (response) {
+                                                                            $.couch.replicate("temppublication", "publications");
+                                                                            $.ajax({
+                                                                                headers: {
+                                                                                    'Accept': 'application/json',
+                                                                                    'Content-Type': 'application/json; charset=utf-8'
+                                                                                },
+                                                                                type: 'POST',
+                                                                                url: '/_replicate',
+                                                                                dataType: 'json',
+                                                                                data: JSON.stringify({
+                                                                                    "source": "temppublication",
+                                                                                    "target": 'http://' + App.configuration.get('nationName') + ':oleoleole@' + App.configuration.get('nationUrl') + '/publications',
+                                                                                    "doc_ids": [publicationDoc._id]
+                                                                                }),
+                                                                                success: function (response) {
+                                                                                    $.couch.db("temppublication").drop({
+                                                                                        success: function(data) {
+                                                                                        },
+                                                                                        error: function(status) {
+                                                                                            console.log(status);
+                                                                                        }
+                                                                                    });
+                                                                                },
+                                                                                error: function (res) {
+                                                                                    console.log(res);
+                                                                                }
+                                                                            });
+                                                                        },
+                                                                        error: function (jqXHR, textStatus, errorThrown) {
+                                                                            console.log(errorThrown);
+                                                                            $.couch.db("temppublication").drop({
+                                                                                success: function(data) {
+                                                                                },
+                                                                                error: function(status) {
+                                                                                    console.log(status);
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+
+                                                        },
+                                                        async: false
+                                                    });
+                                                }
+                                            }
+
+                                        },
+                                        error: function(jqXHR, status, errorThrown){
+                                            console.log(status);
+                                        }
+                                    });*/
+                                    // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
+                                    // local server
+                                } else {
+                                    newPublicationsCount++;
+                                }
+                            }
+
+                        if (newPublicationsCount > 0) {
+                            new_publications_count = newPublicationsCount;
+                            dashboard.updateVariables("", new_publications_count, 0);
+                            $("#newPublication").click(function () {
+                                document.location.href = "#nationpublications/for-" + App.configuration.get('nationName');
+                            });
+                            //  $('#newPublication').attr("onclick",document.location.href+"#publications/for-"+currentBellName);
+                            $('#newPublication').show();
+                        } },
+                error: function (jqXHR, status, errorThrown) {
+                    $('#onlineButton').css({"background-color": "#ff0000"});
+                    $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
+                }
+            });
+        } })
+},
         Dashboard: function() {
             if(App.configuration.get('type')=='nation'){
                 getAllPendingRequests();
@@ -1338,6 +1478,9 @@ $(function() {
             }
             dashboard.$el.length=0;
             that.getNationVersion(dashboard);
+            if(App.configuration.get('type')=='nation'){
+                that.getNationPublication(dashboard);
+            }
             $('#olelogo').remove();
             applyCorrectStylingSheet(directionOfLang);
         },

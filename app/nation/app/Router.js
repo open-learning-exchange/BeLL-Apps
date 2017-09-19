@@ -4284,7 +4284,7 @@ $(function() {
             var lang = App.Router.getLanguage(loginOfMem);
             App.languageDictValue=App.Router.loadLanguageDocs(lang);
             App.$el.children('.body').html('<div id="parentDiv"></div>');
-            $('#parentDiv').append('<div id="parentChildDiv" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button></div>')
+            $('#parentDiv').append('<div id="parentChildDiv" style="margin-top:10px"><h6 style="float:left;">'+App.languageDictValue.get('IssueNumber')+ ' '+ publicationObject.get('IssueNo') + '</h6> <a class="btn btn-success" style="margin-left:20px" href="#courses/' + publicationId + '">'+App.languageDictValue.get('Add_Course')+'</a> <a class="btn btn-success" href = "../MyApp/index.html#search-bell/' + publicationId + '" style="float:left;margin-left:20px;margin-bottom:10px;">'+App.languageDictValue.get('Add_Resource')+'</a><button class="btn btn-info" style="margin-left:20px" onclick="SelectCommunity(\'' + publicationId + '\')">'+App.languageDictValue.get('Send_Publication')+'</button><button class="btn btn-info" style="margin-left:20px" onclick="SelectNation(\'' + publicationId + '\')">'+App.languageDictValue.get('Push_Nation')+'</button></div>')
             if( publicationObject.attributes.autoPublication == undefined || publicationObject.attributes.autoPublication == false){
                 $('#parentChildDiv').append(" <a role='button' id='auto_publication' style='margin-left: 15px;' class='btn btn-success auto_publication'>"+App.languageDictValue.get('Enable_Auto_Sync')+"</a>");
             }else{
@@ -4470,6 +4470,36 @@ $(function() {
                         $('#comselect').append("<option value='" + name + "'>" + name + "</option>")
                     }
                 });
+            $('#addQuestion').css('pointer-events','none');
+            if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
+            {
+                $('#invitationdiv').css({"direction":"rtl"});
+            }
+        },
+
+        SelectNations: function(pId) {
+            var centralNationUrl = App.Router.getCentralNationUrl();
+            $('#invitationdiv').fadeIn(1000)
+            var inviteForm = new App.Views.listNationView()
+            inviteForm.pId = pId
+            inviteForm.render()
+            $('#invitationdiv').html('&nbsp')
+            $('#invitationdiv').append(inviteForm.el)
+            var nationUrl = App.configuration.get('nationUrl');
+            if(navigator.onLine){ //Check if there is a stable internet connection
+                $.ajax({
+                    url: 'http://' + centralNationUrl + '/nations/_design/bell/_view/getAllNations?_include_docs=true',
+                    type: 'GET',
+                    dataType: 'jsonp',
+                    async: false,
+                    success: function (json) {
+                        for(var i = 0 ; i < json.rows.length ; i++) {
+                            if(json.rows[i].value.nationurl != nationUrl)
+                                $('#nationSelect').append("<option value='" + json.rows[i].value.name + "'>" + json.rows[i].value.name + "</option>")
+                        }
+                    }
+                });
+            }
             $('#addQuestion').css('pointer-events','none');
             if(App.languageDictValue.get('directionOfLang').toLowerCase()==="right")
             {

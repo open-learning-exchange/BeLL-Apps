@@ -308,6 +308,7 @@
 
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
+    <script src="app/views/NationPublicationTable.js"></script> <!-- app/views.js -->
 
 
     <!-- javaScript -->
@@ -566,6 +567,7 @@
                 </tr>
                 <tr>
                     <% if(type == "nation") {%>
+                        <td><button id="newPublication" class="btn btn-hg btn-primary" style="display:none;color: Red;background-color: lightgrey;font-weight: bold;"><%= languageDict.attributes.Publications%>(<%=new_publication_count%>)</button></td>
                         <td><button id="pendingResources" class="btn btn-hg btn-primary"  style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" onclick="document.location.href='../MyApp/index.html#resources/pending'" ><%=languageDict.attributes.Resources%>(<%=pending_resource_count%>)</button></a></td>
                         <td><button id="pendingRequests" class="btn btn-hg btn-primary"  style="display:none;color: Red;background-color: lightgrey;font-weight: bold;" onclick="document.location.href='../nation/index.html#listCommunity'" ><%=languageDict.attributes.Communities%>(<%=pending_request_count%>)</button></a></td>
                     <%} else {%>
