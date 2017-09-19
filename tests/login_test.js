@@ -30,7 +30,7 @@ Scenario('Test for Successful Login', (I) => {
     I.seeInCurrentUrl('#dashboard');
 });
 
-Scenario('Test Second Successful Login', (I) => {
+Scenario('Test for Second Successful Login', (I) => {
     I.login('admin', 'password');
     I.seeInCurrentUrl('#dashboard');
 });

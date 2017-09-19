@@ -18,7 +18,7 @@ Scenario('Test for Feedback Question', (I, feedback_po) => {
     feedback_po.submit_feedback();
 });
 
-Scenario('Test for  Feedback Suggestion', (I, feedback_po) => {
+Scenario('Test for Feedback Suggestion', (I, feedback_po) => {
     feedback_po.open_feedback();
     feedback_po.fill_feedback(0, "Question", "This is a test suggestion");
     feedback_po.submit_feedback();
