@@ -942,5 +942,5 @@
     "Auto_Publication":"Auto Publication",
     "Enable_Auto_Sync":"Enable Auto Sync",
     "Disable_Auto_Sync":"Disable Auto Sync",
-    "Pub_Synced_Success": "Publication successfully Synced"
+    "Pub_Synced_Again": "Sync Publication Again"
 }
