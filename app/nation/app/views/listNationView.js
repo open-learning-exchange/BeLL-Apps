@@ -46,6 +46,7 @@ $(function() {
             var loginOfMem = $.cookie('Member.login');
             var lang = App.Router.getLanguage(loginOfMem);
             var languageDictValue=App.Router.loadLanguageDocs(lang);
+            var nationConfigModel = App.Router.getCurrentNationConfig();
             App.startActivityIndicator()
             var sendPub = new Array()
             //******if starts********************************************
@@ -77,8 +78,8 @@ $(function() {
                                     nationName: nName,
                                     publicationId: p_id,
                                     Viewed: false,
-                                    createrNationUrl: App.configuration.get('nationUrl'),
-                                    createrNationName: App.configuration.get('nationName')
+                                    createrNationUrl:nationConfigModel.nationUrl,
+                                    createrNationName:nationConfigModel.nationName
                                 })
                                 $.couch.db("publicationdistribution").bulkSave({
                                     "docs": sendPub
@@ -100,8 +101,8 @@ $(function() {
                 }
                 if(i == selectedValues.length && selectedNations && selectedNations.length > 0) {
                     pubResult.doc["downloadedByNation"] = [];
-                    pubResult.doc["createrNationUrl"] = App.configuration.get('nationUrl');
-                    pubResult.doc["createrNationName"] = App.configuration.get('nationName');
+                    pubResult.doc["createrNationUrl"] = nationConfigModel.nationUrl;
+                    pubResult.doc["createrNationName"] = nationConfigModel.nationName;
                     for(var j = 0 ; j < selectedNations.length ; j++) {
                         pubResult.doc.nationNames.push(selectedNations[j]);
                     }

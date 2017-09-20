@@ -23,7 +23,7 @@
                 this.$el.html('<tr><th>'+App.languageDict.attributes.IssueNumber+'</th><th>'+App.languageDict.get("action")+'</th></tr>');
                 var that=this;
                 var centralNationUrl = getCentralNationUrl();
-                var currentNationName = App.configuration.get('nationName'),
+                var currentNationName = App.configuration.get('name'),
                 nationPassword = App.password;
                 var currentNationUrl = App.configuration.get('nationUrl')
                 var DbUrl = 'http://' + centralNationUrl + '/publicationdistribution/_design/bell/_view/getNationPublications?include_docs=true&key=["' + currentNationName + '",' + false + ']';
@@ -226,12 +226,14 @@
                                             result[i].doc.timesRated = 0;
                                             tempResult.push(result[i].doc);
                                         }
+                                        console.log(tempResult)
                                     $.couch.db('tempresources').bulkSave({
                                         "docs": tempResult
                                     }, {
                                                 success: function(data) {
                                                     $.couch.replicate("tempresources", "resources", {
                                                         success: function(data) {
+                                                            console.log(data)
                                                             alert(App.languageDict.attributes.Resources_Synced_Success);
                                                             $.couch.db("tempresources").drop({
                                                                 success: function(data) {
@@ -340,21 +342,20 @@
                                                         // so that nations can see which communities have successfully downladed the publication.
                                                         //If the publication is already synced then no need to save it again in the db's, that's why assigning
                                                         // appropriate value to the isAlreadyExist variable.
-                                                        console.log(App.configuration.get('name'));
                                                         var isAlreadyExist = true;
                                                         if(publicationDoc.downloadedByNation && publicationDoc.downloadedByNation != undefined) {
                                                             if(publicationDoc.downloadedByNation.indexOf(App.configuration.get('name')) == -1) {
-                                                                publicationDoc.downloadedByCommunities.push(App.configuration.get('name'));
+                                                                publicationDoc.downloadedByNation.push(App.configuration.get('name'));
                                                                 isAlreadyExist = false;
                                                             }
                                                         }
                                                         //If a publication doc does not contain the downloadedByCommunities field then it means that this
                                                         // publication was before Issue#48 implementation, so saving it in the db to maintain the value
                                                         // of "synced/not synced" for the older publications too.
-                                                        if(isAlreadyExist == false || publicationDoc.downloadedByCommunities == undefined) {
+                                                        if(isAlreadyExist == false || publicationDoc.downloadedByNation == undefined) {
                                                             $.couch.db("publications").saveDoc(publicationDoc, {
                                                                 success: function (response) {
-                                                                    console.log("adding publication# " + publicationDoc.IssueNo + " doc at community for bookkeeping");
+                                                                    console.log("adding publication# " + publicationDoc.IssueNo + " doc at nation for bookkeeping");
                                                                     $.ajax({
                                                                         headers: {
                                                                             'Accept': 'application/json',
@@ -494,6 +495,8 @@
                                                             }
                                                         });*/
                                                         //End of my code.
+                                                        alert(App.languageDict.attributes.Pubs_Replicated_Success)
+                                                        App.stopActivityIndicator();
                                                     },
                                                     error: function(jqXHR, status, errorThrown){
                                                         console.log(status);

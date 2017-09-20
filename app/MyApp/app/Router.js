@@ -979,7 +979,6 @@ $(function() {
         },
 
         getNationVersion: function (dashboard) {
-            console.log(dashboard)
             var that = this;
             var configuration = App.configuration
             var nationName = configuration.get("nationName")
@@ -1260,7 +1259,7 @@ $(function() {
             var centralNationUrl = getCentralNationUrl();
             var newPublicationsCount = 0;
             $.ajax({
-                url:'http://' + centralNationUrl + '/publicationdistribution/_design/bell/_view/getNationPublications?include_docs=true&key=["' + App.configuration.get('nationName') + '",' + false + ']',
+                url:'http://' + centralNationUrl + '/publicationdistribution/_design/bell/_view/getNationPublications?include_docs=true&key=["' + App.configuration.get('name') + '",' + false + ']',
                 type: 'GET',
                 dataType: 'jsonp',
                 async: false,

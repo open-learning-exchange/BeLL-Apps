@@ -4485,7 +4485,8 @@ $(function() {
             inviteForm.render()
             $('#invitationdiv').html('&nbsp')
             $('#invitationdiv').append(inviteForm.el)
-            var nationUrl = App.configuration.get('nationUrl');
+            var nationConfigModel = App.Router.getCurrentNationConfig();
+            var nationUrl = nationConfigModel.nationUrl
             if(navigator.onLine){ //Check if there is a stable internet connection
                 $.ajax({
                     url: 'http://' + centralNationUrl + '/nations/_design/bell/_view/getAllNations?_include_docs=true',
@@ -4623,7 +4624,14 @@ $(function() {
             var configDoc = configCollection.first().toJSON();
             return configDoc.register;
         },
-
+        getCurrentNationConfig: function() {
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            var configDoc = configCollection.first().toJSON();
+            return configDoc;
+        },
         getAllPendingRequests: function () {
             var centralNationUrl = App.Router.getCentralNationUrl();
             var nationUrl = $.url().data.attr.authority;
