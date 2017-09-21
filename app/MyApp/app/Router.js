@@ -1283,9 +1283,9 @@ $(function() {
                                 var index = alreadySyncedPublications.map(function (element) {
                                     return element.get('_id');
                                 }).indexOf(publicationDistribDocsFromNation[i].publicationId);
+                                console.log(index)
                                 if (index > -1) {//code here
-                                  /*  var pubId = publicationDistribDocsFromNation[i].publicationId;
-
+                                    var pubId = publicationDistribDocsFromNation[i].publicationId;
                                     var nationUrl = 'http://' + publicationDistribDocsFromNation[i].createrNationName + ':' + App.password + '@' + publicationDistribDocsFromNation[i].createrNationUrl  +
                                         '/publications/' + pubId;
                                     $.ajax({
@@ -1296,7 +1296,6 @@ $(function() {
                                             if(publicationDoc.downloadedByNation && publicationDoc.downloadedByNation != undefined) {
                                                 if(publicationDoc.downloadedByNation.indexOf(currentBellName) == -1) {
                                                     publicationDoc.downloadedByNation.push(currentBellName);
-                                                    console.log(publicationDoc.downloadedByNation)
                                                     var courseModel = new App.Models.Publication({
                                                         _id: publicationDoc._id
                                                     })
@@ -1359,7 +1358,7 @@ $(function() {
                                         error: function(jqXHR, status, errorThrown){
                                             console.log(status);
                                         }
-                                    });*/
+                                    });
                                     // don't increment newPublicationsCount cuz this publicationId already exists in the already synced publications at
                                     // local server
                                 } else {
