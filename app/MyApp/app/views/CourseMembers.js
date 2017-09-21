@@ -51,7 +51,7 @@ $(function () {
             var code = currentConfig.rows[0].doc.code
             var na = currentConfig.rows[0].doc.nationName.substring(3,5);
             $('.courseEditStep').empty();
-            $('.courseEditStep').append('<h3>'+App.languageDict.attributes.Course_Members+ ' | ' + courseModel.get('name') + '</h3>')
+            $('.courseEditStep').append('<h4>'+App.languageDict.attributes.Course_Members+ ' | ' + courseModel.get('name')+'<h4>')
             var viewtext = '<table class="btable btable-striped"><th>'+App.languageDict.attributes.Photo+'</th><th>'+App.languageDict.attributes.Name+'</th><th>'+App.languageDict.attributes.Roles+'</th><th colspan=2>'+App.languageDict.attributes.Actions+'</th>'
             for (var i = 0; i < memberList.length; i++) {
                 var mem = new App.Models.Member({

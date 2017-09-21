@@ -94,7 +94,7 @@ $(function() {
             this.$el.append('<th ><h4>Feedback</h4></th><th ><h4>Status</h4></th>')
             $("#progress_img").hide()
             this.collection.forEach(this.addOne, this)
-            this.$el.append('<br/><br/><input type="button" class="btn btn-hg btn-primary" id="previousButton" value="< Previous"> &nbsp;&nbsp;&nbsp;<button class="btn btn-hg btn-primary" id="next_button" >Next  ></button>')
+            this.$el.append('<br/><br/><input type="button" class="btn btn-hg btn-primary" id="previousButton" value="< Previous"> &nbsp;&nbsp;&nbsp;<button class="btn btn-hg btn-primary" style="width: 233px;" id="next_button" >Next></button>')
         },
 
         addOne: function(model) {

@@ -2,10 +2,8 @@
 .body {
     direction: rtl;
     margin-bottom: 30px;
-}
-div#parentLibrary{
-    margin-left: 20px;
     margin-right: 20px;
+    margin-left:20px;
 }
 #dashboard {
     height: 600px;
@@ -1225,6 +1223,8 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 }
 #accept div input[name=accept]{
     margin-top: -45px;
+<<<<<<< HEAD
+<<<<<<< HEAD
 }
 .redactor_color_none {
     display: none !important;
@@ -1256,4 +1256,8 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
     float: left;
     margin-top: -45px;
     margin-right: 15px;
+}
+.table-feedback{
+    margin-left:20px;
+    margin-right:20px
 }
