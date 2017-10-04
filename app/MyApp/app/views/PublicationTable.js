@@ -467,6 +467,7 @@
                                                                                                 success: function(response){
                                                                                                     alert(App.languageDict.attributes.Pubs_Replicated_Success)
                                                                                                     App.stopActivityIndicator();
+                                                                                                    that.render()
                                                                                                 },
                                                                                                 async: false
                                                                                             });
