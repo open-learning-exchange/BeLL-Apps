@@ -941,5 +941,8 @@
     "You_choose_the_option_without_correct_answer":"You choose the option without correct answer",
     "Auto_Publication":"Auto Publication",
     "Enable_Auto_Sync":"Enable Auto Sync",
-    "Disable_Auto_Sync":"Disable Auto Sync"
+    "Disable_Auto_Sync":"Disable Auto Sync",
+    "Answer_Assignment_paper":"Assignment Answers Database",
+    "Assignment_Database_replicate":"Assignment Paper database successfully replicated",
+    "Assignment_Name":"Assignment Name"
 }
