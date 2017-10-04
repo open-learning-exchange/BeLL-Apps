@@ -1701,7 +1701,7 @@
                             <td id="markdown_question_<%=questionlists[i]._id%>"><textarea name="<%=questionlists[i]._id%>"><%=questionlists[i].Statement%></textarea></td>
                         </tr>
                         <tr>
-                            <td>Assignment Name</td>
+                            <td><%=App.languageDict.attributes.Assignment_Name %></td>
                             <td><%=questionlists[i].Attachment.Name%></td>
                         </tr>
                         <%if(questionlists[i].Attachment.Name != null && questionlists[i].Attachment.Name!= "" && questionlists[i].Attachment.Name!= undefined ){%>

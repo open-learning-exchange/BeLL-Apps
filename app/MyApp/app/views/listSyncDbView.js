@@ -206,7 +206,6 @@ $(function() {
 				}
 			})
 		},
-
 		syncLogActivitiy: function() {
 			$.ajax({
 				headers: {
