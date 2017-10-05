@@ -120,31 +120,32 @@ function createDummyCourses() {
         if (err)
             return console.log(err);
         else{
-        for(var steps = 0; steps < n_steps; steps++){
-          for(var courselist = 0; courselist < res.length; courselist++){
+            for(var steps = 0; steps < n_steps; steps++){
+              for(var courselist = 0; courselist < res.length; courselist++){
 
-              defaultCoursestep.push({
-                "courseId": res[courselist].id,
-                "description": "This is course step "+ (steps+1),
-                "kind": "Course Step",
-                "passingPercentage": "30",
-                "resourceTitles":[],
-                "resourceId":[],
-                "questionslist":[],
-                "step": steps+1,
-                "stepGoals": "Knowledge",
-                "stepMethod": "Theory",
-                "title": "Course Step "+ (steps+1),
-                "totalMarks": "100"
-            });
-          }
-        }
+                  defaultCoursestep.push({
+                    "courseId": res[courselist].id,
+                    "description": "This is course step "+ (steps+1),
+                    "kind": "Course Step",
+                    "passingPercentage": "30",
+                    "resourceTitles":[],
+                    "resourceId":[],
+                    "questionslist":[],
+                    "step": steps+1,
+                    "stepGoals": "Knowledge",
+                    "stepMethod": "Theory",
+                    "title": "Course Step "+ (steps+1),
+                    "totalMarks": "100"
+                });
+              }
+            }
+            
           //insert into coursestep
-            coursestep.bulk({"docs":defaultCoursestep},function(err,res){
+            coursestep.bulk({"docs":defaultCoursestep},function(err,resstep){
                 if(err){
                     console.log(err);
                 }else{
-                    for(var steplist = 0; steplist<res.length; steplist++){
+                    for(var steplist = 0; steplist<resstep.length; steplist++){
                         //insert into coursequestion
                         defaultCoursequestion.push({
                             "CorrectAnswer":  [
@@ -160,7 +161,7 @@ function createDummyCourses() {
                             "Type": "Multiple Choice",
                             "courseId": defaultCoursestep[steplist].courseId,
                             "kind": "coursequestion",
-                            "stepId" : res[steplist].id,
+                            "stepId" : resstep[steplist].id,
                             "Marks" : 10
                         });
                         defaultCoursequestion.push({
@@ -168,7 +169,7 @@ function createDummyCourses() {
                                 "Type": "Comment/Essay Box",
                                 "courseId": defaultCoursestep[steplist].courseId,
                                 "kind": "coursequestion",
-                                "stepId" : res[steplist].id,
+                                "stepId" : resstep[steplist].id,
                                 "Marks" : 10
                         });
 
@@ -177,7 +178,7 @@ function createDummyCourses() {
                             "Type": "Attachment",
                             "courseId": defaultCoursestep[steplist].courseId,
                             "kind": "coursequestion",
-                            "stepId" : res[steplist].id,
+                            "stepId" : resstep[steplist].id,
                             "Marks" : 10
                         });
 
@@ -186,16 +187,26 @@ function createDummyCourses() {
                             "Type": "Single Textbox",
                             "courseId": defaultCoursestep[steplist].courseId,
                             "kind": "coursequestion",
-                            "stepId" : res[steplist].id,
+                            "stepId" : resstep[steplist].id,
                             "Marks" : 10
                         });
                     }
-                    console.log(defaultCoursequestion)
                     coursequestion.bulk({"docs":defaultCoursequestion}, function(err, res) {
                         if (err)
                             return console.log(err);
                         else {
-                          done();
+                        //need to update questionlist in coursestep
+                          for(var i = 0; i < defaultCoursestep.length; i++){
+                            for(var j = 0; j < 5; j++){
+                            defaultCoursestep[i].questionslist.push(res[i].id)
+                              
+                            }
+                             //update coursestep
+                              coursestep.insert({defaultCoursestep[i]},function(err, res) {
+                                  if (err)
+                                      return console.log(err);
+                              });
+                          }
                         }
                     });
                 }
@@ -205,7 +216,7 @@ function createDummyCourses() {
     }
   });
 }
-
+done();
 function done(){
     console.log("done");
 }
