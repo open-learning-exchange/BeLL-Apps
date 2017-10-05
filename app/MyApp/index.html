@@ -308,6 +308,7 @@
 
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
+    <script src="app/views/SyncBetweenNation.js"></script> <!-- app/views.js -->
 
 
     <!-- javaScript -->
@@ -704,7 +705,49 @@
             <%} %>
         </td>
     </script>
-
+    <script type="text/template" id="template-syncBetweenNation">
+            <div>
+                <h3>Sync Between Nation</h3>
+            </div>
+            <div class='form-field'>
+                <span style='font-size:17px'>From Nation</span>
+                <select id="from-nation" name="select-nation">
+                    <option value="Select Nation" >Select Nation</option>
+                    <% for (var i=0; i<nations.length; i++){%>
+                    <option value="<%= nations[i].admin_name %>,<%= nations[i].nationurl %>"><%= nations[i].name %> </option>
+                    <% }%>
+                </select>
+            </div>
+             <div class='form-field'>
+                <span style='font-size:17px'>To Nations</span>
+                <select id="to-nation" name="select-nation" >
+                    <option value="Select Nation" >Select Nation</option>
+                    <% for (var i=0; i<nations.length; i++){%>
+                    <option value="<%= nations[i].admin_name %>,<%= nations[i].nationurl %>"><%= nations[i].name %> </option>
+                    <% }%>
+                </select>
+            </div>
+            <div class='form-field'>
+                 <button  class="btn btn-success" id="syncResources">Sync</button>
+            </div>
+            <div class="container" id="list_courses_resources" style="display:none;">
+              <p id="optionsList"><a title="Resources" class="alink" id="aResources"><%= languageDict.attributes.Resources %></a> </p>
+              <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th><input type="checkbox" id="selectAllButton"></th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Publisher</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbodyList">
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+    </script>
     <script type="text/template" id="template-addCommunity">
 
         <div>

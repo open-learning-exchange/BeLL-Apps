@@ -95,7 +95,8 @@ $(function() {
             'checksum(/:nation/:url)': 'checkSum',
             'listLearnersCredits/:cid': 'showLearnersListForCredits',
             'passwordResetEmail': 'showPasswordResetEmail',
-            'password-reset': 'showPasswordReset'
+            'password-reset': 'showPasswordReset',
+            'syncResources': 'SyncResources'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -1340,6 +1341,33 @@ $(function() {
             that.getNationVersion(dashboard);
             $('#olelogo').remove();
             applyCorrectStylingSheet(directionOfLang);
+        },
+        SyncResources: function() {
+            var languageDictValue;
+            var  clanguage;
+            if($.cookie('languageFromCookie'))
+            {
+                clanguage= $.cookie('languageFromCookie');
+            }
+            else
+            {
+                clanguage = 'English'
+                $.cookie('languageFromCookie',clanguage);
+            }
+            languageDictValue = getSpecificLanguage(clanguage);
+            App.languageDict = languageDictValue;
+            var directionOfLang = languageDictValue.get('directionOfLang');
+            applyCorrectStylingSheet(directionOfLang);
+            var configCollection = new App.Collections.Configurations();
+            configCollection.fetch({
+                async: false
+            });
+            commConfigModel = configCollection.first();
+            var commConfigForm = new App.Views.SyncBetweenNation({
+                model: commConfigModel
+            })
+            commConfigForm.render();
+            App.$el.children('.body').html(commConfigForm.el);
         },
 
         MemberForm: function(memberId) {
