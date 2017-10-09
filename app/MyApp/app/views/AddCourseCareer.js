@@ -139,6 +139,7 @@ $(function() {
 
 
         render: function() {
+            var careerlength;
             var arrcourses = []
             var arrCourseIds = []
             for(var i = 0; i <this.collection.models.length; i++){
@@ -148,7 +149,6 @@ $(function() {
                     arrcourses.push(courseslist)
                     arrCourseIds.push(courseId)
                 }
-                
             }
             var courseCareers = new App.Collections.CourseCareerPath()
             courseCareers.memberId = $.cookie('Member._id');
@@ -162,7 +162,9 @@ $(function() {
                     this.vars.careerList.push(courseCareers.models[i].attributes);
                 }
             }
+
             this.vars.Courselist = arrcourses
+            this.vars.careerlength = careerlength
             this.vars.Courseid = arrCourseIds
             this.vars.Course_Length = this.collection.models.length-1
             ////PushRequired ID
@@ -172,10 +174,10 @@ $(function() {
                 if(courseCareers.models[j].attributes._id != '_design/bell'){
                     this.vars.CareerList.push(courseCareers.models[j].attributes.CoursePathName);
                     this.vars.careerListIds.push(courseCareers.models[j].attributes._id);
-                    this.vars.careerlength = j + 1
+                    // this.vars.careerlength = j + 1
                 }
-               
             }
+             this.vars.careerlength =courseCareers.length-1
             this.$el.html(_.template(this.template,this.vars))
         },
     })

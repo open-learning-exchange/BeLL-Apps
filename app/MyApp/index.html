@@ -308,7 +308,7 @@
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
     <script src="app/views/ManageCourseCareer.js"></script> <!-- app/views.js -->
-    <script src="app/views/CareerPathTable.js"></script> <!-- app/views.js -->
+    <!-- <script src="app/views/CareerPathTable.js"></script>  --><!-- app/views.js -->
 
 
     <!-- javaScript -->
@@ -1460,23 +1460,21 @@
     </script>
 
     <script type="text/template" id="template-addCourseCareer">
-    <input id="searchText" type="Text" placeholder="Course Career Name" style="margin-top: -137px; margin-left: 1056px; height: 28px; width: 170px;">
-        <button style="margin-top: -183px; margin-left: 1251px;" class="Search btn btn-info" id="SearchCoursePath" >Search</button>
+    <!-- <input id="searchText" type="Text" placeholder="Course Career Name" style="margin-top: -137px; margin-left: 1056px; height: 28px; width: 170px;">
+        <button style="margin-top: -183px; margin-left: 1251px;" class="Search btn btn-info" id="SearchCoursePath" >Search</button> -->
         <div class ="multipleCourse">
             <form>
-                <label for="cpName"><b><%= languageDict.attributes.Career_Path_Name %></b></label>
-                <input type="text" id="careerPath" placeholder="Career Path Name" style="padding: 2px; margin-top: 8px;" required>
-                <label for="LCourse"><b><%= languageDict.attributes.List_of_Courses %></b></label>
+                <label for="cpName"><b><%= languageDict.attributes.Career_Path_Name %>:</b></label>
+                <input type="text" id="careerPath" placeholder="Career Path Name" style="padding: 2px; margin-top: 8px;" required> &nbsp;&nbsp;
+                <label for="LCourse"><b><%= languageDict.attributes.List_of_Courses %>:</b></label>
                 <select id="LCourse">
-                    <%for(var i =0; i<Course_Length;i++){%>
+                    <%for(var i =0; i< Course_Length;i++){%>
                         <option value='<%=Courseid[i]%>'><%=Courselist[i]%></option>
                     <%}%>
-                </select>
-                <label for="LCareer"><b><%= languageDict.attributes.Required_Course_Career_Path %></b></label>
-
+                </select>&nbsp;&nbsp;
+                <label for="LCareer"><b><%= languageDict.attributes.Required_Course_Career_Path %>:</b></label>
                 <select id="LCareer">
-
-                    <% for (var j =0; j<careerlength;j++){%>
+                    <% for (var j =0; j < careerlength;j++){%>
                         <option value ='<%=CareerList[j]%>'><%=CareerList[j]%></option>
                     <%}%>
                 </select>
@@ -1495,7 +1493,7 @@
                     </tr>
                     <%for (var i=0; i < careerList.length; i++) {%>
                     <tr>
-                        <td><%= careerList[i].CoursePathName %></td>
+                        <td><a href="#usercourse/details/<%= Courseid[i] %>/<%= Courselist[i] %>"><%= careerList[i].CoursePathName %></a></td>
                         <td><ul><li><%= careerList[i].Courses %></li></ul></td>
                         <td><ul><li><%= careerList[i].requiredCareerPathIds%></li></ul></td>
                         <td>
