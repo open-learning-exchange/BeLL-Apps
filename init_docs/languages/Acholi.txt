@@ -941,5 +941,10 @@
   "You_choose_the_option_without_correct_answer":"crwdns16372:0crwdne16372:0",
   "Auto_Publication":"crwdns16373:0crwdne16373:0",
   "Enable_Auto_Sync":"crwdns16374:0crwdne16374:0",
-  "Disable_Auto_Sync":"crwdns16375:0crwdne16375:0"
+  "Disable_Auto_Sync":"crwdns16375:0crwdne16375:0",
+  "Courses_Replicated":"crwdns16377:0crwdne16377:0",
+  "Answer_Assignment_paper":"crwdns16378:0crwdne16378:0",
+  "Assignment_Database_replicate":"crwdns16379:0crwdne16379:0",
+  "Assignment_Name":"crwdns16380:0crwdne16380:0",
+  "Pub_Synced_Again":"crwdns16381:0crwdne16381:0"
 }
