@@ -2,10 +2,8 @@
 .body {
     direction: ltr;
     margin-bottom: 30px;
-}
-div#parentLibrary{
-    margin-left: 20px;
     margin-right: 20px;
+    margin-left:20px;
 }
 /*
 /*input::-moz-focus-inner {
@@ -42,6 +40,7 @@ select#onDashboardLanguage {
     margin-left: 10%;
     overflow: hidden;
     width: 90%;
+    margin-left: 20px;
 }
 #dashboard {
     height: 600px;
@@ -554,7 +553,6 @@ padding-top: 5px;
 }
 #next_button
 {
-    width:35%;
     float: right;
 
 }
@@ -908,7 +906,6 @@ margin-top: 2px;
 /*.bbf-form .field-endDate
 {
 margin-left: 259px;
-
 }*/
 #infoAboutGraph{
     float: left;
@@ -931,7 +928,6 @@ margin-left: 259px;
 /*.bbf-form .field-endTime
 {
 margin-left: 259px;
-
 }*/
 #library-top-buttons{
 margin-top: 20px;
@@ -1064,4 +1060,8 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
     float: right;
     margin-right: 20px;
     position: relative;
+}
+.table-feedback{
+    margin-left:20px;
+    margin-right:20px
 }
