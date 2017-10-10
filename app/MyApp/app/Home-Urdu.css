@@ -1252,8 +1252,8 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 #addIndividualResource{
     width:110px;
 }
-#CommunitySelect{
+.DropDownOptn{
     float: left;
-    margin-top: -45px;
-    margin-right: 15px;
+    margin-left: 20px;
+    position: relative;
 }

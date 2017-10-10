@@ -13,7 +13,7 @@ ddoc.views = {
       }
     }
   },
-    GetCourseResult: {
+  GetCourseResult: {
     map: function(doc) {
       if (doc.courseId) {
         emit(doc.courseId, true)
