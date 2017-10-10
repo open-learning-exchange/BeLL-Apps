@@ -75,7 +75,7 @@ Scenario('Test for Add Report', (I) => {
 	I.waitForVisible(ActReport);
 	I.waitForEnabled(ActReport);
 	I.click(ActReport);
-	I.wait(2)
+	I.wait(5)
 	I.seeInCurrentUrl('#logreports');
 	I.wait(2);
 	I.waitForVisible(dateVis);
