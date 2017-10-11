@@ -174,7 +174,7 @@ $(function() {
                 if(courseCareers.models[j].attributes._id != '_design/bell'){
                     this.vars.CareerList.push(courseCareers.models[j].attributes.CoursePathName);
                     this.vars.careerListIds.push(courseCareers.models[j].attributes._id);
-                    // this.vars.careerlength = j + 1
+                    this.vars.careerlength = j + 1
                 }
             }
              this.vars.careerlength =courseCareers.length-1
