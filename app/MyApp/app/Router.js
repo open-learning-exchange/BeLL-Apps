@@ -96,7 +96,6 @@ $(function() {
             'listLearnersCredits/:cid': 'showLearnersListForCredits',
             'passwordResetEmail': 'showPasswordResetEmail',
             'password-reset': 'showPasswordReset',
-            //'courseCareerPath':'CourseCareerPath',
             'courseCareerPath':'addCareerPath',
             'courseCareerPath/manage/:careername/:careerId':'manageCourseCareer'
         },
@@ -6737,25 +6736,7 @@ $(function() {
             passwordResetView.render();
             App.$el.children('.body').append(passwordResetView.el)
         },
-        /**CourseCareerPath:function(){
-            var coursePath = new App.Views.CourseCareerPath();
-            coursePath.render()
-            App.$el.children('.body').html('<div id="CareerPath"></div>');
-            $('#CareerPath').append('<div><h2>'+App.languageDict.attributes.Course_Career_Path+'</h2></div>')
-            $('#CareerPath').append(coursePath.el);
-            var directionOfLang = App.languageDict.get('directionOfLang');
-            applyCorrectStylingSheet(directionOfLang);
-            $.ajax({
-                    url: '/coursecareerpath/_design/bell/_view/getCourseCareerByName',
-                    type: 'GET',
-                    dataType: "jsonp",
-                    async: false,
-                    success: function(json) {
-                        console.log(json)
-                        $(careerList).insertBefore('#searchText');
-                    }
-                });
-        },**/
+
         addCareerPath:function(cId){
             var courses = new App.Collections.Courses()
             courses.memberId = $.cookie('Member._id');
@@ -6846,6 +6827,5 @@ $(function() {
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
         }
-
     }))
 })

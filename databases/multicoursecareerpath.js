@@ -1,5 +1,5 @@
 var couchapp = require('couchapp'),
-    path = require('path');
+path = require('path');
 
 ddoc = {
     _id: '_design/bell'

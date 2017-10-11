@@ -47,9 +47,8 @@ $(function() {
             },
         },
 
-        initialize: function() {
-            
-        },
+        initialize: function() {},
+
         renderTable: function(searchText) {
             App.startActivityIndicator()
             var that = this
