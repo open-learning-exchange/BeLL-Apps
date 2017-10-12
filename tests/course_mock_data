@@ -1,3 +1,8 @@
+/*Here I have made some course test scenario where test is done automatically while it renders all data in BeLL-App UI and couchdb.
+For test scenario we have got multiple members, courses, steps , resources, questions adn a membercourseprogress as we need all 
+these specific variables or a data that should be bulk inserted in a data base*/
+/*For running this script we have to run node [filename][url] eg:node course_mock_data http://192.168.10.111:5982 */
+
 var util = require('util')
 var fs = require('fs')
 var exec = require('child_process').exec;
@@ -93,7 +98,7 @@ function createDummyCourses() {
             subjectLevel = "Beginner";
             gradelevel="5"
         }
-
+        //insert into courses
         defaultCourses.push({
             "CourseTitle": "Course " +course_number,
             "Day": "0",
@@ -116,12 +121,12 @@ function createDummyCourses() {
             "subjectLevel": subjectLevel
         });
       }
-      //insert into courses
 
       courses.bulk({"docs":defaultCourses}, function(err, rescourse) {
         if (err)
             return console.log(err);
         else{
+            //insert into Resources
             defaultResources.push({
                "kind": "Resource",
                "status": "accepted",
@@ -173,7 +178,6 @@ function createDummyCourses() {
                "sum": 0,
                "timesRated": 0
             });
-            //insert into Resources
             resources.bulk({"docs":defaultResources},function(err,resreso){
                 if(err){
                     console.log(err);
@@ -284,6 +288,7 @@ function createDummyCourses() {
                                     var n = n+5;
                                 }
                                 for (var i = 0; i < n_members; i++) {
+                                    //insert into Membercourseprogress
                                      defaultMemberprogress.push({
                                        "kind": "course-member-result",
                                        "stepsIds": stepIdlist[i],
