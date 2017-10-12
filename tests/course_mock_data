@@ -19,7 +19,7 @@ function increaseLimits() {
     return createDummyCourses()
        
 }
-var n_members = 6;
+var n_members = 4;
 var n_steps = 5;
 var defaultCourses = []; //Contains only CourseID and MemberList
 var defaultCoursestep = []; 
@@ -108,7 +108,7 @@ function createDummyCourses() {
             "languageOfInstruction": "English",
             "location": "Alberta",
             "memberLimit": "20",
-            "members": memberarr,
+            "members": [memberarr[course]],
             "method": "Theory and Practical",
             "name": "Course " +course_number,
             "startDate": "01/01/2017",
@@ -189,8 +189,8 @@ function createDummyCourses() {
                             "description": "This is course step "+ (steps+1),
                             "kind": "Course Step",
                             "passingPercentage": "30",
-                            "resourceTitles":[],
-                            "resourceId":[],
+                            "resourceTitles":[resreso[0].title],
+                            "resourceId":[resreso[0].id],
                             "questionslist":[],
                             "step": steps+1,
                             "stepGoals": "Knowledge",
@@ -284,53 +284,51 @@ function createDummyCourses() {
                                     var n = n+5;
                                 }
                                 for (var i = 0; i < n_members; i++) {
-                                    for (var j = 0; j < rescourse.length; j++) {
-                                         defaultMemberprogress.push({
-                                           "kind": "course-member-result",
-                                           "stepsIds": stepIdlist[j],
-                                           "memberId":resmem[j].id ,
-                                           "stepsResult":[
-                                                            [
-                                                               null,
-                                                               "50"
-                                                            ],
-                                                            [
-                                                               null,
-                                                               "100"
-                                                            ],
-                                                            [
-                                                               null,
-                                                               "0"
-                                                            ],
-                                                           "",
-                                                           ""
+                                     defaultMemberprogress.push({
+                                       "kind": "course-member-result",
+                                       "stepsIds": stepIdlist[i],
+                                       "memberId":resmem[i].id ,
+                                       "stepsResult":[
+                                                        [
+                                                           null,
+                                                           "50"
                                                         ],
-                                           "stepsStatus":[
-                                                            [
-                                                               null,
-                                                               1
-                                                            ],
-                                                            [
-                                                               null,
-                                                               1
-                                                            ],
-                                                            [
-                                                               null,
-                                                               0
-                                                            ],
-                                                           "0",
+                                                        [
+                                                           null,
+                                                           "100"
+                                                        ],
+                                                        [
+                                                           null,
                                                            "0"
                                                         ],
-                                           "pqAttempts":[  1,
-                                                           1,
-                                                           1,
-                                                           0,
+                                                       "",
+                                                       ""
+                                                    ],
+                                       "stepsStatus":[
+                                                        [
+                                                           null,
+                                                           1
+                                                        ],
+                                                        [
+                                                           null,
+                                                           1
+                                                        ],
+                                                        [
+                                                           null,
                                                            0
                                                         ],
-                                           "courseId": rescourse[j].id
-                                        });
-                                         console.log(defaultMemberprogress)
-                                    }
+                                                       "0",
+                                                       "0"
+                                                    ],
+                                       "pqAttempts":[  1,
+                                                       1,
+                                                       1,
+                                                       0,
+                                                       0
+                                                    ],
+                                       "courseId": rescourse[i].id
+                                    });
+                                     console.log(defaultMemberprogress)
                                 }
                                 membercourseprogress.bulk({"docs":defaultMemberprogress}, function(err, res) {
                                     if (err)
