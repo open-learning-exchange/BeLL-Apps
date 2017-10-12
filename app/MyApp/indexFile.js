@@ -921,6 +921,8 @@ function sendAdminRequest(courseLeader, courseName, courseId) {
             async: false
         })
         var num = gmodel.get("members").length
+        console.log("memberlength"+num)
+        console.log(gmodel.get("memberLimit"));
         if (gmodel.get("memberLimit")) {
             if (gmodel.get("memberLimit") < num) {
                 alert(App.languageDict.attributes.Course_Full)
