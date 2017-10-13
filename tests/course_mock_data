@@ -33,6 +33,8 @@ var defaultResources = [];
 var defaultMembers = [];
 var defaultCourseanswer = [];
 var defaultMemberprogress = [];
+var c_step ={};
+var m_step = [[],[],[],[]];
 
 function createDummyCourses() {
   var courses = nano.db.use('courses');
@@ -187,28 +189,101 @@ function createDummyCourses() {
                         courseIdlist.push(rescourse[i].id)
                     }
                       for(var courselist = 0; courselist < rescourse.length; courselist++){
-                        for(var steps = 0; steps < n_steps; steps++){
-                          defaultCoursestep.push({
-                            "courseId": rescourse[courselist].id,
-                            "description": "This is course step "+ (steps+1),
-                            "kind": "Course Step",
-                            "passingPercentage": "30",
-                            "resourceTitles":[resreso[0].title],
-                            "resourceId":[resreso[0].id],
-                            "questionslist":[],
-                            "step": steps+1,
-                            "stepGoals": "Knowledge",
-                            "stepMethod": "Theory",
-                            "title": "Course Step "+ (steps+1),
-                            "totalMarks": "100"
-                        });
-                      }
+                        if(courselist == 1){
+                            n_steps = 1
+                            for(var steps = 0; steps < n_steps; steps++){
+                                defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }else if(courselist == 2){
+                            n_steps = 2
+                            for(var steps = 0; steps < n_steps; steps++){
+                                  defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }else if(courselist == 3){
+                            n_steps = 3
+                            for(var steps = 0; steps < n_steps; steps++){
+                                  defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }else{
+                           for(var steps = 0; steps < n_steps; steps++){
+                                  defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }
                     }
                   //insert into coursestep
                     coursestep.bulk({"docs":defaultCoursestep},function(err,resstep){
                         if(err){
                             console.log(err);
                         }else{
+                          for (var i = 0; i < 5; i++) {
+                           m_step[0].push(resstep[i].id)
+                          }
+                          c_step[rescourse[0].id] = m_step[0]
+                          for (var b = 5; b <= 5; b++) {
+                             m_step[1].push(resstep[b].id)
+                          }
+                          c_step[rescourse[1].id] = m_step[1]
+                          for (var i = 6; i < 8; i++) {
+                            m_step[2].push(resstep[i].id)
+                          }
+                          c_step[rescourse[2].id] = m_step[2]
+                          for (var i = 8; i < 11; i++) {
+                            m_step[3].push(resstep[i].id)
+                          }
+                          c_step[rescourse[3].id] = m_step[3]
+                           console.log(c_step);
                             for(var steplist = 0; steplist<resstep.length; steplist++){
                                 defaultCoursestep[steplist]["_id"] = resstep[steplist].id;
                                 defaultCoursestep[steplist]["_rev"] = resstep[steplist].rev;
@@ -266,40 +341,44 @@ function createDummyCourses() {
                                     var j = 0;
                                     var k = 4;
                                     for(var i = 0; i < defaultCoursestep.length; i++){
-                                        for(j; j < k; j++){
-                                            defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                        if(i%2==0){
+                                            for(j; j < k-3; j++){
+                                                defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                            }
+                                            j = k;
+                                            k = k+4;
+                                        }else if(i%3 == 0){
+                                             for(j; j < k-2; j++){
+                                                defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                            }
+                                            j = k;
+                                            k = k+4;
+                                        } else{
+                                            for(j; j < k; j++){
+                                                defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                            }
+                                            j = k;
+                                            k = k+4;
                                         }
-                                        var j = k;
-                                        var k = k+4;
-                                        coursestep.insert(defaultCoursestep[i],  function(err, res) {
+                                        coursestep.insert(defaultCoursestep[i], function(err, res) {
                                             if (err)
                                                 return console.log(err);
                                         });
                                     }
-                                }
-                                var m = 0;
-                                var n = 5;
-                                var stepIdlist = [[],[],[],[],[],[]];
-                                for(var courses = 0; courses < n_members; courses++){
-                                    for(var m ; m < n; m++){
-                                        stepIdlist[courses].push(resstep[m].id);
-                                    }
-                                    var m = n;
-                                    var n = n+5;
+                                    //console.log(defaultCoursestep)
                                 }
                                 for (var i = 0; i < n_members; i++) {
-                                    //insert into Membercourseprogress
+                                     //insert into Membercourseprogress
                                      defaultMemberprogress.push({
                                        "kind": "course-member-result",
-                                       "stepsIds": stepIdlist[i],
-                                       "memberId":resmem[i].id ,
+                                       "stepsIds": c_step[Object.keys(c_step)[i]],
                                        "stepsResult":[
                                                         [
-                                                           null,
+                                                           "100",
                                                            "50"
                                                         ],
                                                         [
-                                                           null,
+                                                           "50",
                                                            "100"
                                                         ],
                                                         [
@@ -311,37 +390,41 @@ function createDummyCourses() {
                                                     ],
                                        "stepsStatus":[
                                                         [
-                                                           null,
+                                                           1,
                                                            1
                                                         ],
                                                         [
-                                                           null,
+                                                           1,
                                                            1
                                                         ],
                                                         [
-                                                           null,
+                                                           1,
                                                            0
                                                         ],
-                                                       "0",
+                                                       [
+                                                           1,
+                                                           1
+                                                        ],
                                                        "0"
                                                     ],
                                        "pqAttempts":[  1,
-                                                       1,
-                                                       1,
+                                                       3,
+                                                       5,
                                                        0,
                                                        0
                                                     ],
-                                       "courseId": rescourse[i].id
+                                       "courseId": Object.keys(c_step)[i]
                                     });
                                      console.log(defaultMemberprogress)
+                                    membercourseprogress.bulk({"docs":defaultMemberprogress}, function(err, res) {
+                                      if (err)
+                                          return console.log(err);
+                                      else {
+                                          done();
+                                      }
+                                  });
+                                  }
                                 }
-                                membercourseprogress.bulk({"docs":defaultMemberprogress}, function(err, res) {
-                                    if (err)
-                                        return console.log(err);
-                                    else {
-                                        done();
-                                    }
-                                });
                             });
                         }
                     });
