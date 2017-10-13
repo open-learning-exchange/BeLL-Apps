@@ -383,6 +383,7 @@ $(function() {
                                 success: function (model, response) {
                                     var docIds = [];
                                     var id = that.model.get('id');
+                                    var community_name = $.trim($('#community-name').val())
                                     docIds.push(id);
                                     $.ajax({
                                         headers: {
@@ -427,6 +428,7 @@ $(function() {
                                                                     if(response.rows[i].doc._id != "_design/bell"){
                                                                         if(response.rows[i].doc.autoPublication == true){
                                                                             var publicationsId = response.rows[i].doc._id
+                                                                            var publicationsRev = response.rows[i].doc._rev
                                                                             $.ajax({
                                                                                 type: 'GET',
                                                                                 url:  '/configurations/_all_docs?include_docs=true',
@@ -434,11 +436,43 @@ $(function() {
                                                                                 async: false,
                                                                                 success: function(response) {
                                                                                     var sendPub = new Array()
+                                                                                    var  communityName = response.rows[0].doc.name
                                                                                     sendPub.push({
                                                                                         communityUrl: response.rows[0].doc.sponsorUrl,
                                                                                         communityName: response.rows[0].doc.name,
                                                                                         publicationId: publicationsId,
                                                                                         Viewed: false
+                                                                                    })
+                                                                                    $.ajax({
+                                                                                        type: 'GET',
+                                                                                        url:  'http://' + nationUrl + '/publications/_design/bell/_view/allPublication?_include_docs=true&key="'+publicationsId+'"',
+                                                                                        dataType: 'jsonp',
+                                                                                        async: false,
+                                                                                        success: function(response) {
+                                                                                            var sendCommunityName = response.rows[0].value
+                                                                                            if (sendCommunityName['communityNames'].indexOf(community_name) == -1) {
+                                                                                                sendCommunityName.communityNames.push(community_name)
+                                                                                                console.log(sendCommunityName)
+                                                                                                console.log('http://niroj.np:oleoleole@' + nationUrl + '/publications/'+publicationsId+ '?rev=' + publicationsRev)
+                                                                                                $.ajax({
+                                                                                                    url : 'http://niroj.np:oleoleole@' + nationUrl + '/publications/'+publicationsId,
+                                                                                                    data : sendCommunityName,
+                                                                                                    type : 'PUT',
+                                                                                                    dataType : "jsonp",
+                                                                                                    contentType : "application/json",
+                                                                                                    async: false,
+                                                                                                    success : function(resp) {
+                                                                                                        console.log(resp)
+                                                                                                    },
+                                                                                                    error: function(status) {
+                                                                                                        console.log(status)
+                                                                                                    }
+                                                                                                  });
+                                                                                            }
+                                                                                        },
+                                                                                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                            alert(App.languageDict.attributes.TryLater_Error)
+                                                                                        }
                                                                                     })
                                                                                     $.couch.db("publicationdistribution").bulkSave({
                                                                                         "docs": sendPub
