@@ -76,13 +76,13 @@ Scenario('Test for Add Report', (I) => {
 	I.waitForEnabled(ActReport);
 	I.click(ActReport);
 	I.wait(5)
-	I.seeInCurrentUrl('#logreports');
+	I.seeInCurrentUrl('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#logreports');
 	I.wait(2);
 	I.waitForVisible(dateVis);
 	I.fillField(startDt, sdate);
 	I.fillField(endDt, edate);
 	I.click(reportBtn);
-	I.seeInCurrentUrl('#logreports');
+	I.seeInCurrentUrl('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#logreports');
 	I.wait(5);
 	I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#reports');
 	I.wait(2);
