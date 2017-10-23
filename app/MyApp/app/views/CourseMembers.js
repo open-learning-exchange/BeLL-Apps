@@ -82,14 +82,11 @@ $(function () {
                                     attchmentURL = attchmentURL + _.keys(mems.get('_attachments'))[0]
                                     src = attchmentURL
                                 }
-                                if(config.models[0].attributes.rows[0].doc.code == 'nationbell' && mems.get("community") == 'nationbell'){
+                                if(config.models[0].attributes.rows[0].doc.type == 'nation' && mems.get("community") == 'nationbell' || config.models[0].attributes.rows[0].doc.type == 'community'){
                                     viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
-                                }
-                                else if (config.models[0].attributes.rows[0].doc.type == 'community'){
-                                    viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
-                                }
-                                else
+                                } else {
                                     viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td></td>'
+                                }
                                 var loggedIn = new App.Models.Member({
                                     "_id": $.cookie('Member._id')
                                 })
@@ -186,10 +183,11 @@ $(function () {
                                         attchmentURL = attchmentURL + _.keys(mems.get('_attachments'))[0]
                                         src = attchmentURL
                                     }
-                                    if(config.models[0].attributes.rows[0].doc.code == 'nationbell' && mems.get("community") == 'nationbell')
+                                    if(config.models[0].attributes.rows[0].doc.type == 'nation' && mems.get("community") == 'nationbell'){
                                         viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
-                                    else
+                                    } else{
                                         viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td></td>'
+                                    }
                                     var loggedIn = new App.Models.Member({
                                         "_id": $.cookie('Member._id')
                                     })
