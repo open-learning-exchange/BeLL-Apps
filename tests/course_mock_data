@@ -33,6 +33,8 @@ var defaultResources = [];
 var defaultMembers = [];
 var defaultCourseanswer = [];
 var defaultMemberprogress = [];
+var member_obj ={};
+var member_arr = [[],[],[],[],[]];
 var c_step ={};
 var m_step = [[],[],[],[]];
 
@@ -80,13 +82,32 @@ function createDummyCourses() {
       });
     }
   }
+
   members.bulk({"docs":defaultMembers}, function(err, resmem) {
     if (err)
       return console.log(err);
     else {
-        var memberarr = [];
+        for (var i = 0; i < 4; i++) {
+         member_arr[0].push(resmem[i].id)
+        }
+        member_obj[resmem[0].id] = member_arr[0]
+        for (var b = 0; b < 3; b++) {
+           member_arr[1].push(resmem[b].id)
+        }
+        member_obj[resmem[1].id] = member_arr[1]
+        for (var i = 0; i < 2; i++) {
+          member_arr[2].push(resmem[i].id)
+        }
+        member_obj[resmem[2].id] = member_arr[2]
+        for (var i = 0; i < 1; i++) {
+          member_arr[3].push(resmem[i].id)
+        }
+        member_obj[resmem[3].id] = member_arr[3]
+        for (var i = 0; i < 0; i++) {
+          member_arr[4].push(resmem[i].id)
+        }
+
         for(var course = 0; course < resmem.length; course++){
-        memberarr.push(resmem[course].id);
         course_number = course + 1;
         var subjectLevel;
         var gradelevel;
@@ -115,7 +136,7 @@ function createDummyCourses() {
             "languageOfInstruction": "English",
             "location": "Alberta",
             "memberLimit": "20",
-            "members": [memberarr[course]],
+            "members": member_obj[Object.keys(member_obj)[course]],
             "method": "Theory and Practical",
             "name": "Course " +course_number,
             "startDate": "01/01/2017",
@@ -123,7 +144,6 @@ function createDummyCourses() {
             "subjectLevel": subjectLevel
         });
       }
-
       courses.bulk({"docs":defaultCourses}, function(err, rescourse) {
         if (err)
             return console.log(err);
@@ -262,6 +282,7 @@ function createDummyCourses() {
                             }
                         }
                     }
+
                   //insert into coursestep
                     coursestep.bulk({"docs":defaultCoursestep},function(err,resstep){
                         if(err){
@@ -333,99 +354,110 @@ function createDummyCourses() {
                                 });
                             }
 
-                            coursequestion.bulk({"docs":defaultCoursequestion}, function(err, resquestion) {
-                                if (err)
-                                    return console.log(err);
-                                else {
-                                    //need to update questionlist in coursestep
-                                    var j = 0;
-                                    var k = 4;
-                                    for(var i = 0; i < defaultCoursestep.length; i++){
-                                        if(i%2==0){
-                                            for(j; j < k-3; j++){
-                                                defaultCoursestep[i].questionslist.push(resquestion[j].id)
-                                            }
-                                            j = k;
-                                            k = k+4;
-                                        }else if(i%3 == 0){
-                                             for(j; j < k-2; j++){
-                                                defaultCoursestep[i].questionslist.push(resquestion[j].id)
-                                            }
-                                            j = k;
-                                            k = k+4;
-                                        } else{
-                                            for(j; j < k; j++){
-                                                defaultCoursestep[i].questionslist.push(resquestion[j].id)
-                                            }
-                                            j = k;
-                                            k = k+4;
-                                        }
-                                        coursestep.insert(defaultCoursestep[i], function(err, res) {
-                                            if (err)
-                                                return console.log(err);
-                                        });
-                                    }
-                                    //console.log(defaultCoursestep)
-                                }
-                                for (var i = 0; i < n_members; i++) {
-                                     //insert into Membercourseprogress
-                                     defaultMemberprogress.push({
-                                       "kind": "course-member-result",
-                                       "stepsIds": c_step[Object.keys(c_step)[i]],
-                                       "stepsResult":[
-                                                        [
-                                                           "100",
-                                                           "50"
-                                                        ],
-                                                        [
-                                                           "50",
-                                                           "100"
-                                                        ],
-                                                        [
-                                                           null,
-                                                           "0"
-                                                        ],
-                                                       "",
-                                                       ""
-                                                    ],
-                                       "stepsStatus":[
-                                                        [
-                                                           1,
-                                                           1
-                                                        ],
-                                                        [
-                                                           1,
-                                                           1
-                                                        ],
-                                                        [
-                                                           1,
-                                                           0
-                                                        ],
-                                                       [
-                                                           1,
-                                                           1
-                                                        ],
-                                                       "0"
-                                                    ],
-                                       "pqAttempts":[  1,
-                                                       3,
-                                                       5,
-                                                       0,
-                                                       0
-                                                    ],
-                                       "courseId": Object.keys(c_step)[i]
-                                    });
-                                     console.log(defaultMemberprogress)
-                                    membercourseprogress.bulk({"docs":defaultMemberprogress}, function(err, res) {
-                                      if (err)
-                                          return console.log(err);
-                                      else {
-                                          done();
+                          coursequestion.bulk({"docs":defaultCoursequestion}, function(err, resquestion) {
+                              if (err)
+                                  return console.log(err);
+                              else {
+                                  //need to update questionlist in coursestep
+                                  var j = 0;
+                                  var k = 4;
+                                  for(var i = 0; i < defaultCoursestep.length; i++){
+                                      if(i%2==0){
+                                          for(j; j < k-3; j++){
+                                              defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                          }
+                                          j = k;
+                                          k = k+4;
+                                      }else if(i%3 == 0){
+                                           for(j; j < k-2; j++){
+                                              defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                          }
+                                          j = k;
+                                          k = k+4;
+                                      } else{
+                                          for(j; j < k; j++){
+                                              defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                          }
+                                          j = k;
+                                          k = k+4;
                                       }
-                                  });
+                                      coursestep.insert(defaultCoursestep[i], function(err, res) {
+                                          if (err)
+                                              return console.log(err);
+                                      });
                                   }
-                                }
-                            });
+                              }
+
+                              for (var i = 0; i < resmem.length; i++) {
+                                 //insert into Membercourseprogress
+                                 for (var j = 4; j > 0; j--) {
+                                     defaultMemberprogress.push({
+                                     "kind": "course-member-result",
+                                     "memberId":resmem[i].id,
+                                     "stepsIds": c_step[Object.keys(c_step)[j]],
+                                     "stepsResult": [
+                                       [
+                                           null,
+                                           "100"
+                                       ],
+                                       [
+                                           null,
+                                           "25",
+                                           "50",
+                                           "65"
+                                       ],
+                                       [
+                                           null,
+                                           "0",
+                                           "10"
+                                       ],
+                                       [
+                                           null,
+                                           "0"
+                                       ],
+                                       ""
+                                    ],
+                                    "stepsStatus": [
+                                       [
+                                           null,
+                                           "1"
+                                       ],
+                                       [
+                                           null,
+                                           "1",
+                                           "1",
+                                           "1"
+                                       ],
+                                       [
+                                           null,
+                                           "0",
+                                           "0"
+                                       ],
+                                       [
+                                           null,
+                                           null
+                                       ],
+                                       "0"
+                                    ],
+                                    "pqAttempts": [
+                                       1,
+                                       3,
+                                       2,
+                                       1,
+                                       0
+                                    ],
+                                    "courseId": Object.keys(c_step)[j]
+                                  });
+                                 }
+                              }
+                              membercourseprogress.bulk({"docs":defaultMemberprogress}, function(err, res) {
+                                    if (err)
+                                        return console.log(err);
+                                      else{
+                                        done();
+                                      }
+                                });
+                          });
                         }
                     });
                 }
@@ -436,6 +468,6 @@ function createDummyCourses() {
   });
 }
 function done(){
-    console.log("done");
+    console.log("Your Course mock test is ready");
 }
 start()
