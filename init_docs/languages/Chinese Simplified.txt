@@ -532,7 +532,7 @@
   "Removed_From_Collection":"成功地从收藏中移除。",
   "Resource_Deleted_success":"资源删除成功。",
   "Resource_RemovedFrom_Shelf_Success":"Resource successfully removed from shelf.",
-  "Prompt_Reource_first":"请先选择资源。",
+  "Prompt_Resources_first":"请先选择资源。",
   "Resources_Added_Success":"Your resources have been added successfully.",
   "Fetch_Collections_Error":"无法获取集合。",
   "FeedBack_Sent_success":"反馈发送成功。",
@@ -941,5 +941,10 @@
   "You_choose_the_option_without_correct_answer":"You choose the option without correct answer",
   "Auto_Publication":"Auto Publication",
   "Enable_Auto_Sync":"Enable Auto Sync",
-  "Disable_Auto_Sync":"Disable Auto Sync"
+  "Disable_Auto_Sync":"Disable Auto Sync",
+  "Courses_Replicated":"Courses Replicated",
+  "Answer_Assignment_paper":"Assignment Answers Database",
+  "Assignment_Database_replicate":"Assignment Paper database successfully replicated",
+  "Assignment_Name":"Assignment Name",
+  "Pub_Synced_Again":"Sync Publication Again"
 }

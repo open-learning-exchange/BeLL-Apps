@@ -236,9 +236,6 @@ $(function() {
             this.SearchPopup()
          },
         AddResources: function(){
-            if(typeof levelId === 'undefined'){
-                document.location.href = '#courses'
-            }
             var cstep = new App.Models.CourseStep({
                 "_id": levelId
             })
@@ -276,12 +273,7 @@ $(function() {
                 rids = []
                 rtitle = []
             } else {
-                Backbone.history.navigate('level/view/' + cstep.get("id") + '/' + cstep.get("rev"), {
-                    trigger: true
-                })
-                $("#cont").css('opacity', "")
-                $("#nav").css('opacity', "")
-                $("#invitationdiv").hide()
+                alert(App.languageDict.attributes.Prompt_Resources_first)
             }
         },
 

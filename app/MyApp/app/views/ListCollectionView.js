@@ -20,6 +20,7 @@ $(function() {
             }
         },
         hidediv: function() {
+            $('#invitationdiv').css({'height': '75%'})
             $('#invitationdiv').fadeOut(1000)
             document.getElementById('cont').style.opacity = 1.0
             document.getElementById('nav').style.opacity = 1.0

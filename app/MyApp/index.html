@@ -476,7 +476,7 @@
                 <tr class="imageRow">
                     <td rowspan="2" class="imageData">
                         <!--<img id="header-image" src="img/header_slice.png" /> -->
-                        <img src="img/OLE_Logo.png" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:55px;height: 105px; width: 105px;"/>
+                        <img src="img/OLE_Logo.png" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:55px;height: 105px; width: 105px; background: white"/>
                     </td>
                 </tr>
                 <tr>
@@ -1700,10 +1700,14 @@
                             <td><%=App.languageDict.attributes.Question %></td>
                             <td id="markdown_question_<%=questionlists[i]._id%>"><textarea name="<%=questionlists[i]._id%>"><%=questionlists[i].Statement%></textarea></td>
                         </tr>
-                        <%if(attachmentName != null && attachmentName!= "" && attachmentName!= undefined ){%>
                         <tr>
-                            <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
-                            <td></td>
+                            <td><%=App.languageDict.attributes.Assignment_Name %></td>
+                            <td><%=questionlists[i].Attachment.Name%></td>
+                        </tr>
+                        <%if(questionlists[i].Attachment.Name != null && questionlists[i].Attachment.Name!= "" && questionlists[i].Attachment.Name!= undefined ){%>
+                        <tr>
+                        <td></td>
+                            <td><a download="<%=questionlists[i].Attachment.Name%>" href="<%=questionlists[i].Attachment.URL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
                         </tr>
                         <%}%>
                         <% if(!learner) { %>
@@ -1763,7 +1767,7 @@
                             </tr>
                             <tr>
                                 <td><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td>>
+                                <td>
                                     <input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
                                     <div class="slider-range-min"></div>
                                 </td>
@@ -1850,7 +1854,7 @@
     <script type="text/html" id="template-Search">
         <div id="search">
             <div class="row">
-                <div class="col-lg-5" style = "margin-right:20px; margin-left:20px">
+                <div class="col-lg-5">
                     <div class="form-course search-Box">
                         <label style='font-size:16px'><b><%= languageDict.attributes.Title %></b></label><br><input class="form-control" type="text" placeholder="" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
                         <input class="form-control" type="text" placeholder="" id="textSearch" style="height:24px;margin-top:1%;width:347px"></input>

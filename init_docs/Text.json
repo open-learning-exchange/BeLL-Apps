@@ -532,7 +532,7 @@
     "Removed_From_Collection": "Removed successfully from collection.",
     "Resource_Deleted_success": "Resource successfully deleted.",
     "Resource_RemovedFrom_Shelf_Success": "Resource successfully removed from shelf.",
-    "Prompt_Reource_first": "Please select resources first.",
+    "Prompt_Resources_first": "Please select resources first.",
     "Resources_Added_Success": "Your resources have been added successfully.",
     "Fetch_Collections_Error": "Unable to get collections.",
     "FeedBack_Sent_success": "Feedback successfully sent.",
@@ -941,5 +941,11 @@
     "You_choose_the_option_without_correct_answer":"You choose the option without correct answer",
     "Auto_Publication":"Auto Publication",
     "Enable_Auto_Sync":"Enable Auto Sync",
-    "Disable_Auto_Sync":"Disable Auto Sync"
+    "Disable_Auto_Sync":"Disable Auto Sync",
+    "Courses_Replicated": "Courses Replicated",
+    "Course_Answers_Replicated":"Course Answers Replicated",
+    "Answer_Assignment_paper":"Assignment Answers Database",
+    "Assignment_Database_replicate":"Assignment Paper database successfully replicated",
+    "Assignment_Name":"Assignment Name",
+    "Pub_Synced_Again": "Sync Publication Again"
 }

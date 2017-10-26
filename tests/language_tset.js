@@ -6,7 +6,7 @@ var languages = [
     { lan: "Arabic", log: "دخول" },
     { lan: "Urdu", log: "لاگ ان" }
 ];
-Scenario('test language selection', (I) => {
+Scenario('Test for Language Selection', (I) => {
     I.amOnPage('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html');
     languages.forEach(function (item) {
         I.waitForVisible('//*[@id="onLoginLanguage"]');

@@ -31,6 +31,9 @@ module.exports = {
         }
         I.waitForVisible(typeLocator);
         I.click(typeLocator);
+        var feedbackdesc = '//*[@id="feedback_description_link"]';
+        I.waitForVisible(feedbackdesc);
+        I.click(feedbackdesc);
         I.fillField(this.feedbackText, text);
 
     },
@@ -52,6 +55,8 @@ module.exports = {
     view_feedback_list() {
         I.click(this.feedbackList);
         I.seeInCurrentUrl('#siteFeedback');
+        I.wait(2);
+        I.click("Feedback");
     }
 
 }

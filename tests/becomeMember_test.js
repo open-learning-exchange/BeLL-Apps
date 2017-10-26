@@ -1,7 +1,7 @@
 
-Feature('BecameAmember');
+Feature('BecomeMember');
 
-Scenario('test BecomeAmember', (I) => {
+Scenario('Test for Become a Member', (I) => {
 	var becMem =  '//*[@id="formButton2"]';
 	var memForm = '//*[@id="memberform"]';
 	var regBtn = '//*[@id="formButton"]';

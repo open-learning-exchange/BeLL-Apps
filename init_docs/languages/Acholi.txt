@@ -532,7 +532,7 @@
   "Removed_From_Collection":"crwdns15940:0crwdne15940:0",
   "Resource_Deleted_success":"crwdns15941:0crwdne15941:0",
   "Resource_RemovedFrom_Shelf_Success":"crwdns15942:0crwdne15942:0",
-  "Prompt_Reource_first":"crwdns15943:0crwdne15943:0",
+  "Prompt_Resources_first":"crwdns16376:0crwdne16376:0",
   "Resources_Added_Success":"crwdns15944:0crwdne15944:0",
   "Fetch_Collections_Error":"crwdns15945:0crwdne15945:0",
   "FeedBack_Sent_success":"crwdns15946:0crwdne15946:0",
@@ -941,5 +941,10 @@
   "You_choose_the_option_without_correct_answer":"crwdns16372:0crwdne16372:0",
   "Auto_Publication":"crwdns16373:0crwdne16373:0",
   "Enable_Auto_Sync":"crwdns16374:0crwdne16374:0",
-  "Disable_Auto_Sync":"crwdns16375:0crwdne16375:0"
+  "Disable_Auto_Sync":"crwdns16375:0crwdne16375:0",
+  "Courses_Replicated":"crwdns16377:0crwdne16377:0",
+  "Answer_Assignment_paper":"crwdns16378:0crwdne16378:0",
+  "Assignment_Database_replicate":"crwdns16379:0crwdne16379:0",
+  "Assignment_Name":"crwdns16380:0crwdne16380:0",
+  "Pub_Synced_Again":"crwdns16381:0crwdne16381:0"
 }
