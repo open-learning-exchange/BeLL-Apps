@@ -54,7 +54,6 @@ $(function() {
         },
 
         vars: {},
-
         template: _.template($("#template-PublicationRow").html()),
 
         initialize: function(e) {
@@ -62,6 +61,30 @@ $(function() {
         },
 
         render: function() {
+            var that =this
+            var comm
+            var sentToList = [];
+            $.ajax({
+                type: 'GET',
+                url: '/publicationdistribution/_design/bell/_view/pubdistributionByPubId?_include_docs=true&key="' + this.model.attributes._id + '"',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++){
+                        sentToList.push(response.rows[i].value.communityName)
+                    }
+                    if(that.model.attributes.communityNames.length != sentToList.length){
+                        that.model.set("communityNames", sentToList)
+                        that.model.save(null, {
+                            success:function(){
+                                console.log("saved")
+                            },
+                            error: function() {
+                                console.log("Not Saved")
+                            }
+                        });
+                    }
+                }
+            });
             var vars = this.model.toJSON()
             vars.auto_publication = false
             if(this.model.attributes.autoPublication != undefined)

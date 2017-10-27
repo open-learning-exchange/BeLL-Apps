@@ -3485,7 +3485,7 @@ $(function() {
             App.$el.children('.body').html(dashboard.el)
             dashboard.render()
             var communityNames = [];
-            $.ajax({
+            /*$.ajax({
                 type: 'GET',
                 url: '/publicationdistribution/_all_docs?include_docs=true',
                 dataType: 'json',
@@ -3514,7 +3514,7 @@ $(function() {
                         }
                     }
                 }
-            });
+            });*/
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getCommunityByCode?include_docs=true&limit=5',
