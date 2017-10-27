@@ -2,10 +2,8 @@
 .body {
     direction: rtl;
     margin-bottom: 30px;
-}
-div#parentLibrary{
-    margin-left: 20px;
     margin-right: 20px;
+    margin-left:20px;
 }
 #dashboard {
     height: 600px;
@@ -129,7 +127,6 @@ select#onDashboardLanguage {
     margin-top: -3.5%;
 }*/
 /*.changeWelComeButtonAsia{
-
     float: right;
     margin-right: 25%;
 }
@@ -183,10 +180,8 @@ td.stu-nav-option-empty {
 ul#itemsinnavbar.nav{
     direction: rtl;
     display: inline-flex;
-
     position: absolute;
 }
-
 .header-table {
     width: 100%;
     font-size: 20px;
@@ -1140,13 +1135,11 @@ textarea[name="comment"]
 /*.bbf-form .field-endDate
 {
     margin-left: 259px;
-
 }
 */
 /*.bbf-form .field-endTime
 {
     margin-left: 259px;
-
 }*/
 #library-top-buttons{
     margin-top: 20px;
@@ -1252,8 +1245,12 @@ form > fieldset > ul > li.bbf-field.field-selectLanguage {
 #addIndividualResource{
     width:110px;
 }
-#CommunitySelect{
+.DropDownOptn{
     float: left;
-    margin-top: -45px;
-    margin-right: 15px;
+    margin-left: 20px;
+    position: relative;
+}
+.table-feedback{
+    margin-left:20px;
+    margin-right:20px
 }

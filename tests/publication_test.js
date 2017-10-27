@@ -6,7 +6,7 @@ Before((I) => {
     I.wait(2);
 });
 
-Scenario('test add publications', (I, publication_po) => {
+Scenario('Test for Add Publications', (I, publication_po) => {
     publication_po.go_to_publications();
     publication_po.create_publication("Test publication 1", "TestAuthor1@email.com", "1231075689");
     publication_po.save_publication();
@@ -20,7 +20,7 @@ Scenario('test add publications', (I, publication_po) => {
     publication_po.cancel_publication();
 });
 
-Scenario('test delete publication', (I, publication_po) => {
+Scenario('Test for Delete Publication', (I, publication_po) => {
     publication_po.go_to_publications();
     publication_po.delete_publication("Test publication 2");
 });

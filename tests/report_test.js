@@ -1,5 +1,5 @@
 
-Feature('AddReport');
+Feature('Report');
 var today = new Date();
 var dd = today.getDate();
 
@@ -10,7 +10,7 @@ Before((I) => {
 	I.login('admin', 'password');
 	I.wait(5);
 });
-Scenario('test AddReport', (I) => {
+Scenario('Test for Add Report', (I) => {
 	let someDate = new Date();
 	someDate.setDate(someDate.getDate()); 
 	let dd1 = someDate.getDate();
@@ -75,6 +75,7 @@ Scenario('test AddReport', (I) => {
 	I.waitForVisible(ActReport);
 	I.waitForEnabled(ActReport);
 	I.click(ActReport);
+	I.wait(5)
 	I.seeInCurrentUrl('#logreports');
 	I.wait(2);
 	I.waitForVisible(dateVis);
@@ -88,7 +89,9 @@ Scenario('test AddReport', (I) => {
 	I.waitForVisible(comment);
 	I.waitForEnabled(comment);
 	I.click(comment);
-	I.fillField('comment', "This is a comment to Trend Report");
+	I.executeScript(function() {
+		$('.redactor_ ').html('<b>This is a comment to Trend Report</b>')
+	});
 	I.click(subBtn);
 	I.wait(2);
 	I.waitForVisible(clBtn);
@@ -110,7 +113,7 @@ Scenario('test AddReport', (I) => {
 
 
 });
-Scenario('test second DeleteReport', (I) => {
+Scenario('Test for Delete Report', (I) => {
 	var navBar = '//*[@id="itemsinnavbar"]';
 	var report = '//*[@id="itemsinnavbar"]/li/a[@href="#reports"]';
 	var delet = '//*[@class="btn btn-danger destroy"]';
@@ -127,6 +130,8 @@ Scenario('test second DeleteReport', (I) => {
 	I.wait(2);
 	I.seeInPopup("Are you sure you want to delete this report?");
 	I.acceptPopup();
-	I.wait(5);
+	I.wait(1);
+	I.seeInPopup("Successfully deleted report.");
+	I.acceptPopup();
 	I.seeInCurrentUrl('#reports');
 	}); 
