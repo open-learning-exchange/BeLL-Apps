@@ -62,7 +62,6 @@ $(function() {
 
         render: function() {
             var that =this
-            var comm
             var sentToList = [];
             $.ajax({
                 type: 'GET',
