@@ -3062,7 +3062,7 @@ $(function() {
             var CoursecommunityList = "";
             if(App.configuration.get('type') == 'nation'){
                 $.ajax({
-                    url: '/community/_design/bell/_view/getCommunityByCode',
+                    url: '/members/_design/bell/_view/MembersBySelectedCommunity?group=true',
                     type: 'GET',
                     dataType: "jsonp",
                     async: false,
@@ -3070,7 +3070,7 @@ $(function() {
                         CoursecommunityList = '<option value="">'+App.languageDict.attributes.All+'</option>';
                         CoursecommunityList += '<option value="'+App.configuration.get('code')+'">'+App.configuration.get('name')+'</option>';
                         $.each(json.rows, function(rec, index) {
-                            CoursecommunityList += '<option value="'+this.value.Code+'">'+this.value.Name+'</option>';
+                            CoursecommunityList += '<option value="'+this.key+'">'+this.key+'</option>';
                         })
                         CoursecommunityList = '<select id="CommunitySelect">'+CoursecommunityList+'</select>';
                         $('.DropDownOptn').append(CoursecommunityList);

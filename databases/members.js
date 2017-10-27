@@ -114,6 +114,16 @@ ddoc.views = {
             }
         }
     },
+    MembersBySelectedCommunity: {
+        map: function(doc) {
+            if (doc && doc.community) {
+                emit(doc.community, doc)
+            }
+        },
+        reduce: function(keys, values, rereduce) {
+            return values[0].community;
+        }
+    },
     managerMembers: {
         map: function (doc) {
             if (doc && doc.kind == 'Member' && doc.roles.indexOf('Manager') > -1) {

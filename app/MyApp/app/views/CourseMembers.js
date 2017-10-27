@@ -61,7 +61,7 @@ $(function () {
                             var na = currentConfig.rows[0].doc.nationName.substring(3,5);
                             $('.courseEditStep').empty();
                             $('.courseEditStep').append('<h3>'+App.languageDict.attributes.Course_Members+ ' | ' + courseModel.get('name') + '</h3>')
-                            var viewtext = '<table id = "Table1" class="btable btable-striped"><th>'+App.languageDict.attributes.Photo+'</th><th>'+App.languageDict.attributes.Name+'</th><th>'+App.languageDict.attributes.Roles+'</th><th colspan=2>'+App.languageDict.attributes.Actions+'</th>'
+                            var viewtext = '<table id = "Table1" class="btable btable-striped"><th>'+App.languageDict.attributes.Photo+'</th><th>'+App.languageDict.attributes.Name+'</th><th>'+App.languageDict.attributes.Roles+'</th><th>'+App.languageDict.attributes.Community+'</th><th colspan="2">'+App.languageDict.attributes.Actions+'</th>'
                             for (var i = 0; i < member_list.length; i++) {
                                 var mems = new App.Models.Member({
                                     _id: member_list[i]
@@ -107,7 +107,7 @@ $(function () {
                                 'onclick=showComposePopupMultiple("' + mail + '") id="sendMailButton">'
                                 +App.languageDict.attributes.Send_Email+'</button>' +
                                 '<button class="btn"   id="retrunBack" onclick=retrunBack()>'
-                                +App.languageDict.attributes.Back+'</button></td><td></td><td></td></tr>';
+                                +App.languageDict.attributes.Back+'</button></td><td></td><td></td><td></td></tr>';
                             viewtext += '</table>';
                             $('.courseEditStep').append(viewtext)
                         }
