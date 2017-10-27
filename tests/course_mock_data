@@ -16,14 +16,9 @@ var couchUrl = program.args[0]
 var nano = require('nano')(couchUrl)
 
 function start() {
-    increaseLimits()
+    return createDummyCourses()
 }
 
-// Increase Limits so couchapp push works correctly
-function increaseLimits() {
-    return createDummyCourses()
-       
-}
 var n_members = 4;
 var n_steps = 5;
 var defaultCourses = []; //Contains only CourseID and MemberList
