@@ -1738,16 +1738,9 @@ $(function() {
             }
         },
 
-        Resources: function() {
-            var jsonConfig = App.configuration.toJSON();
-            if(jsonConfig.type == "nation" && $.url().attr('fragment') == "resources/community") {
-                Backbone.history.navigate('resources', {
-                    trigger: true
-                })
-            }
-            else {
-                App.startActivityIndicator()
-                var resourcesTableView
+        FetchResources: function(filter){
+            console.log("Data "+filter);
+            var resourcesTableView
                 var temp = $.url().data.attr.host.split(".") // get name of community
                 temp = temp[0].substring(3)
                 if (temp == "")
@@ -1756,6 +1749,9 @@ $(function() {
                 var resources = new App.Collections.Resources({
                     skip: 0
                 });
+                if(filter != ""){
+                    resources.search = filter;
+                }
                 if($.url().attr('fragment') == "resources/community") {
                     resources.pending = 1;
                 }
@@ -1769,39 +1765,11 @@ $(function() {
                 resources.fetch({
                     async:false,
                     success: function() {
+                        $('body').find('table').remove();
                         resourcesTableView = new App.Views.ResourcesTable({
                             collection: resources
                         })
                         resourcesTableView.isManager = roles.indexOf("Manager");
-                        App.$el.children('.body').empty();
-                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
-                        App.$el.children('#parentLibrary').empty();
-                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
-
-                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
-                        btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
-                        $('#parentLibrary').append( btnText);
-                        if(jsonConfig.type == "community") {
-                            if($.url().attr('fragment') == "resources/community") {
-                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                            }
-                            else {
-                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                            }
-                        }
-                        else {
-                            if($.url().attr('fragment') == "resources/byownership") {
-                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                            }
-                            else {
-                                if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
-                                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
-                                }
-                                else {
-                                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                                }
-                            }
-                        }
                         resourcesTableView.collections = App.collectionslist
                         resourcesTableView.render();
                         $('#parentLibrary').append(resourcesTableView.el);
@@ -1813,6 +1781,57 @@ $(function() {
                         resourcesTableView.changeDirection();
                     }
                 });
+        },
+
+        Resources: function() {
+            var jsonConfig = App.configuration.toJSON();
+            if(jsonConfig.type == "nation" && $.url().attr('fragment') == "resources/community") {
+                Backbone.history.navigate('resources', {
+                    trigger: true
+                })
+            }
+            else {
+                App.startActivityIndicator()
+                App.$el.children('.body').empty();
+                App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                App.$el.children('#parentLibrary').empty();
+                var roles = this.getRoles();
+                if(jsonConfig.type == "community") {
+                    if($.url().attr('fragment') == "resources/community") {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                    else {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                }
+                else {
+                    if($.url().attr('fragment') == "resources/byownership") {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                    else {
+                        if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
+                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                        }
+                        else {
+                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                        }
+                    }
+                }
+                var btnText = '<div id="resourcePage" style="margin-top:20px"><input type="text" id="resourceSearch"/><button id="btnSearch">btn Search</button><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
+
+                btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
+                $('#parentLibrary').append( btnText);
+                this.FetchResources();
+                var that = this;
+                $("#btnSearch").click(function(){
+                    var val = $('#resourceSearch').val();
+                    if(val != ""){
+                        that.FetchResources(val);
+                    }
+                });
+                ////////////////////////////////
+                
                 App.stopActivityIndicator()
             }
         },
@@ -1839,10 +1858,10 @@ $(function() {
                         App.$el.children('#parentLibrary').empty();
                         var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
-                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#resources" style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                         btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
                         btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
                         $('#parentLibrary').append( btnText);
-                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#resources" style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Pending_Resources+'</a></p>')
 
                         resourcesTableView.collections = App.collectionslist;
                         resourcesTableView.render();
@@ -5669,7 +5688,10 @@ $(function() {
                         collection: collections
                     })
                     collectionTableView.render()
-                    App.$el.children('.body').html('<p id="firstParaOnCollections" style="margin-top:20px"><a id="addResourceOnCollection" class="btn btn-success" href="#resource/add">'+App.languageDict.attributes.Add_new_Resource+'</a><a id="requestResourceOnCollection" class="btn btn-success" onclick=showRequestForm("Resource")>'+App.languageDict.attributes.Request_Resource+'</a></p></span>')
+                    App.$el.children('.body').empty();
+                    // App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                    // App.$el.children('#parentLibrary').empty();
+                    // App.$el.children('.body').html('<p id="firstParaOnCollections" style="margin-top:20px"><a id="addResourceOnCollection" class="btn btn-success" href="#resource/add">'+App.languageDict.attributes.Add_new_Resource+'</a><a id="requestResourceOnCollection" class="btn btn-success" onclick=showRequestForm("Resource")>'+App.languageDict.attributes.Request_Resource+'</a></p></span>')
                     var configurations = Backbone.Collection.extend({
                         url: App.Server + '/configurations/_all_docs?include_docs=true'
                     });

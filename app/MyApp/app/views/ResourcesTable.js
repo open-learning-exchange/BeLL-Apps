@@ -6,7 +6,12 @@ $(function() {
         isAdmin: null,
         className: "table table-striped",
         //template: $('#template-ResourcesTable').html(),
+        activeLetter: "A",
         events: {
+            "click #addNewResource": function(e) {
+                e.preventDefault();
+                alert("test");
+            },
             "click #backButton": function(e) {
                 if (this.collection.skip > 0) {
                     this.collection.skip = parseInt(this.collection.skip) - 20
@@ -31,6 +36,7 @@ $(function() {
             "click .clickonalphabets": function(e) {
                 this.collection.skip = 0
                 var val = $(e.target).text()
+                this.activeLetter = val
                 this.collection.startkey = val
                 this.collection.fetch({
                     async: false
@@ -127,7 +133,7 @@ $(function() {
         },
         render: function() {
             var context = this
-
+            console.log(this)
             if (this.displayCollec_Resources != true) {
 
                 this.$el.html("")
@@ -206,6 +212,7 @@ $(function() {
 
                 }
             });
+            $('.clickonalphabets[value="'+this.activeLetter+'"]').css("text-decoration","underline");
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         }
