@@ -97,7 +97,8 @@ $(function() {
             'passwordResetEmail': 'showPasswordResetEmail',
             'password-reset': 'showPasswordReset',
             'courseCareerPath':'addCareerPath',
-            'courseCareerPath/manage/:careername/:careerId':'manageCourseCareer'
+            'courseCareerPath/manage/:careername/:careerId':'manageCourseCareer',
+            'courseCareerPath/details/:carrerId': 'CareerDetails'
         },
         addOrUpdateWelcomeVideoDoc: function() {
             // fetch existing welcome video doc if there is any
@@ -6826,6 +6827,29 @@ $(function() {
             $('#LCourse').multiselect("uncheckAll");
             var directionOfLang = App.languageDict.get('directionOfLang');
             applyCorrectStylingSheet(directionOfLang)
+        },
+
+        CareerDetails: function(careerId) {
+            var CareerPath = new App.Models.CoursecareerPath({
+                _id : careerId
+            });
+            CareerPath.fetch({
+                async:false
+            });
+            for (var i = 0; i < CareerPath.attributes.CourseIds.length; i++){
+                var course = new App.Models.Course({
+                    _id: CareerPath.attributes.CourseIds[i]
+                })
+                course.fetch({
+                    async:false
+                })
+            }
+            var careerView = new App.Views.CareerDetailView({
+                model: course
+            })
+            careerView.render()
+            App.$el.children('.body').html(careerView.el);
+            applyCorrectStylingSheet(App.languageDict.get('directionOfLang'))
         }
     }))
 })
