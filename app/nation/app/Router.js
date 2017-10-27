@@ -3242,7 +3242,8 @@ $(function() {
             var that = this;
             var fullDate = new Date()
             var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
-            var currentDate = fullDate.getDate() + "-" + twoDigitMonth + "-" + fullDate.getFullYear();;
+            var currentDate = fullDate.getFullYear() + "-" + twoDigitMonth + "-" + fullDate.getDate()
+            console.log(currentDate)
             $.ajax({
                 url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
                 type: 'GET',
@@ -3279,7 +3280,6 @@ $(function() {
                                 async: false
                             });
                             var answerModels = answersColl.models;
-                            console.log(answerModels.attributes)
                             var answersArray = [];
                             for(var k = 0 ; k < answerModels.length ; k++) {
                                 answersArray.push(answerModels[k].attributes);
@@ -3324,7 +3324,8 @@ $(function() {
                             jsonObjectsData.sort(that.sortByProperty('QStatement'));
                             jsonObjectsData.sort(that.sortByProperty('QType'));
                             if(questionId == ''){
-                                that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo+ '/' + currentDate);
+                                var surNo = "SurveyNo."+surveyNo
+                                that.JSONToCSVConvertor(jsonObjectsData, surNo+ '/' + surveyTitle + '/' + currentDate);
                             }else{
                                 that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + questionId);
                             }
