@@ -1,3 +1,8 @@
+/*Here I have made some course test scenario where test is done automatically while it renders all data in BeLL-App UI and couchdb.
+For test scenario we have got multiple members, courses, steps , resources, questions adn a membercourseprogress as we need all 
+these specific variables or a data that should be bulk inserted in a data base*/
+/*For running this script we have to run node [filename][url] eg:node course_mock_data http://192.168.10.111:5982 */
+
 var util = require('util')
 var fs = require('fs')
 var exec = require('child_process').exec;
@@ -16,34 +21,107 @@ function start() {
 
 // Increase Limits so couchapp push works correctly
 function increaseLimits() {
-    exec('sudo launchctl limit maxfiles 150056 150056', function doneWithLaunchCtl() {
-        exec('sudo ulimit -n 150056', function doneWithUlimit() {
-            return createDummyCourses()
-        })
-    })
+    return createDummyCourses()
+       
 }
-
-var n_courses = 2 ; //Number of Iteration to run for courses 
+var n_members = 4;
+var n_steps = 5;
 var defaultCourses = []; //Contains only CourseID and MemberList
 var defaultCoursestep = []; 
 var defaultCoursequestion = [];
 var defaultResources = [];
+var defaultMembers = [];
+var defaultCourseanswer = [];
+var defaultMemberprogress = [];
+var member_obj ={};
+var member_arr = [[],[],[],[],[]];
+var c_step ={};
+var m_step = [[],[],[],[]];
 
 function createDummyCourses() {
-    var courses = nano.db.use('courses');
-    var coursestep = nano.db.use('coursestep');
-    var coursequestion = nano.db.use('coursequestion');
+  var courses = nano.db.use('courses');
+  var resources = nano.db.use('resources');
+  var coursestep = nano.db.use('coursestep');
+  var coursequestion = nano.db.use('coursequestion');
+  var members = nano.db.use('members');
+  var courseanswer = nano.db.use('courseanswer');
+  var membercourseprogress = nano.db.use('membercourseprogress');
 
-    for(course = 0; course < n_courses; course++){
+  /***************Members***************/
+    //First you need to create Member:
+
+  for(var member = 0; member < n_members; member++){
+    participation = member + 1;
+    if(member< parseInt(n_members/2)){
+      defaultMembers.push({
+        "login": "member" + participation,
+        "kind": "Member",
+        "roles": ["Manager"],
+        "firstName": "Member " + participation,
+        "lastName": "Member " + participation,
+        "password": "password",
+        "Gender": "Male",
+        "status": "active",
+        "email": "member" + participation + ".somalia@olebell.org",
+        "visits": 0,
+        "BirthDate": "01/01/1985"
+      });
+    }else{
+      defaultMembers.push({
+        "login": "member" + participation,
+        "kind": "Member",
+        "roles": ["Learner"],
+        "firstName": "Member " + participation,
+        "lastName": "Member " + participation,
+        "password": "password",
+        "Gender": "Male",
+        "status": "active",
+        "email": "member" + participation + ".somalia@olebell.org",
+        "visits": 0,
+        "BirthDate": "01/01/1985"
+      });
+    }
+  }
+
+  members.bulk({"docs":defaultMembers}, function(err, resmem) {
+    if (err)
+      return console.log(err);
+    else {
+        for (var i = 0; i < 4; i++) {
+         member_arr[0].push(resmem[i].id)
+        }
+        member_obj[resmem[0].id] = member_arr[0]
+        for (var b = 0; b < 3; b++) {
+           member_arr[1].push(resmem[b].id)
+        }
+        member_obj[resmem[1].id] = member_arr[1]
+        for (var i = 0; i < 2; i++) {
+          member_arr[2].push(resmem[i].id)
+        }
+        member_obj[resmem[2].id] = member_arr[2]
+        for (var i = 0; i < 1; i++) {
+          member_arr[3].push(resmem[i].id)
+        }
+        member_obj[resmem[3].id] = member_arr[3]
+        for (var i = 0; i < 0; i++) {
+          member_arr[4].push(resmem[i].id)
+        }
+
+        for(var course = 0; course < resmem.length; course++){
         course_number = course + 1;
         var subjectLevel;
+        var gradelevel;
         if (course <=3){
             subjectLevel = "Amateur";
-        }else if(course>=4 && course<=8){
+            gradelevel = "Higher"
+        }else if(course>=4){
             subjectLevel = "Mid";
+            gradelevel="10"
         }else{
             subjectLevel = "Beginner";
+            gradelevel="5"
         }
+        //insert into courses
         defaultCourses.push({
             "CourseTitle": "Course " +course_number,
             "Day": "0",
@@ -53,118 +131,183 @@ function createDummyCourses() {
             "endDate": "12/12/2017",
             "endTime": "17:00",
             "foregroundColor": "",
-            "gradeLevel": "1",
+            "gradeLevel": gradelevel,
             "kind": "Course",
             "languageOfInstruction": "English",
             "location": "Alberta",
             "memberLimit": "20",
-            "members": [],
+            "members": member_obj[Object.keys(member_obj)[course]],
             "method": "Theory and Practical",
             "name": "Course " +course_number,
             "startDate": "01/01/2017",
             "startTime": "10:00",
             "subjectLevel": subjectLevel
         });
-    }
-    
-    //insert into courses
-    courses.bulk({"docs":defaultCourses}, function(err, res) {
+      }
+      courses.bulk({"docs":defaultCourses}, function(err, rescourse) {
         if (err)
             return console.log(err);
-        else {
-            course_id = [];
-            console.log(res.length);
-            for(var i=0;i<res.length;i++){
-                course_id.push(res[i].id);
-            }
-            for(var i = 0; i < 1; i++){
-                        defaultCoursestep.push({
-                            "courseId": course_id[i],
-                            "description": "This is course step "+ (parseInt(i)+1),
-                            "kind": "Course Step",
-                            "passingPercentage": "30",
-                            "resourceTitles":[],
-                            "resourceId":[],
-                            "questionslist":[],
-                            "step": i+1,
-                            "stepGoals": "Knowledge",
-                            "stepMethod": "Theory",
-                            "title": "Course Step "+ (parseInt(i)+1),
-                            "totalMarks": "100"
-                        });  
-            }
-            for(var i = 0; i < 1; i++){
-                    defaultResources.push({
-                           "kind": "Resource",
-                           "status": "accepted",
-                           "title": "a",
-                           "author": "a",
-                           "Publisher": "",
-                           "language": "Arabic",
-                           "Year": "a",
-                           "linkToLicense": "",
-                           "subject": [
-                               "Agriculture",
-                               "Arts",
-                               "Business and Finance",
-                               "Environment",
-                               "Food and Nutrition",
-                               "Geography",
-                               "Health and Medicine",
-                               "History",
-                               "Human Development",
-                               "Languages",
-                               "Law",
-                               "Learning",
-                               "Literature",
-                               "Math",
-                               "Music",
-                               "Politics and Government",
-                               "Reference",
-                               "Religion",
-                               "Science",
-                               "Social Sciences",
-                               "Sports",
-                               "Technology"
-                           ],
-                           "Level": [
-                               "Early Education",
-                               "Lower Primary",
-                               "Upper Primary",
-                               "Lower Secondary",
-                               "Upper Secondary",
-                               "Undergraduate",
-                               "Graduate",
-                               "Professional"
-                           ],
-                           "Tag": null,
-                           "Medium": "Text",
-                           "openWith": "Just download",
-                           "resourceFor": "Default",
-                           "resourceType": "Textbook",
-                           "uploadDate": "2017-09-12T18:15:00.000Z",
-                           "averageRating": "",
-                           "articleDate": "2017-09-12T18:15:00.000Z",
-                           "addedBy": "admin",
-                           "openUrl": "",
-                           "openWhichFile": "",
-                           "sum": 0,
-                           "timesRated": 0
-                    });
-            }
-            var resources = nano.db.use('resources');
-                resources.bulk({"docs":defaultResources},  function(err, body) {
-                    if (err){
-                        return console.log(err);
-                    }else{
-                       defaultCoursestep[0].resourceId.push(body[0].id);
-                       //insert into coursestep
-                       coursestep.insert({"docs":defaultCoursestep[0]},function(err,res){
-                            if(err){
-                                console.log(err);
-                            }else{
-                                defaultCoursestep[0]._id = res.id;
-                                defaultCoursestep[0]._rev = res.rev;
+        else{
+            //insert into Resources
+            defaultResources.push({
+               "kind": "Resource",
+               "status": "accepted",
+               "title": "Resource1",
+               "author": "s",
+               "Publisher": "ds",
+               "language": "English",
+               "Year": "s",
+               "linkToLicense": "dsd",
+               "subject": [
+                   "Agriculture",
+                   "Arts",
+                   "Business and Finance",
+                   "Environment",
+                   "Food and Nutrition",
+                   "Geography",
+                   "Health and Medicine",
+                   "History",
+                   "Human Development",
+                   "Languages",
+                   "Law",
+                   "Learning",
+                   "Literature",
+                   "Math",
+                   "Music",
+                   "Politics and Government",
+                   "Reference",
+                   "Religion",
+                   "Science",
+                   "Social Sciences",
+                   "Sports",
+                   "Technology"
+               ],
+               "Level": [
+                   "Professional"
+               ],
+               "Tag": null,
+               "Medium": "Text",
+               "openWith": "PDF.js",
+               "resourceFor": "Leader",
+               "resourceType": "Textbook",
+               "uploadDate": "2017-10-10T18:15:00.000Z",
+               "averageRating": "",
+               "articleDate": "2017-10-10T18:15:00.000Z",
+               "addedBy": "admin",
+               "openUrl": "",
+               "openWhichFile": "",
+               "need_optimization": true,
+               "sum": 0,
+               "timesRated": 0
+            });
+            resources.bulk({"docs":defaultResources},function(err,resreso){
+                if(err){
+                    console.log(err);
+                }else{
+                    var courseIdlist = [];
+                    for(var i = 0; i < defaultCourses.length; i++){
+                        courseIdlist.push(rescourse[i].id)
+                    }
+                      for(var courselist = 0; courselist < rescourse.length; courselist++){
+                        if(courselist == 1){
+                            n_steps = 1
+                            for(var steps = 0; steps < n_steps; steps++){
+                                defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }else if(courselist == 2){
+                            n_steps = 2
+                            for(var steps = 0; steps < n_steps; steps++){
+                                  defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }else if(courselist == 3){
+                            n_steps = 3
+                            for(var steps = 0; steps < n_steps; steps++){
+                                  defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }else{
+                           for(var steps = 0; steps < n_steps; steps++){
+                                  defaultCoursestep.push({
+                                    "courseId": rescourse[courselist].id,
+                                    "description": "This is course step "+ (steps+1),
+                                    "kind": "Course Step",
+                                    "passingPercentage": "30",
+                                    "resourceTitles":["Resources"],
+                                    "resourceId":[resreso[0].id],
+                                    "questionslist":[],
+                                    "step": steps+1,
+                                    "stepGoals": "Knowledge",
+                                    "stepMethod": "Theory",
+                                    "title": "Course Step "+ (steps+1),
+                                    "totalMarks": "100"
+                                });
+                            }
+                        }
+                    }
+
+                  //insert into coursestep
+                    coursestep.bulk({"docs":defaultCoursestep},function(err,resstep){
+                        if(err){
+                            console.log(err);
+                        }else{
+                          for (var i = 0; i < 5; i++) {
+                           m_step[0].push(resstep[i].id)
+                          }
+                          c_step[rescourse[0].id] = m_step[0]
+                          for (var b = 5; b <= 5; b++) {
+                             m_step[1].push(resstep[b].id)
+                          }
+                          c_step[rescourse[1].id] = m_step[1]
+                          for (var i = 6; i < 8; i++) {
+                            m_step[2].push(resstep[i].id)
+                          }
+                          c_step[rescourse[2].id] = m_step[2]
+                          for (var i = 8; i < 11; i++) {
+                            m_step[3].push(resstep[i].id)
+                          }
+                          c_step[rescourse[3].id] = m_step[3]
+                           console.log(c_step);
+                            for(var steplist = 0; steplist<resstep.length; steplist++){
+                                defaultCoursestep[steplist]["_id"] = resstep[steplist].id;
+                                defaultCoursestep[steplist]["_rev"] = resstep[steplist].rev;
                                 //insert into coursequestion
                                 defaultCoursequestion.push({
                                     "CorrectAnswer":  [
@@ -178,63 +321,153 @@ function createDummyCourses() {
                                                 ],
                                     "Statement": "What is father of computer" +" ?",
                                     "Type": "Multiple Choice",
-                                    "courseId": course_id,
+                                    "courseId": defaultCoursestep[steplist].courseId,
                                     "kind": "coursequestion",
-                                    "stepId" : defaultCoursestep[0]._id,
+                                    "stepId" : resstep[steplist].id,
                                     "Marks" : 10
                                 });
                                 defaultCoursequestion.push({
                                         "Statement": "What is programming language"+" ?",
                                         "Type": "Comment/Essay Box",
-                                        "courseId": course_id,
+                                        "courseId": defaultCoursestep[steplist].courseId,
                                         "kind": "coursequestion",
-                                        "stepId" : defaultCoursestep[0]._id,
+                                        "stepId" : resstep[steplist].id,
                                         "Marks" : 10
                                 });
 
                                 defaultCoursequestion.push({
                                     "Statement": "Attach Summer Project" +".",
                                     "Type": "Attachment",
-                                    "courseId": course_id,
+                                    "courseId": defaultCoursestep[steplist].courseId,
                                     "kind": "coursequestion",
-                                    "stepId" : defaultCoursestep[0]._id,
+                                    "stepId" : resstep[steplist].id,
                                     "Marks" : 10
                                 });
 
                                 defaultCoursequestion.push({
                                     "Statement": "Full form of IDE" +".",
                                     "Type": "Single Textbox",
-                                    "courseId": course_id,
+                                    "courseId": defaultCoursestep[steplist].courseId,
                                     "kind": "coursequestion",
-                                    "stepId" : defaultCoursestep[0]._id,
+                                    "stepId" : resstep[steplist].id,
                                     "Marks" : 10
                                 });
-                                
-                                coursequestion.bulk({"docs":defaultCoursequestion}, function(err, res) {
+                            }
+
+                          coursequestion.bulk({"docs":defaultCoursequestion}, function(err, resquestion) {
+                              if (err)
+                                  return console.log(err);
+                              else {
+                                  //need to update questionlist in coursestep
+                                  var j = 0;
+                                  var k = 4;
+                                  for(var i = 0; i < defaultCoursestep.length; i++){
+                                      if(i%2==0){
+                                          for(j; j < k-3; j++){
+                                              defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                          }
+                                          j = k;
+                                          k = k+4;
+                                      }else if(i%3 == 0){
+                                           for(j; j < k-2; j++){
+                                              defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                          }
+                                          j = k;
+                                          k = k+4;
+                                      } else{
+                                          for(j; j < k; j++){
+                                              defaultCoursestep[i].questionslist.push(resquestion[j].id)
+                                          }
+                                          j = k;
+                                          k = k+4;
+                                      }
+                                      coursestep.insert(defaultCoursestep[i], function(err, res) {
+                                          if (err)
+                                              return console.log(err);
+                                      });
+                                  }
+                              }
+
+                              for (var i = 0; i < resmem.length; i++) {
+                                 //insert into Membercourseprogress
+                                 for (var j = 4; j > 0; j--) {
+                                     defaultMemberprogress.push({
+                                     "kind": "course-member-result",
+                                     "memberId":resmem[i].id,
+                                     "stepsIds": c_step[Object.keys(c_step)[j]],
+                                     "stepsResult": [
+                                       [
+                                           null,
+                                           "100"
+                                       ],
+                                       [
+                                           null,
+                                           "25",
+                                           "50",
+                                           "65"
+                                       ],
+                                       [
+                                           null,
+                                           "0",
+                                           "10"
+                                       ],
+                                       [
+                                           null,
+                                           "0"
+                                       ],
+                                       ""
+                                    ],
+                                    "stepsStatus": [
+                                       [
+                                           null,
+                                           "1"
+                                       ],
+                                       [
+                                           null,
+                                           "1",
+                                           "1",
+                                           "1"
+                                       ],
+                                       [
+                                           null,
+                                           "0",
+                                           "0"
+                                       ],
+                                       [
+                                           null,
+                                           null
+                                       ],
+                                       "0"
+                                    ],
+                                    "pqAttempts": [
+                                       1,
+                                       3,
+                                       2,
+                                       1,
+                                       0
+                                    ],
+                                    "courseId": Object.keys(c_step)[j]
+                                  });
+                                 }
+                              }
+                              membercourseprogress.bulk({"docs":defaultMemberprogress}, function(err, res) {
                                     if (err)
                                         return console.log(err);
-                                    else {
-                                        //need to update questionlist in coursestep
-                                        for(var i = 0; i < defaultCoursequestion.length; i++){
-                                            defaultCoursestep[0].questionslist.push(res[i].id)
-                                        }
-                                        //update coursestep[0]
-                                        coursestep.insert(defaultCoursestep[0],  function(err, res) {
-                                            if (err)
-                                                return console.log(err);
-                                            else
-                                                done();
-                                        });
-                                    }
+                                      else{
+                                        done();
+                                      }
                                 });
-                            }
-                       });
-                    }
+                          });
+                        }
+                    });
+                }
             });
         }
-    });
+      });
+    }
+  });
 }
 function done(){
-    console.log("done");
+    console.log("Your Course mock test is ready");
 }
 start()
