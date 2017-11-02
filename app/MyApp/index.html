@@ -1518,29 +1518,29 @@
         <table class="btable btable-striped">
             <tr>
                 <th style='width: 430px'><%= languageDict.attributes.Title %></th>
-                <th colspan="7"><%=languageDict.attributes.action %></th>
+                <th><%=languageDict.attributes.action %></th>
             </tr>
+            <%for(var i =0; i< CourseTitle.length; i++){%>
             <tr>
                  <td>
-                    <%= CourseTitle %>
+                    <%= CourseTitle[i] %>
                 </td>
                 <td>
-                    <a id="viewCourseButton" role='button' class='btn btn-warning' href='#course/details/<%= id %>/<%= CourseTitle %>'><%=viewCourse%></a>
-                </td>
-                <td>
+                    <a id="viewCourseButton" role='button' class='btn btn-warning' href='#course/details/<%=CourseIds[i] %>/<%= CourseTitle[i] %>'><%=viewCourse%></a>
+                    &nbsp;&nbsp;
                     <% if(showCreditButton) { %>
-                        <a role='button' class='btn btn-credit' id= "credit_view" href='#creditsDetails/<%= id %>'><%=App.languageDict.attributes.Credits%></a>
+                        <a role='button' class='btn btn-credit' id= "credit_view" href='#creditsDetails/<%= CourseIds[i] %>'><%=App.languageDict.attributes.Credits%></a>
                     <%}%>
-                </td>
-                <td>
+                    &nbsp;&nbsp;
                     <%viewProgress%>
                     <%if(viewProgress == 1){%>
-                    <a id="progressCourseButton" role='button' class='btn btn-info' href='#course/report/<%= _id %>/<%= CourseTitle %>'>
+                    <a id="progressCourseButton" role='button' class='btn btn-info' href='#course/report/<%= CourseIds[i] %>/<%= CourseTitle[i] %>'>
                         <i class="icon-signal icon-white"></i><%=progress%>
                     </a>
                     <%}%>
                 </td>
             </tr>
+            <%}%>
         </table>
 
     </script>

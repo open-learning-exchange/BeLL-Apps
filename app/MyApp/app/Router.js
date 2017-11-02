@@ -6836,16 +6836,17 @@ $(function() {
             CareerPath.fetch({
                 async:false
             });
-            for (var i = 0; i < CareerPath.attributes.CourseIds.length; i++){
-                var course = new App.Models.Course({
-                    _id: CareerPath.attributes.CourseIds[i]
-                })
-                course.fetch({
-                    async:false
-                })
-            }
+            console.log(CareerPath)
+            // for (var i = 0; i < CareerPath.attributes.CourseIds.length; i++){
+            //     var course = new App.Models.Course({
+            //         _id: CareerPath.attributes.CourseIds[i]
+            //     })
+            //     course.fetch({
+            //         async:false
+            //     })
+            // }
             var careerView = new App.Views.CareerDetailView({
-                model: course
+                model: CareerPath
             })
             careerView.render()
             App.$el.children('.body').html(careerView.el);
