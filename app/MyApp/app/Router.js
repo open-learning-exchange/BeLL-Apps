@@ -1818,54 +1818,45 @@ $(function() {
                         }
                     }
                 }
-                var btnText = '<div id="resourcePage" style="margin-top:20px">';
-                $('#parentLibrary').append('<label><b>Title</label><input type="text" id="resourceSearch"/>');
-                $('#parentLibrary').append('<label for="resSubject"><b>Subject</label><select id="resSubjects"><option>a</option></select');
-                $('#resSubject').multiselect().multiselectfilter();
-                $('#resSubject').multiselect({
+                $('#parentLibrary').append('<div id="SearchDiv"></div>');
+                $('#SearchDiv').append('<label><b>Title</label><input type="text" id="resourceSearch"/>');
+                var subjectArray=App.languageDict.get('SubjectList');
+                var subject =[];
+                for(var i=0;i<subjectArray.length;i++){
+                    subject.push('<option>'+subjectArray[i]+'</option>')
+                }
+                $('#SearchDiv').append('<label for="resSubject"><b>Subject</label><select id="resSubjects">'+subject+'</select>');
+                $('#resSubjects').multiselect().multiselectfilter();
+                $('#resSubjects').multiselect({
                     checkAllText: App.languageDict.attributes.checkAll,
                     uncheckAllText: App.languageDict.attributes.unCheckAll,
                     selectedText: '# '+App.languageDict.attributes.Selected
                 });
-               // $('#resSubjects').attr("multiple",true);
-                /*var subjectArray=App.languageDict.get('SubjectList');
-                for(var i=0;i<subjectArray.length;i++)
-                {
-                    console.log(subjectArray[i])
-                    $('#resSubjects').find('option').eq(i).html(subjectArray[i]);
-                }
-                $('#resSubject').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;*/
-                $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#resSubjects').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#resSubject').attr("multiple", true);
                 $('#resSubject').multiselect("uncheckAll");
 
-                $('#parentLibrary').append('<label for="resSubject"><b>Levels</label><select id="resLevel"><option>a</option></select');
+                var levelArray = App.languageDict.get("LevelArray");
+                var level = [];
+                for (var i=0; i < levelArray.length; i++){
+                    level.push('<option>'+levelArray[i]+'</option>')
+                }
+                $('#SearchDiv').append('<label for="resSubject"><b>Levels</label><select id="resLevel">'+ level +'</select>');
                 $('#resLevel').multiselect().multiselectfilter();
                 $('#resLevel').multiselect({
                     checkAllText: App.languageDict.attributes.checkAll,
                     uncheckAllText: App.languageDict.attributes.unCheckAll,
                     selectedText: '# '+App.languageDict.attributes.Selected
                 });
-                $('#resLevel').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;
-                $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#resLevel').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#resLevel').attr("multiple", true);
                 $('#resLevel').multiselect("uncheckAll");
-                $('#parentLibrary').append('<label for="resLanguage"><b>Language</label><select id="resLanguage"><option>a</option></select');
-                $('#resLanguage').multiselect().multiselectfilter();
-                $('#resLanguage').multiselect({
-                    checkAllText: App.languageDict.attributes.checkAll,
-                    uncheckAllText: App.languageDict.attributes.unCheckAll,
-                    selectedText: '# '+App.languageDict.attributes.Selected
-                });
-                $('#resLanguage').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;
-                $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
-                $('#resLanguage').attr("multiple", true);
-                $('#resLanguage').multiselect("uncheckAll");
-                $('#parentLibrary').append('<button id="btnSearch">Search</button><a id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>');
-
+                $('#SearchDiv').append('<button id="btnSearch" class="btn btn-primary">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
+                $('#parentLibrary').append('<div id ="LebelRes"></div>')
+                var btnText = '<a id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
                 btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
                 btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
-                $('#parentLibrary').append( btnText);
+                $('#LebelRes').append(btnText);
                 this.FetchResources();
                 var that = this;
                 $("#btnSearch").click(function(){
@@ -1874,8 +1865,6 @@ $(function() {
                         that.FetchResources(val);
                     }
                 });
-                ////////////////////////////////
-                
                 App.stopActivityIndicator()
             }
         },
