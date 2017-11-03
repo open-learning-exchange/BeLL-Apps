@@ -71,6 +71,7 @@ $(function() {
             var doc = this.model;
             var code = doc.code;
             var docID = [];
+            var that = this;
             docID.push(doc._id);
             doc.registrationRequest= status;
             doc.authName= this.getLoggedInName();
@@ -171,6 +172,38 @@ $(function() {
                                 console.log(err);
                             }
                         });
+                        $.ajax({
+                            type: 'GET',
+                            url: '/publications/_all_docs?include_docs=true',
+                            dataType: 'jsonp',
+                            async: false,
+                            success: function (response) {
+                                for(i=0; i<response.rows.length; i++){
+                                    if(response.rows[i].doc._id != "_design/bell"){
+                                        if(response.rows[i].doc.autoPublication == true){
+                                            var publicationsId = response.rows[i].doc._id
+                                            var sendPub = new Array()
+                                            sendPub.push({
+                                                communityUrl: that.model.sponsorUrl,
+                                                communityName: that.model.name,
+                                                publicationId: publicationsId,
+                                                Viewed: false
+                                            })
+                                            $.couch.db("publicationdistribution").bulkSave({
+                                                "docs": sendPub
+                                            }, {
+                                                success: function(data) {
+                                                },
+                                                error: function(status) {
+                                                    console.log(status);
+                                                },
+                                                async: false
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        })
                     } else {
                         // Lastly, remove the document from that nation's communityregistrationrequests database.
                         if(currentNation != centralNationUrl) {
