@@ -3485,6 +3485,36 @@ $(function() {
             App.$el.children('.body').html(dashboard.el)
             dashboard.render()
             var communityNames = [];
+            /*$.ajax({
+                type: 'GET',
+                url: '/publicationdistribution/_all_docs?include_docs=true',
+                dataType: 'json',
+                success: function(response) {
+                    for (var i = 0; i < response.rows.length; i++) {
+                        if(response.rows[i].doc._id != "_design/bell"){
+                            var communityName = response.rows[i].doc.communityName
+                            var publication = new App.Models.Publication({
+                                _id: response.rows[i].doc.publicationId
+                            })
+                            publication.fetch({
+                                async: false
+                            });
+                            var updatePub = publication.attributes.communityNames
+                            if (updatePub.indexOf(communityName) == -1)
+                                updatePub.push(communityName)
+                            publication.set('communityNames', updatePub);
+                            publication.save(null, {
+                                success:function(){
+                                    console.log("saved")
+                                },
+                                error: function() {
+                                    console.log("Not Saved")
+                                }
+                            });
+                        }
+                    }
+                }
+            });*/
             $.ajax({
                 type: 'GET',
                 url: '/community/_design/bell/_view/getCommunityByCode?include_docs=true&limit=5',
