@@ -82,11 +82,11 @@ $(function () {
                                     attchmentURL = attchmentURL + _.keys(mems.get('_attachments'))[0]
                                     src = attchmentURL
                                 }
-                                if(config.models[0].attributes.rows[0].doc.type == 'nation' && mems.get("community") == 'nationbell' || config.models[0].attributes.rows[0].doc.type == 'community'){
-                                    viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
-                                } else {
-                                    viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td></td>'
-                                }
+                                viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td>'+ mems.get('community') +'</td>';
+                                if(mems.get("community")==config.models[0].attributes.rows[0].doc.code)
+                                    viewtext += '<td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td><td></td>';
+                                else
+                                    viewtext += '<td></td><td></td>';
                                 var loggedIn = new App.Models.Member({
                                     "_id": $.cookie('Member._id')
                                 })
@@ -183,7 +183,7 @@ $(function () {
                                         attchmentURL = attchmentURL + _.keys(mems.get('_attachments'))[0]
                                         src = attchmentURL
                                     }
-                                    if(config.models[0].attributes.rows[0].doc.type == 'nation' && mems.get("community") == 'nationbell'){
+                                    if(config.models[0].attributes.rows[0].doc.code == mems.get("community")){
                                         viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td><input type="checkbox" name="courseMember" value="' + mail + '">'+App.languageDict.attributes.Send_Email+'</td>'
                                     } else{
                                         viewtext += '<tr><td><img width="45px" height="45px" src="' + src + '"/></td><td>' + mems.get('firstName') + ' ' + mems.get('lastName') + '</td><td>'+roleOfMem+'</td><td></td>'

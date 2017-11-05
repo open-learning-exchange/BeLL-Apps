@@ -75,7 +75,7 @@ Scenario('Test for Add Report', (I) => {
 	I.waitForVisible(ActReport);
 	I.waitForEnabled(ActReport);
 	I.click(ActReport);
-	I.wait(5)
+	I.wait(10)
 	I.seeInCurrentUrl('http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#logreports');
 	I.wait(2);
 	I.waitForVisible(dateVis);
