@@ -3240,6 +3240,10 @@ $(function() {
 
         downloadCommunitySurveys: function (surveyNo, surTitle, questionId) {
             var that = this;
+            var fullDate = new Date()
+            var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) :(fullDate.getMonth()+1);
+            var currentDate = fullDate.getFullYear() + "-" + twoDigitMonth + "-" + fullDate.getDate()
+            console.log(currentDate)
             $.ajax({
                 url:'/surveyresponse/_design/bell/_view/surveyResBySurveyNo?include_docs=true',
                 type: 'GET',
@@ -3276,7 +3280,6 @@ $(function() {
                                 async: false
                             });
                             var answerModels = answersColl.models;
-                            console.log(answerModels.attributes)
                             var answersArray = [];
                             for(var k = 0 ; k < answerModels.length ; k++) {
                                 answersArray.push(answerModels[k].attributes);
@@ -3320,7 +3323,12 @@ $(function() {
                         if(jsonObjectsData.length > 0) {
                             jsonObjectsData.sort(that.sortByProperty('QStatement'));
                             jsonObjectsData.sort(that.sortByProperty('QType'));
-                            that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + surveyNo);
+                            if(questionId == ''){
+                                var surNo = "SurveyNo."+surveyNo
+                                that.JSONToCSVConvertor(jsonObjectsData, surNo+ '/' + surveyTitle + '/' + currentDate);
+                            }else{
+                                that.JSONToCSVConvertor(jsonObjectsData, surveyTitle+ '/' + questionId);
+                            }
                         } else {
                             alert("All the questions are un-answered, so unable to download data");
                         }
