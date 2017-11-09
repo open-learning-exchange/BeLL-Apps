@@ -1738,7 +1738,9 @@ $(function() {
             }
         },
 
-        FetchResources: function(filter){
+        FetchResources: function(filter,subject,level){
+            console.log("subject--->"+subject)
+            console.log("level--->"+level)
             console.log("Data "+filter);
             var resourcesTableView
                 var temp = $.url().data.attr.host.split(".") // get name of community
@@ -1762,6 +1764,9 @@ $(function() {
                 else {
                     resources.pending = 0;
                 }
+                console.log(resources)
+                console.log("resource's model subject:",resources.models[0].attributes.status)
+                //console.log("resource's model level:"+resources.collection.models.attributes.level)
                 resources.fetch({
                     async:false,
                     success: function() {
@@ -1785,7 +1790,6 @@ $(function() {
 
         Resources: function() {
             var jsonConfig = App.configuration.toJSON();
-            console.log(jsonConfig)
             if(jsonConfig.type == "nation" && $.url().attr('fragment') == "resources/community") {
                 Backbone.history.navigate('resources', {
                     trigger: true
@@ -1820,26 +1824,20 @@ $(function() {
                 }
                 var btnText = '<div id="resourcePage" style="margin-top:20px">';
                 $('#parentLibrary').append('<label><b>Title</label><input type="text" id="resourceSearch"/>');
-                $('#parentLibrary').append('<label for="resSubject"><b>Subject</label><select id="resSubjects"><option>a</option></select');
+
+                $('#parentLibrary').append('<label for="resSubject"><b>Subjects</label><select id="resSubject"><option>Agriculture</option><option>Geography</option></select>');
                 $('#resSubject').multiselect().multiselectfilter();
                 $('#resSubject').multiselect({
                     checkAllText: App.languageDict.attributes.checkAll,
                     uncheckAllText: App.languageDict.attributes.unCheckAll,
                     selectedText: '# '+App.languageDict.attributes.Selected
                 });
-               // $('#resSubjects').attr("multiple",true);
-                /*var subjectArray=App.languageDict.get('SubjectList');
-                for(var i=0;i<subjectArray.length;i++)
-                {
-                    console.log(subjectArray[i])
-                    $('#resSubjects').find('option').eq(i).html(subjectArray[i]);
-                }
-                $('#resSubject').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;*/
+                $('#resSubject').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;
                 $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#resSubject').attr("multiple", true);
                 $('#resSubject').multiselect("uncheckAll");
-
-                $('#parentLibrary').append('<label for="resSubject"><b>Levels</label><select id="resLevel"><option>a</option></select');
+                
+                $('#parentLibrary').append('<label for="resLevel"><b>Level</label><select id="resLevel"><option>Upper Primary </option><option>Lower Primary </option></select');
                 $('#resLevel').multiselect().multiselectfilter();
                 $('#resLevel').multiselect({
                     checkAllText: App.languageDict.attributes.checkAll,
@@ -1850,17 +1848,6 @@ $(function() {
                 $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
                 $('#resLevel').attr("multiple", true);
                 $('#resLevel').multiselect("uncheckAll");
-                $('#parentLibrary').append('<label for="resLanguage"><b>Language</label><select id="resLanguage"><option>a</option></select');
-                $('#resLanguage').multiselect().multiselectfilter();
-                $('#resLanguage').multiselect({
-                    checkAllText: App.languageDict.attributes.checkAll,
-                    uncheckAllText: App.languageDict.attributes.unCheckAll,
-                    selectedText: '# '+App.languageDict.attributes.Selected
-                });
-                $('#resLanguage').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;
-                $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
-                $('#resLanguage').attr("multiple", true);
-                $('#resLanguage').multiselect("uncheckAll");
                 $('#parentLibrary').append('<button id="btnSearch">Search</button><a id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>');
 
                 btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
@@ -1870,9 +1857,25 @@ $(function() {
                 var that = this;
                 $("#btnSearch").click(function(){
                     var val = $('#resourceSearch').val();
-                    if(val != ""){
-                        that.FetchResources(val);
+                    var resSubject = [];
+                    var reslevel = [];
+                    $("input:checkbox[name='multiselect_resSubject']:checked").each(function(index) {
+                        if($(this).is(':checked')==true){
+                            resSubject.push(decodeURI($(this).val()));
+                        }
+                    });
+
+                    $("input:checkbox[name='multiselect_resLevel']:checked").each(function(index) {
+                        if($(this).is(':checked')==true){
+                            reslevel.push(decodeURI($(this).val()));
+                        }
+                    });
+                    console.log(resSubject);
+                    console.log(reslevel);
+                    if(val != "" && resSubject !="" && resLevel!= ""){
+                        that.FetchResources(val,resSubject,reslevel);
                     }
+
                 });
                 ////////////////////////////////
                 
