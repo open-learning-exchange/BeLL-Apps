@@ -1764,32 +1764,56 @@ $(function() {
             resources.fetch({
                 async:false,
                 success: function(data) {
-                    console.log(data)
                     var modals = [];
+                    var levModals =[];
                     var resourcee = {};
                     if(subject != undefined){
-
                         for(var i = 0; i < data.length ; i++){
                             for(var j = 0; j < data.models[i].attributes.subject.length; j++){
                                 if(subject.indexOf(data.models[i].attributes.subject[j]) > -1){
                                     j = data.models[i].attributes.subject.length + 1
                                     modals.push(data.models[i])
                                 }
+                                resourcee["models"] = modals
                             }
-                            for(var k = 0; k < data.models[i].attributes.level.length; k++){
-                                if(level.indexOf(data.models[i].attributes.level[j]) > -1){
-                                    k = data.models[i].attributes.subject.length + 1
-                                    modals.push(data.models[i])
-                                }
+                            if( $("#resourceSearch").val() == '' && modals.length == 0 ){
+                                resources =[]
                             }
-                            resourcee["models"] = modals
-                            console.log(resourcee)
+                            if(resourcee && resourcee.models.length > 0){
+                                resources = [];
+                                resources = resourcee;
+                            }
                         }
+                    }
+                    if(level != undefined){
+                        for(var i = 0; i < data.length ; i++){
+                            for(var j = 0; j < data.models[i].attributes.Level.length; j++){
+                                if(level.indexOf(data.models[i].attributes.Level[j]) > -1){
+                                    j = data.models[i].attributes.Level.length + 1
+                                    levModals.push(data.models[i])
+                                }
+                                resourcee["models"] = levModals
+                            }
+                            if($("#resourceSearch").val() == '' && levModals.length == 0 ){
+                                resources =[]
+                            }
+                            if(resourcee && resourcee.models.length > 0){
+                               // console.log("Resourcee ", resourcee);
+                                resources = [];
+                                resources = resourcee;
+                            }
+                        }
+                    }
+                    if(level != undefined && subject != undefined){
+                        var searchRes = levModals.concat(modals);
+                        resourcee["models"] = searchRes
                         if(resourcee && resourcee.models.length > 0){
-                            console.log("Resourcee ", resourcee);
                             resources = [];
                             resources = resourcee;
                         }
+                    }
+                    if($("#resourceSearch").val() == '' && (subject && subject.length == 0) && (level && level.length == 0)){
+                        resources = [];
                     }
                     $('body').find('table').remove();
                     resourcesTableView = new App.Views.ResourcesTable({
