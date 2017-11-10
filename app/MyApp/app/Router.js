@@ -1114,9 +1114,9 @@ $(function() {
                                                 } else if (getComStats == 'rejected') {
                                                     $('#onlineButton').css({"background-color": "#ff0000"});
                                                     $('#onlineButton').attr("title", App.languageDict.get("Nation_Rejected"));
-						} else if (getComStats == 'pending') {
-						    $('#onlineButton').css({"background-color": "#FFA500"});
-						    $('#onlineButton').attr("title", App.languageDict.get("Nation_Pending"));
+                        } else if (getComStats == 'pending') {
+                            $('#onlineButton').css({"background-color": "#FFA500"});
+                            $('#onlineButton').attr("title", App.languageDict.get("Nation_Pending"));
                                                 } else {
                                                     $('#onlineButton').css({"background-color": "#ff0000"});
                                                     $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
@@ -1739,53 +1739,74 @@ $(function() {
         },
 
         FetchResources: function(filter,subject,level){
-            console.log("subject--->"+subject)
-            console.log("level--->"+level)
-            console.log("Data "+filter);
             var resourcesTableView
-                var temp = $.url().data.attr.host.split(".") // get name of community
-                temp = temp[0].substring(3)
-                if (temp == "")
-                    temp = 'local'
-                var roles = this.getRoles();
-                var resources = new App.Collections.Resources({
-                    skip: 0
-                });
-                if(filter != ""){
-                    resources.search = filter;
-                }
-                if($.url().attr('fragment') == "resources/community") {
-                    resources.pending = 1;
-                }
-                else if($.url().attr('fragment') == "resources/byownership") {
-                    resources.pending = 3;
-                    resources.loggedInName = $.cookie('Member.login');
-                }
-                else {
-                    resources.pending = 0;
-                }
-                console.log(resources)
-                console.log("resource's model subject:",resources.models[0].attributes.status)
-                //console.log("resource's model level:"+resources.collection.models.attributes.level)
-                resources.fetch({
-                    async:false,
-                    success: function() {
-                        $('body').find('table').remove();
-                        resourcesTableView = new App.Views.ResourcesTable({
-                            collection: resources
-                        })
-                        resourcesTableView.isManager = roles.indexOf("Manager");
-                        resourcesTableView.collections = App.collectionslist
-                        resourcesTableView.render();
-                        $('#parentLibrary').append(resourcesTableView.el);
-                        if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
-                        {
-                            $('#requestResource').css({"margin-right" : "10px"});
-                            $('#searchOfResource').addClass({"margin-right" : "10px"});
+            var temp = $.url().data.attr.host.split(".") // get name of community
+            temp = temp[0].substring(3)
+            if (temp == "")
+                temp = 'local'
+            var roles = this.getRoles();
+            var resources = new App.Collections.Resources({
+                skip: 0
+            });
+            if(filter != ""){
+                resources.search = filter;
+            }
+            if($.url().attr('fragment') == "resources/community") {
+                resources.pending = 1;
+            }
+            else if($.url().attr('fragment') == "resources/byownership") {
+                resources.pending = 3;
+                resources.loggedInName = $.cookie('Member.login');
+            }
+            else {
+                resources.pending = 0;
+            }
+            resources.fetch({
+                async:false,
+                success: function(data) {
+                    console.log(data)
+                    var modals = [];
+                    var resourcee = {};
+                    if(subject != undefined){
+
+                        for(var i = 0; i < data.length ; i++){
+                            for(var j = 0; j < data.models[i].attributes.subject.length; j++){
+                                if(subject.indexOf(data.models[i].attributes.subject[j]) > -1){
+                                    j = data.models[i].attributes.subject.length + 1
+                                    modals.push(data.models[i])
+                                }
+                            }
+                            for(var k = 0; k < data.models[i].attributes.level.length; k++){
+                                if(level.indexOf(data.models[i].attributes.level[j]) > -1){
+                                    k = data.models[i].attributes.subject.length + 1
+                                    modals.push(data.models[i])
+                                }
+                            }
+                            resourcee["models"] = modals
+                            console.log(resourcee)
                         }
-                        resourcesTableView.changeDirection();
+                        if(resourcee && resourcee.models.length > 0){
+                            console.log("Resourcee ", resourcee);
+                            resources = [];
+                            resources = resourcee;
+                        }
                     }
-                });
+                    $('body').find('table').remove();
+                    resourcesTableView = new App.Views.ResourcesTable({
+                        collection: resources
+                    })
+                    resourcesTableView.isManager = roles.indexOf("Manager");
+                    resourcesTableView.collections = App.collectionslist
+                    resourcesTableView.render();
+                    $('#parentLibrary').append(resourcesTableView.el);
+                    if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
+                    {
+                        $('#requestResource').css({"margin-right" : "10px"});
+                        $('#searchOfResource').addClass({"margin-right" : "10px"});
+                    }
+                    resourcesTableView.changeDirection();
+                }
+            });
         },
 
         Resources: function() {
@@ -1883,7 +1904,8 @@ $(function() {
                     });
                     console.log(resSubject);
                     console.log(reslevel);
-                    if(val != "" && resSubject !="" && resLevel!= ""){
+                    console.log(val)
+                    if(val != "" || resSubject !="" || resLevel!= ""){
                         that.FetchResources(val,resSubject,reslevel);
                     }
 
@@ -3153,14 +3175,13 @@ $(function() {
                 });
             }
             $('#CommunitySelect').change(function(){
-		    var selectedvalue =  $('#CommunitySelect').val();
-		    var courseMembers = new App.Views.CourseMembers()
-		    courseMembers.courseId = cId;
-		    courseMembers.randerTable(selectedvalue);
-		    if(selectedvalue == "" || selectedvalue == undefined){
-			courseMembers.render();    
-		    }
-		
+            var selectedvalue =  $('#CommunitySelect').val();
+            var courseMembers = new App.Views.CourseMembers()
+            courseMembers.courseId = cId;
+            courseMembers.randerTable(selectedvalue);
+            if(selectedvalue == "" || selectedvalue == undefined){
+            courseMembers.render();
+            }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             if(directionOfLang.toLowerCase()==="right") {

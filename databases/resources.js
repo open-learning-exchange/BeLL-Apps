@@ -516,6 +516,13 @@ ddoc.views = {
                 }
             }
         }
+    },
+    searchResources: {
+        map: function(doc){
+            if (doc.title) {
+                emit(doc.title, doc);
+            }
+        }
     }
 }
 ddoc.filters = {
