@@ -73,59 +73,27 @@ function installDesignDocs() {
             installDesignDocs()
         }
     } else {
-        createDefaultAdminMember()
+		insertConfigurationDoc()
     }
 }
 
-function createDefaultAdminMember() {
-    nano.db.get('members', function(err, body) {
-        if (err) console.log(err)
-        // Cancel if there are already members in the database
-        if (body.doc_count > 1) return done()
-        console.log('Creating a default admin member of admin:password')
-        var members = nano.db.use('members')
-        var defaultAdminMember = {
-            "login": "admin",
-            "kind": "Member",
-            "roles": ["Manager", "SuperManager"],
-            "firstName": "Default",
-            "lastName": "Admin",
-            "password": "password",
-            "Gender": "Male",
-            "status": "active",
-            "email": "admin.somalia@olebell.org",
-            "visits": 0
-        }
-        var configurationsDoc = {
-            "name": "olesomalia",
-            "nationName": "olenation",
-            "code": "so",
-            "type": "nation",
-            "nationUrl": "olenation.cloudant.com",
-            "version": "0.10.0",
-            "notes": "this is testing .....asdf",
-            "currentLanguage": "English"
-        };
-        members.insert(defaultAdminMember, function(err, res) {
-            if (err)
-                return console.log(err)
-            else {
-                var configurations = nano.db.use('configurations');
-                configurations.insert(configurationsDoc, function(err, res) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        var languages = nano.db.use('languages');
-                        console.log("******************Going to insert document into languages database*******************************");
-                        insertLanguageDocs();
-                    }
-                });
-            }
-
-            done()
-        })
-    })
+function insertConfigurationDoc() {
+	var configurations = nano.db.use('configurations');
+	var confDocPath = './init_docs/ConfigurationsDoc-Nation.txt';
+	fs.readFile(confDocPath, function (err, data) {
+		configurations.insert(data, function (err, res) {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log("configuration doc inserted successfully.");
+				console.log("******************Going to insert document into languages database*******************************");
+				insertLanguageDocs();
+			}
+			done()
+		});
+	});
 }
+
 function insertLanguageDocs() {
     var languages = nano.db.use('languages');
     fs.readdir('./init_docs/languages', function doneReadDir(err, files) {
