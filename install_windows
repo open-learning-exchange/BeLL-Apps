@@ -120,7 +120,7 @@ function insertConfigurationDoc() {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log(element + " doc inserted successfully.");
+				console.log("configuration doc inserted successfully.");
 				console.log("******************Going to insert document into languages database*******************************");
 				insertLanguageDocs();
 			}
