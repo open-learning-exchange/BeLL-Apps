@@ -1739,7 +1739,6 @@ $(function() {
         },
 
         FetchResources: function(filter,subject,level){
-            console.log(filter,subject,level)
             var resourcesTableView
             var temp = $.url().data.attr.host.split(".") // get name of community
             temp = temp[0].substring(3)
