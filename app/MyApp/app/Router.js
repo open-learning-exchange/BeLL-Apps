@@ -1894,7 +1894,7 @@ $(function() {
                 $('#resLevel').attr("multiple", true);
                 $('#resLevel').multiselect("uncheckAll");
 
-                $('#SearchDiv').append('<button id="btnSearch" class="btn btn-primary">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
+                $('#SearchDiv').append('<button id="btnSearch" class="btn btn-info">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
                 var roles = this.getRoles();
                 if(jsonConfig.type == "community") {
                     if($.url().attr('fragment') == "resources/community") {
@@ -1921,7 +1921,6 @@ $(function() {
                 $('#parentLibrary').append('<div id ="LebelRes"></div>')
                 var btnText = '<a id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
                 btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
-                btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
                 $('#LebelRes').append(btnText);
                 this.FetchResources();
                 var that = this;
@@ -2006,10 +2005,9 @@ $(function() {
                         $('#resLevel').attr("multiple", true);
                         $('#resLevel').multiselect("uncheckAll");
 
-                        $('#SearchDiv').append('<button id="btnSearch" class="btn btn-primary">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
+                        $('#SearchDiv').append('<button id="btnSearch" class="btn btn-info">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
                         $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#resources" style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Pending_Resources+'</a></p>')
                         btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
-                        btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
                         $('#parentLibrary').append( btnText);
 
                         resourcesTableView.collections = App.collectionslist;
