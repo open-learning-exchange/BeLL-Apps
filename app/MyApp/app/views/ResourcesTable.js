@@ -5,13 +5,8 @@ $(function() {
         tagName: "table",
         isAdmin: null,
         className: "table table-striped",
-        //template: $('#template-ResourcesTable').html(),
         activeLetter: "A",
         events: {
-            "click #addNewResource": function(e) {
-                e.preventDefault();
-                alert("test");
-            },
             "click #backButton": function(e) {
                 if (this.collection.skip > 0) {
                     this.collection.skip = parseInt(this.collection.skip) - 20
@@ -42,17 +37,13 @@ $(function() {
                 this.collection.fetch({
                     async: false,
                     success: function(res){
-                        console.log("Res ",res)
                         if(res.length > 0){
                             that.render()
                         }
                     },
                     error: function(err){
-                        //that.collection.length = 0
                     }
                 })
-                
-
             },
             "click #allresources": function(e) {
                 this.collection.startkey = ""
@@ -76,7 +67,6 @@ $(function() {
             }
         },
         initialize: function() {
-            //this.$el.append(_.template(this.template))
 
         },
         addOne: function(model) {
@@ -140,8 +130,7 @@ $(function() {
             }
         },
         render: function() {
-            var context = this
-            console.log(this)
+            var context = this;
             if (this.displayCollec_Resources != true) {
 
                 this.$el.html("")
@@ -181,12 +170,9 @@ $(function() {
 
                 text += '</td></tr>'
                 context.$el.append(text)
-
-
-
                 var resourceLength;
                 if (context.removeAlphabet == undefined) {
-                    var resourceCountUrl ="";
+                    var resourceCountUrl;
                     if(context.collection.pending == 0) {
                         resourceCountUrl = '/resources/_design/bell/_view/withoutPendingStatusCount';
                     } else if(context.collection.pending == 1) {
@@ -194,8 +180,6 @@ $(function() {
                     } else if(context.collection.pending == 3) {
                         resourceCountUrl = '/resources/_design/bell/_view/ResourcesWithPendingStatusAndOwnership?include_docs=true&startkey=["' + $.cookie('Member.login') + '"]&endkey=["' + $.cookie('Member.login') + '",{}]';
                     }
-                    
-                    console.log("Resource URL "+resourceCountUrl);
                     $.ajax({
                         url: resourceCountUrl,
                         type: 'GET',
