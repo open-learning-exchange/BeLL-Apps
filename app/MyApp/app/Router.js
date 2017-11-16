@@ -1739,6 +1739,7 @@ $(function() {
         },
 
         FetchResources: function(filter,subject,level){
+            console.log(filter,subject,level)
             var resourcesTableView
             var temp = $.url().data.attr.host.split(".") // get name of community
             temp = temp[0].substring(3)
@@ -1757,6 +1758,9 @@ $(function() {
             else if($.url().attr('fragment') == "resources/byownership") {
                 resources.pending = 3;
                 resources.loggedInName = $.cookie('Member.login');
+            }
+            else if($.url().attr('fragment') == "resources/pending") {
+                resources.pending = 2;
             }
             else {
                 resources.pending = 0;
@@ -1856,29 +1860,6 @@ $(function() {
                 App.$el.children('.body').empty();
                 App.$el.children('.body').html('<div id="parentLibrary"></div>');
                 App.$el.children('#parentLibrary').empty();
-                var roles = this.getRoles();
-                if(jsonConfig.type == "community") {
-                    if($.url().attr('fragment') == "resources/community") {
-                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                    }
-                    else {
-                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                    }
-                }
-                else {
-                    if($.url().attr('fragment') == "resources/byownership") {
-                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                    }
-                    else {
-                        if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
-                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
-                        }
-                        else {
-                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                        }
-                    }
-                }
-                var btnText = '<div id="resourcePage" style="margin-top:20px">';
                 $('#parentLibrary').append('<div id="SearchDiv"></div>');
                 $('#SearchDiv').append('<label><b>Title</label><input type="text" id="resourceSearch"/>');
                 var subjectArray=App.languageDict.get('SubjectList');
@@ -1915,6 +1896,29 @@ $(function() {
                 $('#resLevel').multiselect("uncheckAll");
 
                 $('#SearchDiv').append('<button id="btnSearch" class="btn btn-primary">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
+                var roles = this.getRoles();
+                if(jsonConfig.type == "community") {
+                    if($.url().attr('fragment') == "resources/community") {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                    else {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                }
+                else {
+                    if($.url().attr('fragment') == "resources/byownership") {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                    else {
+                        if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
+                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                        }
+                        else {
+                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                        }
+                    }
+                }
+                var btnText = '<div id="resourcePage" style="margin-top:20px">';
                 $('#parentLibrary').append('<div id ="LebelRes"></div>')
                 var btnText = '<a id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
                 btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
@@ -1937,9 +1941,7 @@ $(function() {
                             reslevel.push(decodeURI($(this).val()));
                         }
                     });
-                    console.log(resSubject);
-                    console.log(reslevel);
-                    console.log(val)
+
                     if(val != "" || resSubject !="" || resLevel!= ""){
                         that.FetchResources(val,resSubject,reslevel);
                     }
@@ -1967,12 +1969,47 @@ $(function() {
                         })
                         resourcesTableView.isManager = roles.indexOf("Manager");
                         App.$el.children('.body').empty();
-                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
-                        App.$el.children('#parentLibrary').empty();
-                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
+                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
+                         $('#parentLibrary').append('<div id="SearchDiv"></div>');
+                        $('#SearchDiv').append('<label><b>Title</label><input type="text" id="resourceSearch"/>');
+                        var subjectArray=App.languageDict.get('SubjectList');
+                        var subject =[];
+                        for(var i=0;i<subjectArray.length;i++){
+                            subject.push('<option>'+subjectArray[i]+'</option>')
+                        }
+                        $('#SearchDiv').append('<label for="resSubjects"><b>Subject/s</label><select id="resSubjects">'+subject+'</select>');
+                        $('#resSubjects').multiselect().multiselectfilter();
+                        $('#resSubjects').multiselect({
+                            checkAllText: App.languageDict.attributes.checkAll,
+                            uncheckAllText: App.languageDict.attributes.unCheckAll,
+                            selectedText: '# '+App.languageDict.attributes.Selected
+                        });
+                        $('#resSubjects').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;
+                        $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                        $('#resSubjects').attr("multiple", true);
+                        $('#resSubjects').multiselect("uncheckAll");
+
+                        var levelArray = App.languageDict.get("LevelArray");
+                        var level = [];
+                        for (var i=0; i < levelArray.length; i++){
+                            level.push('<option>'+levelArray[i]+'</option>')
+                        }
+                        $('#SearchDiv').append('<label for="resLevel"><b>Levels</label><select id="resLevel">'+ level +'</select>');
+                        $('#resLevel').multiselect().multiselectfilter();
+                        $('#resLevel').multiselect({
+                            checkAllText: App.languageDict.attributes.checkAll,
+                            uncheckAllText: App.languageDict.attributes.unCheckAll,
+                            selectedText: '# '+App.languageDict.attributes.Selected
+                        });
+                        $('#resLevel').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                        $('#resLevel').attr("multiple", true);
+                        $('#resLevel').multiselect("uncheckAll");
+
+                        $('#SearchDiv').append('<button id="btnSearch" class="btn btn-primary">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
                         $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#resources" style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Pending_Resources+'</a></p>')
-                         btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
                         btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
                         $('#parentLibrary').append( btnText);
 
@@ -1986,6 +2023,27 @@ $(function() {
                             $('#searchOfResource').addClass({"margin-right" : "10px"});
                         }
                         resourcesTableView.changeDirection();
+                        var that = this;
+                        $("#btnSearch").click(function(){
+                            var val = $('#resourceSearch').val();
+                            var resSubject = [];
+                            var reslevel = [];
+                            $("input:checkbox[name='multiselect_resSubjects']:checked").each(function(index) {
+                                if($(this).is(':checked')==true){
+                                    resSubject.push(decodeURI($(this).val()));
+                                }
+                            });
+
+                            $("input:checkbox[name='multiselect_resLevel']:checked").each(function(index) {
+                                if($(this).is(':checked')==true){
+                                    reslevel.push(decodeURI($(this).val()));
+                                }
+                            });
+                            if(val != "" || resSubject !="" || resLevel!= ""){
+                                App.Router.FetchResources(val,resSubject,reslevel);
+                            }
+
+                        });
                     }
                 });
                 App.stopActivityIndicator()
