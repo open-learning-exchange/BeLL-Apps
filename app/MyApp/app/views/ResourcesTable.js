@@ -38,12 +38,20 @@ $(function() {
                 var val = $(e.target).text()
                 this.activeLetter = val
                 this.collection.startkey = val
+                var that = this;
                 this.collection.fetch({
-                    async: false
+                    async: false,
+                    success: function(res){
+                        console.log("Res ",res)
+                        if(res.length > 0){
+                            that.render()
+                        }
+                    },
+                    error: function(err){
+                        //that.collection.length = 0
+                    }
                 })
-                if (this.collection.length > 0) {
-                    this.render()
-                }
+                
 
             },
             "click #allresources": function(e) {
@@ -178,7 +186,7 @@ $(function() {
 
                 var resourceLength;
                 if (context.removeAlphabet == undefined) {
-                    var resourceCountUrl;
+                    var resourceCountUrl ="";
                     if(context.collection.pending == 0) {
                         resourceCountUrl = '/resources/_design/bell/_view/withoutPendingStatusCount';
                     } else if(context.collection.pending == 1) {
@@ -186,6 +194,8 @@ $(function() {
                     } else if(context.collection.pending == 3) {
                         resourceCountUrl = '/resources/_design/bell/_view/ResourcesWithPendingStatusAndOwnership?include_docs=true&startkey=["' + $.cookie('Member.login') + '"]&endkey=["' + $.cookie('Member.login') + '",{}]';
                     }
+                    
+                    console.log("Resource URL "+resourceCountUrl);
                     $.ajax({
                         url: resourceCountUrl,
                         type: 'GET',

@@ -9,8 +9,13 @@ $(function() {
             console.log("What ? :" ,this);
             /* For Search Part */
             if(this.search){
+                console.log("Search")
+                if(this.pending == 0 && !!this.startkey) {
+                    console.log("Search Pending Status")
+                    return App.Server + '/resources/_design/bell/_view/ResourcesSearchWithoutPendingStatus?include_docs=true&key="'+this.search+'"&startkey="' + this.startkey + '"&limit=20&skip=' + this.skip;
+                }
                 if(this.pending == 0 && this.skip >=0) {
-                    return App.Server + '/resources/_design/bell/_view/searchResources?key="'+this.search+'"&&include_docs=true&limit=20&skip=' + this.skip;
+                    return App.Server + '/resources/_design/bell/_view/searchResources?key="'+this.search+'"&include_docs=true&limit=20&skip=' + this.skip;
                 }
             }
             if (this.collectionName) {

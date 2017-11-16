@@ -26,6 +26,19 @@ ddoc.views = {
             }
         }
     },
+    ResourcesSearchWithoutPendingStatus: {
+        map: function(doc) {
+            if (doc.status) {
+                if(doc.status != "pending" && doc.title)
+                {
+                    emit(doc.title, true)
+                }
+            }
+            else {
+                emit(doc.title, true)
+            }
+        }
+    },
     ResourcesWithPendingStatus: {
         map: function(doc) {
             if (doc.status && doc.status == "pending") {
