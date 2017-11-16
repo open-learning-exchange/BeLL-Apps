@@ -15,7 +15,6 @@ $(function() {
         render: function() {
             var that = this;
             var vars;
-            console.log(this.model)
             if(that.status == 'registered') {
                 vars = this.model.toJSON();
             } else {
