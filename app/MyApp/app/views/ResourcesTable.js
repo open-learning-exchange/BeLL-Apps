@@ -5,7 +5,7 @@ $(function() {
         tagName: "table",
         isAdmin: null,
         className: "table table-striped",
-        //template: $('#template-ResourcesTable').html(),
+        activeLetter: "A",
         events: {
             "click #backButton": function(e) {
                 if (this.collection.skip > 0) {
@@ -31,14 +31,19 @@ $(function() {
             "click .clickonalphabets": function(e) {
                 this.collection.skip = 0
                 var val = $(e.target).text()
+                this.activeLetter = val
                 this.collection.startkey = val
+                var that = this;
                 this.collection.fetch({
-                    async: false
+                    async: false,
+                    success: function(res){
+                        if(res.length > 0){
+                            that.render()
+                        }
+                    },
+                    error: function(err){
+                    }
                 })
-                if (this.collection.length > 0) {
-                    this.render()
-                }
-
             },
             "click #allresources": function(e) {
                 this.collection.startkey = ""
@@ -62,7 +67,6 @@ $(function() {
             }
         },
         initialize: function() {
-            //this.$el.append(_.template(this.template))
 
         },
         addOne: function(model) {
@@ -126,8 +130,7 @@ $(function() {
             }
         },
         render: function() {
-            var context = this
-
+            var context = this;
             if (this.displayCollec_Resources != true) {
 
                 this.$el.html("")
@@ -167,9 +170,6 @@ $(function() {
 
                 text += '</td></tr>'
                 context.$el.append(text)
-
-
-
                 var resourceLength;
                 if (context.removeAlphabet == undefined) {
                     var resourceCountUrl;
@@ -206,6 +206,7 @@ $(function() {
 
                 }
             });
+            $('.clickonalphabets[value="'+this.activeLetter+'"]').css("text-decoration","underline");
             applyCorrectStylingSheet(App.languageDict.get('directionOfLang'));
 
         }

@@ -1114,9 +1114,9 @@ $(function() {
                                                 } else if (getComStats == 'rejected') {
                                                     $('#onlineButton').css({"background-color": "#ff0000"});
                                                     $('#onlineButton').attr("title", App.languageDict.get("Nation_Rejected"));
-						} else if (getComStats == 'pending') {
-						    $('#onlineButton').css({"background-color": "#FFA500"});
-						    $('#onlineButton').attr("title", App.languageDict.get("Nation_Pending"));
+                        } else if (getComStats == 'pending') {
+                            $('#onlineButton').css({"background-color": "#FFA500"});
+                            $('#onlineButton').attr("title", App.languageDict.get("Nation_Pending"));
                                                 } else {
                                                     $('#onlineButton').css({"background-color": "#ff0000"});
                                                     $('#onlineButton').attr("title", App.languageDict.get("Nation_InVisible"));
@@ -1738,6 +1738,115 @@ $(function() {
             }
         },
 
+        FetchResources: function(filter,subject,level){
+            var resourcesTableView
+            var temp = $.url().data.attr.host.split(".") // get name of community
+            temp = temp[0].substring(3)
+            if (temp == "")
+                temp = 'local'
+            var roles = this.getRoles();
+            var resources = new App.Collections.Resources({
+                skip: 0
+            });
+            if(filter != ""){
+                resources.search = filter;
+            }
+            if($.url().attr('fragment') == "resources/community") {
+                resources.pending = 1;
+            }
+            else if($.url().attr('fragment') == "resources/byownership") {
+                resources.pending = 3;
+                resources.loggedInName = $.cookie('Member.login');
+            }
+            else if($.url().attr('fragment') == "resources/pending") {
+                resources.pending = 2;
+            }
+            else {
+                resources.pending = 0;
+            }
+            resources.fetch({
+                async:false,
+                success: function(data) {
+                    var modals = [];
+                    var levModals =[];
+                    var resourcee = {};
+                    if(subject != undefined){
+                        for(var i = 0; i < data.length ; i++){
+                            for(var j = 0; j < data.models[i].attributes.subject.length; j++){
+                                if(subject.indexOf(data.models[i].attributes.subject[j]) > -1){
+                                    j = data.models[i].attributes.subject.length + 1
+                                    modals.push(data.models[i])
+                                }
+                                resourcee["models"] = modals
+                            }
+                            if( $("#resourceSearch").val() == '' && modals.length == 0 ){
+                                resources =[]
+                            }
+                            if(resourcee && resourcee.models.length > 0){
+                                resources = [];
+                                resources = resourcee;
+                            }
+                        }
+                    }
+                    if(level != undefined){
+                        for(var i = 0; i < data.length ; i++){
+                            for(var j = 0; j < data.models[i].attributes.Level.length; j++){
+                                if(level.indexOf(data.models[i].attributes.Level[j]) > -1){
+                                    j = data.models[i].attributes.Level.length + 1
+                                    levModals.push(data.models[i])
+                                }
+                                resourcee["models"] = levModals
+                            }
+                            if($("#resourceSearch").val() == '' && levModals.length == 0 ){
+                                resources =[]
+                            }
+                            if(resourcee && resourcee.models.length > 0){
+                                resources = [];
+                                resources = resourcee;
+                            }
+                        }
+                    }
+                    if(level != undefined && subject != undefined){
+                        var sl = levModals.concat(modals);
+                        var out = [];
+                        for (var i = 0, l = sl.length; i < l; i++) {
+                            var unique = true;
+                            for (var j = 0, k = out.length; j < k; j++) {
+                                if ((sl[i].id === out[j].id)) {
+                                    unique = false;
+                                }
+                            }
+                            if (unique) {
+                                out.push(sl[i]);
+                            }
+                        }
+                        resourcee["models"] = out
+                        if(resourcee && resourcee.models.length > 0){
+                            resources = [];
+                            resources = resourcee;
+                        }
+                    }
+                    if($("#resourceSearch").val() == '' && (subject && subject.length == 0) && (level && level.length == 0)){
+                        resources = [];
+                    }
+                    $('body').find('table').remove();
+                    resourcesTableView = new App.Views.ResourcesTable({
+                        collection: resources
+                    })
+                    resourcesTableView.isManager = roles.indexOf("Manager");
+                    resourcesTableView.collections = App.collectionslist
+                    resourcesTableView.render();
+                    $('#parentLibrary').append(resourcesTableView.el);
+                    if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
+                    {
+                        $('#requestResource').css({"margin-right" : "10px"});
+                        $('#searchOfResource').addClass({"margin-right" : "10px"});
+                    }
+                    resourcesTableView.changeDirection();
+                }
+            });
+        },
+
         Resources: function() {
             var jsonConfig = App.configuration.toJSON();
             if(jsonConfig.type == "nation" && $.url().attr('fragment') == "resources/community") {
@@ -1747,71 +1856,94 @@ $(function() {
             }
             else {
                 App.startActivityIndicator()
-                var resourcesTableView
-                var temp = $.url().data.attr.host.split(".") // get name of community
-                temp = temp[0].substring(3)
-                if (temp == "")
-                    temp = 'local'
-                var roles = this.getRoles();
-                var resources = new App.Collections.Resources({
-                    skip: 0
-                });
-                if($.url().attr('fragment') == "resources/community") {
-                    resources.pending = 1;
+                App.$el.children('.body').empty();
+                App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                App.$el.children('#parentLibrary').empty();
+                $('#parentLibrary').append('<div id="SearchDiv"></div>');
+                $('#SearchDiv').append('<label><b>Title</label><input type="text" id="resourceSearch"/>');
+                var subjectArray=App.languageDict.get('SubjectList');
+                var subject =[];
+                for(var i=0;i<subjectArray.length;i++){
+                    subject.push('<option>'+subjectArray[i]+'</option>')
                 }
-                else if($.url().attr('fragment') == "resources/byownership") {
-                    resources.pending = 3;
-                    resources.loggedInName = $.cookie('Member.login');
+                $('#SearchDiv').append('<label for="resSubjects"><b>Subject/s</label><select id="resSubjects">'+subject+'</select>');
+                $('#resSubjects').multiselect().multiselectfilter();
+                $('#resSubjects').multiselect({
+                    checkAllText: App.languageDict.attributes.checkAll,
+                    uncheckAllText: App.languageDict.attributes.unCheckAll,
+                    selectedText: '# '+App.languageDict.attributes.Selected
+                });
+                $('#resSubjects').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;
+                $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#resSubjects').attr("multiple", true);
+                $('#resSubjects').multiselect("uncheckAll");
+
+                var levelArray = App.languageDict.get("LevelArray");
+                var level = [];
+                for (var i=0; i < levelArray.length; i++){
+                    level.push('<option>'+levelArray[i]+'</option>')
+                }
+                $('#SearchDiv').append('<label for="resLevel"><b>Levels</label><select id="resLevel">'+ level +'</select>');
+                $('#resLevel').multiselect().multiselectfilter();
+                $('#resLevel').multiselect({
+                    checkAllText: App.languageDict.attributes.checkAll,
+                    uncheckAllText: App.languageDict.attributes.unCheckAll,
+                    selectedText: '# '+App.languageDict.attributes.Selected
+                });
+                $('#resLevel').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                $('#resLevel').attr("multiple", true);
+                $('#resLevel').multiselect("uncheckAll");
+
+                $('#SearchDiv').append('<button id="btnSearch" class="btn btn-info">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
+                var roles = this.getRoles();
+                if(jsonConfig.type == "community") {
+                    if($.url().attr('fragment') == "resources/community") {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                    else {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
                 }
                 else {
-                    resources.pending = 0;
-                }
-                resources.fetch({
-                    async:false,
-                    success: function() {
-                        resourcesTableView = new App.Views.ResourcesTable({
-                            collection: resources
-                        })
-                        resourcesTableView.isManager = roles.indexOf("Manager");
-                        App.$el.children('.body').empty();
-                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
-                        App.$el.children('#parentLibrary').empty();
-                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
-
-                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
-                        btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
-                        $('#parentLibrary').append( btnText);
-                        if(jsonConfig.type == "community") {
-                            if($.url().attr('fragment') == "resources/community") {
-                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                            }
-                            else {
-                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/community"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                            }
+                    if($.url().attr('fragment') == "resources/byownership") {
+                        $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
+                    }
+                    else {
+                        if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
+                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
                         }
                         else {
-                            if($.url().attr('fragment') == "resources/byownership") {
-                                $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                            }
-                            else {
-                                if(roles.indexOf("Manager") >= 0 || roles.indexOf("SuperManager") >= 0 ) {
-                                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;">'+languageDict.attributes.Pending_Resources+'</a></p>')
-                                }
-                                else {
-                                    $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
-                                }
-                            }
+                            $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080"><a href="#resources"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/byownership"style="font-size:30px;">'+languageDict.attributes.Local_Resources+'</a></p>')
                         }
-                        resourcesTableView.collections = App.collectionslist
-                        resourcesTableView.render();
-                        $('#parentLibrary').append(resourcesTableView.el);
-                        if (App.languageDict.get('directionOfLang').toLowerCase()==="right")
-                        {
-                            $('#requestResource').css({"margin-right" : "10px"});
-                            $('#searchOfResource').addClass({"margin-right" : "10px"});
-                        }
-                        resourcesTableView.changeDirection();
                     }
+                }
+                var btnText = '<div id="resourcePage" style="margin-top:20px">';
+                $('#parentLibrary').append('<div id ="LebelRes"></div>')
+                var btnText = '<a id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
+                btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                $('#LebelRes').append(btnText);
+                this.FetchResources();
+                var that = this;
+                $("#btnSearch").click(function(){
+                    var val = $('#resourceSearch').val();
+                    var resSubject = [];
+                    var reslevel = [];
+                    $("input:checkbox[name='multiselect_resSubjects']:checked").each(function(index) {
+                        if($(this).is(':checked')==true){
+                            resSubject.push(decodeURI($(this).val()));
+                        }
+                    });
+
+                    $("input:checkbox[name='multiselect_resLevel']:checked").each(function(index) {
+                        if($(this).is(':checked')==true){
+                            reslevel.push(decodeURI($(this).val()));
+                        }
+                    });
+
+                    if(val != "" || resSubject !="" || resLevel!= ""){
+                        that.FetchResources(val,resSubject,reslevel);
+                    }
+
                 });
                 App.stopActivityIndicator()
             }
@@ -1835,14 +1967,48 @@ $(function() {
                         })
                         resourcesTableView.isManager = roles.indexOf("Manager");
                         App.$el.children('.body').empty();
-                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
-                        App.$el.children('#parentLibrary').empty();
-                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
 
-                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
-                        btnText += '<button id="searchOfResource" style="margin-left:10px;"  class="btn btn-info" onclick="document.location.href=\'#resource/search\'">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>'
-                        $('#parentLibrary').append( btnText);
+                        App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                        var btnText = '<p id="resourcePage" style="margin-top:20px"><a  id="addNewResource"class="btn btn-success" href="#resource/add">'+languageDict.attributes.Add_new_Resource+'</a>';
+                         $('#parentLibrary').append('<div id="SearchDiv"></div>');
+                        $('#SearchDiv').append('<label><b>Title</label><input type="text" id="resourceSearch"/>');
+                        var subjectArray=App.languageDict.get('SubjectList');
+                        var subject =[];
+                        for(var i=0;i<subjectArray.length;i++){
+                            subject.push('<option>'+subjectArray[i]+'</option>')
+                        }
+                        $('#SearchDiv').append('<label for="resSubjects"><b>Subject/s</label><select id="resSubjects">'+subject+'</select>');
+                        $('#resSubjects').multiselect().multiselectfilter();
+                        $('#resSubjects').multiselect({
+                            checkAllText: App.languageDict.attributes.checkAll,
+                            uncheckAllText: App.languageDict.attributes.unCheckAll,
+                            selectedText: '# '+App.languageDict.attributes.Selected
+                        });
+                        $('#resSubjects').multiselect().multiselectfilter("widget")[0].children[0].firstChild.data = App.languageDict.attributes.Filter;
+                        $('.ui-multiselect-filter').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                        $('#resSubjects').attr("multiple", true);
+                        $('#resSubjects').multiselect("uncheckAll");
+
+                        var levelArray = App.languageDict.get("LevelArray");
+                        var level = [];
+                        for (var i=0; i < levelArray.length; i++){
+                            level.push('<option>'+levelArray[i]+'</option>')
+                        }
+                        $('#SearchDiv').append('<label for="resLevel"><b>Levels</label><select id="resLevel">'+ level +'</select>');
+                        $('#resLevel').multiselect().multiselectfilter();
+                        $('#resLevel').multiselect({
+                            checkAllText: App.languageDict.attributes.checkAll,
+                            uncheckAllText: App.languageDict.attributes.unCheckAll,
+                            selectedText: '# '+App.languageDict.attributes.Selected
+                        });
+                        $('#resLevel').find('input').attr('placeholder',App.languageDict.attributes.KeyWord_s);
+                        $('#resLevel').attr("multiple", true);
+                        $('#resLevel').multiselect("uncheckAll");
+
+                        $('#SearchDiv').append('<button id="btnSearch" class="btn btn-info">'+languageDict.attributes.Search+'<img width="25" height="0" style="margin-left: 10px;" alt="Search" src="img/mag_glass4.png"></button>')
                         $('#parentLibrary').append('<p id="labelOnResource" style="font-size:30px;color:#808080;"><a href="#resources" style="font-size:30px;">'+languageDict.attributes.Resources+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#collection" style="font-size:30px;">'+languageDict.attributes.Collection_s+'</a>&nbsp&nbsp|&nbsp&nbsp<a href="#resources/pending"style="font-size:30px;color:#0088CC;text-decoration: underline;">'+languageDict.attributes.Pending_Resources+'</a></p>')
+                        btnText += '<a id="requestResource" style="margin-left:10px" class="btn btn-success" onclick=showRequestForm("Resource")>'+languageDict.attributes.Request_Resource+'</a>';
+                        $('#parentLibrary').append( btnText);
 
                         resourcesTableView.collections = App.collectionslist;
                         resourcesTableView.render();
@@ -1854,6 +2020,27 @@ $(function() {
                             $('#searchOfResource').addClass({"margin-right" : "10px"});
                         }
                         resourcesTableView.changeDirection();
+                        var that = this;
+                        $("#btnSearch").click(function(){
+                            var val = $('#resourceSearch').val();
+                            var resSubject = [];
+                            var reslevel = [];
+                            $("input:checkbox[name='multiselect_resSubjects']:checked").each(function(index) {
+                                if($(this).is(':checked')==true){
+                                    resSubject.push(decodeURI($(this).val()));
+                                }
+                            });
+
+                            $("input:checkbox[name='multiselect_resLevel']:checked").each(function(index) {
+                                if($(this).is(':checked')==true){
+                                    reslevel.push(decodeURI($(this).val()));
+                                }
+                            });
+                            if(val != "" || resSubject !="" || resLevel!= ""){
+                                App.Router.FetchResources(val,resSubject,reslevel);
+                            }
+
+                        });
                     }
                 });
                 App.stopActivityIndicator()
@@ -3078,14 +3265,13 @@ $(function() {
                 });
             }
             $('#CommunitySelect').change(function(){
-		    var selectedvalue =  $('#CommunitySelect').val();
-		    var courseMembers = new App.Views.CourseMembers()
-		    courseMembers.courseId = cId;
-		    courseMembers.randerTable(selectedvalue);
-		    if(selectedvalue == "" || selectedvalue == undefined){
-			courseMembers.render();    
-		    }
-		
+            var selectedvalue =  $('#CommunitySelect').val();
+            var courseMembers = new App.Views.CourseMembers()
+            courseMembers.courseId = cId;
+            courseMembers.randerTable(selectedvalue);
+            if(selectedvalue == "" || selectedvalue == undefined){
+            courseMembers.render();
+            }
             });
             var directionOfLang = App.languageDict.get('directionOfLang');
             if(directionOfLang.toLowerCase()==="right") {
@@ -5669,7 +5855,10 @@ $(function() {
                         collection: collections
                     })
                     collectionTableView.render()
-                    App.$el.children('.body').html('<p id="firstParaOnCollections" style="margin-top:20px"><a id="addResourceOnCollection" class="btn btn-success" href="#resource/add">'+App.languageDict.attributes.Add_new_Resource+'</a><a id="requestResourceOnCollection" class="btn btn-success" onclick=showRequestForm("Resource")>'+App.languageDict.attributes.Request_Resource+'</a></p></span>')
+                    App.$el.children('.body').empty();
+                    // App.$el.children('.body').html('<div id="parentLibrary"></div>');
+                    // App.$el.children('#parentLibrary').empty();
+                    // App.$el.children('.body').html('<p id="firstParaOnCollections" style="margin-top:20px"><a id="addResourceOnCollection" class="btn btn-success" href="#resource/add">'+App.languageDict.attributes.Add_new_Resource+'</a><a id="requestResourceOnCollection" class="btn btn-success" onclick=showRequestForm("Resource")>'+App.languageDict.attributes.Request_Resource+'</a></p></span>')
                     var configurations = Backbone.Collection.extend({
                         url: App.Server + '/configurations/_all_docs?include_docs=true'
                     });
