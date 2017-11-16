@@ -1798,15 +1798,26 @@ $(function() {
                                 resources =[]
                             }
                             if(resourcee && resourcee.models.length > 0){
-                               // console.log("Resourcee ", resourcee);
                                 resources = [];
                                 resources = resourcee;
                             }
                         }
                     }
                     if(level != undefined && subject != undefined){
-                        var searchRes = levModals.concat(modals);
-                        resourcee["models"] = searchRes
+                        var sl = levModals.concat(modals);
+                        var out = [];
+                        for (var i = 0, l = sl.length; i < l; i++) {
+                            var unique = true;
+                            for (var j = 0, k = out.length; j < k; j++) {
+                                if ((sl[i].id === out[j].id)) {
+                                    unique = false;
+                                }
+                            }
+                            if (unique) {
+                                out.push(sl[i]);
+                            }
+                        }
+                        resourcee["models"] = out
                         if(resourcee && resourcee.models.length > 0){
                             resources = [];
                             resources = resourcee;
