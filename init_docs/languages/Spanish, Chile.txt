@@ -255,8 +255,8 @@
         "Y",
         "Z"
     ],
-    "Course_Title": "Course Title",
-    "Language_Of_Instruction": "Language Of Instruction",
+    "Course_Title": "Título del curso",
+    "Language_Of_Instruction": "Idioma del curso",
     "Member_Limit": "Member Limit",
     "Course_Leader": "Course Leader",
     "Method": "Method",
