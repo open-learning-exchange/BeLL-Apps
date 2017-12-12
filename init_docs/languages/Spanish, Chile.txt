@@ -158,7 +158,7 @@
     "Suggestion": "Sugerencias",
     "Comment": " Comment",
     "Urgent": "Urgente",
-    "Bug": "Bug",
+    "Bug": "Error",
     "Question": "Pregunta",
     "Submit": "Enviar",
     "Collection_Name": "Nombre de la colección",
@@ -173,10 +173,10 @@
         "Ed. media - 2do ciclo",
         "Pregrado",
         "Postgrado",
-        "Professional"
+        "Profesional"
     ],
     "SubjectList": [
-        "Agriculture",
+        "Agricultura",
         "Artes",
         "Negocios y finanzas",
         "Medio ambiente",
