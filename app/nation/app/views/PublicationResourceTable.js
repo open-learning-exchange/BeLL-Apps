@@ -12,12 +12,14 @@ $(function() {
             //this.$el.append(_.template(this.template))
         },
         addOne: function(model) {
-            var publicationResourceRowView = new App.Views.PublicationResourceRow({
-                model: model
-            })
-            publicationResourceRowView.Id = this.Id
-            publicationResourceRowView.render()
-            this.$el.append(publicationResourceRowView.el)
+            if (model.attributes._id !== undefined) {
+                var publicationResourceRowView = new App.Views.PublicationResourceRow({
+                    model: model
+                })
+                publicationResourceRowView.Id = this.Id
+                publicationResourceRowView.render()
+                this.$el.append(publicationResourceRowView.el)
+            }
         },
 
         addAll: function() {

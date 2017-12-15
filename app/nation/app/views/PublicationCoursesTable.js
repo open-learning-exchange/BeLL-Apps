@@ -10,12 +10,14 @@ $(function() {
 
         },
         addOne: function(model) {
-            var publicationCourseRowView = new App.Views.PublicationCourseRow({
-                model: model
-            })
-            publicationCourseRowView.Id = this.Id
-            publicationCourseRowView.render()
-            this.$el.append(publicationCourseRowView.el)
+            if (model.attributes._id !== undefined) {
+                var publicationCourseRowView = new App.Views.PublicationCourseRow({
+                    model: model
+                })
+                publicationCourseRowView.Id = this.Id
+                publicationCourseRowView.render()
+                this.$el.append(publicationCourseRowView.el)
+            }
         },
 
         addAll: function() {
