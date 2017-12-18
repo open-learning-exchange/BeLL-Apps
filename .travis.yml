@@ -9,7 +9,7 @@ node_js:
   - "8"
 
 env:
-  - TRAVIS_NODE_VERSION="7.9.0"
+  - TRAVIS_NODE_VERSION="8"
 cache:
    directories:
      - $(npm root -g)
