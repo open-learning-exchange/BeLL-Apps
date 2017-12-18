@@ -85,5 +85,5 @@ script:
   - curl -X GET http://127.0.0.1:5981/_all_dbs
   - i=$(curl -X GET http://127.0.0.1:5981/_all_dbs | jq length); if [ $i -ne 40 ]; then exit 1; fi
   #- node -v
-  - (cd tests && codeceptjs run --steps)
-  #- python -m unittest discover tests
+  #- (cd tests && codeceptjs run --steps)
+  - python -m unittest discover tests
