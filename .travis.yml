@@ -1,15 +1,17 @@
 sudo: required
+dist: trusty
+group: deprecated-2017Q4
 
 branches:
   except:
   - l10n_dev
 
-language: node_js
-node_js:
-  - "8"
+language: python
+python:
+  - "3.5"
 
 env:
-  - TRAVIS_NODE_VERSION="8"
+  - TRAVIS_NODE_VERSION="7.9.0"
 cache:
    directories:
      - $(npm root -g)
