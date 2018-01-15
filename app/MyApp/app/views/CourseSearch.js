@@ -12,7 +12,6 @@ $(function () {
             enablenext = 0
         },
         render: function () {
-            console.log(searchText)
             var obj = this
             if (searchText != "") {
                 this.fetchRecords()

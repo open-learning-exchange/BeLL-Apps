@@ -98,7 +98,7 @@ $(function() {
                 courseCareer.set('requiredCareerPathIds',selectedCareerIds);
                 courseCareer.save(null, {
                     success: function(response){
-                    location.reload();
+                        location.reload();
                     },
                     error: function() {
                         console.log("Not Saved")
@@ -136,7 +136,6 @@ $(function() {
             }
         },
 
-
         render: function() {
             var careerlength;
             var arrcourses = []
@@ -154,7 +153,6 @@ $(function() {
             courseCareers.fetch({
                 async:false
             });
-            
             this.vars.careerList = [];
             for(var i = 0; i < (courseCareers.length); i++) {
                 if(courseCareers.models[i].attributes._id !== "_design/bell"){

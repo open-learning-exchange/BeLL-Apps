@@ -7,14 +7,12 @@ $(function() {
         searchCoursePathName: "",
         events: {
             "click .Search": function(e) {
-             this.renderTable($('#searchText').val().toLowerCase())
-             alert('Hi')
+            this.renderTable($('#searchText').val().toLowerCase())
             },
         },
-        
-        initialize: function() {
-            
-        },
+
+        initialize: function() {},
+
         render: function() {
             this.$el.html(_.template(this.template,this.vars))
         },
