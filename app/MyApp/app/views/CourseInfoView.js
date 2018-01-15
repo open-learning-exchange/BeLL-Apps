@@ -6,9 +6,8 @@ $(function () {
         authorName: null,
         tagName: "table",
 
-        className: "courseInfo-table",
+        className: "table table-hover table-striped courseInfo",
         initialize: function () {
-            this.$el.html('<th colspan="20">'+App.languageDict.attributes.Course_Information+'</th>')
         },
 
         add: function (model) {
@@ -55,7 +54,7 @@ $(function () {
             console.log('Information of Leader');
             this.$el.append('<tr><td>'+App.languageDict.attributes.Name+' : </td><td>' + courseInfo.name + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Levels+' : </td><td>' + courseInfo.subjectLevel + '</td></tr>')
-            this.$el.append('<tr><td>'+App.languageDict.attributes.Description+' : </td><td>' + courseInfo.description + '</td></tr>')
+            this.$el.append('<tr><td>'+App.languageDict.attributes.Description+' : </td><td id="markdown_coursedetail_description"><textarea name="description">' + courseInfo.description + '</textarea></td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Name+' : </td><td>' + leaderNames + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Email+' : </td><td>' + leaderEmails + '</td></tr>')
             this.$el.append('<tr><td>'+App.languageDict.attributes.Leader_Phone_Number+': </td><td>' + leaderPhones + '</td></tr>')

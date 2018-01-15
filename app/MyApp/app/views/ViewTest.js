@@ -24,6 +24,8 @@ $(function() {
             },
             "click #nextPressed": function(e) {
                 this.renderQuestion();
+                App.Router.previewModeEditor(this.Questionlist[this.index],'question')
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
             }
         },
 
@@ -47,15 +49,16 @@ $(function() {
                 });
                 this.vars = coursedetail.toJSON();
                 this.vars.languageDict=App.languageDict;
+
                 var singleline = coursedetail.get("Statement")
                 this.vars.singleLineQuestionTitle = singleline
                 this.$el.append(this.template(this.vars));
                 this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
-                this.$el.append('<div class="quizActions" ><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div></div>')
+                this.$el.append('<div class="quizActions" style= "padding-top: 1%;"><div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Exit+'</div></div>')
                 if((this.index + 1) == this.TotalCount){
-                    this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>');
+                    this.$el.find('.quizActions').append('<div class="btn btn-info" style= "margin-left: 1%;" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>');
                 } else {
-                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>');
+                    this.$el.find('.quizActions').append('<div class="btn btn-primary" style= "margin-left: 1%;" id="nextPressed">'+App.languageDict.attributes.Next+'</div>');
                 }
             } 
         },

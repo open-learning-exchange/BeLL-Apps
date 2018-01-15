@@ -30,6 +30,10 @@ $(function() {
                 type: 'Select',
                 options: []
 
+            },
+            autoPublication: {
+                type: 'Checkbox',
+                fieldAttrs : {id: "auto_sync"}
             }
         }
 

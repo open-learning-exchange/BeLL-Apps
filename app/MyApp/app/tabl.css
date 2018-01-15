@@ -193,8 +193,8 @@ bbf-form ul{border: 5px solid;}
     color:red;
 }
 .signup-submit {
-    margin-top: -4px;
     margin-left: 0px;
+    margin-top:77px;
     text-align: auto;
 }
 .signup-btn.btn {
@@ -341,7 +341,7 @@ h3 a{
 }
 .quizActions{
     position:relative;
-    margin-bottom: 76px;
+    margin-bottom: 20px;
 }
 #site-feedback{
     background-color: #34495E;
@@ -373,22 +373,15 @@ h3 a{
     height:100%;
 }
 #f-formButton{
-    margin-left: 5%;
+    margin-left: 10%;
     margin-top: -12px;
-    margin-top:3%;
+    margin-top: 3%;
 }
 
 #f-formButton button{
     float:left;
     margin-left: 1px;
     width: 33%;
-}
-
-textarea[name="comment"]
-{
-    border-radius: 20px;
-    height: 100%;
-    width: 87%;
 }
 .quizOptions input
 {height: 22px;
@@ -456,7 +449,7 @@ textarea[name="comment"]
 
 #externalDiv fieldset{
     border:none;
-    font-weight: 900;
+    font-weight: normal;
 }
 #externalDiv > form {
     margin-bottom: 48px;
@@ -546,7 +539,6 @@ textarea[name="comment"]
 
 .courseInfo-header
 {
-    width: 940px;
     color:white;
-    margin:0px auto;
+    margin-left:20px;
 }

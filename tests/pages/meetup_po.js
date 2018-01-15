@@ -15,7 +15,7 @@ module.exports = {
     meetupFormCancel: '//*[@id="MeetUpcancel"]',
     form: '//*[@id="meetUpForm"]',
     meetupTitle: '//*[@name="title"]',
-    meetupDesc: '//*[@name="description"]',
+    //meetupDesc: '//*[@class="redactor_editor"]',
     meetupSdate: '//*[@name="startDate"]',
     meetupEdate: '//*[@name="endDate"]',
     meetupStime: '//*[@name="startTime"]',
@@ -42,6 +42,7 @@ module.exports = {
     create_meetup() {
         I.waitForVisible(this.addMeetupButton);
         I.click(this.addMeetupButton);
+        I.wait(3)
         I.waitForVisible(this.meetupSaveButton);
         I.see("Start a New Meetup");
     },
@@ -60,7 +61,7 @@ module.exports = {
         I.dontSeeElement(deleteBTN);
 
     },
-    fill_meetup_form(title, desc, recurringState, sdate, edate, stime, etime, catagory, location) {
+    fill_meetup_form(title, recurringState, sdate, edate, stime, etime, catagory, location) {
         I.seeInCurrentUrl("#meetup/add");
         I.waitForVisible(this.meetupSaveButton);
         I.see("Start a New Meetup");
@@ -68,7 +69,12 @@ module.exports = {
         I.waitForVisible(this.form);
 
         I.fillField(this.meetupTitle, title);
-        I.fillField(this.meetupDesc, desc);
+        I.executeScript(function() {
+            $('.redactor_ ').html('<b>This is a recurring  meetup, automatically created by meetup_test.js</b>')
+            $('.bbf-editor [name="description"]').val('This is a recurring  meetup, automatically created by meetup_test.js')
+            
+        });
+        //I.fillField(this.meetupDesc, "This is a recurring  meetup, automatically created by meetup_test.js");
         I.fillField(this.meetupSdate, sdate);
         I.fillField(this.meetupEdate, edate);
         I.fillField(this.meetupStime, stime);

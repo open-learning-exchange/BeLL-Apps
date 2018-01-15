@@ -41,6 +41,13 @@ ddoc.views = {
             }
         }
     },
+    AnswerByMemberStepIdAttemptNoQuestionId: {
+        map: function(doc) {
+            if (this.MemberID != "" && this.StepID != "" && this.pqattempts != "" && this.QuestionID != "") {
+                emit([doc.MemberID,doc.StepID,doc.pqattempts,doc.QuestionID], doc);
+            }
+        }
+    },
 
 }
 

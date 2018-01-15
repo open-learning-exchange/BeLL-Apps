@@ -99,36 +99,46 @@ function getRequestStatus() {
         var modelId = jsonModel._id;
         var docIDs=[];
         docIDs.push(modelId);
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json; charset=utf-8'
-            },
-            type: 'POST',
-            url: '/_replicate',
-            dataType: 'json',
-            data: JSON.stringify({
-                "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                "target": 'configurations',
-                'doc_ids': docIDs
-            }),
+         $.ajax({
+            url: 'http://' + centralNationUrl ,
+            type: 'GET',
+            dataType: 'jsonp',
             async: false,
-            success: function (response) {
-                //Now get the updated document and check request status
-                var updatedJsonModel = getRequestDocFromLocalDB();
-                newStatus = updatedJsonModel.registrationRequest;
-                if(oldStatus != newStatus) {
-                    if (updatedJsonModel.registrationRequest == 'accepted') {
-                        alert(App.languageDict.get('request_accepted'));
-                    } else if (updatedJsonModel.registrationRequest == 'rejected') {
-                        alert(App.languageDict.get('comm_reject_msg'));
-                    }
+            success: function (json) {
+                if(json.couchdb == "Welcome"){
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        type: 'POST',
+                        url: '/_replicate',
+                        dataType: 'json',
+                        data: JSON.stringify({
+                            "source": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                            "target": 'configurations',
+                            'doc_ids': docIDs
+                        }),
+                        async: false,
+                        success: function (response) {
+                            //Now get the updated document and check request status
+                            var updatedJsonModel = getRequestDocFromLocalDB();
+                            newStatus = updatedJsonModel.registrationRequest;
+                            if(oldStatus != newStatus) {
+                                if (updatedJsonModel.registrationRequest == 'accepted') {
+                                    alert(App.languageDict.get('request_accepted'));
+                                } else if (updatedJsonModel.registrationRequest == 'rejected') {
+                                    alert(App.languageDict.get('comm_reject_msg'));
+                                }
+                            }
+                        },
+                        error: function(status) {
+                            console.log(status);
+                        }
+                    });
                 }
-            },
-            error: function(status) {
-                console.log(status);
             }
-        });
+         });
     }
 }
 
@@ -1871,8 +1881,7 @@ function showRequestForm(modl) {
 
 function showSearchView() {
     $('#not-found').hide()
-    App.Router.SearchBell(grpId, levelrevId, 0);
-
+    location.reload();
 }
 
 function selectAllSearchResult() {

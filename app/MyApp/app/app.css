@@ -288,13 +288,6 @@ textarea#question_text.surTextArea, textarea#answer_choices.surTextArea{
     margin-left: 1px;
     width: 33%;
 }
-
-textarea[name="comment"]
-{
-    border-radius: 20px;
-    height: 100%;
-    width: 87%;
-}
 .table-feedback{
     text-align:left;
     display: block;
@@ -328,11 +321,11 @@ textarea[name="comment"]
     margin-bottom: -1%;
     width: 883px;
 }
-#courseform [name="description"]{
+/*#courseform [name="description"]{
     height: 120px;
     width: 456px;
 }
-
+*/
 #courseform .bbf-field.field-foregroundColor{
     margin-left: 147px;
     margin-top: -56px;
@@ -354,7 +347,7 @@ textarea[name="comment"]
     z-index: 2;
     margin-left:10%;
     overflow: scroll;
-    height: 60%;
+    height: 78%;
 }
 #popupDiv{
     background-color: #B1B1B1;
@@ -706,8 +699,6 @@ Date: 18th Sept, 2015*/
 }/***************************************************************/
 /*******************************************************/
 .form .field-method{
-    margin-left: 514px;
-    margin-top: -165px;
 }
 .form .field-location{
     margin-left: 514px;

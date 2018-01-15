@@ -7,7 +7,7 @@ Before((I) => {
 });
 
 
-Scenario('test resources', (I, resource_po) => {
+Scenario('Test for Resources', (I, resource_po) => {
 
     let resource1 = {
         title: "Test Resource 1",
@@ -41,14 +41,14 @@ Scenario('test resources', (I, resource_po) => {
     resource_po.add_resource();
     resource_po.fill_resource(resource1);
     resource_po.save_resource();
-    resource_po.request_resource("I want a certain test resource!", true);
+    resource_po.request_resource();
     resource_po.go_to_collections();
-    resource_po.add_collection("Test collection 1", "This is a test collection created by resource_test.js", null);
+    resource_po.add_collection("Test collection 1", null);
     resource_po.submit_collection();
-    resource_po.add_collection("Test collection 2", "This is a test collection created by resource_test.js", null);
+    resource_po.add_collection("Test collection 2", null);
     resource_po.submit_collection();
     resource_po.merge_collections(["Test collection 1", "Test collection 2."], "Merged Test Collections");
-    resource_po.edit_collection("Test collection 1", "Should be gone", "Should be gone", null);
+    resource_po.edit_collection("Test collection 1", "Should be gone", null);
     resource_po.delete_current_collection(false);
     resource_po.go_to_resources();
     resource_po.add_resource();

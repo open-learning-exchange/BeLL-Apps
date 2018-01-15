@@ -1,6 +1,9 @@
 /*This stylesheet is supposed to applied on page for RTL languages like Arabic, Urdu etc*/
 .body {
     direction: rtl;
+    margin-bottom: 30px;
+    margin-right: 20px;
+    margin-left:20px;
 }
 #dashboard {
     height: 600px;
@@ -124,7 +127,6 @@ select#onDashboardLanguage {
     margin-top: -3.5%;
 }*/
 /*.changeWelComeButtonAsia{
-
     float: right;
     margin-right: 25%;
 }
@@ -178,10 +180,8 @@ td.stu-nav-option-empty {
 ul#itemsinnavbar.nav{
     direction: rtl;
     display: inline-flex;
-
     position: absolute;
 }
-
 .header-table {
     width: 100%;
     font-size: 20px;
@@ -962,7 +962,7 @@ body{
     border-radius: 0px 0px 20px 20px;
     color: #FFFFFF;
     height: 0px;
-    margin-left: 20%;
+    margin-right: 20%;
     position: absolute;
     top: -1%;
     width: 60%;
@@ -974,7 +974,7 @@ body{
     height:100%;
 }
 #f-formButton{
-    margin-left: 10%;
+    margin-left: 5%;
     width: 80%;
 }
 
@@ -1135,13 +1135,11 @@ textarea[name="comment"]
 /*.bbf-form .field-endDate
 {
     margin-left: 259px;
-
 }
 */
 /*.bbf-form .field-endTime
 {
     margin-left: 259px;
-
 }*/
 #library-top-buttons{
     margin-top: 20px;
@@ -1214,4 +1212,45 @@ a.forgot-password-form-button{
 a.forgot-password-form-button:hover{
     cursor: pointer;
     color: #3498db;
+}
+form > fieldset > ul > li.bbf-field.field-selectLanguage {
+    list-style-type: none;
+}
+#accept div input[name=accept]{
+    margin-top: -45px;
+}
+.redactor_color_none {
+    display: none !important;
+}
+.redactor_textbox{
+    float:none !important;
+}
+.redactor_textbox .bbf-editor{
+    width:95%;
+}
+.redactor_textbox .redactor_box{
+    width:100%;
+    margin-bottom: 10px; 
+}
+.redactor_textbox textarea{
+    padding:1%;
+    width:98%;
+}
+#exit_Pressed{
+    float:left;
+}
+.answersection{
+    margin-bottom: 25px;
+}
+#addIndividualResource{
+    width:110px;
+}
+.DropDownOptn{
+    float: left;
+    margin-left: 20px;
+    position: relative;
+}
+.table-feedback{
+    margin-left:20px;
+    margin-right:20px
 }

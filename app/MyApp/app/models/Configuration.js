@@ -27,30 +27,43 @@ $(function() {
             //Community's information
             name: { //Name of a community.Used mostly for displaying purpose. Also it is being used in sending publications to communities etc.
                 type: 'Text',
-                validators: ['required']
+                validators: ['required'],
+                fieldAttrs : {class: "form-field"}
             },
             code: { //Some specific value.Used mostly to specify a 'unique keyword' for community so that we can easily differentiate among multiple communities at nation side while sending data etc.
                 type: 'Text', // To make code unique is not implemented yet.
-                validators: ['required']
+                validators: ['required'],
+                fieldAttrs : {class: "form-field"}
             },
-            region: 'Text', // Saves region name in which community/nation exists
             nationName: { // Saves couch/futon's admin/userName of nation to which community is registered
                 type: 'Text',
-                validators: ['required']
+                validators: ['required'],
+                fieldAttrs : {class: "form-field"}
             },
             nationUrl: { // Saves URL of nation to which community is registered
                 type: 'Text',
-                validators: ['required']
+                validators: ['required'],
+                fieldAttrs : {class: "form-field"}
             },
             version: { // Saves current version of community/nation
-                type: 'Text'
+                type: 'Text',
+                fieldAttrs : {class: "form-field"}
             },
             notes: { // Saves some descriptions about community/nation
-                type: 'Text'
+                type: 'Text',
+                fieldAttrs : {class: "form-field"}
             },
             selectLanguage: { // This attribute is being used to select BeLL-Apps language(After easy-install it is only used for nation, for community there is another way to select language)
                 type: 'Select',
                 options:[]
+            },
+            accept: {
+                type: 'Checkbox',
+                fieldAttrs : {id: "accept", class: "form-field" }
+            },
+            region: { // Saves region name in which community/nation exists
+                type:'Text',
+                fieldAttrs : {id: "regionField", class: "form-field"}
             },
             //Sponsoring Organization
             sponsorName: { // Saves name of sponsoring organization

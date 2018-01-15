@@ -1,7 +1,11 @@
 /*This stylesheet is supposed to applied on page for LTR languages like English, Spanish etc*/
 .body {
     direction: ltr;
+    margin-bottom: 30px;
+    margin-right: 20px;
+    margin-left:20px;
 }
+/*
 /*input::-moz-focus-inner {
     border: 0;
     padding: 0;
@@ -36,6 +40,7 @@ select#onDashboardLanguage {
     margin-left: 10%;
     overflow: hidden;
     width: 90%;
+    margin-left: 20px;
 }
 #dashboard {
     height: 600px;
@@ -548,7 +553,6 @@ padding-top: 5px;
 }
 #next_button
 {
-    width:45%;
     float: right;
 
 }
@@ -563,7 +567,7 @@ padding-top: 5px;
 }
 #previous_button
 {
-    width:45%;
+    width:35%;
 }
 .search-bottom-nav-table {
     width: 100%;
@@ -735,13 +739,6 @@ float:right;
 margin-left: 1px;
 width: 33%;
 }
-
- textarea[name="comment"]
- {
-  border-radius: 20px;
-    height: 100%;
-    width: 87%;
- }
 #site-feedback .bbf-form{
 height: 72%;
 }
@@ -909,7 +906,6 @@ margin-top: 2px;
 /*.bbf-form .field-endDate
 {
 margin-left: 259px;
-
 }*/
 #infoAboutGraph{
     float: left;
@@ -932,7 +928,6 @@ margin-left: 259px;
 /*.bbf-form .field-endTime
 {
 margin-left: 259px;
-
 }*/
 #library-top-buttons{
 margin-top: 20px;
@@ -1006,4 +1001,67 @@ a.forgot-password-form-button{
 a.forgot-password-form-button:hover{
     cursor: pointer;
     color: #3498db;
+}
+a#search1 {
+    margin-left: 340px;
+    margin-top: -105px;
+    width: 150px;
+}
+a#Close {
+    margin-right: 4px;
+    float: right;
+    margin-top: 5px;
+}
+form > fieldset > ul > li.bbf-field.field-selectLanguage {
+    list-style-type: none;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+#accept div input[name=accept]{
+    margin-top: -45px;
+}
+.redactor_color_none {
+    display: none !important;
+}
+.redactor_textbox{
+    float:none !important;
+}
+.redactor_textbox .bbf-editor{
+    width:95%;
+}
+.redactor_textbox .redactor_box{
+    width:100%;
+    margin-bottom: 10px; 
+}
+.redactor_textbox textarea{
+    padding:1%;
+    width:98%;
+}
+.redactor_.redactor_editor{
+    color:black;
+}
+.answersection table{
+    width: 100%;
+}
+#exit_Pressed{
+    float:right;
+}
+.answersection{
+    margin-bottom: 25px;
+}
+#addIndividualResource{
+    width:110px;
+}
+.courseInfo{
+    width:97%;
+    margin-left:20px;
+}
+.DropDownOptn{
+    float: right;
+    margin-right: 20px;
+    position: relative;
+}
+.table-feedback{
+    margin-left:20px;
+    margin-right:20px
 }

@@ -51,7 +51,6 @@ $(function() {
         "click #a": function (id) {
             alert(id)
         }
-
         },
 
         vars: {},
@@ -64,6 +63,9 @@ $(function() {
 
         render: function() {
             var vars = this.model.toJSON()
+            vars.auto_publication = false
+            if(this.model.attributes.autoPublication != undefined)
+                vars.auto_publication = this.model.attributes.autoPublication
             vars.isManager = this.isManager
             var date = new Date(vars.Date)
             vars.Date = date.toUTCString();

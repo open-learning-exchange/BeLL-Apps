@@ -6,11 +6,9 @@ $(function() {
 
     className: 'search-box',
 
-    template: $("#template-Search-box").html(),
+    template: $("#template-Search-boxes").html(),
 
     render: function() {
-
-
       var vars = this.model.toJSON()
       if (!vars.Tag)
         vars.Tag = ''
@@ -21,9 +19,7 @@ $(function() {
       } else {
         vars.name = "ResourceSearchBox"
       }
-
-      this.$el.append(_.template(this.template, vars))
-
+      this.$el.append(_.template(this.template,vars))
     }
   })
 })

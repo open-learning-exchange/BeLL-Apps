@@ -300,43 +300,205 @@ $(function() {
 
             if(this.model.get('registrationRequest') == 'pending' || this.isChanged(this.model ,configDoc )){
 
-                this.model.set('registrationRequest', 'pending');
-                App.stopActivityIndicator();
-
-            that.model.save(null, {
-                success: function (model, response) {
-                    var docIds = [];
-                    var id = that.model.get('id');
-                    docIds.push(id);
-                    $.ajax({
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json; charset=utf-8'
-                        },
-                        type: 'POST',
-                        url: '/_replicate',
-                        dataType: 'json',
-                        data: JSON.stringify({
-                            "source": "configurations",
-                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
-                            'doc_ids': docIds
-                        }),
-                        async: false,
-                        success: function (response) {
-                            App.stopActivityIndicator();
-                            if(response.docs_written == 0 || response.docs_written == undefined){
-                                alert(App.languageDict.attributes.UnableToReplicate);
-                            }else{
-                                alert(App.languageDict.get('Successfully_Registered'));
-                                window.location.href = '#dashboard';
-                            }
-                        },
-                        error: function(status) {
-                            console.log(status);
-                            alert(App.languageDict.attributes.UnableToReplicate);
-                            App.stopActivityIndicator();
+            App.stopActivityIndicator();
+            $.ajax({
+                type: 'GET',
+                url: 'http://' + nationUrl + '/configurations/_all_docs?include_docs=true',
+                dataType: 'jsonp',
+                async: false,
+                success: function (response) {
+                    if(response.rows.length > 0){
+                        var accept = response.rows[0].doc.accept;
+                        if(accept == undefined || accept == false){
+                            that.model.set('registrationRequest', 'pending');
+                            that.model.save(null, {
+                                success: function (model, response) {
+                                    var docIds = [];
+                                    var id = that.model.get('id');
+                                    docIds.push(id);
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "configurations",
+                                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                            'doc_ids': docIds
+                                        }),
+                                        async: false,
+                                        success: function (response) {
+                                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                                alert(App.languageDict.attributes.UnableToReplicate);
+                                            }else{
+                                                $.ajax({
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                    },
+                                                    type: 'POST',
+                                                    url: '/_replicate',
+                                                    dataType: 'json',
+                                                    data: JSON.stringify({
+                                                        "source": "configurations",
+                                                        "target": 'http://' + nationUrl + '/communityregistrationrequests',
+                                                        'doc_ids': docIds
+                                                    }),
+                                                    async: false,
+                                                    success: function (response) {
+                                                    }
+                                                });
+                                                var members = new App.Models.Member({
+                                                    "_id": $.cookie('Member._id')
+                                                });
+                                                members.fetch({
+                                                    async: false,
+                                                    success: function(data){
+                                                        if(data){
+                                                            members.set('community',newCode);
+                                                            if(members.save()){
+                                                                App.stopActivityIndicator();
+                                                                alert(App.languageDict.get('Successfully_Registered'));
+                                                                window.location.href = '#dashboard';
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                            App.stopActivityIndicator();
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            that.model.set('registrationRequest', 'accepted');
+                            that.model.save(null, {
+                                success: function (model, response) {
+                                    var docIds = [];
+                                    var id = that.model.get('id');
+                                    docIds.push(id);
+                                    $.ajax({
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json; charset=utf-8'
+                                        },
+                                        type: 'POST',
+                                        url: '/_replicate',
+                                        dataType: 'json',
+                                        data: JSON.stringify({
+                                            "source": "configurations",
+                                            "target": 'http://' + centralNationUrl + '/communityregistrationrequests',
+                                            'doc_ids': docIds
+                                        }),
+                                        async: false,
+                                        success: function (response) {
+                                            if(response.docs_written == 0 || response.docs_written == undefined){
+                                                alert(App.languageDict.attributes.UnableToReplicate);
+                                            }else{
+                                                $.ajax({
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json; charset=utf-8'
+                                                    },
+                                                    type: 'POST',
+                                                    url: '/_replicate',
+                                                    dataType: 'json',
+                                                    data: JSON.stringify({
+                                                        "source": "configurations",
+                                                        "target": 'http://' + nationUrl + '/community',
+                                                        'doc_ids': docIds
+                                                    }),
+                                                    async: false,
+                                                    success: function (response) {
+                                                        $.ajax({
+                                                            type: 'GET',
+                                                            url: 'http://' + nationUrl + '/publications/_all_docs?include_docs=true',
+                                                            dataType: 'jsonp',
+                                                            async: false,
+                                                            success: function (response) {
+                                                                for(i=0; i<response.rows.length; i++){
+                                                                    if(response.rows[i].doc._id != "_design/bell"){
+                                                                        if(response.rows[i].doc.autoPublication == true){
+                                                                            var publicationsId = response.rows[i].doc._id
+                                                                            $.ajax({
+                                                                                type: 'GET',
+                                                                                url:  '/configurations/_all_docs?include_docs=true',
+                                                                                dataType: 'json',
+                                                                                async: false,
+                                                                                success: function(response) {
+                                                                                    var sendPub = new Array()
+                                                                                    sendPub.push({
+                                                                                        communityUrl: response.rows[0].doc.sponsorUrl,
+                                                                                        communityName: response.rows[0].doc.name,
+                                                                                        publicationId: publicationsId,
+                                                                                        Viewed: false
+                                                                                    })
+                                                                                    $.couch.db("publicationdistribution").bulkSave({
+                                                                                        "docs": sendPub
+                                                                                    }, {
+                                                                                        success: function(data) {
+                                                                                        },
+                                                                                        error: function(status) {
+                                                                                            console.log(status);
+                                                                                        },
+                                                                                        async: false
+                                                                                    });
+                                                                                },
+                                                                                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                    alert(App.languageDict.attributes.TryLater_Error)
+                                                                                }
+                                                                            })
+                                                                            $.ajax({
+                                                                                headers: {
+                                                                                    'Accept': 'application/json',
+                                                                                    'Content-Type': 'application/json; charset=utf-8'
+                                                                                },
+                                                                                type: 'POST',
+                                                                                url: '/_replicate',
+                                                                                dataType: 'json',
+                                                                                data: JSON.stringify({
+                                                                                    "source":"publicationdistribution",
+                                                                                    "target":'http://' + nationUrl + '/publicationdistribution',
+                                                                                }),
+                                                                                success: function(response) {
+                                                                                    if (isActivityLogChecked == false) {
+                                                                                        App.stopActivityIndicator();
+                                                                                    }
+                                                                                },
+                                                                                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                    alert(App.languageDict.attributes.TryLater_Error)
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                                
+                                                App.stopActivityIndicator();
+                                                alert(App.languageDict.get('request_accepted'));
+                                                window.location.href = '#dashboard';
+                                            }
+                                        },
+                                        error: function(status) {
+                                            console.log(status);
+                                            alert(App.languageDict.attributes.UnableToReplicate);
+                                            App.stopActivityIndicator();
+                                        }
+                                    });
+                                }
+                            });
                         }
-                    });
+                    }
                 }
             });
             } else{

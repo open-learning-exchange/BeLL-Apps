@@ -68,7 +68,7 @@ $(function() {
                 $('#modal').modal({
                     show: true
                 })
-            }
+            },
         },
 
         //template : $("#template-CourseRow").html(),
@@ -127,7 +127,7 @@ $(function() {
             var startDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(firstDay));
             var endDate = that.changeDateFormat(that.turnDateToYYYYMMDDFormat(lastDay));
             $.ajax({
-                url: 'http://' + nationName + ':oleoleole@' + nationUrl + '/activitylog/_design/bell/_view/getDocByCommunityCodeWithValue?_include_docs=true&&startkey=["' + communityCode + '","' + startDate + '"]&endkey=["' +
+                url: 'http://' + nationUrl + '/activitylog/_design/bell/_view/getDocByCommunityCodeWithValue?_include_docs=true&&startkey=["' + communityCode + '","' + startDate + '"]&endkey=["' +
                 communityCode + '","' + endDate + '"]',
                 type: 'GET',
                 dataType: 'jsonp',

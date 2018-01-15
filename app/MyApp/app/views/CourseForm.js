@@ -239,7 +239,7 @@ $(function () {
                     previousLeader=[];
                 }
             }
-
+            this.model.unset("descriptionOutput", { silent: true })
             this.model.set("name", this.model.get("CourseTitle"))
             // Send the updated model to the server
             if (this.model.get("_id") == undefined) {

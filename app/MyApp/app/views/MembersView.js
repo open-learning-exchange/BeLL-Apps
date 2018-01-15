@@ -18,7 +18,7 @@ $(function() {
 
         render: function() {
             this.$el.append('<div id="parentMembers"><h3 id="membersSearchHeading"><input id="searchText" type="Text" placeholder=""><button id="searchButtonOnMembers" class="Search btn btn-info">'+App.languageDict.attributes.Search+'</button></h3><h3>'+App.languageDict.attributes.Members+'<a id="AddNewMember" style="margin-left:20px" class="btn btn-success" href="#member/add">'+App.languageDict.attributes.Add+' '+App.languageDict.attributes.New+' '+App.languageDict.attributes.Member+'</a></h3></div>');
-            this.$el.append('<div id="memberTable"></div>');
+            this.$el.append('<div id="memberTable" ></div>');
             this.renderTable(searchCommunity, searchText);
         },
         renderTable: function(searchCommunity, searchText) {

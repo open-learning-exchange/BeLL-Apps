@@ -33,6 +33,13 @@ ddoc.views = {
                 emit(doc._id, true);
             }
         }
+    },
+    GetCourseQuestionByStepID: {
+        map: function(doc) {
+            if (doc && doc.stepId) {
+                emit(doc.stepId, doc._id);
+            }
+        }
     }
 }
 

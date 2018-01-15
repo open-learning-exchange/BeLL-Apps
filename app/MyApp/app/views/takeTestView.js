@@ -23,7 +23,7 @@ $(function() {
         totalObtainMarks : 0,
         sstatus : null,
         events: {
-            "click #exitPressed": function(e) {
+            "click #exit_Pressed": function(e) {
                 $('div.takeTestDiv').html('')
             },
             "click #finishPressed": function(e) {
@@ -31,12 +31,34 @@ $(function() {
             },
             "click #nextPressed": function() {
                 this.nextquestion("next");
+                App.Router.previewModeEditor(this.Questionlist[this.index],"answer")
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
+                var questionlist = new App.Models.CourseQuestion({
+                    _id: this.Questionlist[this.index]
+                })
+                questionlist.fetch({
+                    async: false
+                });
+                if(questionlist.attributes.Type == "Comment/Essay Box"){
+                    App.Router.markdownEditor("description","essay")
+                }
             },
             "click #resetButton":function(e){
                 this.resetanswer();
             },
             "click #previousPressed": function(e){
                 this.nextquestion("previous");
+                App.Router.previewModeEditor(this.Questionlist[this.index],"answer")
+                $("textarea[name='"+this.Questionlist[this.index]+"']").hide();
+                var questionlist = new App.Models.CourseQuestion({
+                    _id: this.Questionlist[this.index]
+                })
+                questionlist.fetch({
+                    async: false
+                });
+                if(questionlist.attributes.Type == "Comment/Essay Box"){
+                    App.Router.markdownEditor("description","essay")
+                }
             }
         },
 
@@ -44,8 +66,8 @@ $(function() {
             if ($("input[type='text'][name='singleLineAnswer']").val() != undefined ) {
                 $("input[type='text'][name='singleLineAnswer']").val("")
                 delete this.Givenanswers[$("input[name=question_id]").val()]
-            }else if($("input[type='text'][name='commentEssay']").val() != undefined ){
-                $("input[type='text'][name='commentEssay']").val("")
+            }else if($("#commentEssay").val() != undefined ){
+                $("#commentEssay").val("")
                 delete this.Givenanswers[$("input[name=question_id]").val()]
             }else if($("input[type='hidden'][name='_attachment']").val() != undefined){
                 $("input[type='hidden'][name='_attachment']").val("")
@@ -66,9 +88,9 @@ $(function() {
                     this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='singleLineAnswer']").val()));   
                 }
                 this.renderQuestion(e);
-            } else if ($("input[type='text'][name='commentEssay']").val() != undefined ) {
-                if($("input[type='text'][name='commentEssay']").val() !=""){
-                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("input[type='text'][name='commentEssay']").val()));
+            } else if ($("#commentEssay").val() != undefined ) {
+                if($("#commentEssay").val() !=""){
+                    this.Givenanswers[$("input[name='question_id']").val()] = (decodeURI($("#commentEssay").val()));
                 }
                 this.renderQuestion(e);
             } else if($("input[type='hidden'][name='_attachment']").val() != undefined ) {
@@ -142,6 +164,9 @@ $(function() {
                 saveanswer.set('MemberID',memberId);
                 saveanswer.set('StepID',this.stepId);
                 saveanswer.save(null, {
+                    success:function(){
+                        console.log("saved")
+                    },
                     error: function() {
                         console.log("Not Saved")
                     }
@@ -244,15 +269,16 @@ $(function() {
                 this.$el.append(this.template(this.vars));
                 //this.$el.append('<div class="Progress"><p>' + (this.index + 1) + '/' + this.TotalCount + '</p> </div>')
                 this.$el.append('<div class="quizActions" ></div>')
-                this.$el.find('.quizActions').append('<div  style="margin-right: 303px;" class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
+                this.$el.find('.quizActions').append('<div align ="center" class="centerBtns" style="margin-bottom: -40px;"></div>')
+                this.$el.find('.quizActions').append('<div class="btn btn-inverse" id="resetButton">'+App.languageDict.attributes.Answer_Reset+'</div>&nbsp&nbsp')
                 if(this.index !=0){
-                    this.$el.find('.quizActions').append('<div class="btn btn-primary" id="previousPressed">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
+                    this.$el.find('.centerBtns').append('<div class="btn btn-primary" id="previousPressed">'+App.languageDict.attributes.Btn_Prev+'</div>&nbsp&nbsp');
                 }
-                this.$el.find('.quizActions').append('<div class="btn btn-info" id="finishPressed">'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
+                this.$el.find('.centerBtns').append('<div class="btn btn-info" id="finishPressed" style="font-weight: inherit;">'+App.languageDict.attributes.Finish+'</div>&nbsp&nbsp');
                 if((this.index + 1) != this.TotalCount){
-                    this.$el.find('.quizActions').append('<div style="margin-right: 303px;" class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
+                    this.$el.find('.centerBtns').append('<div class="btn btn-primary" id="nextPressed">'+App.languageDict.attributes.Next+'</div>&nbsp&nbsp');
                 }
-                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exitPressed">'+App.languageDict.attributes.Btn_Cancel+'</div>')
+                this.$el.find('.quizActions').append('<div class="btn btn-danger" id="exit_Pressed">'+App.languageDict.attributes.Btn_Cancel+'</div>')
             } else {
                 var sstatus = this.myModel.get('stepsStatus')
                 var sp = this.myModel.get('stepsResult')
@@ -294,12 +320,12 @@ $(function() {
 
                 this.myModel.save(null, {
                     success: function(res, revInfo) {
+                        location.reload()
                     },
                     error: function() {
                         console.log("Not Saved")
                     }
                 });
-                location.reload();
             }
         },
 

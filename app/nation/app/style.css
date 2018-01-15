@@ -17,3 +17,4 @@
 .submit-button{float:right;margin:3%}
 .login-input{padding:5px;margin-left:70%;clear:both}
 .login-input input{width:200px;border:1px solid gray;border-radius:5px;height:30px;display:block}
+#pointer_feedback {cursor: pointer}

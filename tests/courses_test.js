@@ -8,13 +8,13 @@ Before((I) => {
     I.wait(10);
 });
 
-Scenario('Test For Course', (I, addquestion_po) => {
+Scenario('Test for Course', (I, addquestion_po) => {
     var courses = '//*[@href="#courses"]';
     var addcourses = '//*[@id="addCourseButton"]';
     var check = '//*[@value="Daily"]';
     var selectQType = '//*[@id="add_new_question"]';
     var marks = '//*[@class="inputmarks"]';
-    var singlelineTextarea = '//*[@id="6"]/div/textarea[@name="question_text"]';
+    var singlelineTextarea = '//*[@id="markdown_questiontype2_question_text"]/div/textarea[@name="question_text"]';
     var singlelineMarks = '//*[@id="6"]/div/input[@type="number"]';
     var saveSingleline = '//*[@id="6"]/div/input[@value="Save Question"]';
     var commentboxTextarea = '//*[@id="8"]/div/textarea[@name="question_text"]';
@@ -42,7 +42,9 @@ Scenario('Test For Course', (I, addquestion_po) => {
     I.fillField('CourseTitle', "Science");
     I.fillField('languageOfInstruction', "English");
     I.fillField('memberLimit', "5");
-    I.fillField('description', "This is all about topic science");
+    I.executeScript(function() {
+        $("#markdown_course_description div textarea[name='description']").val('<b>This is science test</b>')
+    });
     I.fillField('method', "Science");
     I.selectOption('gradeLevel','10');
     I.selectOption('subjectLevel','Expert');
@@ -57,7 +59,9 @@ Scenario('Test For Course', (I, addquestion_po) => {
     I.acceptPopup();
     I.wait(2);
     I.fillField('title', "Science Step");
-    I.fillField('div.courseSearchResults_Bottom textarea[name=description]', 'This is all about topic science');
+    I.executeScript(function() {
+        $("#markdown_step_description div textarea[name='description']").val('<b>This is science step test</b>')
+    });
     I.executeScript(function() {
         $("[name=passingPercentage]").val(45);
     });
@@ -69,13 +73,24 @@ Scenario('Test For Course', (I, addquestion_po) => {
     I.wait(4);
 
     addquestion_po.selectQuestionType(selectQType,"Single Textbox",singlelineTextarea);
-    addquestion_po.questionFillupAndSave(singlelineTextarea, 'What is your Name?', singlelineMarks, "100", saveSingleline)
+    I.executeScript(function() {
+        $("#markdown_questiontype2_question_text div.bbf-editor textarea[name='question_text']").val("<b>What is your Name?</b>")
+    });
+    addquestion_po.questionFillupAndSave(singlelineMarks, "100", saveSingleline)
     addquestion_po.selectQuestionType(selectQType,"Comment/Essay Box",commentboxTextarea);
-    addquestion_po.questionFillupAndSave(commentboxTextarea, 'What is your Name', commentboxMarks, "100", saveCommentbox)
+    I.executeScript(function() {
+        $("#markdown_questiontype3_question_text div.bbf-editor textarea[name='question_text']").val("<b>Write Essay about Science in 250 words?</b>")
+    });
+    addquestion_po.questionFillupAndSave(commentboxMarks, "100", saveCommentbox)
     addquestion_po.selectQuestionType(selectQType,"Attachment",attachmentTextarea);
-    addquestion_po.questionFillupAndSave(attachmentTextarea, 'Upload file?', attachmentMarks, "100", saveAttachment)
+    I.executeScript(function() {
+        $("#markdown_questiontype4_question_text div.bbf-editor textarea[name='question_text']").val("<b>Attachment your photo?</b>")
+    });
+    addquestion_po.questionFillupAndSave(attachmentMarks, "100", saveAttachment)
     addquestion_po.selectQuestionType(selectQType,"Multiple Choice",multipleTextarea);
-    I.fillField(multipleTextarea, 'Choice type question?');
+    I.executeScript(function() {
+        $("#markdown_questiontype1_question_text div.bbf-editor textarea[name='question_text']").val("<b>What is your daily means of transportation?</b>")
+    });
     I.fillField(inputfield, "Cycle");
     I.fillField(inputfield1, "Bike");
     I.checkOption(checkbox1);
@@ -88,5 +103,3 @@ Scenario('Test For Course', (I, addquestion_po) => {
     I.click(courses);
     I.wait(10);
 });
-
-

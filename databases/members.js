@@ -100,11 +100,28 @@ ddoc.views = {
             }
         }
     },
+    FilterByCommunity: {
+        map: function(doc) {
+            if (doc._id && doc.community) {
+                emit(doc._id, doc.community)
+            }
+        }
+    },
     allMembers: {
         map: function(doc) {
             if (doc && doc.kind == 'Member') {
                 emit(doc._id, doc)
             }
+        }
+    },
+    MembersBySelectedCommunity: {
+        map: function(doc) {
+            if (doc && doc.community) {
+                emit(doc.community, doc)
+            }
+        },
+        reduce: function(keys, values, rereduce) {
+            return values[0].community;
         }
     },
     managerMembers: {

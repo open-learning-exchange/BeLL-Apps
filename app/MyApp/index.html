@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="vendor/jQuery-multiselect/jquery.multiselect.css"/>
 
     <link rel="stylesheet" href="vendor/jqPlot/jquery.jqplot.css"/>
+    <link rel="stylesheet" href="vendor/redactor/style.css"/>
+    <link rel="stylesheet" href="vendor/redactor/redactor.css"/>
 
     <!--
       DEPENDENCIES
@@ -83,7 +85,9 @@
     <script src="vendor/jqPlot/jquery.flot.axislabels.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jshash-2.2/md5-min.js"></script> <!-- app/vendor.js -->
     <script src="vendor/jszip.min.js"></script> <!-- app/vendor.js -->
-
+    <script src="vendor/redactor/marked.js"></script> <!-- app/vendor.js -->
+    <script src="vendor/redactor/reMarked.js"></script> <!-- app/vendor.js -->
+    <script src="vendor/redactor/redactor.js"></script> <!-- app/vendor.js -->
 
     <!-- html-templates -->
     <link rel="text" href="app/templates/templates.txt"/>
@@ -393,7 +397,7 @@
             <div id="invitationdiv"></div>
         </div>
 
-        <div id='nav' class="navbar navbar-inverse" id="top-nav"style="margin: 4px 0px 0px 0px;">
+        <div id='nav' class="navbar navbar-inverse" id="top-nav"style="margin: 4px 0px 0px 0px;     margin-bottom: 15px;">
             <div class="container"></div>
         </div>
 
@@ -478,7 +482,7 @@
                 <tr class="imageRow">
                     <td rowspan="2" class="imageData">
                         <!--<img id="header-image" src="img/header_slice.png" /> -->
-                        <img src="img/OLE_Logo.png" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:55px;height: 105px; width: 105px;"/>
+                        <img src="img/OLE_Logo.png" width="108px" height="108px" id="imgurl" style="z-index:1; border:2px solid white;border-radius:55px;height: 105px; width: 105px; background: white"/>
                     </td>
                 </tr>
                 <tr>
@@ -521,7 +525,7 @@
                         <td id ="last0"class=""></td>
                     </tr>
                     <tr>
-                        <td id="first1" class="">
+                        <td id="first1">
                             <a href="#courses/barchart"><%= languageDict.attributes.My_Courses_Progress %></a>
                         </td>
                         <td class="scrollable-courses">
@@ -557,7 +561,7 @@
             </div>
 
 
-            <table id="bottomButtonsOnDashboard" class="page-bottom-navtable" style="border-collapse: separate;">
+            <table id="bottomButtonsOnDashboard" class="page-bottom-navtable" style="border-collapse: separate;margin-top: 8px;">
                 <tr>
                     <!--<td><button class="btn btn-hg btn-primary" onclick = "document.location.href='#badges'"><%= languageDict.attributes.Badges %></button></td>-->
                     <!--<td><button id="creditsDash" class="btn btn-hg btn-primary" onclick = "document.location.href='#credits'"> Credits(<%=new_learners_count%>) </button></td>-->
@@ -1116,9 +1120,6 @@
             <%=App.languageDict.attributes.Your_Answer_Has_Been_Reviewed%>
         <%}%>
         </td>
-        <td>
-        </td>
-       
     </script>
 
     <script type="text/html" id="template-CourseRow">
@@ -1572,14 +1573,7 @@
                     </td>
                 </tr>
                 <tr class="level-section-data">
-                    <td colspan="3">
-                        <%=description%>
-                    </td>
-                </tr>
-                <tr class="level-section-title">
-                    <td colspan="3">
-                        <%=languageDict.attributes.Instructions%></br>
-                    </td>
+                    <td colspan="3" id="markdown_steptest_<%= _id %>"><textarea name="<%= _id %>"><%=description%></textarea></td>
                 </tr>
 
                 <% for (var i=0; i<attachmentNames.length; i++){%>
@@ -1635,28 +1629,38 @@
          <div class="singlelineAnswer">
                 <table>
                     <tr>
-                        <td>
-                            <textarea><%=Statement%></textarea> 
-                        </td>
+                        <td id="markdown_answer_<%= _id %>"><textarea name="<%= _id %>"><%=Statement%></textarea></td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" value="<%=answer[0]%>" name="singleLineAnswer">
+                            <input type="text" value="<%=answer%>" name="singleLineAnswer">
                         </td>
                     </tr>
                 </table>
             </div>
      <% } else if (Type == "Comment/Essay Box") { %>
+        <style>
+            textarea{width: 616px;height: 298px;}
+        </style>
             <div class="commentEssay">
                 <table>
                     <tr>
-                        <td>
-                            <textarea><%=Statement%></textarea> 
-                        </td>
+                        <td id="markdown_answer_<%= _id %>"><textarea name="<%= _id %>"><%=Statement%></textarea></td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" value="<%=answer[0]%>" name="commentEssay">
+                            <div id="markdown_essay_description" class="redactor_textbox ">
+                                <br>
+                                <div class="bbf-editor">
+                                    <textarea name="description" id="commentEssay"><%=answer%></textarea><br>
+                                </div>
+                            </div>
+                            <div id="essay_description" class="redactor_textbox " >
+                                <br>
+                                <div class="bbf-editor">
+                                    <textarea name="descriptionOutput" id="commentEssay"></textarea>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -1665,9 +1669,7 @@
             <div class="attachment">
                 <table>
                     <tr>
-                        <td>
-                            <textarea><%=Statement%></textarea> 
-                        </td>
+                       <td id="markdown_answer_<%= _id %>"><textarea name="<%= _id %>"><%=Statement%></textarea></td>
                     </tr>
                 <tr>
                      <td>
@@ -1676,7 +1678,7 @@
                      <input type="hidden" name="_attachment" id="attachmentId" value="">
                      <input type="hidden" value=<%=stepId%> id="stepId<%=_id%>">
                      <input type="hidden" value=<%=_id%> id="questionId<%=_id%>">
-                     <input class='btn btn-primary' style="font-size: 15px" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
+                     <input class='btn btn-primary' style="font-size: 15px;" type="button" value="<%=languageDict.attributes.Upload%> <%=Type%>" id="fakeBrowse" onclick="HandleBrowseClick1('<%=_id%>')" />
                      <% if (answer[0] != null && answer[0] != "") { %>
                         <a id="downloadAttac" class="btn btn-primary" href="/assignmentpaper/<%=answer[0]%>/<%=attachmentName%>"  target="_blank" ><%=App.languageDict.attributes.Download %></a>
                      <% } %>
@@ -1688,9 +1690,7 @@
             <div class="multiplechoice">
                 <table>
                     <tr>
-                        <td>
-                            <textarea><%=Statement%></textarea> 
-                        </td>
+                        <td id="markdown_answer_<%= _id %>"><textarea name="<%= _id %>"><%=Statement%></textarea></td>
                     </tr>
                     <tr>
                        <td>
@@ -1727,7 +1727,7 @@
              <div class="singlelineAnswer">
                     <table>
                         <tr>
-                            <td><%=Statement%></td>
+                           <td id="markdown_question_<%= _id %>"><textarea name="<%= _id %>"><%= Statement %></textarea></td>
                         </tr>
                         <tr>
                             <td>
@@ -1740,7 +1740,7 @@
             <div class="commentEssay">
                 <table>
                     <tr>
-                        <td><%=Statement%></td>
+                        <td id="markdown_question_<%= _id %>"><textarea name="<%= _id %>"><%= Statement %></textarea></td>
                     </tr>
                     <tr>
                         <td>
@@ -1753,7 +1753,7 @@
             <div class="attachment">
                 <table>
                     <tr>
-                        <td><%=Statement%></td>
+                        <td id="markdown_question_<%= _id %>"><textarea name="<%= _id %>"><%= Statement %></textarea></td>
                     </tr>
                 <tr>
                      <td>
@@ -1771,7 +1771,7 @@
             <div class="multiplechoice">
                 <table>
                     <tr>
-                        <td><%=Statement%><td>
+                        <td id="markdown_question_<%= _id %>"><textarea name="<%= _id %>"><%= Statement %></textarea></td>
                     </tr>
                     <tr>
                        <td>
@@ -1805,12 +1805,16 @@
                         </tr>
                         <tr>
                             <td><%=App.languageDict.attributes.Question %></td>
-                            <td><%=questionlists[i].Statement%></td>
+                            <td id="markdown_question_<%=questionlists[i]._id%>"><textarea name="<%=questionlists[i]._id%>"><%=questionlists[i].Statement%></textarea></td>
                         </tr>
-                        <%if(attachmentName != null && attachmentName!= "" && attachmentName!= undefined ){%>
                         <tr>
-                            <td><a download="<%=attachmentName%>" href="<%=attchmentURL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
-                            <td></td>
+                            <td><%=App.languageDict.attributes.Assignment_Name %></td>
+                            <td><%=questionlists[i].Attachment.Name%></td>
+                        </tr>
+                        <%if(questionlists[i].Attachment.Name != null && questionlists[i].Attachment.Name!= "" && questionlists[i].Attachment.Name!= undefined ){%>
+                        <tr>
+                        <td></td>
+                            <td><a download="<%=questionlists[i].Attachment.Name%>" href="<%=questionlists[i].Attachment.URL%>"  target="_blank" ><button class="btn btn-primary"><%=App.languageDict.attributes.Download %></button></a></td>
                         </tr>
                         <%}%>
                         <% if(!learner) { %>
@@ -1832,7 +1836,7 @@
                         </tr>
                         <tr>
                             <td><%=App.languageDict.attributes.Question %></td>
-                            <td><%=questionlists[i].Statement%></td>
+                            <td id="markdown_question_<%=questionlists[i]._id%>"><textarea name="<%=questionlists[i]._id%>"><%=questionlists[i].Statement%></textarea></td>
                         </tr>
                         <tr>
                             <td><%=App.languageDict.attributes.Given_Answer %></td>
@@ -1857,11 +1861,11 @@
                         </tr>
                         <tr>
                             <td><%=App.languageDict.attributes.Question %></td>
-                            <td><%=questionlists[i].Statement%></td>
+                            <td id="markdown_question_<%=questionlists[i]._id%>"><textarea name="<%=questionlists[i]._id%>"><%=questionlists[i].Statement%></textarea></td>
                         </tr>
                         <tr>
                             <td><%=App.languageDict.attributes.Given_Answer %></td>
-                            <td><%=answerlist[i].Answer%></td>
+                            <td id='markdown_answer_<%=answerlist[i]._id%>'><textarea name='<%=answerlist[i]._id%>'><%=answerlist[i].Answer%></textarea></td>
                         </tr>
                         <% if(!learner) { %>
                             <tr>
@@ -1870,7 +1874,7 @@
                             </tr>
                             <tr>
                                 <td><%=App.languageDict.attributes.ObtainMarks %></td>
-                                <td>>
+                                <td>
                                     <input type="text" readonly class="amount" name="marks[<%=i%>]" data-max="<%=questionlists[i].Marks%>" answerId ="<%=answerlist[i]._id%>" value="0">
                                     <div class="slider-range-min"></div>
                                 </td>
@@ -1945,8 +1949,8 @@
 
     </script>
     <script type="text/html" id="template-FeedbackRow">
-        <td>
-            <%= comment %>
+        <td id ="markdown_comment_<%=_id %>">
+            <textarea name="<%=_id %>"><%= comment %></textarea>
         </td>
 
         <td>
@@ -1960,6 +1964,7 @@
                 <div class="col-lg-5">
                     <div class="form-course search-Box">
                         <label style='font-size:16px'><b><%= languageDict.attributes.Title %></b></label><br><input class="form-control" type="text" placeholder="" id="searchText" style="height:24px;margin-top:1%;width:347px"></input>
+                        <input class="form-control" type="text" placeholder="" id="textSearch" style="height:24px;margin-top:1%;width:347px"></input>
                     </div>
 
                     <div class="checkbox-subject" id="SubjectCheckboxes">
@@ -2047,7 +2052,7 @@
             <h3 class="search-result-h3 courseSearchResults_Bottom"><%=languageDict.attributes.Search_Result%></h3>
         </div>
         <br>
-        <button class="btn btn-primary " onclick = "selectAllSearchResult()" id="selectAllButton"><%=languageDict.attributes.Select_All%></button>
+        <!-- <button class="btn btn-primary " onclick = "selectAllSearchResult()" id="selectAllButton"><%=languageDict.attributes.Select_All%></button> -->
 
         <br/><br/>
         <table id="srch">
@@ -2078,33 +2083,46 @@
             <div class="courseSearchResults_Bottom">
             <button class="btn btn-primary" onclick = "showSearchView()"><%=languageDict.attributes.Back_to_Search%></button>
             <!--<button class="btn btn-hg btn-primary" onclick = "document.location.href='#assign-to-shelf'">Send to My Shelf</button>-->
-            <button class="btn btn-success" onclick = "document.location.href='#assign-to-level'"><%=languageDict.attributes.Add_To_Level%></button>
+            <button class="btn btn-success" id="AddReources1" onclick = "document.location.href='#assign-to-level'"><%=languageDict.attributes.Add_To_Level%></button>
             <button class="btn btn-success" onclick = "document.location.href='#courses'"><%=languageDict.attributes.Home%></button>
             </div>
                 <%}%>
         </div>
     </script>
-    <script type="text/html" id="template-Search-box">
-        <% if(title != "CourseSearchBox") { %>
-        <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= title %>">
-            <% } else if(name !="ResourceSearchBox"){ %>
-        <td><input id="<%= _id %>" type="checkbox" name="result" value="<%= _id %>" rTitle="<%= name %>">
-            <% } %>
-
-            <%if(Tag != "CourseSearchBox") { %>
-            <label for="<%= _id %>">
-                <font class="search-result-title" ><%= title %></font>
-                -
-                <% %>
-                &nbsp;by&nbsp;
-                <%= author %>
-            </label></td><td><% %></td>
-        <% }else{ %>
-        <label for="<%= _id %>">
-            <font class="search-result-title" ><%= name %></font>
-        </label></td>
-        <% } %>
+    <script type="text/html" id="template-Search-boxes">
+        <div class="container-fluid">
+        <h6><%=languageDict.attributes.Search_Result%></h6>
+            <div class="table-responsive">
+                <table class="table" style="width: 850px;">
+                    <thead>
+                       <tr>
+                            <th><input type="checkbox" id="selectAllButton"</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Publisher</th>
+                            <%if(level_id != undefined) {%>
+                                <th>Action</th>
+                            <% } %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <% for(var i = 0; i < data.length; i++){ var res = data[i].attributes;%>
+                            <tr>
+                                <td><input id="<%= res._id %>" type="checkbox" name="result" value="<%= res._id %>" rTitle="<%= res.title %>"></td>
+                                <td><%= res.title %></td>
+                                <td><%= res.author %></td>
+                                <td><%= res.Publisher %></td>
+                                <%if(level_id != undefined) {%>
+                                    <td><button id = "addIndividualResource" class="btn btn-success" value="<%= res._id %>" ><%= App.languageDict.attributes.Add_To_Level %></button></td>
+                                <% } %>
+                            </tr>
+                         <% }%>
+                     </tbody>
+                </table>
+            </div>
+        </div>
     </script>
+
     <script type="text/template" id="make-Quiz">
         <div id="quiz-body" class="courseEditStep">
             <br/>
@@ -2129,21 +2147,32 @@
 
                  <div id="1" class="quizclass" style="width:70%;"> 
                  <div class="question_class">
-                 <span class="subtitle2">Question Text:</span> <br /> 
-                    <textarea cols="250" rows="3" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                 <span class="subtitle2">Question Text:</span><br><br>
+                   <div class="question_class redactor_textbox " id="markdown_questiontype1_question_text">
+                         <br>
+                         <div class="bbf-editor" >
+                            <textarea id="question_text" name="question_text" ></textarea> <br /> 
+                         </div>
+                    </div>
+                    <div id="questiontype1_question_text" class="redactor_textbox">
+                        <br>
+                        <div class="bbf-editor" >
+                            <textarea  id="question_text" name="question_textOutput"></textarea>
+                        </div>
+                    </div>
                     <div class="question_class">
                             <span class="subtitle2">Answer Choices (each choice on a separate line):</span> <br /> 
                         <div>
                             <input type="checkbox" class="answer_choice" name="check"
                              style="margin-left: 15px; margin-top: 15px;"/>
-                             <input type="textbox"  placeholder="Option" class="input_field" name="mytext[]" style="width: 30% margin-left: 126px; margin-top: 15px;"/><br/>
-                         </div>
+                             <input type="textbox"  placeholder="Option" class="input_field" name="mytext[]" style="margin-top: 15px; margin-left: -4px; "/>
+                        </div>
                         <div>   
-                             <input type="checkbox" class="answer_choice" name="check" style="margin-left: 280px; margin-top: -44px;"/>
-                             <input type="textbox" placeholder="Option" class="input_field" name="mytext[]" value= "" style="width: 30% margin-left: 280px; margin-top: -44px;" /><br/>
+                             <input type="checkbox" class="answer_choice" name="check" style="margin-left:15px; margin-top: 15px;"/>
+                             <input type="textbox" placeholder="Option" class="input_field" name="mytext[]" value= "" style="margin-top: 15px; margin-left: -4px;" /><br/>
                         </div>
                         <div class="input_fields_wrap">  
-                        </div><button class="add_field  btn btn-primary">Add Fields</button><br />
+                        </div><button class="add_field  btn btn-primary" style=" margin-top: 10px; margin-left: 10px; margin-bottom: 15px;">Add Fields</button><br />
                         <span class="subtitle2">Marks:</span> <br /> 
                      <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 126px; margin-top: -24px;"  min="0" required=""> <br />
                     </div>
@@ -2157,8 +2186,19 @@
 
                  <div id="6" class="quizclass" style="width:70%;">
                  <div class="question_class">
-                    <span class="subtitle2">Question Text:</span> <br /> 
-                    <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br />
+                    <span class="subtitle2">Question Text:</span><br><br>
+                   <div class="question_class redactor_textbox " id="markdown_questiontype2_question_text">
+                         <br>
+                         <div class="bbf-editor" >
+                            <textarea id="question_text" name="question_text" ></textarea> <br /> 
+                         </div>
+                    </div>
+                    <div id="questiontype2_question_text" class="redactor_textbox">
+                        <br>
+                        <div class="bbf-editor" >
+                            <textarea  id="question_text" name="question_textOutput"></textarea>
+                        </div>
+                    </div>
                                <span class="subtitle2">Marks:</span> <br /> 
                         <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
                      </div>
@@ -2170,8 +2210,19 @@
                  </div>
                  <div id="8" class="quizclass" style="width:70%;">
                  <div class="question_class"">
-                  <span class="subtitle2">Question Text:</span> <br />
-                     <textarea cols="50" rows="6" id="question_text" name="question_text" class="surTextArea"></textarea> <br /> 
+                  <span class="subtitle2">Question Text:</span><br><br>
+                   <div class="question_class redactor_textbox " id="markdown_questiontype3_question_text">
+                         <br>
+                         <div class="bbf-editor" >
+                            <textarea id="question_text" name="question_text" ></textarea> <br /> 
+                         </div>
+                    </div>
+                    <div id="questiontype3_question_text" class="redactor_textbox">
+                        <br>
+                        <div class="bbf-editor" >
+                            <textarea  id="question_text" name="question_textOutput"></textarea>
+                        </div>
+                    </div>
                                 <span class="subtitle2">Marks:</span> <br /> 
                <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
                      </div>
@@ -2184,8 +2235,22 @@
 
                  <div id="10" class="quizclass" style="width:70%;">
                  <div class="question_class">
-                  <span class="subtitle2">Question Text:</span> <br /> 
-                    <textarea cols="50" rows="6" id="question_text"   name="question_text" class="surTextArea"></textarea> <br /> </div>
+                  <span class="subtitle2">Question Text:</span><br><br>
+                   <div class="question_class redactor_textbox " id="markdown_questiontype4_question_text">
+                         <br>
+                         <div class="bbf-editor" >
+                            <textarea id="question_text" name="question_text" ></textarea> <br /> 
+                         </div>
+                          <br>
+                    </div>
+                    <div id="questiontype4_question_text" class="redactor_textbox">
+                        <br>
+                        <div class="bbf-editor" >
+                            <textarea  id="question_text" name="question_textOutput"></textarea>
+                        </div>
+                        <br>
+                    </div>
+                    </div>
                 <div class="question_class">
                 <span class="subtitle2">Marks:</span> <br /> 
                      <input type="number" name="required" class="inputmarks" style="width: 77%; margin-left: 116px; margin-top: -10px;" min="0" required=""> <br />
@@ -2200,21 +2265,24 @@
             </div>
         </div>
     </script>
-
-     <script type="text/html" id="template-CourseStepQuestionRow">
-        <td><%= Statement %>
+<script type="text/html" id="template-CourseStepQuestionRow">
+        <td id="markdown_question_<%= _id %>"><textarea name="<%= _id %>"><%= Statement %></textarea>
              <% if ( Type == "Multiple Choice") {  %>
                   <table>
             <tbody>
+
             <% for (var i=0; i < Options.length; i++){ %>
-            <tr>
-                <td align="center"><input type="hidden" name="' + <%= Statement %><%= Options[0] %> + '"></td>
-                <td> <ul><li><%= Options[i] %></li></ul></td>
-            </tr>
-            <% }%>
+                <tr>
+                    <td align="center"><input type="hidden" name="' + <%= Statement %><%= Options[0] %> + '"></td>
+                    <%if(CorrectAnswer.indexOf(Options[i])!= -1){%>
+                        <td> <ul><li><b><%= Options[i] %></b>&nbsp;&nbsp;<i class="icon-ok" ></i></li></ul></td>
+                    <%}else { %>
+                        <td> <ul><li><%= Options[i] %></li></ul></td>
+                    <%}%>
+                </tr>
+            <% } %>
             </tbody>
         </table>
-       
         <%} %>
         </td>
         <td><%= Marks%></td>
@@ -2251,26 +2319,26 @@
     </script>
     <script type="text/html" id="template-siteReviewRownoAdmin">
         <%  if(Resolved=="0"){%>
-        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;">Not resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
         <%}
         else {%>
-        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
         <%}%>
     </script>
 
 
     <script type="text/html" id="template-siteReviewRowAdmin">
         <%  if(Resolved=="0"){%>
-        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;"><a class="btn btn-info" modl='+model+' id="resolveButton">Resolve</a><button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
         <%}
         else {%>
-        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><%=comment%></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
+        <td style="width:80%;"><b>Username:</b> <%=memberLogin%><br/><b>Category:</b> <%=category%><br/><b>Priority:</b> <%=urgent%><br/><b>Url:</b> <%=PageUrl%> <br/><b>Time:</b> <%=time%> <br/><u><b>Comment</b></u><br/><div id="markdown_feedback_<%=_id%>"><textarea name="<%=_id%>"><%=comment%></textarea></div></td><td style="text-align:center;">Resolved<button class="btn btn-primary" id="commentButton" value=<%=_id%>>Comment</button></td>
         <%}%>
     </script>
     <script type="text/html" id="template-RequestRow">
         <td><%=name%></td>
         <td><%=type%></td>
-        <td><%=request%></td>
+        <td id="markdown_request_<%=_id%>"><textarea name="<%=_id%>"><%=description%></textarea></td>
     </script>
 
     <script type="text/html" id="template-LogQuery">

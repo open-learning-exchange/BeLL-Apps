@@ -21,7 +21,14 @@ $(function() {
 
     schema: {
       rating: 'Text', //Rating(saved in the form of integers from 1 to 5) given for a particular resource
-      comment: 'TextArea', //Comments given for a particular resource
+      commentOutput: {
+          type: 'TextArea',
+          fieldAttrs: {id:'feedback_comment',class:'bbf-field redactor_textbox'}
+      },
+      comment: {
+          type: 'TextArea',
+          fieldAttrs: {id:'markdown_feedback_comment',class:'bbf-field redactor_textbox'}
+      },
       resourceId: 'Text', //Id of that particular resource for which feedback is given. This id is coming from resources db.
       memberId: 'Text',//Id of that member who is giving his/her feedback for a particular resource. This id is coming from members db.
       communityCode: 'Text' //The value of 'code' attribute from community configurations

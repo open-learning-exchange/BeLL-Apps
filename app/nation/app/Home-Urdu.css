@@ -15,6 +15,10 @@ h1,h2,h3,h4,h5,h6{
     width: 950px;
     overflow: hidden;
 }
+div#parentLibrary{
+    margin-left: 20px;
+    margin-right: 20px;
+}
 .dashboard-buttons
 {
     padding-left: 20px;
@@ -568,6 +572,7 @@ a{color:white;}
     float:left;
     margin-left: 1px;
     width: 33%;
+    font-size:16px
 }
 
 textarea[name="comment"]
@@ -1269,4 +1274,46 @@ textarea[name="comment"]
 .stprog_plot_color{
     text-align:center; 
     margin: 10px 0 15px;
+}
+li.bbf-field.field-selectLanguage {
+    list-style-type: none;
+    margin-right: 1px;
+}
+.bbf-editor select[name=selectLanguage]{
+    width:284px;
+}
+#selectCommunity{
+    margin-right: 30px;
+    float: left;
+    margin-top: 5px;
+}
+#accept div input[name=accept]{
+    margin-top: -46px;
+    margin-right: -15px;
+}
+.redactor_color_none {
+    display: none !important;
+}
+.redactor_textbox{
+    float:none !important;
+}
+.redactor_textbox .bbf-editor{
+    width:95%;
+}
+.redactor_textbox .redactor_box{
+    width:100%;
+    margin-bottom: 10px;
+}
+.redactor_textbox textarea{
+    padding:1%;
+    width:98%;
+}
+.redactor_.redactor_editor{
+    color:black;
+}
+.answersection table{
+    width: 100%;
+}
+#auto_sync div input[name=autoPublication]{
+    margin-top: -50px;
 }

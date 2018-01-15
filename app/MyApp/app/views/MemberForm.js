@@ -228,7 +228,7 @@ $(function() {
                 } else {
                     promoteBtn = '';
                 }
-                var $upload = $('<form method="post" id="fileAttachment" ><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
+                var $upload = $('<form method="post" id="fileAttachment" style="margin-left:20px;"><input type="file" name="_attachments"  id="_attachments" multiple="multiple" /> <input class="rev" type="hidden" name="_rev"></form>')
                 var $img = $('<div id="browseImage" >' + $imgt + '<img style="width:100px;height:100px;border-radius:50px" id="memberImage"></div>')
                 this.$el.append($img)
                 this.$el.append($upload)
@@ -238,6 +238,9 @@ $(function() {
             }
             // give the form a submit button
             this.$el.append($button)
+            if (this.model.id == undefined) {
+                $(".signup-submit").css("margin-top","50px")
+            }
             if(url_page[1] != "view"){
                 if (this.model.id != undefined) {
                     if (this.model.get("status") == "active") {
