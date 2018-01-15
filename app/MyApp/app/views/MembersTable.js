@@ -4,6 +4,27 @@ $(function() {
 
     App.Views.MembersTable = Backbone.View.extend({
 
+		addOne: function(model) {
+			console.log(model)
+			var memberRow = new App.Views.MemberRow({
+				model: model
+			})
+			memberRow.isadmin = this.isadmin
+			memberRow.community_code = this.community_code;
+			memberRow.render()
+			this.$el.append(memberRow.el)
+		},
+		events: {
+			"click .pageNumber": function(e) {
+				this.collection.startkey = ""
+				this.collection.skip = e.currentTarget.attributes[0].value
+				this.collection.fetch({
+					async: false
+				})
+				if (this.collection.length > 0) {
+					this.render()
+				}
+			},
         tagName: "table",
 
         className: "btable btable-striped",

@@ -138,6 +138,7 @@
     <script src="app/models/AdminMember.js"></script> <!-- app/models.js -->
     <script src="app/models/CourseQuestion.js"></script> <!-- app/models.js -->
     <script src="app/models/CourseAnswer.js"></script> <!-- app/models.js -->
+    <script src="app/models/CoursecareerPath.js"></script> <!-- app/models.js -->
 
     <!-- App Collection  -->
     <script src="app/collections/listRCollection.js"></script> <!-- app/collections.js -->
@@ -188,6 +189,7 @@
     <script src="app/collections/AdminMembers.js"></script> <!-- app/collections.js -->
     <script src="app/collections/CourseStepQuestions.js"></script> <!-- app/collections.js -->
     <script src="app/collections/CourseAnswer.js"></script> <!-- app/collections.js -->
+    <script src="app/collections/CourseCareerPath.js"></script> <!-- app/collections.js -->
 
     <!-- app-Views -->
     <script src="app/views/ConfigurationView.js"></script> <!-- app/views.js -->
@@ -260,7 +262,8 @@
     <script src="app/views/ReportsTable.js"></script> <!-- app/views.js -->
     <script src="app/views/ReportForm.js"></script> <!-- app/views.js -->
     <script src="app/views/CommunityReportCommentView.js"></script> <!-- app/views.js -->
-
+    <script src="app/views/CourseCareerPath.js"></script> <!-- app/views.js -->
+    <script src="app/views/AddCourseCareer.js"></script> <!-- app/views.js -->
     <script src="app/views/CourseLevelsTable.js"></script> <!-- app/views.js -->
     <script src="app/views/ResourceForm.js"></script> <!-- app/views.js -->
     <script src="app/views/MeetupInvitation.js"></script> <!-- app/views.js -->
@@ -305,10 +308,11 @@
     <script src="app/views/CreditsRow.js"></script> <!-- app/views.js -->
     <script src="app/views/CourseLearnersList.js"></script> <!-- app/views.js -->
     <script src="app/views/ViewTest.js"></script> <!-- app/views.js -->
-
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
-
+    <script src="app/views/ManageCourseCareer.js"></script> <!-- app/views.js -->
+    <script src="app/views/CareerDetailView.js"></script> <!-- app/views.js -->
+    <!-- <script src="app/views/CareerPathTable.js"></script>  --><!-- app/views.js -->
 
     <!-- javaScript -->
 
@@ -1439,6 +1443,103 @@
             </tr>
         </table>
     </script>
+    <script type="text/template" id="template-addCourseCareer">
+        <div class ="multipleCourse">
+            <form>
+                <label for="cpName"><b><%= languageDict.attributes.Career_Path_Name %>:</b></label>
+                <input type="text" id="careerPath" placeholder="Career Path Name" style="padding: 2px; margin-top: 8px;" required> &nbsp;&nbsp;
+                <label for="LCourse"><b><%= languageDict.attributes.List_of_Courses %>:</b></label>
+                <select id="LCourse">
+                    <%for(var i =0; i< Course_Length;i++){%>
+                        <option value='<%=Courseid[i]%>'><%=Courselist[i]%></option>
+                    <%}%>
+                </select>&nbsp;&nbsp;
+                <label for="LCareer"><b><%= languageDict.attributes.Required_Course_Career_Path %>:</b></label>
+                <select id="LCareer">
+                    <% for (var j =0; j < careerlength;j++){%>
+                        <option value ='<%=CareerList[j]%>'><%=CareerList[j]%></option>
+                    <%}%>
+                </select>
+                <button id="AddCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Create_Career_Path %></button>
+                <button id="UpdateCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px; display:none;"><%= languageDict.attributes.Update_Career_Path %></button>
+            </form>
+        </div>
+        <div>
+            <table class="btable btable-striped">
+                <tbody>
+                    <tr>
+                        <th><%=languageDict.attributes.Career_Path_Name%></th>
+                        <th><%=languageDict.attributes.Courses_List%></th>
+                        <th><%= languageDict.attributes.Career_List %></th>
+                        <th><%= languageDict.attributes.Actions %></th>
+                    </tr>
+                    <%for (var i=0; i < careerList.length; i++) {%>
+                    <tr>
+                        <td><a href="#courseCareerPath/details/<%= careerList[i]._id %>"><%= careerList[i].CoursePathName %></a></td>
+                        <td><ul><li><%= careerList[i].Courses %></li></ul></td>
+                        <td><ul><li><%= careerList[i].requiredCareerPathIds%></li></ul></td>
+                        <td>
+                            <a role="button" id="careerEdit" data-id = <%= careerList[i]._id %> class='course btn btn-success'><%=languageDict.attributes.EditLabel%></a>
+                            <a role="button" data-id="<%= careerList[i]['_id'] %>" class='destroy btn btn-danger' id='Delete'><%=languageDict.attributes.DeleteLabel%></a>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </script>
+
+    <script type="text/template" id="template-careerPathManage">
+        <hr/>
+            <div id ="Manage">
+                <h4> <%= languageDict.attributes.Career %>|<%=CourseCareerName%></h4>
+                <h6><%= languageDict.attributes.Course_Lists %></h6>
+                <textarea id="CareerDescription" rows="5" cols="100" style="width:98%;"><%=CouseLists%></textarea>
+                <button id="requiredCareer" class="course btn btn-success"><%= languageDict.attributes.Create_Required_Career_Path %></button>
+            </div>
+            <div id = "careerPathList">
+                <label for="LCourse"><b><%= languageDict.attributes.Required_Course_Career_Path %></b></label>
+                    <select id="LCourse" name = "LCourse">
+                        <%for(var i =0; i< careerlength; i++){%>
+                            <option value='<%=careerListIds[i]%>'><%=careerList[i]%></option>
+                        <%}%>
+                    </select>
+                    <button id="AddMultipleCareerPath" class="course btn btn-success" style="margin-left: 23px; margin-top: -1px;"><%= languageDict.attributes.Save %></button>
+                <button id ="CancelCOursePath" class="btn resignBtn btn-danger" style="margin-left: 23px;margin-top: -1px;" ><%= languageDict.attributes.Cancel %></button>
+            </div>    
+    </script>
+
+    <script type="text/template" id="template-CareerDetailView">
+        <h3>CareerDetailView</h3>
+        <table class="btable btable-striped">
+            <tr>
+                <th style='width: 430px'><%= languageDict.attributes.Title %></th>
+                <th><%=languageDict.attributes.action %></th>
+            </tr>
+            <%for(var i =0; i< CourseTitle.length; i++){%>
+            <tr>
+                 <td>
+                    <%= CourseTitle[i] %>
+                </td>
+                <td>
+                    <a id="viewCourseButton" role='button' class='btn btn-warning' href='#course/details/<%=CourseIds[i] %>/<%= CourseTitle[i] %>'><%=viewCourse%></a>
+                    &nbsp;&nbsp;
+                    <% if(showCreditButton) { %>
+                        <a role='button' class='btn btn-credit' id= "credit_view" href='#creditsDetails/<%= CourseIds[i] %>'><%=App.languageDict.attributes.Credits%></a>
+                    <%}%>
+                    &nbsp;&nbsp;
+                    <%viewProgress%>
+                    <%if(viewProgress == 1){%>
+                    <a id="progressCourseButton" role='button' class='btn btn-info' href='#course/report/<%= CourseIds[i] %>/<%= CourseTitle[i] %>'>
+                        <i class="icon-signal icon-white"></i><%=progress%>
+                    </a>
+                    <%}%>
+                </td>
+            </tr>
+            <%}%>
+        </table>
+    </script>
+
     <script type="text/html" id="template-courseLevelsTable">
         <h3 class="bigheader">
         <div style="width:95%"><%= languageDict.attributes.Step%>-<%= step%>: <b>&nbsp;&nbsp; <%=title%></b>
