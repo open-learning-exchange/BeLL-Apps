@@ -106,33 +106,33 @@ $(function() {
                 })
                 location.reload();
             } else {
-            $('#LCourse option:selected').each(function(){ 
-                if ($(this).length) {
-                    selectedCourseId.push($(this).val());
-                    selectedCourseName.push($(this).text());
-                }
-            });
-             $('#LCareer option:selected').each(function(){
+                $('#LCourse option:selected').each(function(){
+                    if ($(this).length) {
+                        selectedCourseId.push($(this).val());
+                        selectedCourseName.push($(this).text());
+                    }
+                });
+                $('#LCareer option:selected').each(function(){
                     if ($(this).length) {
                         selectedCareerIds.push($(this).val());
                     }
                 });
-            var courseCareerTitle = $('#careerPath').val()
-            var savecoursecareer = new App.Models.CoursecareerPath()
-            savecoursecareer.set('CoursePathName',courseCareerTitle);
-            savecoursecareer.set('Courses',selectedCourseName);
-            savecoursecareer.set('CourseIds',selectedCourseId);
-            savecoursecareer.set('MemberID',$.cookie('Member._id'));
-            savecoursecareer.set('requiredCareerPathIds',selectedCareerIds);
-            savecoursecareer.save(null, {
-                success: function(response){
-                    location.reload();
-                },
-                error: function(status) {
-                    console.log(status)
-                    console.log("Not Saved")
-                }
-            })
+                var courseCareerTitle = $('#careerPath').val()
+                var savecoursecareer = new App.Models.CoursecareerPath()
+                savecoursecareer.set('CoursePathName',courseCareerTitle);
+                savecoursecareer.set('Courses',selectedCourseName);
+                savecoursecareer.set('CourseIds',selectedCourseId);
+                savecoursecareer.set('MemberID',$.cookie('Member._id'));
+                savecoursecareer.set('requiredCareerPathIds',selectedCareerIds);
+                savecoursecareer.save(null, {
+                    success: function(response){
+                        location.reload();
+                    },
+                    error: function(status) {
+                        console.log(status)
+                        console.log("Not Saved")
+                    }
+                })
             }
         },
 

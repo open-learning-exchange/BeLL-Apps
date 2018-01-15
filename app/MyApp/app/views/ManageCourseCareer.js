@@ -13,10 +13,7 @@ $(function() {
             },
         },
 
-        initialize: function() {
-            
-        },
-
+        initialize: function() {},
         saveMultipelCareer:function(){
             var selectedCareerIds = []
             $('#LCourse option:selected').each(function(){ 

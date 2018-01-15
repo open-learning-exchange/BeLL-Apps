@@ -308,13 +308,11 @@
     <script src="app/views/CreditsRow.js"></script> <!-- app/views.js -->
     <script src="app/views/CourseLearnersList.js"></script> <!-- app/views.js -->
     <script src="app/views/ViewTest.js"></script> <!-- app/views.js -->
-
     <script src="app/views/AnswerReview.js"></script> <!-- app/views.js -->
     <script src="app/views/PasswordReset.js"></script> <!-- app/views.js -->
     <script src="app/views/ManageCourseCareer.js"></script> <!-- app/views.js -->
     <script src="app/views/CareerDetailView.js"></script> <!-- app/views.js -->
     <!-- <script src="app/views/CareerPathTable.js"></script>  --><!-- app/views.js -->
-
 
     <!-- javaScript -->
 
@@ -1483,15 +1481,12 @@
                         <td>
                             <a role="button" id="careerEdit" data-id = <%= careerList[i]._id %> class='course btn btn-success'><%=languageDict.attributes.EditLabel%></a>
                             <a role="button" data-id="<%= careerList[i]['_id'] %>" class='destroy btn btn-danger' id='Delete'><%=languageDict.attributes.DeleteLabel%></a>
-                            <!-- <a role="button" class='btn btn-info' id="ManageCareer" onclick = "document.location.href='#courseCareerPath/manage/<%= careerList[i].CoursePathName %>/<%= careerList[i]._id %>'""><%=languageDict.attributes.View_Details%></a> -->
                         </td>
                     </tr>
                     <% } %>
                 </tbody>
             </table>
-
         </div>
-
     </script>
 
     <script type="text/template" id="template-careerPathManage">
