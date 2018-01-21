@@ -225,7 +225,7 @@
     "Feedback_For": "Feedback für",
     "Add_your_feedback": "Ihr Feedback",
     "Back_to_Resources": "Back to Resources",
-    "save_and_add_feedback": "Save and Add to My Library",
+    "save_and_add_feedback": "Speichern und meine Bibliothek hinzufügen",
     "Add_Feedback_For": "Add Feedback For",
     "alphabets": [
         "A",
