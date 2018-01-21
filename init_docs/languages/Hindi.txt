@@ -442,7 +442,7 @@
     "Resigned_Success_Msg": "Successfully resigned from",
     "No_Activity_Logged": "No activity logged for this period.",
     "Select_Date": "आपको आगे बढ़ने के लिए किसी दिनांक का चयन करना होगा।",
-    "Added_To_Shelf": "Successfully added to shelf.",
+    "Added_To_Shelf": "शेल्फ में सफलतापूर्वक जोड़ा गया ।",
     "Duplicate_In_Shelf": "Already in shelf.",
     "FeedBack_And_AddedToShelf": "Successfully saved feedback and added to shelf.",
     "FeedbackSaved_Not_Resource": "Successfully saved feedback. Resource already in shelf.",
