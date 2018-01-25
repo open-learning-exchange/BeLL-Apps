@@ -130,7 +130,7 @@
     ],
     "resourceTypeList": [
         "教材",
-        "LessonPlan",
+        "课程计划",
         "动态",
         "练习",
         "讨论的问题"
@@ -156,7 +156,7 @@
     "Time": "时间",
     "View_s": "浏览量",
     "Suggestion": "建议",
-    "Comment": " Comment",
+    "Comment": "注释",
     "Urgent": "紧急",
     "Bug": "错误",
     "Question": "问题",
