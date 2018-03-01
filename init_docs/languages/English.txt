@@ -393,7 +393,7 @@
     "Error_UserCourse_Details": "No data related to selected course found.",
     "Take_Test": "Take Test",
     "Exit": "Exit",
-    "DownloadPaperForStep": "Download Paper for step number",
+    "DownloadPaperForStep": "Download Paper For Step Number",
     "Error_Course_Report": "No data found on server.",
     "You_Scored": "You scored",
     "Finish": "Finish",
