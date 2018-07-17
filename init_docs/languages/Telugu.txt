@@ -100,7 +100,7 @@
     "Publications": "Publications",
     "New": "New",
     "Resource": "????",
-    "Selected": "Selected",
+    "Selected": "ఎంపిక",
     "Save": "Save",
     "Cancel": "Cancel",
     "Manager_Request": "Manager Request",
