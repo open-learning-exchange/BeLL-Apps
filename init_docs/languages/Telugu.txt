@@ -106,12 +106,12 @@
     "Manager_Request": "Manager Request",
     "Select_An_option": "ఒక ఎంపికను ఎంచుకోండి",
     "article_Date": "Article Date",
-    "added_by": "Added By",
+    "added_by": "జోడించినది",
     "mediaList": [
         "Text",
-        "Graphics/Pictures",
-        "Audio/Music/Book",
-        "Video"
+        "గ్రాఫిక్స్/చిత్రాలు",
+        "ఆడియో/సంగీతము/పుస్తకం",
+        "డౌన్లోడ్"
     ],
     "openWithList": [
         "Just Download",
