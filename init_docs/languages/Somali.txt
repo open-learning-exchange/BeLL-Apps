@@ -79,7 +79,7 @@
     "resource_for": "Agabyada khayraadka",
     "author": "Qoraa",
     "Request_Resource": "Request Resource",
-    "Back": "Back",
+    "Back": "Gadaal",
     "Next": "Ku xiga",
     "Home": "Guri",
     "resource_type": "Nooca khayraadka",
