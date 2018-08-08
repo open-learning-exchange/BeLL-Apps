@@ -628,7 +628,7 @@
     "Date_format": "DD",
     "Year_format": "YYYY",
     "Month": "Month",
-    "View_All_Courses": "View All Courses",
+    "View_All_Courses": "Eeg dhammaan koorsooyinka",
     "No_data_found": "No such record exists",
     "Configurations": "Configurations",
     "Sync_With_Nation": "Sync With Nation",
